@@ -286,7 +286,8 @@ CandlStatement * candl_statement_malloc()
   statement->domain  = NULL ;
   statement->written = NULL ;
   statement->read    = NULL ;
-  
+  statement->ref     = NULL ;
+
   return statement ;
 }
 

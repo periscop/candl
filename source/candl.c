@@ -6,13 +6,13 @@
     **----  \#/  --------------------------------------------------------**
     **    .-"#'-.        First version: september 8th 2003               **
     **--- |"-.-"| -------------------------------------------------------**
-          |     | 
-          |     | 
+          |     |
+          |     |
  ******** |     | *************************************************************
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
  *                                                                            *
- * Copyright (C) 2003 Cedric Bastoul                                          *
+ * Copyright (C) 2003-2008 Cedric Bastoul                                     *
  *                                                                            *
  * This is free software; you can redistribute it and/or modify it under the  *
  * terms of the GNU General Public License as published by the Free Software  *
@@ -32,69 +32,77 @@
  * Written by Cedric Bastoul, Cedric.Bastoul@inria.fr                         *
  *                                                                            *
  ******************************************************************************/
-/* CAUTION: the english used for comments is probably the worst you ever read,
- *          please feel free to correct and improve it !
- */
-
-# include <stdlib.h>
-# include <stdio.h>
-# include "../include/candl/candl.h"
 
 
-int main(int argv, char * argc[])
-{ CandlProgram * program ;
-  CandlOptions * options ;
-  CandlDependence * dependence ;
-  CandlViolation * violation ;
-  FILE * input, * output ;
-   
+#include <stdlib.h>
+#include <stdio.h>
+#include <candl/candl.h>
+#include <candl/dependence.h>
+#include <candl/program.h>
+#include <candl/violation.h>
+#include <candl/options.h>
+
+
+int main(int argc, char * argv[])
+{
+  CandlProgram * program;
+  CandlOptions * options;
+  CandlDependence * dependence;
+  CandlViolation * violation = NULL;
+  FILE * input, * output;
+
   /* Options and input/output file setting. */
-  candl_options_read(argv,argc,&input,&output,&options) ;
+  candl_options_read(argc, argv, &input, &output, &options);
 
   /* Reading the program informations. */
-  program = candl_program_read(input) ;
-  fclose(input) ;
-  
+#ifdef CANDL_SUPPORTS_CLAN
+  if (options->readscop)
+    program = candl_program_read_scop(input);
+  else
+#endif
+    program = candl_program_read(input);
+  fclose(input);
+
   /* Calculating dependences. */
-  dependence = candl_dependence(program,options) ;
+  dependence = candl_dependence(program, options);
 
   /* Calculating legality violations. */
-  violation = candl_violation(program,dependence,options) ;
-  
+  if (options->violgraph)
+    violation = candl_violation(program, dependence, options);
+
   /* Printing data structures if asked. */
   if (options->structure)
-  { fprintf(output,"Program:\n") ;
-    candl_program_print(output,program) ;
-    fprintf(output,"\nDependences:\n") ;
-    candl_dependence_print(output,dependence) ;
-    fprintf(output,"\nViolations:\n") ;
-    candl_violation_print(output,violation) ;
-  }
+    {
+      fprintf(output, "Program:\n");
+      candl_program_print(output, program);
+      fprintf(output, "\nDependences:\n");
+      candl_dependence_print(output, dependence);
+      fprintf(output, "\nViolations:\n");
+      candl_violation_print(output, violation);
+    }
 
   /* Printing dependence graph if asked or if there is no transformation. */
   if (options->depgraph || (program->transformation == NULL))
-  { candl_dependence_pprint(output,dependence) ;
-    if (options->view)
-    candl_dependence_view(dependence) ;
-  }
+    {
+      candl_dependence_pprint(output, dependence);
+      if (options->view)
+	candl_dependence_view(dependence);
+    }
   /* Printing violation graph if asked and if there is a transformation. */
   if (options->violgraph && (program->transformation != NULL))
-  { candl_violation_pprint(output,violation) ;
-    if (options->view)
-    candl_violation_view(violation) ;
-  }
+    {
+      candl_violation_pprint(output, violation);
+      if (options->view)
+	candl_violation_view(violation);
+    }
 
-
-  /* candl_space(program,dependence,options) ; */
-  
   /* Being clean. */
-  candl_violation_free(violation) ;
-  candl_dependence_free(dependence) ;
-  candl_program_free(program) ;
-  candl_options_free(options) ;
-  pip_close() ;
-  fclose(output) ;
+  candl_violation_free(violation);
+  candl_dependence_free(dependence);
+  candl_program_free(program);
+  candl_options_free(options);
+  pip_close();
+  fclose(output);
 
   return 0;
 }
-

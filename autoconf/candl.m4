@@ -35,12 +35,15 @@ dnl Offer --with-clan.
 	       CPPFLAGS="${CPPFLAGS} -I$withval/include";
 	       LDFLAGS="${LDFLAGS} -L$withval/lib"
 	      ],
-              [with_clan=yes])
+              [with_clan=check])
 dnl Check for clan existence.
   AS_IF([test "x$with_clan" != xno],
 	[AC_CHECK_LIB([clan], [clan_scop_read],
-	 [LIBS="-lclan $LIBS"],
-         [if test "x$with_clan" != xcheck; then
+	 [LIBS="-lclan $LIBS";
+	 DEFINE_HAS_CLAN_LIB="# define CANDL_SUPPORTS_CLAN"
+	 ],
+         [DEFINE_HAS_CLAN_LIB=""
+  	  if test "x$with_clan" != xcheck; then
            AC_MSG_FAILURE([Test for CLAN failed. Use --with-clan to specify libclan path.])
           fi
          ])

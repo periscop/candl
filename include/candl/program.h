@@ -38,8 +38,13 @@
 # define CANDL_PROGRAM_H
 
 # include <stdio.h>
+# include <candl/candl.h>
 # include <candl/matrix.h>
 # include <candl/statement.h>
+
+# ifdef CANDL_SUPPORTS_CLAN
+#  include <clan/scop.h>
+# endif
 
 # if defined(__cplusplus)
 extern "C"
@@ -47,11 +52,12 @@ extern "C"
 # endif
 
 /**
- * CandlProgram structure:
+ * candl_program_t structure:
  * this structure contains all the informations about a program.
  */
-struct candlprogram
-{ CandlMatrix * context;            /**< The context of the program. */
+struct candl_program
+{
+  CandlMatrix * context;            /**< The context of the program. */
   int nb_statements;                /**< The number of statements. */
   CandlStatement ** statement;      /**< Array of nb_statements pointers on
                                       *   the statements of the program.
@@ -61,34 +67,42 @@ struct candlprogram
                                       *   function per statement). If NULL:
                                       *   no tranformation candidate.
                                       */
-} ;
-typedef struct candlprogram CandlProgram;
+};
+typedef struct candl_program CandlProgram;
+typedef struct candl_program candl_program_t;
+typedef struct candl_program * candl_program_p;
 
 
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-void candl_program_print_structure(FILE *, CandlProgram *, int);
-void candl_program_print(FILE *, CandlProgram *);
+void candl_program_print_structure(FILE *, candl_program_p, int);
+void candl_program_print(FILE *, candl_program_p);
 
 
 /******************************************************************************
- *                         Memory deallocation function                       *
+ *                         Memory alloc/dealloc function                      *
  ******************************************************************************/
-void candl_program_free(CandlProgram *);
+candl_program_p candl_program_malloc();
+void candl_program_free(candl_program_p);
 
 
 /******************************************************************************
  *                               Reading function                             *
  ******************************************************************************/
-CandlProgram * candl_program_read(FILE *);
-
+candl_program_p candl_program_read(FILE *);
+/* This function is compiled if candl was configured with CLAN support. */
+# ifdef CANDL_SUPPORTS_CLAN
+candl_program_p candl_program_read_scop(FILE *);
+# endif
 
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
-CandlProgram * candl_program_malloc();
-
+/* This function is compiled if candl was configured with CLAN support. */
+# ifdef CANDL_SUPPORTS_CLAN
+candl_program_p candl_program_convert_scop(clan_scop_p, int**);
+# endif
 
 # if defined(__cplusplus)
   }

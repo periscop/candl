@@ -39,7 +39,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
-# include "../include/candl/candl.h"
+# include <candl/candl.h>
 
 
 /******************************************************************************

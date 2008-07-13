@@ -1,4 +1,51 @@
 2008-07-13  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	This patch starts the integration of Candl with new .scop format.
+	
+	* configure.in,
+	* autoconf/candl.m4: Make clan optional and not required.
+	
+	* include/candl/options.h,
+	* include/candl/statement.h,
+	* include/candl/candl.h.in,
+	* include/candl/program.h,
+	* source/candl.c,
+	* source/statement.c,
+	* source/program.c,
+	* source/dependence.c,
+	* source/options.c: Add .scop reader compatible with clan output.
+	
+	* tests/exam98.dep,
+	* tests/matvect.candl,
+	* tests/swim.dep,
+	* tests/gemver.scop,
+	* tests/esced.dep,
+	* tests/exam98.candl,
+	* tests/ics06.dep,
+	* tests/ax-do.struct,
+	* tests/swim.candl,
+	* tests/swim.struct,
+	* tests/esced.candl,
+	* tests/ics06.candl,
+	* tests/matmul.dep,
+	* tests/ax-do.scop,
+	* tests/cc1.dep,
+	* tests/relaxation.dep,
+	* tests/checker.sh,
+	* tests/ax-do.dep,
+	* tests/matmul.candl,
+	* tests/matmul.struct,
+	* tests/swim.scop,
+	* tests/relaxation.candl,
+	* tests/cc1.candl,
+	* tests/gemver.dep,
+	* tests/check_suite.sh,
+	* tests/matmul.scop,
+	* tests/gemver.candl,
+	* tests/gemver.struct,
+	* tests/Makefile.am,
+	* tests/matvect.dep: New. Create working test suite.
+	
+2008-07-13  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* candl/trunk/source/candl.c,
 	* candl/trunk/source/matrix.c,

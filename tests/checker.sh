@@ -1,12 +1,11 @@
+#! /bin/sh
 #
 #   /**-------------------------------------------------------------------**
 #    **                              CAnDL                                **
 #    **-------------------------------------------------------------------**
-#    **                           Makefile.am                             **
-#    **-------------------------------------------------------------------**
-#    **                 First version: september 8th 2003                 **
+#    **                            checker.sh                             **
 #    **-------------------------------------------------------------------**/
-#
+# 
 #/*****************************************************************************
 # *   CAnDL : the Chunky Analyser for Dependences in Loops (experimental)     *
 # *****************************************************************************
@@ -33,55 +32,50 @@
 # *****************************************************************************/
 
 
-#############################################################################
-SUBDIRS 		=
-
-#############################################################################
-
-MAINTAINERCLEANFILES    = Makefile.in
-
-TESTS_ENVIRONMENT       = top_builddir=$(top_builddir) SRCDIR=$(srcdir)
-
-#############################################################################
-
-EXTRA_DIST              = checker.sh
-
-check_SCRIPTS		= check_suite.sh
-
-## Replace by program names when needed
-# check_PROGRAMS = ...
-TESTS			= $(check_SCRIPTS)
-
-TEST_FILES             	=			\
-	ax-do.scop				\
-	gemver.scop				\
-	matmul.scop				\
-	swim.scop
-
-
-TEST_FILES_DEP			= $(TEST_FILES:.scop=.c.dep)
-TEST_FILES_CANDL		= $(TEST_FILES:.scop=.c.candl)
-TEST_FILES_STRUCT		= $(TEST_FILES:.scop=.c.struct)
-
-TEST_FILES_CLEAN_CANDL		= $(TEST_FILES:.scop=.candltest)
-TEST_FILES_CLEAN_SCOP		= $(TEST_FILES:.scop=.scoptest)
-TEST_FILES_CLEAN_STRUCT		= $(TEST_FILES:.scop=.structest)
-
-BASE_TEST_FILES			= $(TEST_FILES:.scop=)
-
-CLEANFILES			=		\
-	$(TEST_FILES_CLEAN_CANDL)		\
-	$(TEST_FILES_CLEAN_SCOP)		\
-	$(TEST_FILES_CLEAN_STRUCT)
-
-
-EXTRA_DIST	+=				\
-	$(TEST_FILES)				\
-	$(TEST_FILES_DEP)			\
-	$(TEST_FILES_CANDL)			\
-	$(TEST_FILES_STRUCT)			\
-	$(check_SCRIPTS)
-
-
-TESTS_ENVIRONMENT +=				\
-	TEST_FILES="$(BASE_TEST_FILES)"
+output=0
+TEST_FILES="$2";
+echo "[CHECK:] $1";
+for i in $TEST_FILES; do
+    outtemp=0
+    echo "[TEST:] Dependence analyzer test:== $i.candl ==";
+    $top_builddir/source/candl $i.candl > $i.candltest 2>/tmp/clanout
+    z=`diff $i.candltest $i.dep 2>&1`
+    err=`cat /tmp/clanout`;
+    if ! [ -z "$z" ]; then
+	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
+	outtemp=1;
+    fi
+    if ! [ -z "$err" ]; then
+	if [ $outtemp = "0" ]; then
+	    echo "[INFO:] Dependence analyzer: OK";
+	fi
+	echo -e "\033[31m[FAIL:] Dependence analyzer: stderr output: $err\033[0m";
+	outtemp=1
+	output=1
+    fi
+    if [ $outtemp = "0" ]; then
+	echo "[PASS:] Dependence analyzer: OK";
+	rm -f $i.candltest
+    fi
+    rm -f /tmp/clanout
+    echo "[TEST:] Dependence analyzer test:== $i.scop ==";
+    $top_builddir/source/candl -scop $i.scop > $i.scoptest 
+    $top_builddir/source/candl -scop -structure $i.scop > $i.structest 
+    z=`diff $i.scoptest $i.dep`
+    y=`diff $i.structest $i.struct`
+    if ! [ -z "$z" ] || ! [ -z "$y" ]; then
+	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
+	outtemp=1
+	output=1
+    else
+	echo "[PASS:] Dependence analyzer: OK";
+	rm -f $i.scoptest
+	rm -f $i.structest
+    fi
+done
+if [ $output = "1" ]; then
+    echo -e "\033[31m[FAIL:] $1\033[0m";
+else
+    echo "[PASS:] $1";
+fi
+exit $output

@@ -61,6 +61,8 @@ struct candlstatement
   CandlMatrix * domain;         /**< Iteration domain. */
   CandlMatrix * written;        /**< Array of written data. */
   CandlMatrix * read;           /**< Array of read data. */
+  void* ref;			/**< Reference to another structure
+				   describing the same statement. */
 };
 typedef struct candlstatement CandlStatement;
 

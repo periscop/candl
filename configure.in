@@ -201,6 +201,7 @@ dnl  **************************************************************************/
 
 dnl Substitutions to do.
 AC_SUBST(BITS)
+AC_SUBST(DEFINE_HAS_CLAN_LIB)
 AC_SUBST(ac_aux_dir)
 
 dnl Configure Makefiles.
@@ -216,7 +217,6 @@ AC_CONFIG_FILES([
 	[test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])
 
 AC_OUTPUT
-
 
 echo "             /*-----------------------------------------------*"
 echo "              *          Candl configuration is OK            *"

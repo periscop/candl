@@ -42,8 +42,9 @@
 #ifndef CANDL_H
 # define CANDL_H
 
-# define CANDL_RELEASE "@RELEASE@"
-# define CANDL_VERSION "@VERSION@"
+# define CANDL_RELEASE "@PACKAGE_VERSION@"
+# define CANDL_VERSION "@BITS@"
+@DEFINE_HAS_CLAN_LIB@
 
 # include <piplib/piplib@BITS@.h>
 # include <candl/options.h>
@@ -101,6 +102,7 @@
 #define CANDL_init(val)                (mpz_init((val)))
 #define CANDL_assign(v1,v2)            (mpz_set((v1),(v2)))
 #define CANDL_set_si(val,i)            (mpz_set_si((val),(i)))
+#define CANDL_get_si(val)              (mpz_get_si((val)))
 #define CANDL_clear(val)               (mpz_clear((val)))
 #define CANDL_print(Dst,fmt,val)       { char *str; \
                                          str = mpz_get_str(0,10,(val)); \
@@ -129,6 +131,7 @@
 #define CANDL_init(val)                ((val) = 0)
 #define CANDL_assign(v1,v2)            ((v1)  = (v2))
 #define CANDL_set_si(val,i)            ((val) = (Entier)(i))
+#define CANDL_get_si(val)              ((val))
 #define CANDL_clear(val)               ((val) = 0)
 #define CANDL_print(Dst,fmt,val)       (fprintf((Dst),(fmt),(val)))
 
