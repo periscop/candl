@@ -61,9 +61,11 @@ for i in $TEST_FILES; do
     echo "[TEST:] Dependence analyzer test:== $i.scop ==";
     $top_builddir/source/candl -scop $i.scop > $i.scoptest 
     $top_builddir/source/candl -scop -structure $i.scop > $i.structest 
+    $top_builddir/source/candl -scop -structure $i.opt.scop > $i.optscoptest 
     z=`diff $i.scoptest $i.dep`
     y=`diff $i.structest $i.struct`
-    if ! [ -z "$z" ] || ! [ -z "$y" ]; then
+    x=`diff $i.optscoptest $i.struct`
+    if ! [ -z "$z" ] || ! [ -z "$y" ] || ! [ -z "$x" ]; then
 	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
 	outtemp=1
 	output=1
@@ -71,6 +73,7 @@ for i in $TEST_FILES; do
 	echo "[PASS:] Dependence analyzer: OK";
 	rm -f $i.scoptest
 	rm -f $i.structest
+	rm -f $i.optscoptest
     fi
 done
 if [ $output = "1" ]; then

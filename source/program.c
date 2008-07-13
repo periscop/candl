@@ -43,6 +43,7 @@
 #include <ctype.h>
 
 #include <candl/candl.h>
+#include <candl/program.h>
 
 
 /******************************************************************************
@@ -294,6 +295,74 @@ candl_program_p candl_program_read(FILE * file)
 
 
 /**
+ * This function reads the .scop formatted file 'file', check for the
+ * existence of the <candl> tag in the file, and retrieve the loop
+ * index information, if any.
+ * This function is built only if candl was configured with clan support.
+ *
+ */
+#ifdef CANDL_SUPPORTS_CLAN
+static
+int** candl_program_scop_get_opt_indices(FILE* file)
+{
+  char str[CANDL_MAX_STRING];
+  /* Check for the <candl> tag. */
+  while (fgets(str, CANDL_MAX_STRING, file) && strncmp(str, "<candl>", 7))
+    ;
+  if (strncmp(str, "<candl>", 7))
+    return NULL;
+  /* Tag was found. Scan it. */
+  int buffer_size = 128;
+  /* Assume maximum loop nest depth of 128. */
+  int line[128];
+  char buff[32];
+  int** res = malloc(buffer_size * sizeof(int*));
+  int i, j;
+  int count, idx = 0;
+  int line_added = 0;
+  while (fgets(str, CANDL_MAX_STRING, file) && strncmp(str, "</candl>", 8))
+    {
+      char* s = str;
+      for (i = 0; i < 128; ++i)
+	{
+	  while (isspace(*s))
+	    ++s;
+	  if (*s && strncmp(s, "#", 1))
+	    {
+	      if (idx == buffer_size)
+		res = realloc(res, (buffer_size *= 2) * sizeof(int*));
+	      for (count = 0; *s >= '0' && *s <= '9'; ++count)
+		buff[count] = *(s++);
+	      buff[count] = '\0';
+	      line[i] = atoi(buff);
+	      line_added = 1;
+	    }
+	  else
+	    break;
+	}
+      if (line_added)
+	{
+	  res[idx] = (int*) malloc(i * sizeof(int));
+	  for (j = 0; j < i; ++j)
+	    res[idx][j] = line[j];
+	  ++idx;
+	  line_added = 0;
+	}
+    }
+  res = realloc(res, idx * sizeof(int*));
+  if (strncmp(str, "</candl>", 8))
+    {
+      fprintf(stderr,
+	      "[CANDL] Error: syntax error in .scop file (missing </candl>)\n");
+      exit(1);
+    }
+
+  return res;
+}
+#endif
+
+
+/**
  * candl_program_read_scop function:
  * This function reads the informations to put in a candl_program_t
  * structure from a file (file, possibly stdin) following the .scop
@@ -305,12 +374,22 @@ candl_program_p candl_program_read(FILE * file)
 #ifdef CANDL_SUPPORTS_CLAN
 candl_program_p candl_program_read_scop(FILE * file)
 {
+  int i;
+
   /* Read the scop. */
   clan_scop_p scop = clan_scop_read(file, NULL);
-  /* Check for the <Candl> tag in the options of the .scop file. */
-  int** indices = NULL;
+  /* Check for the <candl> tag in the options of the .scop file. */
+  int** indices = candl_program_scop_get_opt_indices(file);
   /* Convert the scop. */
   candl_program_p res = candl_program_convert_scop(scop, indices);
+
+  /* Clean temporary data. */
+  if (indices)
+    {
+      for (i = 0; i < res->nb_statements; ++i)
+	free(indices[i]);
+      free(indices);
+    }
   clan_scop_free(scop);
 
   return res;
@@ -332,7 +411,7 @@ candl_program_p candl_program_read_scop(FILE * file)
 #ifdef CANDL_SUPPORTS_CLAN
 candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 {
-  int i, j, k;
+  int i, j, k, l;
   candl_program_p res = candl_program_malloc();
   clan_statement_p s = scop->statement;
 
@@ -382,16 +461,42 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       else
 	{
 	  /* Iterator indices must be computed from the scattering matrix. */
+	  clan_matrix_p m = s->schedule;
+
+	  /* FIXME: Sort the statements in their execution order. */
 	  /* It must be a 2d+1 identity scheduling matrix, and
 	     statement must be sorted in their execution order. */
-	  /* FIXME: Sort the statements in their execution order. */
-	  clan_matrix_p m = s->schedule;
+	  /* Check that it is a identity matrix. */
+	  int error = 0;
 	  if (m->NbRows != 2 * statement->depth + 1)
+	    error = 1;
+	  else
+	    for (l = 0; l < m->NbRows; ++l)
+	      {
+		for (k = 1; k < m->NbColumns - 1; ++k)
+		  switch (CANDL_get_si(m->p[l][k]))
+		    {
+		    case 0:
+		      if (l % 2 && k == (l / 2) + 1) error = 1;
+		      break;
+		    case 1:
+		      if ((l % 2 && k != (l / 2) + 1) || (! l % 2)) error = 1;
+		      break;
+		    default:
+		      error = 1;
+		      break;
+		    }
+		if (l % 2 && CANDL_get_si(m->p[l][k]))
+		  error = 1;
+	      }
+	  if (error)
 	    {
-	      fprintf(stderr, "[Candl]Error: schedule is not 2d+1 shaped.\n"
+	      fprintf(stderr,
+		      "[Candl] Error: schedule is not identity 2d+1 shaped.\n"
 		      "Consider using the <candl> option tag to declare iterator indices\n");
 	      exit(1);
 	    }
+
 	  /* Compute the value of the iterator indices. */
 	  for (j = 0; j < statement->depth; ++j)
 	    {

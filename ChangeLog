@@ -1,9 +1,30 @@
+2008-07-14  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	This patch finalizes the integration of Candl with new .scop
+	format. Loop indices are either extracted from the identity
+	scheduling matrix, either from the content of the optional <candl>
+	tag in the .scop file. See tests/xxx.opt.scop for examples.
+
+	* include/candl/program.h,
+	* source/program.c: Add support for reading the iterator indices
+	in the .scop file.
+
+	* tests/swim.scop,
+	* tests/swim.opt.scop,
+	* tests/gemver.opt.scop,
+	* tests/matmul.opt.scop,
+	* tests/ax-do.scop,
+	* tests/ax-do.opt.scop: New. Test files where the iterator indices
+	are provided in the <candl> optional tag of the .scop file.
+
+	* tests/checker.sh,
+	* tests/Makefile.am: Update accordingly.
+
 2008-07-13  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch starts the integration of Candl with new .scop format.
-	
+
 	* configure.in,
 	* autoconf/candl.m4: Make clan optional and not required.
-	
+
 	* include/candl/options.h,
 	* include/candl/statement.h,
 	* include/candl/candl.h.in,
@@ -13,7 +34,7 @@
 	* source/program.c,
 	* source/dependence.c,
 	* source/options.c: Add .scop reader compatible with clan output.
-	
+
 	* tests/exam98.dep,
 	* tests/esced.dep,
 	* tests/exam98.candl,
@@ -45,7 +66,7 @@
 	* tests/gemver.candl,
 	* tests/gemver.struct,
 	* tests/Makefile.am: New. Create working test suite.
-	
+
 2008-07-13  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* candl/trunk/source/candl.c,
