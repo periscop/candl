@@ -56,90 +56,91 @@
  * print_structure functions.
  * - 18/09/2003: first version.
  */
-void candl_dependence_print_structure(file, dependence, level)
-FILE * file ;
-CandlDependence * dependence ;
-int level ;
-{ int j, first=1 ;
+void candl_dependence_print_structure(FILE* file,
+				      candl_dependence_p dependence,
+				      int level)
+{
+  int j, first = 1;
 
   if (dependence != NULL)
-  { /* Go to the right level. */
-    for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- CandlDependence\n") ;
-  }
-  else
-  { for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- NULL dependence\n") ;
-  }
-
-  while (dependence != NULL)
-  { if (!first)
     { /* Go to the right level. */
       for(j=0; j<level; j++)
-      fprintf(file,"|\t") ;
-      fprintf(file,"|   CandlDependence\n") ;
+	fprintf(file, "|\t");
+      fprintf(file, "+-- CandlDependence\n");
     }
-    else
-    first = 0 ;
-
-    /* A blank line. */
-    for(j=0; j<=level+1; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"\n") ;
-
-    /* Go to the right level and print the type. */
-    for(j=0; j<=level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"Type: ") ;
-    switch (dependence->type)
-    { case CANDL_UNSET : fprintf(file,"UNSET\n") ;        break ;
-      case CANDL_RAW   : fprintf(file,"RAW (flow)\n") ;   break ;
-      case CANDL_WAR   : fprintf(file,"WAR (anti)\n") ;   break ;
-      case CANDL_WAW   : fprintf(file,"WAW (output)\n") ; break ;
-      case CANDL_RAR   : fprintf(file,"RAR (input)\n") ;  break ;
-      default : fprintf(file,"unknown\n") ;
+  else
+    { for(j=0; j<level; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "+-- NULL dependence\n");
     }
 
-    /* A blank line. */
-    for(j=0; j<=level+1; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"\n") ;
+  while (dependence != NULL)
+    { if (!first)
+	{ /* Go to the right level. */
+	  for(j=0; j<level; j++)
+	    fprintf(file, "|\t");
+	  fprintf(file, "|   CandlDependence\n");
+	}
+      else
+	first = 0;
 
-    /* Go to the right level and print the depth. */
-    for(j=0; j<=level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"Depth: %d\n",dependence->depth) ;
+      /* A blank line. */
+      for(j=0; j<=level+1; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "\n");
 
-    /* A blank line. */
-    for(j=0; j<=level+1; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"\n") ;
+      /* Go to the right level and print the type. */
+      for(j=0; j<=level; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "Type: ");
+      switch (dependence->type)
+	{
+	case CANDL_UNSET : fprintf(file, "UNSET\n");        break;
+	case CANDL_RAW   : fprintf(file, "RAW (flow)\n");   break;
+	case CANDL_WAR   : fprintf(file, "WAR (anti)\n");   break;
+	case CANDL_WAW   : fprintf(file, "WAW (output)\n"); break;
+	case CANDL_RAR   : fprintf(file, "RAR (input)\n");  break;
+	default : fprintf(file, "unknown\n"); break;
+	}
 
-    /* Print the source statement. */
-    candl_statement_print_structure(file,dependence->source,level+1) ;
+      /* A blank line. */
+      for(j=0; j<=level+1; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "\n");
 
-    /* Print the target statement. */
-    candl_statement_print_structure(file,dependence->target,level+1) ;
+      /* Go to the right level and print the depth. */
+      for(j=0; j<=level; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "Depth: %d\n", dependence->depth);
 
-    /* Print the dependence polyhedron. */
-    candl_matrix_print_structure(file,dependence->domain,level+1) ;
+      /* A blank line. */
+      for(j=0; j<=level+1; j++)
+	fprintf(file, "|\t");
+      fprintf(file, "\n");
 
-    dependence = dependence->next ;
+      /* Print the source statement. */
+      candl_statement_print_structure(file, dependence->source, level+1);
 
-    /* Next line. */
-    if (dependence != NULL)
-    { for (j=0; j<=level; j++)
-      fprintf(file,"|\t") ;
-      fprintf(file,"V\n") ;
+      /* Print the target statement. */
+      candl_statement_print_structure(file, dependence->target, level+1);
+
+      /* Print the dependence polyhedron. */
+      candl_matrix_print_structure(file, dependence->domain, level+1);
+
+      dependence = dependence->next;
+
+      /* Next line. */
+      if (dependence != NULL)
+	{ for (j=0; j<=level; j++)
+	    fprintf(file, "|\t");
+	  fprintf(file, "V\n");
+	}
     }
-  }
 
   /* The last line. */
   for(j=0; j<=level; j++)
-  fprintf(file,"|\t") ;
-  fprintf(file,"\n") ;
+    fprintf(file, "|\t");
+  fprintf(file, "\n");
 }
 
 
@@ -147,8 +148,9 @@ int level ;
  * This function prints the content of a CandlDependence structure (dependence)
  * into a file (file, possibly stdout).
  */
-void candl_dependence_print(FILE * file, CandlDependence * dependence)
-{ candl_dependence_print_structure(file,dependence,0) ;
+void candl_dependence_print(FILE * file, candl_dependence_p dependence)
+{
+  candl_dependence_print_structure(file, dependence, 0);
 }
 
 
@@ -158,35 +160,38 @@ void candl_dependence_print(FILE * file, CandlDependence * dependence)
  * See http://www.graphviz.org
  * - 08/12/2005: first version.
  */
-void candl_dependence_pprint(FILE * file, CandlDependence * dependence)
-{ int i=0 ;
+void candl_dependence_pprint(FILE * file, candl_dependence_p dependence)
+{
+  int i = 0;
 
-  fprintf(file,"digraph G {\n") ;
+  fprintf(file, "digraph G {\n");
 
-  fprintf(file,"# Data Dependence Graph\n") ;
-  fprintf(file,"# Generated by Candl "CANDL_RELEASE" "CANDL_VERSION" bits\n");
+  fprintf(file, "# Data Dependence Graph\n");
+  fprintf(file, "# Generated by Candl "CANDL_RELEASE" "CANDL_VERSION" bits\n");
   while (dependence != NULL)
-  { fprintf(file,"  S%d -> S%d [label=\" ",dependence->source->label,
-                                           dependence->target->label) ;
-    switch (dependence->type)
-    { case CANDL_UNSET : fprintf(file,"UNSET") ; break ;
-      case CANDL_RAW   : fprintf(file,"RAW")   ; break ;
-      case CANDL_WAR   : fprintf(file,"WAR")   ; break ;
-      case CANDL_WAW   : fprintf(file,"WAW")   ; break ;
-      case CANDL_RAR   : fprintf(file,"RAR")   ; break ;
-      default : fprintf(file,"unknown") ;
+    {
+      fprintf(file, "  S%d -> S%d [label=\" ", dependence->source->label,
+	      dependence->target->label);
+      switch (dependence->type)
+	{
+	case CANDL_UNSET : fprintf(file, "UNSET"); break;
+	case CANDL_RAW   : fprintf(file, "RAW")  ; break;
+	case CANDL_WAR   : fprintf(file, "WAR")  ; break;
+	case CANDL_WAW   : fprintf(file, "WAW")  ; break;
+	case CANDL_RAR   : fprintf(file, "RAR")  ; break;
+	default : fprintf(file, "unknown"); break;
+	}
+      fprintf(file, " depth %d, ref %d->%d \"];\n", dependence->depth,
+	      dependence->ref_source,
+	      dependence->ref_target);
+      dependence = dependence->next;
+      i++;
     }
-    fprintf(file," depth %d, ref %d->%d \"];\n",dependence->depth,
-                                                dependence->ref_source,
-                                                dependence->ref_target) ;
-    dependence = dependence->next ;
-    i++ ;
-  }
 
   if (i>4)
-  fprintf(file,"# Number of edges = %i\n}\n",i) ;
+    fprintf(file, "# Number of edges = %i\n}\n", i);
   else
-  fprintf(file,"}\n") ;
+    fprintf(file, "}\n");
 }
 
 
@@ -196,13 +201,14 @@ void candl_dependence_pprint(FILE * file, CandlDependence * dependence)
  * dependence graph.
  * - 20/03/2006: first version.
  */
-void candl_dependence_view(CandlDependence * dependence)
-{ FILE * temp_output ;
+void candl_dependence_view(candl_dependence_p dependence)
+{
+  FILE * temp_output;
 
-  temp_output = fopen(CANDL_TEMP_OUTPUT,"w") ;
-  candl_dependence_pprint(temp_output,dependence) ;
-  fclose(temp_output) ;
-  system("(dot -Tps "CANDL_TEMP_OUTPUT" | gv - &) && rm -f "CANDL_TEMP_OUTPUT) ;
+  temp_output = fopen(CANDL_TEMP_OUTPUT, "w");
+  candl_dependence_pprint(temp_output, dependence);
+  fclose(temp_output);
+  system("(dot -Tps "CANDL_TEMP_OUTPUT" | gv - &) && rm -f "CANDL_TEMP_OUTPUT);
 }
 
 
@@ -215,15 +221,17 @@ void candl_dependence_view(CandlDependence * dependence)
  * This function frees the allocated memory for a CandlDependence structure.
  * - 18/09/2003: first version.
  */
-void candl_dependence_free(CandlDependence * dependence)
-{ CandlDependence * next ;
+void candl_dependence_free(candl_dependence_p dependence)
+{
+  candl_dependence_p next;
 
   while (dependence != NULL)
-  { next = dependence->next ;
-    candl_matrix_free(dependence->domain) ;
-    free(dependence) ;
-    dependence = next ;
-  }
+    {
+      next = dependence->next;
+      candl_matrix_free(dependence->domain);
+      free(dependence);
+      dependence = next;
+    }
 }
 
 
@@ -239,31 +247,33 @@ void candl_dependence_free(CandlDependence * dependence)
  * allocated space.
  * - 07/12/2005: first version.
  */
-CandlDependence * candl_dependence_malloc()
-{ CandlDependence * dependence ;
+candl_dependence_p candl_dependence_malloc()
+{
+  candl_dependence_p dependence;
 
   /* Memory allocation for the CandlDependence structure. */
-  dependence = (CandlDependence *)malloc(sizeof(CandlDependence)) ;
+  dependence = (candl_dependence_p) malloc(sizeof(CandlDependence));
   if (dependence == NULL)
-  { fprintf(stderr, "[Candl]ERROR: memory overflow.\n") ;
-    exit(1) ;
-  }
+    {
+      fprintf(stderr,  "[Candl]ERROR: memory overflow.\n");
+      exit(1);
+    }
 
   /* We set the various fields with default values. */
-  dependence->source     = NULL ;
-  dependence->target     = NULL ;
-  dependence->depth      = CANDL_UNSET ;
-  dependence->type       = CANDL_UNSET ;
-  dependence->ref_source = CANDL_UNSET ;
-  dependence->ref_target = CANDL_UNSET ;
-  dependence->domain     = NULL ;
-  dependence->next       = NULL ;
+  dependence->source     = NULL;
+  dependence->target     = NULL;
+  dependence->depth      = CANDL_UNSET;
+  dependence->type       = CANDL_UNSET;
+  dependence->ref_source = CANDL_UNSET;
+  dependence->ref_target = CANDL_UNSET;
+  dependence->domain     = NULL;
+  dependence->next       = NULL;
 
   dependence->solved = 0;
   dependence->id = 0;
   dependence->tag = NULL;
 
-  return dependence ;
+  return dependence;
 }
 
 
@@ -276,21 +286,173 @@ CandlDependence * candl_dependence_malloc()
  * is when (start) is NULL-.
  * - 18/09/2003: first version.
  */
-void candl_dependence_add(start, now, dependence)
-CandlDependence ** start, ** now, * dependence ;
-{ if (dependence != NULL)
-  { if (*start == NULL)
-    { *start = dependence ;
-      *now = *start ;
+void candl_dependence_add(candl_dependence_p* start,
+			  candl_dependence_p* now,
+			  candl_dependence_p dependence)
+{
+  if (dependence != NULL)
+    {
+      if (*start == NULL)
+	{
+	  *start = dependence;
+	  *now = *start;
+	}
+      else
+	{
+	  (*now)->next = dependence;
+	  *now = (*now)->next;
+	}
+
+      while ((*now)->next != NULL)
+	*now = (*now)->next;
     }
-    else
-    { (*now)->next = dependence ;
-      *now = (*now)->next ;
+}
+
+
+/**
+ * GCD computation.
+ */
+static
+int
+candl_dependence_gcd(int a, int b)
+{
+  int z = 1;
+
+  if (a < 0)
+    a *= -1;
+  if (b < 0)
+    b *= -1;
+  if (a == 0)
+    return b;
+  if (b == 0)
+    return a;
+  if (b > a)
+    {
+      int temp = a;
+      a = b;
+      b = temp;
     }
 
-    while ((*now)->next != NULL)
-    *now = (*now)->next ;
-  }
+  while (z != 0)
+    {
+      z = a % b;
+      a = b;
+      b = z;
+    }
+
+  return a;
+}
+
+/**
+ *
+ *
+ */
+static
+int candl_dependence_gcd_test_context (CandlMatrix* system, int id)
+{
+  /* FIXME: implement me! */
+
+  return 1;
+}
+
+
+/**
+ * candl_dependence_gcd_test function:
+ * This functions performs a GCD test on a dependence polyhedra
+ * represented exactly by a set of constraints 'system' organized in
+ * such a way:
+ * - first lines: iteration domain of 'source'
+ * - then: iteration domain of 'target'
+ * - then: array access equality(ies)
+ * - then (optional): precedence constraint inequality.
+ *
+ * The function returns false if the dependence is impossible, true
+ * otherwise. A series of simple checks (SIV/ZIV/MIV/bounds checking)
+ * are also performed before the actual GCD test.
+ *
+ */
+int candl_dependence_gcd_test(CandlStatement* source,
+			      CandlStatement* target,
+			      CandlMatrix* system,
+			      int level)
+{
+  int i;
+  int gcd;
+  int id;
+  int value;
+  int null_iter, null_param, null_cst, pos_iter, neg_iter,
+    strict_pred, null_level = 1;
+
+  /* Check that the precedence constraint, if any, is not strict in a
+     self-dependence. */
+  if (source == target &&
+      CANDL_get_si(system->p[system->NbRows - 1][0]) == 1 &&
+      CANDL_get_si(system->p[system->NbRows - 1][system->NbColumns - 1]) == -1)
+    strict_pred = 1;
+  else
+    strict_pred = 0;
+
+  /* Inspect the array access function equalities. */
+  for (id = source->domain->NbRows + target->domain->NbRows;
+       id < system->NbRows && CANDL_get_si(system->p[id][0]) == 0; ++id)
+    {
+      /* Inspect which parts of the access function equality are null,
+	 positive or negative. */
+      null_iter = null_param = null_cst = pos_iter = neg_iter = 0;
+      for (i = 1; i < source->depth + target->depth + 1 &&
+	     CANDL_get_si(system->p[id][i]) == 0; ++i)
+	;
+      if (i == source->depth + target->depth + 1)
+	null_iter = 1;
+      else
+	for (pos_iter = 1, neg_iter = 1;
+	     i < source->depth + target->depth + 1; ++i)
+	  {
+	    if (CANDL_get_si(system->p[id][i]) < 0)
+	      pos_iter = 0;
+	    else if (CANDL_get_si(system->p[id][i]) > 0)
+	      neg_iter = 0;
+	    if (i == level || i == level + source->depth)
+	      null_level &= CANDL_get_si(system->p[id][i]) != 0 ? 0 : 1;
+	  }
+      for (; i < system->NbColumns - 1 && CANDL_get_si(system->p[id][i]) == 0;
+	   ++i)
+	;
+      if (i == system->NbColumns - 1)
+	null_param = 1;
+      null_cst = ! CANDL_get_si(system->p[id][system->NbColumns - 1]);
+
+      /* Some useful ZIV/SIV/MIV tests. */
+      if (null_iter && null_param && !null_cst)
+	return 0;
+      if (null_iter)
+	if (! candl_dependence_gcd_test_context (system, id))
+	  return 0;
+      if (null_cst || !null_param)
+	continue;
+/* FIXME: implement the loop bound check. */
+/*       /\* A clever test on access bounds. *\/ */
+/*       if (null_param && pos_iter &&  */
+/* 	  CANDL_get_si(system->p[id][system->NbColumns - 1]) > 0) */
+/* 	return 0; */
+/*       if (null_param && neg_iter &&  */
+/* 	  CANDL_get_si(system->p[id][system->NbColumns - 1]) < 0) */
+/* 	return 0; */
+
+      /* Compute GCD test for the array access equality. */
+      for (i = 1, gcd = CANDL_get_si(system->p[id][i]);
+	   i < source->depth + target->depth; ++i)
+	gcd = candl_dependence_gcd(gcd, CANDL_get_si(system->p[id][i + 1]));
+      value = system->p[id][system->NbColumns - 1];
+      value = value < 0 ? -value : value;
+      if ((gcd == 0 && value != 0) || value % gcd)
+	return 0;
+    }
+  /* Precedence constraint incompatible with the access function. */
+  if (strict_pred && !null_level)
+    return 0;
+
+  return 1;
 }
 
 
@@ -313,59 +475,65 @@ CandlDependence ** start, ** now, * dependence ;
  * - 18/09/2003: first version.
  * - 09/12/2005: few corrections and polishing.
  */
-CandlDependence * candl_dependence_system(source, target, context, array_s,
-                                          array_t, ref_s, ref_t, type, depth)
-CandlStatement  * source, * target ;
-CandlMatrix * context, * array_s, * array_t ;
-int ref_s, ref_t, type, depth ;
-{ CandlDependence * dependence=NULL ;
-  CandlMatrix * system ;
-  PipOptions * options ;
-  PipQuast * solution ;
+candl_dependence_p candl_dependence_system(CandlStatement* source,
+					   CandlStatement* target,
+					   CandlMatrix* context,
+					   CandlMatrix* array_s,
+					   CandlMatrix* array_t,
+					   int ref_s, int ref_t,
+					   int type, int depth)
+{
+  candl_dependence_p dependence = NULL;
+  CandlMatrix * system;
+  PipOptions * options;
+  PipQuast * solution;
 
   /* First, a trivial case: for two different statements at depth 0, there is
    * a dependence only if the source is textually before the target.
    */
   if ((source != target) && (depth == 0) && (source->label > target->label))
-  { return NULL ;
-  }
+    return NULL;
 
   /* We build the system of constraints. */
-  system = candl_matrix_dependence(source->domain, target->domain,
+  system = candl_matrix_dependence(source->domain,  target->domain,
                                    array_s, array_t, ref_s, ref_t,
 				   depth, (source->label >= target->label),
-				   context->NbColumns-2) ;
+				   context->NbColumns-2);
+  /* We start by simple SIV/ZIV/GCD tests. */
+  if (!candl_dependence_gcd_test(source, target, system, depth))
+    return NULL;
 
-  options = pip_options_init() ;
-  options->Simplify = 1 ;
+  options = pip_options_init();
+  options->Simplify = 1;
   options->Urs_parms = -1;
   options->Urs_unknowns = -1;
-  solution = pip_solve(system,context,-1,options) ;
+  solution = pip_solve(system,context, -1, options);
 
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
-  { dependence = candl_dependence_malloc() ;
+    {
+      dependence = candl_dependence_malloc();
 
-    /* We set the various fields with corresponding values. */
-    dependence->type       = type ;
-    dependence->depth      = depth ;
-    dependence->source     = source ;
-    dependence->target     = target ;
-    dependence->ref_source = ref_s ;
-    dependence->ref_target = ref_t ;
-    dependence->domain     = system ;
+      /* We set the various fields with corresponding values. */
+      dependence->type       = type;
+      dependence->depth      = depth;
+      dependence->source     = source;
+      dependence->target     = target;
+      dependence->ref_source = ref_s;
+      dependence->ref_target = ref_t;
+      dependence->domain     = system;
 
-    dependence->solved = 0;
-    dependence->id = 0;
-    dependence->tag = NULL;
-  }
+      dependence->solved = 0;
+      dependence->id = 0;
+      dependence->tag = NULL;
+    }
   else
-  candl_matrix_free(system) ;
+    candl_matrix_free(system);
 
-  pip_options_free(options) ;
-  pip_quast_free(solution) ;
+  pip_options_free(options);
+  pip_quast_free(solution);
 
-  return dependence ;
+  return dependence;
 }
 
 
@@ -379,18 +547,21 @@ int ref_s, ref_t, type, depth ;
  * - 07/12/2005: (debug) correction of depth bounds.
  * - 09/12/2005: We may take commutativity into consideration.
  */
-CandlDependence * candl_dependence_between(source, target, context, options)
-CandlStatement  * source, * target ;
-CandlMatrix * context ;
-CandlOptions * options ;
-{ int i, j, k, min_depth, max_depth ;
-  CandlDependence * new, * dependence=NULL, * now ;
+candl_dependence_p candl_dependence_between(CandlStatement* source,
+					    CandlStatement* target,
+					    CandlMatrix* context,
+					    CandlOptions* options)
+{
+  int i, j, k, min_depth, max_depth;
+  candl_dependence_p new;
+  candl_dependence_p dependence = NULL;
+  candl_dependence_p now;
 
   /* If the statements commute and the user asks to use this information to
    * simplify the dependence graph, we return no dependences.
    */
-  if (options->commute && candl_statement_commute(source,target))
-  return NULL ;
+  if (options->commute && candl_statement_commute(source, target))
+    return NULL;
 
   /* In the case of a self-dependence, the dependence depth can be as low as 1
    * (not 0 because at depth 0 there is no loop, thus there is only one
@@ -399,71 +570,80 @@ CandlOptions * options ;
    * as 0 and as high as the number of shared loops.
    */
   if (source == target)
-  { min_depth = 1 ;
-    max_depth = source->depth ;
-  }
+    {
+      min_depth = 1;
+      max_depth = source->depth;
+    }
   else
-  { /* Depth 0 is for statements that don't share any loop. */
-    min_depth = (source->index[0] == target->index[0]) ? 1 : 0 ;
+    {
+      /* Depth 0 is for statements that don't share any loop. */
+      min_depth = (source->index[0] == target->index[0]) ? 1 : 0;
 
-    max_depth = 0 ;
-    while ((max_depth < source->depth) &&
-           (max_depth < target->depth) &&
-           (source->index[max_depth] == target->index[max_depth]))
-    max_depth ++ ;
-  }
+      max_depth = 0;
+      while ((max_depth < source->depth) &&
+	     (max_depth < target->depth) &&
+	     (source->index[max_depth] == target->index[max_depth]))
+	max_depth++;
+    }
 
   /* Flow and output-dependences analysis. */
   for (j=0;j<source->written->NbRows;j++)
-  if (CANDL_notzero_p(source->written->p[j][0]))
-  { /* Flow-dependences analysis. */
-    if (options->raw)
-    for (k=0;k<target->read->NbRows;k++)
-    if (CANDL_eq(target->read->p[k][0],source->written->p[j][0]))
-    { for (i=min_depth;i<=max_depth;i++)
-      { new = candl_dependence_system(source,target,context,source->written,
-                                      target->read,j,k,CANDL_RAW,i) ;
-	candl_dependence_add(&dependence,&now,new) ;
+    if (CANDL_notzero_p(source->written->p[j][0]))
+      {
+	/* Flow-dependences analysis. */
+	if (options->raw)
+	  for (k = 0; k < target->read->NbRows; k++)
+	    if (CANDL_eq(target->read->p[k][0], source->written->p[j][0]))
+	      for (i = min_depth; i <= max_depth; i++)
+		{
+		  new = candl_dependence_system(source, target, context,
+						source->written, target->read,
+						j, k, CANDL_RAW, i);
+		  candl_dependence_add(&dependence, &now, new);
+		}
+	/* Output-dependences analysis. */
+	if (options->waw)
+	  for (k = 0; k < target->written->NbRows; k++)
+	    if (CANDL_eq(target->written->p[k][0], source->written->p[j][0]))
+	      for (i = min_depth; i <= max_depth; i++)
+		{
+		  new = candl_dependence_system(source, target, context,
+						source->written,
+						target->written, j, k,
+						CANDL_WAW, i);
+		    candl_dependence_add(&dependence, &now, new);
+		  }
       }
-    }
-    /* Output-dependences analysis. */
-    if (options->waw)
-    for (k=0;k<target->written->NbRows;k++)
-    if (CANDL_eq(target->written->p[k][0],source->written->p[j][0]))
-    { for (i=min_depth;i<=max_depth;i++)
-      { new = candl_dependence_system(source,target,context,source->written,
-                                      target->written,j,k,CANDL_WAW,i) ;
-	candl_dependence_add(&dependence,&now,new) ;
-      }
-    }
-  }
 
   /* Anti and input-dependences analysis. */
-  for (j=0;j<source->read->NbRows;j++)
-  if (source->read->p[j][0] != 0)
-  { /* Anti-dependences analysis. */
-    if (options->war)
-    for (k=0;k<target->written->NbRows;k++)
-    if (CANDL_eq(target->written->p[k][0],source->read->p[j][0]))
-    { for (i=min_depth;i<=max_depth;i++)
-      { new = candl_dependence_system(source,target,context,source->read,
-                                      target->written,j,k,CANDL_WAR,i) ;
-	candl_dependence_add(&dependence,&now,new) ;
+  for (j = 0; j < source->read->NbRows; j++)
+    if (source->read->p[j][0] != 0)
+      {
+	/* Anti-dependences analysis. */
+	if (options->war)
+	  for (k = 0; k < target->written->NbRows; k++)
+	    if (CANDL_eq(target->written->p[k][0], source->read->p[j][0]))
+	      for (i = min_depth; i <= max_depth; i++)
+		{
+		  new = candl_dependence_system(source, target, context,
+						source->read, target->written,
+						j, k, CANDL_WAR, i);
+		  candl_dependence_add(&dependence, &now, new);
+		}
+	/* Input-dependences analysis. */
+	if (options->rar)
+	  for (k = 0; k < target->read->NbRows; k++)
+	    if (CANDL_eq(target->read->p[k][0], source->read->p[j][0]))
+	      for (i = min_depth; i <= max_depth; i++)
+		{
+		  new = candl_dependence_system(source, target, context,
+						source->read, target->read,
+						j, k, CANDL_RAR, i);
+		  candl_dependence_add(&dependence, &now, new);
+		}
       }
-    }
-    /* Input-dependences analysis. */
-    if (options->rar)
-    for (k=0;k<target->read->NbRows;k++)
-    if (CANDL_eq(target->read->p[k][0],source->read->p[j][0]))
-    { for (i=min_depth;i<=max_depth;i++)
-      { new = candl_dependence_system(source,target,context,source->read,
-                                      target->read,j,k,CANDL_RAR,i) ;
-	candl_dependence_add(&dependence,&now,new) ;
-      }
-    }
-  }
 
-  return dependence ;
+  return dependence;
 }
 
 
@@ -472,7 +652,7 @@ CandlOptions * options ;
  * Check if there is an integral point in the set of constraints.
  *
  */
-static
+//static
 int
 candl_dependence_check_point (CandlMatrix* domain,
 			      CandlMatrix* context)
@@ -526,7 +706,7 @@ candl_dependence_extract_scalar_variables (CandlMatrix* m,
 	{
  	  for (k = 0; ! CANDL_eq((*scalars)[k], mone)
 		 && ! CANDL_eq((*scalars)[k], val); ++k)
-	    ;
+	   ;
 	  if (! CANDL_eq((*scalars)[k], mone))
 	    for (; ! CANDL_eq((*scalars)[k], mone); ++k)
 	      CANDL_assign((*scalars)[k], (*scalars)[k + 1]);
@@ -765,7 +945,7 @@ candl_dependence_perform_scalar_privatization (CandlProgram* p,
 	{
 	  for (k = 0; k < p->statement[j]->read->NbRows &&
 		 ! CANDL_eq(p->statement[j]->read->p[k][0], scalars[i]); ++k)
-	    ;
+	   ;
 	  if (k != p->statement[j]->read->NbRows)
 	    sl[count++] = p->statement[j];
 	  else
@@ -840,9 +1020,9 @@ candl_dependence_perform_scalar_privatization (CandlProgram* p,
       /// was privatized at least once. If not, fallback.
       for (k = 0; sl[k] != NULL; ++k)
 	{
-	  for (j = 0; j < sl[k]->read->NbRows && 
+	  for (j = 0; j < sl[k]->read->NbRows &&
 		 ! CANDL_eq(sl[k]->read->p[j][0], scalars[i]); ++j)
-	    ;
+	   ;
 /* 	  if (CANDL_zero_p(sl[k]->read->p[j][1])) */
 /* 	    { */
 /* 	      candl_dependence_privatize_scalar_fallback (sl, scalars[i]); */
@@ -865,16 +1045,18 @@ candl_dependence_perform_scalar_privatization (CandlProgram* p,
  * according to some user options (options).
  * - 18/09/2003: first version.
  */
-CandlDependence * candl_dependence(program, options)
-CandlProgram * program ;
-CandlOptions * options ;
-{ int i, j ;
-  CandlDependence * dependence=NULL, * new=NULL, * now ;
-  CandlStatement  ** statement ;
-  CandlMatrix * context ;
+candl_dependence_p candl_dependence(CandlProgram* program,
+				    CandlOptions* options)
+{
+  int i, j;
+  candl_dependence_p dependence = NULL;
+  candl_dependence_p new = NULL;
+  candl_dependence_p now;
+  CandlStatement  ** statement;
+  CandlMatrix * context;
 
-  statement = program->statement ;
-  context = program->context ;
+  statement = program->statement;
+  context = program->context;
 
   if (options->scalar_privatization)
     candl_dependence_perform_scalar_privatization (program, options);
@@ -882,22 +1064,25 @@ CandlOptions * options ;
   // candl_program_print (stdout, program);
 
   for (i=0; i<program->nb_statements; i++)
-  { /* We add self dependence. */
-    /* S->S */
-    new = candl_dependence_between(statement[i],statement[i],context,options) ;
-    candl_dependence_add(&dependence,&now,new) ;
+    { /* We add self dependence. */
+      /* S->S */
+      new = candl_dependence_between(statement[i], statement[i],
+				     context, options);
+      candl_dependence_add(&dependence, &now, new);
 
-    for (j=i+1; j<program->nb_statements; j++)
-    { /* And dependences with other statements. */
-      /* S1->S2 */
-      new = candl_dependence_between(statement[i],statement[j],context,options);
-      candl_dependence_add(&dependence,&now,new) ;
+      for (j=i+1; j<program->nb_statements; j++)
+	{ /* And dependences with other statements. */
+	  /* S1->S2 */
+	  new = candl_dependence_between(statement[i], statement[j],
+					 context, options);
+	  candl_dependence_add(&dependence, &now, new);
 
-      /* S2->S1 */
-      new = candl_dependence_between(statement[j],statement[i],context,options);
-      candl_dependence_add(&dependence,&now,new) ;
+	  /* S2->S1 */
+	  new = candl_dependence_between(statement[j], statement[i],
+					 context, options);
+	  candl_dependence_add(&dependence, &now, new);
+	}
     }
-  }
 
-  return dependence ;
+  return dependence;
 }

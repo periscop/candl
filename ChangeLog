@@ -1,4 +1,10 @@
 2008-07-14  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* include/candl/dependence.h,
+	* source/dependence.c: Add SIV/ZIV/MIV/GCD test to accelerate
+	dependence testing.
+
+2008-07-14  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch finalizes the integration of Candl with new .scop
 	format. Loop indices are either extracted from the identity
 	scheduling matrix, either from the content of the optional <candl>

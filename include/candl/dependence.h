@@ -82,30 +82,33 @@ struct candldependence
   struct candldependence * next; /**< Pointer to next dependence */
 };
 typedef struct candldependence CandlDependence;
+typedef struct candldependence candl_dependence_t;
+typedef struct candldependence * candl_dependence_p;
 
 
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-void candl_dependence_print_structure(FILE *, CandlDependence *, int);
-void candl_dependence_print(FILE *, CandlDependence *);
-void candl_dependence_pprint(FILE *, CandlDependence *);
-void candl_dependence_view(CandlDependence * dependence);
+void candl_dependence_print_structure(FILE *, candl_dependence_p, int);
+void candl_dependence_print(FILE *, candl_dependence_p);
+void candl_dependence_pprint(FILE *, candl_dependence_p);
+void candl_dependence_view(candl_dependence_p dependence);
 
 
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
-void candl_dependence_free(CandlDependence *);
+void candl_dependence_free(candl_dependence_p);
 
 
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
-CandlDependence *     candl_dependence_malloc();
-CandlDependence *     candl_dependence(CandlProgram *, CandlOptions *);
-int                   candl_dependence_check(CandlProgram *, CandlDependence *,
-                                             CandlOptions *);
+candl_dependence_p      candl_dependence_malloc();
+candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
+int			candl_dependence_check(CandlProgram *, 
+					       candl_dependence_p,
+					       CandlOptions *);
 
 # if defined(__cplusplus)
   }
