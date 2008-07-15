@@ -41,7 +41,11 @@
 # include <candl/statement.h>
 # include <candl/matrix.h>
 
-# define CANDL_ARRAY_BUFF_SIZE 2048
+# define CANDL_ARRAY_BUFF_SIZE	2048
+# define CANDL_VAR_UNDEF	0
+# define CANDL_VAR_IS_DEF	1
+# define CANDL_VAR_IS_USED	2
+
 
 # if defined(__cplusplus)
 extern "C"
@@ -96,19 +100,35 @@ void candl_dependence_view(candl_dependence_p dependence);
 
 
 /******************************************************************************
- *                         Memory deallocation function                       *
+ *                         Memory alloc/dealloc function                      *
  ******************************************************************************/
-void candl_dependence_free(candl_dependence_p);
+candl_dependence_p      candl_dependence_malloc();
+void			candl_dependence_free(candl_dependence_p);
 
 
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
-candl_dependence_p      candl_dependence_malloc();
-candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
+int			candl_dependence_gcd_test(CandlStatement*, 
+						  CandlStatement*,
+						  CandlMatrix*, int);
 int			candl_dependence_check(CandlProgram *, 
 					       candl_dependence_p,
 					       CandlOptions *);
+candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
+
+
+/******************************************************************************
+ *                          Scalar analysis functions                         *
+ ******************************************************************************/
+CandlStatement**	candl_dependence_refvar_chain (candl_program_p, 
+						       CandlStatement*, 
+						       int, int);
+int			candl_dependence_var_is_ref (CandlStatement*, int);
+int			candl_dependence_check_domain_is_included 
+				(CandlStatement*, CandlStatement*, int);
+int			candl_dependence_privatize_scalars (candl_program_p);
+
 
 # if defined(__cplusplus)
   }

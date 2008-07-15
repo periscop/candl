@@ -106,6 +106,7 @@ CandlMatrix     * candl_matrix_dependence(CandlMatrix  *, CandlMatrix  *,
 					  int, int, int, int, int);
 CandlMatrix     * candl_matrix_violation(CandlMatrix  *, CandlMatrix  *,
                                          CandlMatrix  *, int, int);
+int		candl_matrix_check_point (CandlMatrix* , CandlMatrix* );
 
 # if defined(__cplusplus)
   }

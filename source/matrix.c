@@ -535,3 +535,34 @@ int dimension, nb_par ;
   CANDL_clear(temp) ;
   return system ;
 }
+
+
+
+
+/**
+ * candl_matrix_check_point function:
+ * This function checks if there is an integral point in the set of
+ * constraints, provided a given domain (possibly NULL).
+ *
+ */
+int
+candl_matrix_check_point (CandlMatrix* domain,
+			  CandlMatrix* context)
+{
+  PipOptions* options;
+  PipQuast* solution;
+  int ret = 0;
+  options = pip_options_init ();
+  options->Simplify = 1;
+  options->Urs_parms = -1;
+  options->Urs_unknowns = -1;
+  solution = pip_solve (domain, context, -1, options);
+
+  if ((solution != NULL) &&
+      ((solution->list != NULL) || (solution->condition != NULL)))
+    ret = 1;
+  pip_options_free (options);
+  pip_quast_free (solution);
+
+  return ret;
+}

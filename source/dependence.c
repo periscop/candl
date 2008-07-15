@@ -587,7 +587,7 @@ candl_dependence_p candl_dependence_between(CandlStatement* source,
     }
 
   /* Flow and output-dependences analysis. */
-  for (j=0;j<source->written->NbRows;j++)
+  for (j = 0; j < source->written->NbRows; j++)
     if (CANDL_notzero_p(source->written->p[j][0]))
       {
 	/* Flow-dependences analysis. */
@@ -648,95 +648,104 @@ candl_dependence_p candl_dependence_between(CandlStatement* source,
 
 
 
+
+
 /**
- * Check if there is an integral point in the set of constraints.
- *
+ * candl_dependence function:
+ * this function builds the dependence graph of a program (program)
+ * according to some user options (options).
+ * - 18/09/2003: first version.
  */
-//static
-int
-candl_dependence_check_point (CandlMatrix* domain,
-			      CandlMatrix* context)
+candl_dependence_p candl_dependence(candl_program_p program,
+				    CandlOptions* options)
 {
-  PipOptions* options;
-  PipQuast* solution;
-  int ret = 0;
-  options = pip_options_init ();
-  options->Simplify = 1;
-  options->Urs_parms = -1;
-  options->Urs_unknowns = -1;
-  solution = pip_solve (domain, context, -1, options);
+  int i, j;
+  candl_dependence_p dependence = NULL;
+  candl_dependence_p new = NULL;
+  candl_dependence_p now;
+  CandlStatement  ** statement;
+  CandlMatrix * context;
 
-  if ((solution != NULL) &&
-      ((solution->list != NULL) || (solution->condition != NULL)))
-    ret = 1;
-  pip_options_free (options);
-  pip_quast_free (solution);
+  statement = program->statement;
+  context = program->context;
 
-  return ret;
+  if (options->scalar_privatization)
+    candl_dependence_privatize_scalars (program);
+
+  for (i = 0; i < program->nb_statements; i++)
+    { /* We add self dependence. */
+      /* S->S */
+      new = candl_dependence_between(statement[i], statement[i],
+				     context, options);
+      candl_dependence_add(&dependence, &now, new);
+
+      for (j = i + 1; j < program->nb_statements; j++)
+	{ /* And dependences with other statements. */
+	  /* S1->S2 */
+	  new = candl_dependence_between(statement[i], statement[j],
+					 context, options);
+	  candl_dependence_add(&dependence, &now, new);
+
+	  /* S2->S1 */
+	  new = candl_dependence_between(statement[j], statement[i],
+					 context, options);
+	  candl_dependence_add(&dependence, &now, new);
+	}
+    }
+
+  return dependence;
+}
+
+
+/******************************************************************************
+ *                          Scalar analysis functions                         *
+ ******************************************************************************/
+
+/**
+ * candl_dependence_var_is_scalar function:
+ * This function returns true if the variable indexed by 'var_index'
+ * is a scalar in the whole program.
+ * This function holds only if scalar privatization has not been yet
+ * performed.
+ */
+static
+int
+candl_dependence_var_is_scalar (candl_program_p program, int var_index)
+{
+  CandlMatrix* m;
+  int i, j, k, cpt;
+
+  for (i = 0; i < program->nb_statements; ++i)
+    for (m = program->statement[i]->read, cpt = 0; cpt < 2; ++cpt,
+	   m = program->statement[i]->written)
+      for (j = 0; j < m->NbRows; ++j)
+	if (CANDL_get_si(m->p[j][0]) == var_index)
+	  for (k = 1; k < m->NbColumns; ++k)
+	    if (CANDL_get_si(m->p[j][k]) != 0)
+	      return 0;
+  return 1;
 }
 
 
 /**
- * Extract the array index of scalar variables represented in the
- * access matrix.
+ *
  *
  */
 static
 void
-candl_dependence_extract_scalar_variables (CandlMatrix* m,
-					   Entier** scalars)
+candl_dependence_rename_variable(CandlStatement** stmts, int var_index,
+				 int new_var_index)
 {
-  int i, j, k;
-  Entier val;
-  Entier mone;
-  CANDL_init(val);
-  CANDL_init(mone);
-  CANDL_set_si(mone, -1);
+  int i, j, cpt;
+  CandlMatrix* m;
 
-  // Collect in matrix.
-  for (j = 0; j < m->NbRows; ++j)
-    {
-      CANDL_assign(val, m->p[j][0]);
-      // Check if it is a scalar.
-      for (k = 1; k < m->NbColumns && CANDL_zero_p(m->p[j][k]); ++k)
-	;
-      // No. Remove it in case it was previously recognized as a
-      // scalar (for ex. a[0]).
-      if (k != m->NbColumns)
-	{
- 	  for (k = 0; ! CANDL_eq((*scalars)[k], mone)
-		 && ! CANDL_eq((*scalars)[k], val); ++k)
-	   ;
-	  if (! CANDL_eq((*scalars)[k], mone))
-	    for (; ! CANDL_eq((*scalars)[k], mone); ++k)
-	      CANDL_assign((*scalars)[k], (*scalars)[k + 1]);
-	  continue;
-	}
-      // Yes. Add it to the scalar list, if not already there.
-      for (k = 0; ! CANDL_eq((*scalars)[k], mone)
-	     && ! CANDL_eq((*scalars)[k], val); ++k)
-	;
-      if (CANDL_eq((*scalars)[k], mone))
-	{
-	  // Bufferization.
-	  if (k && (k % CANDL_ARRAY_BUFF_SIZE == 0))
-	    {
-	      *scalars = (Entier*) realloc
-		(*scalars, (k + CANDL_ARRAY_BUFF_SIZE) * sizeof(Entier));
-	      for (i = 0; i < CANDL_ARRAY_BUFF_SIZE; ++i)
-		{
-		  CANDL_init((*scalars)[k + i]);
-		  CANDL_set_si((*scalars)[k + i], -1);
-		}
-	    }
-	  // Backup the scalar index.
-	  CANDL_assign((*scalars)[k], val);
-	}
-    }
-  // Be clean.
-  CANDL_clear(val);
-  CANDL_clear(mone);
+  for (i = 0; stmts && stmts[i]; ++i)
+    for (m = stmts[i]->read, cpt = 0; cpt < 2; ++cpt, m = stmts[i]->written)
+      for (j = 0; j < m->NbRows; ++j)
+	if (CANDL_get_si(m->p[j][0]) == var_index)
+	  CANDL_set_si(m->p[j][0], new_var_index);
 }
+
 
 
 /**
@@ -748,7 +757,7 @@ candl_dependence_extract_scalar_variables (CandlMatrix* m,
 static
 void
 candl_dependence_expand_scalar (CandlStatement** sl,
-				Entier scalar)
+				int scalar_idx)
 {
   CandlMatrix* m;
   int i, l, n, j;
@@ -758,13 +767,13 @@ candl_dependence_expand_scalar (CandlStatement** sl,
     {
       // Check if the scalar is referenced in the 'read' access function.
       for (j = 0; j < sl[i]->read->NbRows &&
-	     ! CANDL_eq(sl[i]->read->p[j][0], scalar); ++j)
+	     CANDL_get_si(sl[i]->read->p[j][0]) != scalar_idx; ++j)
 	;
       // It is.
       if (j < sl[i]->read->NbRows)
 	{
 	  // Add a row to the 'read' matrix, just after the reference
-	  // to 'scalar'.
+	  // to 'scalar_idx'.
 	  m = candl_matrix_malloc (sl[i]->read->NbRows +1,
 				   sl[i]->read->NbColumns);
 	  for (l = 0; l <= j; ++l)
@@ -781,7 +790,7 @@ candl_dependence_expand_scalar (CandlStatement** sl,
 
       // Same for 'written' access function.
       for (j = 0; j < sl[i]->written->NbRows &&
-	     ! CANDL_eq(sl[i]->written->p[j][0], scalar);++j)
+	     CANDL_get_si(sl[i]->written->p[j][0]) != scalar_idx;++j)
 	;
       if (j < sl[i]->written->NbRows)
 	{
@@ -803,286 +812,327 @@ candl_dependence_expand_scalar (CandlStatement** sl,
 
 
 /**
- * Perform a scalar privatization with "array expansion". If a scalar
- * variable can be privatized, then the according array expansion is
- * performed onto this variable.
- *
- * For example:
- * for (i = 0; i < n; ++i)
- *  {
- *     w = a[i];
- *     for (j = 0; j < n; ++j)
- *        w += a[j];
- *     a[i] = w;
- *  }
- *
- * Becomes, in the array access function definitions:
- * for (i = 0; i < n; ++i)
- *  {
- *     w[i] = a[i];
- *     for (j = 0; j < n; ++j)
- *        w[i] += a[j];
- *     a[i] = w[i];
- *  }
- *
+ * candl_dependence_use_def_graph function:
+ * This function returns a def-use chain as a feshly allocated array
+ * of pointer on statements, of all statements reading or writing the
+ * variable 'var_index', dominated by the 'level' common loops of 'dom'.
+ * Output is a NULL-terminated array.
  */
-static
-void
-candl_dependence_privatize_scalar (Entier scalar,
-				   CandlStatement** tsl,
-				   CandlStatement** sl,
-				   int sidx,
-				   int depth)
+CandlStatement**
+candl_dependence_refvar_chain (candl_program_p program, CandlStatement* dom,
+				int var_index, int level)
 {
+  /* No or empty program -> no chain! */
+  if (program == NULL || program->nb_statements == 0)
+    return NULL;
+
+  int buffer_size = 64;
+  CandlStatement** res =
+    (CandlStatement**) malloc(buffer_size * sizeof(CandlStatement*));
+  int i, j, count = 0;
   CandlStatement* s;
-  int i, j, k;
 
-  // Iterate on all statements of list 'tsl' within the same loop at
-  // depth 'depth'.
-  for (i = sidx; tsl[i] != NULL &&
-	 tsl[i]->index[depth - 1] == tsl[sidx]->index[depth - 1]; ++i)
+  /* If no dominator is provided, assume we start with the first statement. */
+  if (dom == NULL)
+    dom = program->statement[0];
+  for (i = 0; i < program->nb_statements && program->statement[i] != dom; ++i)
+    ;
+  /* The dominator is not in the list of statements. */
+  if (i == program->nb_statements)
+    return NULL;
+  for (; i < program->nb_statements; ++i)
     {
-      s = tsl[i];
-      // Check if the scalar is referenced in the 'read' access function.
-      for (j = 0; j < s->read->NbRows &&
-	     ! CANDL_eq(s->read->p[j][0], scalar); ++j)
+      s = program->statement[i];
+      /* Ensure it has 'level' common loop(s) with the dominator. */
+      for (j = 0; j < level && j < s->depth && s->index[j] == dom->index[j];
+	   ++j)
 	;
-      // It is.
-      if (j < s->read->NbRows)
+      if (j < level && j < s->depth)
+	continue;
+      /* Ensure the variable is referenced. */
+      if (candl_dependence_var_is_ref (s, var_index)
+	  != CANDL_VAR_UNDEF)
 	{
-	  // If the scalar has already been expanded once, move the
-	  // former expansion to the 2nd line of the access
-	  // function. For example, for scalar referenced as '1':
-	  // id  i  j  n  1
-	  //  1  0  1  0  0
-	  //  0  0  0  0  0
-	  // Becomes:
-	  // id  i  j  n  1
-	  //  1  0  0  0  0
-	  //  0  0  1  0  0
-	  if (j + 1 < s->read->NbRows && CANDL_zero_p(s->read->p[j + 1][0]))
-	    for (k = 1; k < s->read->NbColumns; ++k)
-	      {
-		CANDL_assign(s->read->p[j + 1][k], s->read->p[j][k]);
-		CANDL_set_si(s->read->p[j][k], 0);
-	      }
-	  // At the current depth (i), the variable is privatizable:
-	  // id  i  j  n  1
-	  //  1  1  0  0  0
-	  //  0  0  1  0  0
-	  CANDL_set_si(s->read->p[j][depth], 1);
-	}
-      // Same for the 'written' access function.
-      for (j = 0; j < s->written->NbRows &&
-	     ! CANDL_eq(s->written->p[j][0], scalar); ++j)
-	;
-      if (j < s->written->NbRows)
-	{
-	  if (j + 1 < s->written->NbRows &&
-	      CANDL_zero_p(s->written->p[j + 1][0]))
-	    for (k = 1; k < s->written->NbColumns; ++k)
-	      {
-		CANDL_assign(s->written->p[j + 1][k], s->written->p[j][k]);
-		CANDL_set_si(s->written->p[j][k], 0);
-	      }
-	  CANDL_set_si(s->written->p[j][depth], 1);
+	  res[count++] = s;
+	  if (count == buffer_size)
+	    res = realloc(res, (buffer_size*=2) * sizeof(CandlStatement*));
 	}
     }
+
+  res = realloc(res, (count + 1) * sizeof(CandlStatement*));
+  res[count] = NULL;
+
+  return res;
 }
 
 
 /**
- * Perform scalar privatization by array expansion. Check for all
- * scalar variables of the program if it can be privatized. If so,
- * perform array expansion on this scalar variable (update of the
- * array access functions)
+ * candl_dependence_var_is_ref function:
+ * This function checks if a var 'var_index' is referenced (DEF or
+ * USE) by the statement.
+ */
+int
+candl_dependence_var_is_ref (CandlStatement* s, int var_index)
+{
+  int j;
+
+  if (s)
+    {
+      for (j = 0; s->read && j < s->read->NbRows; ++j)
+	if (CANDL_get_si(s->read->p[j][0]) == var_index)
+	  return CANDL_VAR_IS_USED;
+      for (j = 0; s->written && j < s->written->NbRows; ++j)
+	if (CANDL_get_si(s->written->p[j][0]) == var_index)
+	  return CANDL_VAR_IS_DEF;
+    }
+  return CANDL_VAR_UNDEF;
+}
+
+
+/**
+ * candl_dependence_check_domain_is_included function:
+ * This function checks if the 'level'-first iterators of 2 domains
+ * are in such a way that s1 is larger or equal to s2, for the
+ * considered iterator dimensions.
  *
  */
-void
-candl_dependence_perform_scalar_privatization (CandlProgram* p,
-					       CandlOptions* options)
+int
+candl_dependence_check_domain_is_included (CandlStatement* s1,
+					  CandlStatement* s2,
+					  int level)
 {
-  CandlStatement** sl = (CandlStatement**)
-    malloc (CANDL_ARRAY_BUFF_SIZE * sizeof(CandlStatement*));
-  CandlStatement** tsl = (CandlStatement**)
-    malloc (CANDL_ARRAY_BUFF_SIZE * sizeof(CandlStatement*));
-  Entier* scalars = (Entier*) malloc (CANDL_ARRAY_BUFF_SIZE * sizeof(Entier));
-  int i, j, k, l, m;
-  int count;
-  int max = 0;
-  int current;
-  int dimadded;
-  int firstadded = 0;
-  Entier mone;
-  CANDL_init(mone);
-  CANDL_set_si(mone, -1);
+  int max = level;
+  max = s1->depth < max ? s1->depth : max;
+  max = s2->depth < max ? s2->depth : max;
 
-  // Initialize the array of scalar indices.
-  for (i = 0; i < CANDL_ARRAY_BUFF_SIZE; ++i)
+  CandlMatrix* m = candl_matrix_malloc(s2->domain->NbRows + s2->depth - max +1,
+				       s2->domain->NbColumns);
+  int i, j;
+  /* Duplicate s2 to the dest matrix. */
+  for (i = 0; i < s2->domain->NbRows; ++i)
+    for (j = 0; j < s2->domain->NbColumns; ++j)
+      CANDL_assign(m->p[i][j], s2->domain->p[i][j]);
+  /* Make useless dimensions equal to 0. */
+  for (j = 0; j < s2->depth - max; ++j)
+    CANDL_set_si(m->p[i++][j + 1 + max], 0);
+  /* Iterate on all constraints of s1, and check them. */
+  for (i = 0; i < s1->domain->NbRows; ++i)
     {
-      CANDL_init(scalars[i]);
-      CANDL_set_si(scalars[i], -1);
-    }
-  // Inspect and collect all scalar indices.
-  for (i = 0; i < p->nb_statements; ++i)
-    {
-      // Collect in read matrix.
-      candl_dependence_extract_scalar_variables (p->statement[i]->read,
-						 &scalars);
-      // Collect in written matrix.
-      candl_dependence_extract_scalar_variables (p->statement[i]->written,
-						 &scalars);
-    }
-
-  // Check for all scalars if it can be privatized.
-  for (i = 0; ! CANDL_eq(scalars[i], mone); ++i)
-    {
-      for (j = 0; j < CANDL_ARRAY_BUFF_SIZE; ++j)
-	sl[j] = tsl[j] = NULL;
-      count = 0;
-      // Get all statements referring to this scalar.
-      for (j = 0; j < p->nb_statements; ++j)
+      /* Invert the constraint, and add it to m. */
+      for (j = 0; j <= max; ++j)
 	{
-	  for (k = 0; k < p->statement[j]->read->NbRows &&
-		 ! CANDL_eq(p->statement[j]->read->p[k][0], scalars[i]); ++k)
-	   ;
-	  if (k != p->statement[j]->read->NbRows)
-	    sl[count++] = p->statement[j];
-	  else
-	    {
-	      for (k = 0; k < p->statement[j]->written->NbRows &&
-		     ! CANDL_eq(p->statement[j]->written->p[k][0], scalars[i]);
-		   ++k)
-		;
-	      if (k != p->statement[j]->written->NbRows)
-		sl[count++] = p->statement[j];
-	    }
-	  if (count && (count % CANDL_ARRAY_BUFF_SIZE == 0))
-	    {
-	      sl = (CandlStatement**) realloc
-		(sl, (count + CANDL_ARRAY_BUFF_SIZE) * sizeof(CandlStatement*));
-	      for (k = 0; k < CANDL_ARRAY_BUFF_SIZE; ++k)
-		sl[count + k] = NULL;
-	    }
+	  CANDL_assign(m->p[m->NbRows - 1][j], s1->domain->p[i][j]);
+	  CANDL_oppose(m->p[m->NbRows - 1][j], m->p[m->NbRows - 1][j]);
 	}
-      max = 0;
-      firstadded = 0;
-      count = 0;
-      // Get the maximum depth in the listed statements.
-      for (j = 0; sl[j] != NULL; ++j)
-	max = max < sl[j]->depth ? sl[j]->depth : max;
-      // Iterate on depths, from the inner-most to the outer-most.
-      for (j = max; j > 0; --j)
+      for (j = s1->depth + 1; j < s1->domain->NbColumns; ++j)
 	{
-	  dimadded = 0;
-	  // Get all statements with depth >= current.
-	  for (k = 0; sl[k] != NULL; ++k)
-	    if (sl[k]->depth >= j)
-	      tsl[count++] = sl[k];
-	  // Iterate on each first statement of a loop.
-	  for (k = 0; tsl[k] != NULL; )
-	    {
-	      // Check if the statement is executed at least once.
-	      if (! candl_dependence_check_point (tsl[k]->domain, p->context))
-		{
-		  // No point, iteration domain is empty, skip that
-		  // statement.
-		  ++k;
-		  continue;
-		}
-	      // Check if the scalar is written.
-	      for (l = 0; l < tsl[k]->written->NbRows &&
-		     ! CANDL_eq(tsl[k]->written->p[l][0], scalars[i]); ++l)
-		;
-	      // Check if the scalar is read.
-	      for (m = 0; m < tsl[k]->read->NbRows &&
-		     ! CANDL_eq(tsl[k]->read->p[m][0], scalars[i]); ++m)
-		;
-	      // Scalar is written and not read, for it's first use:
-	      // it can be privatized.
-	      if (l != tsl[k]->written->NbRows && m == tsl[k]->read->NbRows)
-		{
-		  // Only perform expansion when needed.
-		  if (! dimadded++)
-		    if (firstadded++)
-		    candl_dependence_expand_scalar (sl, scalars[i]);
-		  // Privatize.
-		  candl_dependence_privatize_scalar
-		    (scalars[i], tsl, sl, k, j);
-		}
-	      // Move to the next non-common loop.
-	      current = tsl[k]->index[j - 1];
-	      for (; tsl[k] != NULL && tsl[k]->index[j - 1] == current; ++k)
-		;
-	    }
+	  CANDL_assign(m->p[m->NbRows - 1][j - s1->depth + s2->depth],
+		       s1->domain->p[i][j]);
+	  CANDL_oppose(m->p[m->NbRows - 1][j - s1->depth + s2->depth],
+		       m->p[m->NbRows - 1][j - s1->depth + s2->depth]);
 	}
-      /// FIXME: add a check to ensure that all instance of the scalar
-      /// was privatized at least once. If not, fallback.
-      for (k = 0; sl[k] != NULL; ++k)
+      /* Make the inequality strict. */
+      CANDL_decrement(m->p[m->NbRows - 1][m->NbColumns - 1],
+		      m->p[m->NbRows - 1][m->NbColumns - 1]);
+      if (candl_matrix_check_point (NULL, m))
 	{
-	  for (j = 0; j < sl[k]->read->NbRows &&
-		 ! CANDL_eq(sl[k]->read->p[j][0], scalars[i]); ++j)
-	   ;
-/* 	  if (CANDL_zero_p(sl[k]->read->p[j][1])) */
-/* 	    { */
-/* 	      candl_dependence_privatize_scalar_fallback (sl, scalars[i]); */
-/* 	      break; */
-/* 	    } */
+	  /* There is a point. dom(s1) - dom(s2) > 0. */
+	  candl_matrix_free(m);
+	  return 0;
 	}
     }
 
-  // Be clean.
-  for (i = 0; ! CANDL_eq(scalars[i], mone); ++i)
-    CANDL_clear(scalars[i]);
-  free (scalars);
-  CANDL_clear(mone);
+  candl_matrix_free(m);
+
+  return 1;
 }
 
 
 /**
- * candl_dependence function :
- * this function builds the dependence graph of a program (program)
- * according to some user options (options).
- * - 18/09/2003: first version.
+ * candl_dependence_privatize_scalars function:
+ * This function checks, for all scalar variables of the program, and
+ * all loop levels, if the scalar can be privatized at that level. If
+ * so, the scalar is expanded in the array access functions to remove
+ * false dependencies. When possible, the scalar is renamed to a
+ * unique variable id.
  */
-candl_dependence_p candl_dependence(CandlProgram* program,
-				    CandlOptions* options)
+int
+candl_dependence_privatize_scalars (candl_program_p program)
 {
-  int i, j;
-  candl_dependence_p dependence = NULL;
-  candl_dependence_p new = NULL;
-  candl_dependence_p now;
-  CandlStatement  ** statement;
-  CandlMatrix * context;
+  int scalars[1024];
+  int checked[1024];
+  int commit_names[1024];
+  CandlStatement** commit_chains[1024];
+  int count_cn = 0;
+  int count_cc = 0;
+  int count_s = 0;
+  int count_c = 0;
+  CandlStatement** stmts;
+  CandlStatement** fullchain = NULL;
+  int i, j, k, l, n;
+  CandlMatrix* m;
+  int idx, max, is_priv, cpt;
+  CandlStatement* curlast;
+  CandlStatement* last;
 
-  statement = program->statement;
-  context = program->context;
-
-  if (options->scalar_privatization)
-    candl_dependence_perform_scalar_privatization (program, options);
-
-  // candl_program_print (stdout, program);
-
-  for (i=0; i<program->nb_statements; i++)
-    { /* We add self dependence. */
-      /* S->S */
-      new = candl_dependence_between(statement[i], statement[i],
-				     context, options);
-      candl_dependence_add(&dependence, &now, new);
-
-      for (j=i+1; j<program->nb_statements; j++)
-	{ /* And dependences with other statements. */
-	  /* S1->S2 */
-	  new = candl_dependence_between(statement[i], statement[j],
-					 context, options);
-	  candl_dependence_add(&dependence, &now, new);
-
-	  /* S2->S1 */
-	  new = candl_dependence_between(statement[j], statement[i],
-					 context, options);
-	  candl_dependence_add(&dependence, &now, new);
+  fprintf (stderr, "[Candl] Info: Perform scalar privatization...\n");
+  /* Detect all scalar variables. */
+  for (i = 0; i < program->nb_statements; ++i)
+    for (m = program->statement[i]->read, cpt = 0; cpt < 2; ++cpt,
+	   m = program->statement[i]->written)
+      for (j = 0; j < m->NbRows; ++j)
+	{
+	  idx = CANDL_get_si(m->p[j][0]);
+	  if (idx != 0)
+	    {
+	      for (k = 0; k < count_s && scalars[k] != idx; ++k)
+		;
+	      if (k == count_s)
+		{
+		  for (k = 0; k < count_c && checked[k] != idx; ++k)
+		    ;
+		  if (k == count_c)
+		    if (candl_dependence_var_is_scalar(program, idx))
+		      scalars[count_s++] = idx;
+		}
+	    }
 	}
+  /* For each of those, detect (at any level) if it is privatizable. */
+  for (i = 0; i < count_s; ++i)
+    {
+      idx = scalars[i];
+      /* Go to the first statement referencing the scalar. */
+      for (j = 0; j < program->nb_statements; ++j)
+	if (candl_dependence_var_is_ref (program->statement[j], scalars[i])
+	    != CANDL_VAR_UNDEF)
+	  break;
+      if (j < program->nb_statements)
+	{
+	  /* Take all statements referencing the scalar. */
+	  fullchain = candl_dependence_refvar_chain (program,
+						program->statement[j],
+						scalars[i], 0);
+	  /* Compute the maximum loop depth of the chain. */
+	  for (k = 0, max = 0; fullchain[k]; ++k)
+	    max = max < fullchain[k]->depth ? fullchain[k]->depth : max;
+	  last = fullchain[k - 1];
+	  /* Initialize the offset. */
+	  int offset = 0;
+	  int was_priv = 0;
+	  /* Iterate on all possible depth for privatization. */
+	  for (k = 1; k < max; ++k)
+	    {
+	      CandlStatement* s = fullchain[0];
+	      if (was_priv)
+		{
+		  ++offset;
+		  was_priv = 0;
+		}
+	      do
+		{
+		  /* Take all statements dominated by s referencing
+		     the current scalar variable. */
+		  stmts = candl_dependence_refvar_chain (program, s,
+							 scalars[i], k);
+		  int c = 0;
+		  is_priv = 1;
+		  /* Check for privatization, while the entry of the
+		     chain is a DEF. */
+		  while (stmts[c] &&
+			 candl_dependence_var_is_ref (stmts[c], scalars[i])
+		      == CANDL_VAR_IS_DEF)
+		    {
+		      /* From the current DEF node, ensure the rest of
+			 the chain covers not more than the
+			 iteration domain of the DEF. */
+		      for (l = c + 1; stmts[l - 1] && stmts[l]; ++l)
+			/* FIXME: we should deal with
+			   def_1->use->def_2->use chains where
+			   dom(def_2) > dom(def_1). */
+			if (! candl_dependence_check_domain_is_included
+			    (stmts[c], stmts[l], k))
+			    {
+			      /* dom(use) - dom(def) > 0. Check if there
+				 is another DEF to test at the entry
+				 of the block. */
+			      if (stmts[c + 1] && candl_dependence_var_is_ref
+				  (stmts[c + 1], scalars[i])
+				  != CANDL_VAR_IS_DEF)
+				/* No. The variable is not privatizable. */
+				is_priv = 0;
+			      break;
+			    }
+		      if (! is_priv || ! stmts[l])
+			break;
+		      /* The chain dominated by stmts[c] is not
+			 privatizable. Go for the next DEF at the
+			 beginning of the block, if any. */
+		      ++c;
+		    }
+		  if (is_priv)
+		    {
+		      /* Perform the privatization. */
+		      fprintf
+			(stderr,
+			 "[Candl] Info: The variable %d can be privatized\n",
+			 scalars[i]);
+		      /* Traverse all statements in the chain. */
+		      for (l = c; stmts[l]; ++l)
+			{
+			  /* It's not the first expansion of the
+			     scalar, we need to increate its dimension
+			     all along the program. */
+			  if (offset && !was_priv)
+			    candl_dependence_expand_scalar (fullchain,
+							    scalars[i]);
+			  /* Perform scalar expansion in the array
+			     access functions. */
+			  for (cpt = 0, m = stmts[l]->read; cpt < 2;
+			       ++cpt, m = stmts[l]->written)
+			    for (n = 0; n < m->NbRows; ++n)
+			      if (CANDL_get_si(m->p[n][0]) == scalars[i])
+				CANDL_set_si(m->p[n + offset][k], 1);
+			  was_priv = 1;
+			}
+		      /* Memorize the list of statements for variable
+			 renaming. */
+		      commit_chains[count_cc++] = stmts;
+		      commit_names[count_cn++] = scalars[i];
+		    }
+		  /* Go to the next block, if any. */
+		  for (l = 0; stmts[l]; ++l)
+		    ;
+		  curlast = stmts[l - 1];
+		  if (curlast != last)
+		    for (l = 0; fullchain[l]; ++l)
+		      if (fullchain[l] == curlast)
+			s = fullchain[l + 1];
+		  /* Variable was not privatized, free the current chain. */
+		  if (! is_priv)
+		    free (stmts);
+		}
+	      while (curlast != last);
+	    }
+	}
+      free (fullchain);
     }
 
-  return dependence;
+  /* Commit name change in the program. */
+  int next_var_name = 0;
+  if (count_cc)
+    /* Compute the next free array index. */
+    for (i = 0; i < program->nb_statements; ++i)
+      for (m = program->statement[i]->read, cpt = 0; cpt < 2; ++cpt,
+	     m = program->statement[i]->written)
+	for (j = 0; j < m->NbRows; ++j)
+	  if (CANDL_get_si(m->p[j][0]) >= next_var_name)
+	    next_var_name = CANDL_get_si(m->p[j][0]) + 1;
+
+  /* Free the memorized chains. */
+  for (i = 0; i < count_cc; ++i)
+    free(commit_chains[i]);
+
+  fprintf (stderr, "[Candl] Info: Scalar privatization finished\n");
+
+  return 0;
 }
