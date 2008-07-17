@@ -59,8 +59,11 @@ struct candloptions
   int fullcheck; /**< 1 to compute all dependence violations. */
   int depgraph;  /**< 1 to print the dependence graph. */
   int violgraph; /**< 1 to print the violation graph. */
+  int scalar_renaming; /**< 1 to enable scalar renaming. */
   int scalar_privatization; /**< 1 to enable scalar privatization. */
+  int scalar_expansion; /**< 1 to enable scalar privatization. */
   int readscop; /**< 1 to enable reading from a .scop formatted file. */
+  int verbose; /**< 1 to enable verbose output. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */
   int structure; /**< 1 to print internal dependence structure. */

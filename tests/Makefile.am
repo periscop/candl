@@ -65,7 +65,6 @@ TEST_FILES_STRUCT		= $(TEST_FILES:.scop=.c.struct)
 TEST_FILES_OPT			= $(TEST_FILES:.scop=.opt.scop)
 
 TEST_FILES_CLEAN_CANDL		= $(TEST_FILES:.scop=.candltest)
-TEST_FILES_CLEAN_SCOP		= $(TEST_FILES:.scop=.scoptest)
 TEST_FILES_CLEAN_OPTSCOP	= $(TEST_FILES:.scop=.optscoptest)
 TEST_FILES_CLEAN_STRUCT		= $(TEST_FILES:.scop=.structest)
 
@@ -73,7 +72,6 @@ BASE_TEST_FILES			= $(TEST_FILES:.scop=)
 
 CLEANFILES			=		\
 	$(TEST_FILES_CLEAN_CANDL)		\
-	$(TEST_FILES_CLEAN_SCOP)		\
 	$(TEST_FILES_CLEAN_OPTSCOP)		\
 	$(TEST_FILES_CLEAN_STRUCT)
 

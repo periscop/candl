@@ -108,8 +108,11 @@ CandlOptions * candl_options_malloc(void)
   options->fullcheck = 0; /* Don't compute all violations.*/
   options->depgraph  = 0; /* Don't print the dependence graph.*/
   options->violgraph = 0; /* Don' compute the violation graph.*/
+  options->scalar_renaming = 0; /* Don't enable scalar renaming. */
   options->scalar_privatization = 0; /* Don't enable scalar privatization. */
+  options->scalar_expansion = 0; /* Don't enable scalar expansion. */
   options->readscop = 0; /* Don't read a .scop format for the input. */
+  options->verbose = 0; /* Don't be verbose. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
   options->structure = 0; /* Don't print internal dependence structure. */
@@ -146,7 +149,11 @@ void candl_options_help()
   "                       (default setting: 0 but 1 if no transformation).\n"
   "  -violgraph <boolean> Ask to print the violation graph (1) or not (0)\n"
   "                       (default setting: 1 but 0 if no transformation).\n"
-  "  -scalpriv <boolean> Ask to enable scalar privatization (1) or not (0)\n"
+  "  -scalren   <boolean> Ask to enable scalar renaming (1) or not (0)\n"
+  "                       (default setting: 0).\n"
+  "  -scalpriv  <boolean> Ask to enable scalar privatization (1) or not (0)\n"
+  "                       (default setting: 0).\n"
+  "  -scalexp   <boolean> Ask to enable scalar expansion (1) or not (0)\n"
   "                       (default setting: 0).\n");
   printf(
   "  -view                Ask to display the graphs (1) or not (0)\n"
@@ -159,6 +166,7 @@ void candl_options_help()
   "  -o <output>          Name of the output file; 'stdout' is a special\n"
   "                       value: when used, output is standard output\n"
   "                       (default setting: stdout).\n"
+  "  -verbose             Display a verbose output.\n"
   "  -v, --version        Display the version information.\n"
   "  -h, --help           Display this information.\n\n"
   "The special value 'stdin' for 'file' makes Candl to read data on\n"
@@ -281,11 +289,20 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
 	if (!strcmp(argv[i], "-violgraph"))
 	  candl_options_set(&(*options)->violgraph, argc, argv, &i);
 	else
+	if (!strcmp(argv[i], "-scalren"))
+	  candl_options_set(&(*options)->scalar_renaming, argc, argv, &i);
+	else
 	if (!strcmp(argv[i], "-scalpriv"))
 	  candl_options_set(&(*options)->scalar_privatization, argc, argv, &i);
 	else
+	if (!strcmp(argv[i], "-scalexp"))
+	  candl_options_set(&(*options)->scalar_expansion, argc, argv, &i);
+	else
 	if (!strcmp(argv[i], "-view"))
 	  (*options)->view = 1;
+	else
+	if (!strcmp(argv[i], "-verbose"))
+	  (*options)->verbose = 1;
 	else
 	if (!strcmp(argv[i], "-scop"))
 	  (*options)->readscop = 1;

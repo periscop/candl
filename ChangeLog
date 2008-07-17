@@ -1,14 +1,35 @@
+2008-07-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	This patch finalizes the scalar analysis pass. The following
+	operations are available: scalar privatization, scalar expansion,
+	scalar renaming, and test for privatizability.
+
+	* include/candl/dependence.h,
+	* source/dependence.c: Finalize scalar analysis. Add scalar
+	expansion and scalar renaming. Refactor scalar privatization. Add
+	dependence pruning via privatization.
+
+	* include/candl/program.h,
+	* source/program.c: Add and manage a field dedicated to store the
+	list of privatizable variables.
+
+	* include/candl/options.h,
+	* source/options.c: Add options -scalexp, -scalpriv, -scalren,
+	-verbose.
+
+	* tests/Makefile.am,
+	* tests/checker.sh: Remove useless re-test of .scop.
+
 2008-07-15  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch re-implements scalar privatization via scalar expansion
 	in the array access function. Code is conservative in very few
 	cases, and yet robust.
-	
+
 	* include/candl/matrix.h,
 	* source/matrix.c: Move and rename candl_dependence_check_point here.
-	
+
 	* include/candl/dependence.h,
-	* source/dependence.c: Redesign scalar privatization. 
-	
+	* source/dependence.c: Redesign scalar privatization.
+
 2008-07-14  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* include/candl/dependence.h,

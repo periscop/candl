@@ -41,10 +41,11 @@
 # include <candl/statement.h>
 # include <candl/matrix.h>
 
-# define CANDL_ARRAY_BUFF_SIZE	2048
-# define CANDL_VAR_UNDEF	0
-# define CANDL_VAR_IS_DEF	1
-# define CANDL_VAR_IS_USED	2
+# define CANDL_ARRAY_BUFF_SIZE		2048
+# define CANDL_VAR_UNDEF		1
+# define CANDL_VAR_IS_DEF		2
+# define CANDL_VAR_IS_USED		3
+# define CANDL_VAR_IS_DEF_USED		4
 
 
 # if defined(__cplusplus)
@@ -79,10 +80,8 @@ struct candldependence
   int ref_target;                /**< Position of target reference. */
   CandlMatrix * domain;          /**< Dependence polyhedron. */
 
-  int solved;	/** LetSee <boolean for dependence satisfaction>        **/
-  int id;	/** LetSee <uid of the dependence (computed in LetSee)> **/
-  void* tag;	/** LetSee <tag to add extra info to a dependence>      **/
-
+  void* usr;			 /**< User field, for library users
+				    convenience. */
   struct candldependence * next; /**< Pointer to next dependence */
 };
 typedef struct candldependence CandlDependence;
@@ -109,10 +108,10 @@ void			candl_dependence_free(candl_dependence_p);
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
-int			candl_dependence_gcd_test(CandlStatement*, 
+int			candl_dependence_gcd_test(CandlStatement*,
 						  CandlStatement*,
 						  CandlMatrix*, int);
-int			candl_dependence_check(CandlProgram *, 
+int			candl_dependence_check(CandlProgram *,
 					       candl_dependence_p,
 					       CandlOptions *);
 candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
@@ -121,13 +120,36 @@ candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
 /******************************************************************************
  *                          Scalar analysis functions                         *
  ******************************************************************************/
-CandlStatement**	candl_dependence_refvar_chain (candl_program_p, 
-						       CandlStatement*, 
-						       int, int);
-int			candl_dependence_var_is_ref (CandlStatement*, int);
-int			candl_dependence_check_domain_is_included 
-				(CandlStatement*, CandlStatement*, int);
-int			candl_dependence_privatize_scalars (candl_program_p);
+CandlStatement**
+candl_dependence_refvar_chain(candl_program_p, CandlStatement*, int, int);
+
+int
+candl_dependence_var_is_ref(CandlStatement*, int);
+
+int
+candl_dependence_check_domain_is_included(CandlStatement*, CandlStatement*,
+					  CandlMatrix*, int);
+
+int
+candl_dependence_scalar_is_privatizable_at(candl_program_p, int, int);
+
+int
+candl_dependence_is_loop_carried (candl_program_p, CandlDependence*, int);
+
+void
+candl_dependence_prune_scalar_waw (candl_program_p, CandlOptions*,
+				   CandlDependence**);
+
+void
+candl_dependence_prune_with_privatization (candl_program_p, CandlOptions*,
+					   CandlDependence**);
+
+int
+candl_dependence_scalar_renaming(candl_program_p, CandlOptions*,
+				 CandlDependence**);
+
+int
+candl_dependence_analyze_scalars(candl_program_p, CandlOptions*);
 
 
 # if defined(__cplusplus)

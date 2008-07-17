@@ -68,6 +68,7 @@ struct candl_program
                                       *   function per statement). If NULL:
                                       *   no tranformation candidate.
                                       */
+  int* scalars_privatizable;
 };
 typedef struct candl_program CandlProgram;
 typedef struct candl_program candl_program_t;

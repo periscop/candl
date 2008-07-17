@@ -34,7 +34,7 @@
 
 output=0
 TEST_FILES="$2";
-echo "[CHECK:] $1";
+echo "[CHECK:] ** $1 **";
 for i in $TEST_FILES; do
     outtemp=0
     echo "[TEST:] Dependence analyzer test:== $i.candl ==";
@@ -59,19 +59,16 @@ for i in $TEST_FILES; do
     fi
     rm -f /tmp/clanout
     echo "[TEST:] Dependence analyzer test:== $i.scop ==";
-    $top_builddir/source/candl -scop $i.scop > $i.scoptest 
     $top_builddir/source/candl -scop -structure $i.scop > $i.structest 
     $top_builddir/source/candl -scop -structure $i.opt.scop > $i.optscoptest 
-    z=`diff $i.scoptest $i.dep`
     y=`diff $i.structest $i.struct`
     x=`diff $i.optscoptest $i.struct`
-    if ! [ -z "$z" ] || ! [ -z "$y" ] || ! [ -z "$x" ]; then
+    if ! [ -z "$y" ] || ! [ -z "$x" ]; then
 	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
 	outtemp=1
 	output=1
     else
 	echo "[PASS:] Dependence analyzer: OK";
-	rm -f $i.scoptest
 	rm -f $i.structest
 	rm -f $i.optscoptest
     fi
@@ -79,6 +76,6 @@ done
 if [ $output = "1" ]; then
     echo -e "\033[31m[FAIL:] $1\033[0m";
 else
-    echo "[PASS:] $1";
+    echo "[PASS:] ** $1 **";
 fi
 exit $output

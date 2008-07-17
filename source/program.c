@@ -170,6 +170,7 @@ candl_program_p candl_program_malloc()
   program->nb_statements  = 0;
   program->statement      = NULL;
   program->transformation = NULL;
+  program->scalars_privatizable = NULL;
 
   return program;
 }
@@ -199,6 +200,9 @@ void candl_program_free(candl_program_p program)
 	candl_matrix_free(program->transformation[i]);
       free(program->transformation);
     }
+
+  if (program->scalars_privatizable != NULL)
+    free(program->scalars_privatizable);
 
   free(program);
 }
