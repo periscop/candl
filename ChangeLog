@@ -1,4 +1,20 @@
 2008-07-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/dependence.c: Fix a typo in comments.
+
+	* tests/matmul.scalstruct,
+	* tests/ax-do.scalstruct,
+	* tests/swim.scalstruct,
+	* tests/gemver.scalstruct: New. Add scalar analysis test reference
+	files.
+	
+	* tests/checker.sh,
+	* tests/Makefile.am: Update accordingly.
+
+	* configure.in: Bump to candl-0.3.0
+	* autoconf/candl.m4: Minor fixes.
+	
+2008-07-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch finalizes the scalar analysis pass. The following
 	operations are available: scalar privatization, scalar expansion,
 	scalar renaming, and test for privatizability.

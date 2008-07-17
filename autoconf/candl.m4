@@ -20,7 +20,7 @@ dnl Check for piplib existence.
   AS_IF([test "x$with_piplib" != xno],
 	[AC_CHECK_LIB([piplib$BITS], [pip_solve],
 	 [LIBS="-lpiplib$BITS $LIBS";
-	  AC_DEFINE([HAVE_LIBPIPLIB], [1], [Define if you have libpiplib$BITS])
+	 AC_DEFINE([HAVE_LIBPIPLIB], [1], [Define if you have libpiplib$BITS])
          ],
          [if test "x$with_piplib" != xcheck; then
            AC_MSG_FAILURE([--with-piplib was given, but test for piplib failed])

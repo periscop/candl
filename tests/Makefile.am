@@ -59,20 +59,23 @@ TEST_FILES             	=			\
 	swim.scop
 
 
-TEST_FILES_DEP			= $(TEST_FILES:.scop=.c.dep)
-TEST_FILES_CANDL		= $(TEST_FILES:.scop=.c.candl)
-TEST_FILES_STRUCT		= $(TEST_FILES:.scop=.c.struct)
+TEST_FILES_DEP			= $(TEST_FILES:.scop=.dep)
+TEST_FILES_CANDL		= $(TEST_FILES:.scop=.candl)
+TEST_FILES_STRUCT		= $(TEST_FILES:.scop=.struct)
 TEST_FILES_OPT			= $(TEST_FILES:.scop=.opt.scop)
+TEST_FILES_SCAL			= $(TEST_FILES:.scop=.scalstruct)
 
 TEST_FILES_CLEAN_CANDL		= $(TEST_FILES:.scop=.candltest)
 TEST_FILES_CLEAN_OPTSCOP	= $(TEST_FILES:.scop=.optscoptest)
 TEST_FILES_CLEAN_STRUCT		= $(TEST_FILES:.scop=.structest)
+TEST_FILES_CLEAN_SCAL		= $(TEST_FILES:.scop=.scaltest)
 
 BASE_TEST_FILES			= $(TEST_FILES:.scop=)
 
 CLEANFILES			=		\
 	$(TEST_FILES_CLEAN_CANDL)		\
 	$(TEST_FILES_CLEAN_OPTSCOP)		\
+	$(TEST_FILES_CLEAN_SCAL)		\
 	$(TEST_FILES_CLEAN_STRUCT)
 
 
@@ -82,6 +85,7 @@ EXTRA_DIST	+=				\
 	$(TEST_FILES_CANDL)			\
 	$(TEST_FILES_STRUCT)			\
 	$(TEST_FILES_OPT)			\
+	$(TEST_FILES_SCAL)			\
 	$(check_SCRIPTS)
 
 

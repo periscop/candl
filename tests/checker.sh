@@ -72,6 +72,17 @@ for i in $TEST_FILES; do
 	rm -f $i.structest
 	rm -f $i.optscoptest
     fi
+    echo "[TEST:] Scalar analysis test:== $i.scop ==";
+    $top_builddir/source/candl -scop -structure -scalpriv 1 -scalexp 1 -scalren 1 $i.scop > $i.scaltest
+    y=`diff $i.scaltest $i.scalstruct`
+    if ! [ -z "$y" ] || ! [ -z "$x" ]; then
+	echo -e "\033[31m[FAIL:] Scalar analysis: Error in dependence computation\033[0m";
+	outtemp=1
+	output=1
+    else
+	echo "[PASS:] Scalar analysis test: OK";
+	rm -f $i.scaltest
+    fi
 done
 if [ $output = "1" ]; then
     echo -e "\033[31m[FAIL:] $1\033[0m";

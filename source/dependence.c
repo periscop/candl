@@ -1337,10 +1337,9 @@ candl_dependence_is_loop_carried (candl_program_p program,
 
 
 /**
- * candl_dependence_prune_with_privatization function:
- * This function prunes the dependence graph 'deps' by removing
- * loop-carried dependence involving a scalar variable privatizable
- * for that loop.
+ * candl_dependence_prune_with_privatization function: This function
+ * prunes the dependence graph 'deps' by removing loop-carried
+ * dependences involving a scalar variable privatizable for that loop.
  */
 void
 candl_dependence_prune_with_privatization (candl_program_p program,
@@ -1447,10 +1446,7 @@ candl_dependence_scalar_is_privatizable_at (candl_program_p program,
 /**
  * candl_dependence_analyze_scalars function:
  * This function checks, for all scalar variables of the program, and
- * all loop levels, if the scalar can be privatized at that level. If
- * so, the scalar is expanded in the array access functions to remove
- * false dependencies. When possible, the scalar is renamed to a
- * unique variable id.
+ * all loop levels, if the scalar can be privatized at that level. 
  */
 int
 candl_dependence_analyze_scalars(candl_program_p program,
