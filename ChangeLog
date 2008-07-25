@@ -1,3 +1,33 @@
+2008-07-25  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/dependence.c: Fix typo in comments, don't rename a scalar
+	if not needed.
+
+	* source/program.c: Change optional tag for loop indices to
+	<candl><indices>...</indices></candl>.
+
+	* tests/ax-do.dep,
+	* tests/matmul.struct,
+	* tests/swim.opt.scop,
+	* tests/matmul.scalstruct,
+	* tests/swim.dep,
+	* tests/gemver.opt.scop,
+	* tests/ax-do.struct,
+	* tests/gemver.dep,
+	* tests/ax-do.scalstruct,
+	* tests/swim.struct,
+	* tests/matmul.opt.scop,
+	* tests/swim.scalstruct,
+	* tests/matmul.dep,
+	* tests/gemver.struct,
+	* tests/gemver.scalstruct,
+	* tests/ax-do.opt.scop: Update the reference files to Candl 0.3.0.
+
+	* LICENSE: Delete.
+	* COPYING.LESSER: Add GNU Lesser GPL notice.
+
+	* doc/Doxyfile.in: Add missing macro definition.
+
 2008-07-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/dependence.c: Fix a typo in comments.

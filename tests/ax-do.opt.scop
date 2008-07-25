@@ -113,8 +113,10 @@ c[i]=c[i]+a[i][j]*b[j];
 
 <\Comments>
 <candl>
+<indices>
 # Loop labels for statement 1
 0
 # Loop labels for statement 2
 1 2
+</indices>
 </candl>

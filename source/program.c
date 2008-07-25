@@ -307,14 +307,19 @@ candl_program_p candl_program_read(FILE * file)
  */
 #ifdef CANDL_SUPPORTS_CLAN
 static
-int** candl_program_scop_get_opt_indices(FILE* file)
+int** candl_program_scop_get_opt_indices(clan_scop_p scop)
 {
-  char str[CANDL_MAX_STRING];
-  /* Check for the <candl> tag. */
-  while (fgets(str, CANDL_MAX_STRING, file) && strncmp(str, "<candl>", 7))
-    ;
-  if (strncmp(str, "<candl>", 7))
+  /* Get the <candl></candl> tag content. */
+  char* candl_opts = clan_scop_tag_content(scop, "<candl>", "</candl>");
+  if (! candl_opts)
     return NULL;
+  /* Get the <candl><indices></indices></candl> tag content. */
+  char* indices = clan_scop_tag_content_from_string(candl_opts, "<indices>",
+						    "</indices>");
+  free (candl_opts);
+  if (! indices)
+    return NULL;
+
   /* Tag was found. Scan it. */
   int buffer_size = 128;
   /* Assume maximum loop nest depth of 128. */
@@ -324,17 +329,16 @@ int** candl_program_scop_get_opt_indices(FILE* file)
   int i, j;
   int count, idx = 0;
   int line_added = 0;
-  while (fgets(str, CANDL_MAX_STRING, file) && strncmp(str, "</candl>", 8))
+  char* s = indices;
+
+  while (s && *s != '\0')
     {
-      char* s = str;
       for (i = 0; i < 128; ++i)
 	{
-	  while (isspace(*s))
+	  while (*s != '\0' && *s != '\n' && isspace(*s))
 	    ++s;
-	  if (*s && strncmp(s, "#", 1))
+	  if (*s != '\0' && *s != '#' && *s != '\n')
 	    {
-	      if (idx == buffer_size)
-		res = realloc(res, (buffer_size *= 2) * sizeof(int*));
 	      for (count = 0; *s >= '0' && *s <= '9'; ++count)
 		buff[count] = *(s++);
 	      buff[count] = '\0';
@@ -346,20 +350,21 @@ int** candl_program_scop_get_opt_indices(FILE* file)
 	}
       if (line_added)
 	{
+	  if (idx == buffer_size)
+	    res = realloc(res, (buffer_size *= 2) * sizeof(int*));
 	  res[idx] = (int*) malloc(i * sizeof(int));
 	  for (j = 0; j < i; ++j)
 	    res[idx][j] = line[j];
 	  ++idx;
 	  line_added = 0;
 	}
+      while (s && *s != '\0' && *s != '\n')
+	++s;
+      if (s && *s != '\0' && *s == '\n')
+	++s;
     }
   res = realloc(res, idx * sizeof(int*));
-  if (strncmp(str, "</candl>", 8))
-    {
-      fprintf(stderr,
-	      "[CANDL] Error: syntax error in .scop file (missing </candl>)\n");
-      exit(1);
-    }
+  free (indices);
 
   return res;
 }
@@ -383,7 +388,7 @@ candl_program_p candl_program_read_scop(FILE * file)
   /* Read the scop. */
   clan_scop_p scop = clan_scop_read(file, NULL);
   /* Check for the <candl> tag in the options of the .scop file. */
-  int** indices = candl_program_scop_get_opt_indices(file);
+  int** indices = candl_program_scop_get_opt_indices(scop);
   /* Convert the scop. */
   candl_program_p res = candl_program_convert_scop(scop, indices);
 
@@ -464,9 +469,15 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 	  statement->index[j] = indices[i][j];
       else
 	{
+	  //There is a segv here with swim.opt.scop
 	  /* Iterator indices must be computed from the scattering matrix. */
 	  clan_matrix_p m = s->schedule;
-
+	  if (m == NULL)
+	    {
+	      fprintf (stderr, "[Candl] Error: No scheduling matrix and no "
+		       "loop indices specification\n");
+	      exit (1);
+	    }
 	  /* FIXME: Sort the statements in their execution order. */
 	  /* It must be a 2d+1 identity scheduling matrix, and
 	     statement must be sorted in their execution order. */
@@ -497,7 +508,8 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 	    {
 	      fprintf(stderr,
 		      "[Candl] Error: schedule is not identity 2d+1 shaped.\n"
-		      "Consider using the <candl> option tag to declare iterator indices\n");
+		      "Consider using the <indices> option tag to declare "
+		      " iterator indices\n");
 	      exit(1);
 	    }
 

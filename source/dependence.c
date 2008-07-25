@@ -12,28 +12,29 @@
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
  *                                                                            *
- * Copyright (C) 2003 Cedric Bastoul                                          *
+ * Copyright (C) 2003-2008 Cedric Bastoul                                     *
  *                                                                            *
  * This is free software; you can redistribute it and/or modify it under the  *
- * terms of the GNU General Public License as published by the Free Software  *
- * Foundation; either version 2 of the License, or (at your option) any later *
- * version.                                                                   *
+ * terms of the GNU Lesser General Public License as published by the Free    *
+ * Software Foundation; either version 3 of the License, or (at your option)  *
+ * any later version.                                                         *
  *                                                                            *
  * This software is distributed in the hope that it will be useful, but       *
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
  * for more details.                                                          *
  *                                                                            *
- * You should have received a copy of the GNU General Public License along    *
- * with software; if not, write to the Free Software Foundation, Inc.,        *
+ * You should have received a copy of the GNU Lesser General Public License   *
+ * along with software; if not, write to the Free Software Foundation, Inc.,  *
  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
  *                                                                            *
  * CAnDL, the Chunky Dependence Analyzer                                      *
  * Written by Cedric Bastoul, Cedric.Bastoul@inria.fr                         *
  *                                                                            *
  ******************************************************************************/
-/* CAUTION: the english used for comments is probably the worst you ever read,
- *          please feel free to correct and improve it !
+/**
+ * \file dependence.c
+ * \author Cedric Bastoul and Louis-Noel Pouchet
  */
 
 # include <stdlib.h>
@@ -377,8 +378,8 @@ int candl_dependence_gcd_test(CandlStatement* source,
   int gcd;
   int id;
   int value;
-  int null_iter, null_param, null_cst, pos_iter, neg_iter,
-    strict_pred, null_level = 1;
+  int null_iter, null_param, null_cst, pos_iter, neg_iter, strict_pred,
+    null_level = 1;
 
   /* Check that the precedence constraint, if any, is not strict in a
      self-dependence. */
@@ -710,8 +711,6 @@ candl_dependence_p candl_dependence(candl_program_p program,
  * candl_dependence_var_is_scalar function:
  * This function returns true if the variable indexed by 'var_index'
  * is a scalar in the whole program.
- * This function holds only if scalar expansion has not been yet
- * performed.
  */
 static
 int
@@ -740,7 +739,8 @@ candl_dependence_var_is_scalar (candl_program_p program, int var_index)
 
 
 /**
- * Expand the scalar variable of index 'scalar' by adding one
+ * candl_dependence_expand_scalar function:
+ * Expand the variable of index 'scalar_idx' by adding one
  * dimension (x becomes x[0]) to each access matrix refering this
  * variable in the statement list.
  *
@@ -983,6 +983,7 @@ candl_dependence_check_domain_is_included(CandlStatement* s1,
       if (candl_matrix_check_point (m, context))
 	{
 	  /* There is a point. dom(s1) - dom(s2) > 0. */
+	  CANDL_clear(lb);
 	  candl_matrix_free(m);
 	  return 0;
 	}
@@ -1105,7 +1106,8 @@ candl_dependence_prune_scalar_waw (candl_program_p program,
   CandlDependence* pred = NULL;
 
   if (options->verbose)
-    fprintf (stderr, "[Candl] Scalar Analysis: Remove all WAW between the same scalar\n");
+    fprintf (stderr, "[Candl] Scalar Analysis: Remove all WAW between the same"
+	     " scalar\n");
 
   scalars = candl_dependence_extract_scalar_variables (program);
 
@@ -1249,25 +1251,39 @@ candl_dependence_scalar_renaming (candl_program_p program,
 	      (k == defs[j]->label && current[defs[j]->label] == NULL))
 	    parts[k] = j;
 
-      /* Rename scalar variables (may be all references). */
+      /* Check if it is needed to rename the scalar. */
       for (j = 0, tmp = -1; j < program->nb_statements; ++j)
-	if (parts[j] != -1)
+	if (tmp == -1)
 	  {
-	    if (tmp == -1)
+	    if (parts[j] != -1)
 	      tmp = parts[j];
-	    else
-	      if (tmp != parts[j])
-		has_changed = 1;
-	    s = program->statement[j];
-	    for (m = s->read, cpt = 0; cpt < 2; ++cpt, m = s->written)
-	      for (k = 0; k < m->NbRows; ++k)
-		if (CANDL_get_si(m->p[k][0]) == scalars[i])
-		  {
-		    if (options->verbose)
-		      fprintf (stderr, "[Candl] Scalar analysis: Renamed variable %d to %d at statement S%d\n", scalars[i], newvar + parts[j], j);
-		    CANDL_set_si(m->p[k][0], newvar + parts[j]);
-		  }
 	  }
+	else
+	  if (parts[j] != -1 && tmp != parts[j])
+	    break;
+
+      /* Rename scalar variable. */
+      if (j != program->nb_statements)
+	for (j = 0, tmp = -1; j < program->nb_statements; ++j)
+	  if (parts[j] != -1)
+	    {
+	      if (tmp == -1)
+		tmp = parts[j];
+	      else
+		if (tmp != parts[j])
+		  has_changed = 1;
+	      s = program->statement[j];
+	      for (m = s->read, cpt = 0; cpt < 2; ++cpt, m = s->written)
+		for (k = 0; k < m->NbRows; ++k)
+		  if (CANDL_get_si(m->p[k][0]) == scalars[i])
+		    {
+		      if (options->verbose)
+			fprintf (stderr, "[Candl] Scalar analysis: Renamed "
+				 "variable %d to %d at statement S%d\n",
+				 scalars[i], newvar + parts[j], j);
+		      CANDL_set_si(m->p[k][0], newvar + parts[j]);
+		    }
+	    }
     }
 
   /* Redo the full dependence analysis, if needed. */
@@ -1356,7 +1372,8 @@ candl_dependence_prune_with_privatization (candl_program_p program,
 
 
   if (options->verbose)
-    fprintf (stderr, "[Candl] Scalar Analysis: Remove loop-carried dependences on privatizable scalars\n");
+    fprintf (stderr, "[Candl] Scalar Analysis: Remove loop-carried dependences"
+	     " on privatizable scalars\n");
 
   if (program->nb_statements == 0)
     return;
@@ -1446,7 +1463,7 @@ candl_dependence_scalar_is_privatizable_at (candl_program_p program,
 /**
  * candl_dependence_analyze_scalars function:
  * This function checks, for all scalar variables of the program, and
- * all loop levels, if the scalar can be privatized at that level. 
+ * all loop levels, if the scalar can be privatized at that level.
  */
 int
 candl_dependence_analyze_scalars(candl_program_p program,
@@ -1554,7 +1571,9 @@ candl_dependence_analyze_scalars(candl_program_p program,
 		{
 		  /* Perform the privatization / expansion. */
 		  if (options->verbose)
-		    fprintf (stderr, "[Candl] Scalar Analysis: The variable %d can be privatized at loop %d\n", scalars[i], stmts[0]->index[k - 1]);
+		    fprintf (stderr, "[Candl] Scalar Analysis: The variable %d"
+			     " can be privatized at loop %d\n",
+			     scalars[i], stmts[0]->index[k - 1]);
 		  if (options->scalar_expansion)
 		    /* Traverse all statements in the chain. */
 		    for (l = c; stmts[l]; ++l)
