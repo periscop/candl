@@ -1,3 +1,30 @@
+2008-08-07  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	This patch creates a .scop dumper for candl. Dependences are
+	represented between the
+	<candl><dependences>...</dependences></candl> tags. It is
+	activated by providing a .scop file as the input (needing flag
+	-inscop), and by using flag -outscop.
+
+	* include/candl/dependence.h,
+	* source/dependence.c: Create a .scop dumper, where the
+	dependences are added in the optional tag.
+
+	* include/candl/options.h,
+	* source/candl.c,
+	* source/options.c: Create option -outscop. Rename option -scop to
+	-incsop.
+
+	* tests/matmul.depscop,
+	* tests/ax-do.depscop,
+	* tests/gemver.depscop,
+	* tests/swim.depscop: New. Reference test files for .scop dumper.
+	* tests/Makefile.am: Update accordingly.
+	* tests/checker.sh: Perform the .scop dumper checks.
+
+	* include/candl/candl.h.in: Create the macro CANDL_FAIL.
+	* include/candl/program.h,
+	* source/program.c: Use the CANDL_FAIL macro in place of exit(1).
+
 2008-07-25  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/dependence.c: Fix typo in comments, don't rename a scalar
@@ -37,13 +64,13 @@
 	* tests/swim.scalstruct,
 	* tests/gemver.scalstruct: New. Add scalar analysis test reference
 	files.
-	
+
 	* tests/checker.sh,
 	* tests/Makefile.am: Update accordingly.
 
 	* configure.in: Bump to candl-0.3.0
 	* autoconf/candl.m4: Minor fixes.
-	
+
 2008-07-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch finalizes the scalar analysis pass. The following
 	operations are available: scalar privatization, scalar expansion,

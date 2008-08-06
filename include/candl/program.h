@@ -45,7 +45,9 @@
 
 # ifdef CANDL_SUPPORTS_CLAN
 #  include <clan/scop.h>
+#  include <clan/options.h>
 # endif
+
 
 # if defined(__cplusplus)
 extern "C"
@@ -80,7 +82,6 @@ typedef struct candl_program * candl_program_p;
  ******************************************************************************/
 void candl_program_print_structure(FILE *, candl_program_p, int);
 void candl_program_print(FILE *, candl_program_p);
-
 
 /******************************************************************************
  *                         Memory alloc/dealloc function                      *

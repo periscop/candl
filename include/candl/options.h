@@ -63,6 +63,7 @@ struct candloptions
   int scalar_privatization; /**< 1 to enable scalar privatization. */
   int scalar_expansion; /**< 1 to enable scalar privatization. */
   int readscop; /**< 1 to enable reading from a .scop formatted file. */
+  int writescop; /**< 1 to enable writing to a .scop formatted file. */
   int verbose; /**< 1 to enable verbose output. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */

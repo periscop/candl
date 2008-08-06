@@ -15,17 +15,17 @@
  * Copyright (C) 2003-2008 Cedric Bastoul                                     *
  *                                                                            *
  * This is free software; you can redistribute it and/or modify it under the  *
- * terms of the GNU General Public License as published by the Free Software  *
- * Foundation; either version 2 of the License, or (at your option) any later *
- * version.                                                                   *
+ * terms of the GNU Lesser General Public License as published by the Free    *
+ * Software Foundation; either version 3 of the License, or (at your option)  *
+ * any later version.                                                         *
  *                                                                            *
  * This software is distributed in the hope that it will be useful, but       *
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
  * for more details.                                                          *
  *                                                                            *
- * You should have received a copy of the GNU General Public License along    *
- * with software; if not, write to the Free Software Foundation, Inc.,        *
+ * You should have received a copy of the GNU Lesser General Public License   *
+ * along with software; if not, write to the Free Software Foundation, Inc.,  *
  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
  *                                                                            *
  * CAnDL, the Chunky Dependence Analyzer                                      *
@@ -160,10 +160,7 @@ candl_program_p candl_program_malloc()
   /* Memory allocation for the candl_program_t structure. */
   program = (candl_program_p)malloc(sizeof(candl_program_t));
   if (program == NULL)
-    {
-      fprintf(stderr, "[Candl]ERROR: memory overflow.\n");
-      exit(1);
-    }
+    CANDL_FAIL("Error: memory overflow");
 
   /* We set the various fields with default values. */
   program->context        = NULL;
@@ -250,10 +247,7 @@ candl_program_p candl_program_read(FILE * file)
       statement = (CandlStatement**) malloc(nb_statements *
 					    sizeof(CandlStatement*));
       if (statement == NULL)
-	{
-	  fprintf(stderr,  "[Candl]ERROR: memory overflow.\n");
-	  exit(1);
-	}
+	CANDL_FAIL("Error: memory overflow");
 
       for (i = 0; i < nb_statements; i++)
 	statement[i] = candl_statement_read(file, i, nb_parameters);
@@ -283,10 +277,7 @@ candl_program_p candl_program_read(FILE * file)
       transformation = (CandlMatrix **)malloc(nb_functions *
 					      sizeof(CandlMatrix *));
       if (transformation == NULL)
-	{
-	  fprintf(stderr,  "[Candl]ERROR: memory overflow.\n");
-	  exit(1);
-	}
+	CANDL_FAIL("Error: memory overflow");
 
       for (i = 0; i < nb_functions; i++)
 	transformation[i] = candl_matrix_read(file);
@@ -405,6 +396,7 @@ candl_program_p candl_program_read_scop(FILE * file)
 }
 #endif
 
+
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
@@ -452,10 +444,8 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       statement->label = i;
       statement->ref = s;
       if (s->domain->next != NULL)
-	{
-	  fprintf(stderr, "[Candl]Error: union of domains not supported.\n");
-	  exit(1);
-	}
+	CANDL_FAIL("Error: union of domains not supported");
+	  
       statement->domain = (CandlMatrix*) clan_matrix_copy(s->domain->elt);
       /* For the moment, we do not parse the statement to extract its type. */
       statement->type = CANDL_AFFECTATION;
@@ -469,15 +459,12 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 	  statement->index[j] = indices[i][j];
       else
 	{
-	  //There is a segv here with swim.opt.scop
 	  /* Iterator indices must be computed from the scattering matrix. */
 	  clan_matrix_p m = s->schedule;
 	  if (m == NULL)
-	    {
-	      fprintf (stderr, "[Candl] Error: No scheduling matrix and no "
-		       "loop indices specification\n");
-	      exit (1);
-	    }
+	    CANDL_FAIL("Error: No scheduling matrix and no loop "
+		       "indices specification");
+
 	  /* FIXME: Sort the statements in their execution order. */
 	  /* It must be a 2d+1 identity scheduling matrix, and
 	     statement must be sorted in their execution order. */
@@ -505,13 +492,9 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 		  error = 1;
 	      }
 	  if (error)
-	    {
-	      fprintf(stderr,
-		      "[Candl] Error: schedule is not identity 2d+1 shaped.\n"
-		      "Consider using the <indices> option tag to declare "
-		      " iterator indices\n");
-	      exit(1);
-	    }
+	    CANDL_FAIL("Error: schedule is not identity 2d+1 shaped.\n"
+		       "Consider using the <indices> option tag to declare "
+		       " iterator indices");
 
 	  /* Compute the value of the iterator indices. */
 	  for (j = 0; j < statement->depth; ++j)

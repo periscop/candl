@@ -96,6 +96,9 @@ void candl_dependence_print_structure(FILE *, candl_dependence_p, int);
 void candl_dependence_print(FILE *, candl_dependence_p);
 void candl_dependence_pprint(FILE *, candl_dependence_p);
 void candl_dependence_view(candl_dependence_p dependence);
+#ifdef CANDL_SUPPORTS_CLAN
+void candl_program_print_scop(FILE*, FILE*, CandlDependence*);
+#endif
 
 
 /******************************************************************************

@@ -213,6 +213,242 @@ void candl_dependence_view(candl_dependence_p dependence)
 }
 
 
+/**
+ * Returns a string containing the dependence, formatted to fit the
+ * .scop representation.
+ *
+ */
+static
+char*
+candl_program_deps_to_string(CandlDependence* dependence)
+{
+  CandlDependence* tmp = dependence;
+  int refs = 0, reft = 0;
+  int i, j, k;
+  int nb_deps;
+  int buffer_size = 2048;
+  int szbuff;
+  char* buffer = (char*) malloc(buffer_size * sizeof(char));
+  char buff[1024];
+  char* type;
+  char* pbuffer;
+
+  for (tmp = dependence, nb_deps = 0; tmp; tmp = tmp->next, ++nb_deps)
+    ;
+  sprintf(buffer, "# Number of dependences\n%d\n", nb_deps);
+  if (nb_deps)
+    {
+      for (tmp = dependence, nb_deps = 1; tmp; tmp = tmp->next, ++nb_deps)
+	{
+	  /* Compute the type of the dependence, and the array id
+	     accessed. */
+	  switch (tmp->type)
+	    {
+	    case CANDL_UNSET:
+	      type = "UNSET";
+	      break;
+	    case CANDL_RAW:
+	      type = "RAW #(flow)";
+	      refs = CANDL_get_si(tmp->source->written->p[tmp->ref_source][0]);
+	      reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
+	      break;
+	    case CANDL_WAR:
+	      type = "WAR #(anti)";
+	      refs = CANDL_get_si(tmp->source->read->p[tmp->ref_source][0]);
+	      reft = CANDL_get_si(tmp->target->written->p[tmp->ref_target][0]);
+	      break;
+	    case CANDL_WAW:
+	      type = "WAW #(output)";
+	      refs = CANDL_get_si(tmp->source->written->p[tmp->ref_source][0]);
+	      reft = CANDL_get_si(tmp->target->written->p[tmp->ref_target][0]);
+	      break;
+	    case CANDL_RAR:
+	      type = "RAR #(input)";
+	      refs = CANDL_get_si(tmp->source->read->p[tmp->ref_source][0]);
+	      reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
+	      break;
+	    default:
+	      exit(1);
+	      break;
+	    }
+	  /* Quick consistency check. */
+	  if (refs != reft)
+	    CANDL_FAIL("Internal error. refs != reft\n");
+
+	  /* Output dependence information. */
+	  sprintf(buff, "# Description of dependence %d\n"
+		  "# type\n%s\n# From statement id\n%d\n"
+		  "# To statement id\n%d\n# Array id\n%d\n"
+		  "# Dependence domain\n%d %d\n", nb_deps, type,
+		  tmp->source->label, tmp->target->label,
+		  refs, tmp->domain->NbRows, tmp->domain->NbColumns);
+	  strcat(buffer, buff);
+	  /* Output dependence domain. */
+	  pbuffer = buffer + strlen(buffer);
+	  for (i = 0; i < tmp->domain->NbRows; ++i)
+	    {
+	      for (j = 1; j < tmp->domain->NbColumns; ++j)
+		{
+		  sprintf(buff, "%Ld ", CANDL_get_si(tmp->domain->p[i][j]));
+		  szbuff = strlen(buff);
+		  if (szbuff == 2)
+		    *(pbuffer++) = ' ';
+		  for (k = 0; k < szbuff; ++k)
+		    *(pbuffer++) = buff[k];
+		}
+	      *(pbuffer++) = '\n';
+	    }
+	  *(pbuffer++) = '\0';
+	  /* Increase the buffer size if needed. Conservatively assume a
+	     dependence is never larger than 2k. */
+	  szbuff = strlen(buffer);
+	  if (szbuff + 2048 > buffer_size)
+	    {
+	      buffer = (char*) realloc(buffer, (buffer_size *= 2) *
+				       sizeof(char));
+	      if (buffer == NULL)
+		CANDL_FAIL("Error: memory overflow");
+	      buffer[szbuff] = '\0';
+	    }
+	}
+    }
+
+  return buffer;
+}
+
+
+/**
+ * candl_dependence_print_scop function:
+ * This function adds to the .scop file provided as the 'input' the
+ * optional tags to represent the dependences 'dependence' of the
+ * program. Finally, it prints the updated .scop to the file 'output'.
+ *
+ *
+ */
+#ifdef CANDL_SUPPORTS_CLAN
+void candl_dependence_print_scop(FILE* input, FILE* output,
+				 CandlDependence* dependence)
+{
+  char* start;
+  char* stop;
+  char* content;
+  char* olddeps = NULL;
+  char* newdeps;
+  char* newopttags;
+  char* curr;
+  char* tmp;
+  clan_scop_p scop;
+  int size = 0;
+  int size_newdeps;
+  int size_olddeps = 0;
+  int size_optiontags;
+
+  /* Go to the beginning of the file. */
+  rewind(input);
+
+  /* Re-read the options tags. */
+  scop = clan_scop_read(input, NULL);
+  start = stop = scop->optiontags;
+  /* Get the candl tag, if any. */
+  content = clan_scop_tag_content(scop, "<candl>", "</candl>");
+  if (content)
+    {
+      /* Get the dependence tag, if any. */
+      olddeps = clan_scop_tag_content_from_string(content, "<dependences>",
+						  "</dependences>");
+      /* Seek for the correct start/stop characters to insert
+	 dependences. */
+      if (olddeps)
+	{
+	  size = size_olddeps = strlen(olddeps);
+	  while (start && *start && strncmp(start, olddeps, size))
+	    ++start;
+	  stop = start + size;
+	}
+      else
+	{
+	  size = strlen(content);
+	  while (start && *start && strncmp(start, content, size))
+	    ++start;
+	  stop = start;
+	}
+    }
+
+  /* Convert the program dependences to dotscop representation. */
+  newdeps = candl_program_deps_to_string(dependence);
+
+  /* Compute the new size of the full options tags, and allocate a new
+     string. */
+  size_newdeps = newdeps ? strlen(newdeps) : 0;
+  size_optiontags = scop->optiontags ? strlen(scop->optiontags) : 0;
+  if (content == NULL)
+    size = strlen("<candl>") + strlen("</candl>") + strlen("<dependence>")
+      + strlen("</dependence>");
+  else if (olddeps == NULL)
+    size = strlen("<dependence>") + strlen("</dependence>");
+  else
+    size = 0;
+  newopttags = (char*) malloc((size_newdeps + size_optiontags
+			       - size_olddeps + size + 1)
+			      * sizeof(char));
+  if (newopttags == NULL)
+    CANDL_FAIL("Error: memory overflow");
+  curr = newopttags;
+
+  /* Copy the beginning of the options. */
+  for (tmp = scop->optiontags; tmp != start; ++tmp)
+    *(curr++) = *tmp;
+  *curr = '\0';
+  /* Copy the candl tags, if needed. */
+  if (content == NULL)
+    {
+      strcat(newopttags, "<candl>\n");
+      curr += strlen("<candl>\n");
+    }
+  if (olddeps == NULL)
+    {
+      strcat(newopttags, "<dependences>\n");
+      curr += strlen("<dependences>\n");
+    }
+  /* Copy the program dependences. */
+  for (tmp = newdeps; tmp && *tmp; ++tmp)
+      *(curr++) = *tmp;
+  /* Copy the candl tags, if needed. */
+  if (olddeps == NULL)
+    {
+      strcat(newopttags, "</dependences>\n");
+      curr += strlen("</dependences>\n");
+    }
+  if (content == NULL)
+    {
+      strcat(newopttags, "</candl>\n");
+      curr += strlen("</candl>\n");
+    }
+  /* Copy the remainder of the options. */
+  for (tmp = stop; tmp && *tmp; ++tmp)
+      *(curr++) = *tmp;
+  *curr = '\0';
+
+  if (scop->optiontags)
+    free(scop->optiontags);
+  scop->optiontags = newopttags;
+
+  /* Dump the .scop with clan. */
+  clan_options_p clan_options = clan_options_malloc();
+  clan_scop_print_dot_scop(output, scop, clan_options);
+
+  /* Be clean. */
+  clan_options_free(clan_options);
+  if (content)
+    free(content);
+  if (olddeps)
+    free(olddeps);
+  if (newdeps)
+    free(newdeps);
+}
+#endif
+
+
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
@@ -255,10 +491,7 @@ candl_dependence_p candl_dependence_malloc()
   /* Memory allocation for the CandlDependence structure. */
   dependence = (candl_dependence_p) malloc(sizeof(CandlDependence));
   if (dependence == NULL)
-    {
-      fprintf(stderr,  "[Candl]ERROR: memory overflow.\n");
-      exit(1);
-    }
+    CANDL_FAIL(" Error: memory overflow");
 
   /* We set the various fields with default values. */
   dependence->source     = NULL;
@@ -1034,10 +1267,7 @@ candl_dependence_extract_scalar_variables (candl_program_p program)
 			checked[count_c++] = idx;
 		    }
 		  if (count_s == 1024 || count_c == 1024)
-		    {
-		      fprintf(stderr, "[Candl] Error. Buffer size too small\n");
-		      exit (1);
-		    }
+		    CANDL_FAIL("Error: Buffer size too small");
 		}
 	    }
 	}

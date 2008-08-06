@@ -5,7 +5,7 @@
 #    **-------------------------------------------------------------------**
 #    **                            checker.sh                             **
 #    **-------------------------------------------------------------------**/
-# 
+#
 #/*****************************************************************************
 # *   CAnDL : the Chunky Analyser for Dependences in Loops (experimental)     *
 # *****************************************************************************
@@ -37,6 +37,8 @@ TEST_FILES="$2";
 echo "[CHECK:] ** $1 **";
 for i in $TEST_FILES; do
     outtemp=0
+    ##
+    ## Base .candl tests.
     echo "[TEST:] Dependence analyzer test:== $i.candl ==";
     $top_builddir/source/candl $i.candl > $i.candltest 2>/tmp/clanout
     z=`diff $i.candltest $i.dep 2>&1`
@@ -58,22 +60,39 @@ for i in $TEST_FILES; do
 	rm -f $i.candltest
     fi
     rm -f /tmp/clanout
+    ##
+    ## Base .SCoP tests.
     echo "[TEST:] Dependence analyzer test:== $i.scop ==";
-    $top_builddir/source/candl -scop -structure $i.scop > $i.structest 
-    $top_builddir/source/candl -scop -structure $i.opt.scop > $i.optscoptest 
+    $top_builddir/source/candl -inscop -structure $i.scop > $i.structest
     y=`diff $i.structest $i.struct`
-    x=`diff $i.optscoptest $i.struct`
-    if ! [ -z "$y" ] || ! [ -z "$x" ]; then
+    if ! [ -z "$y" ]; then
 	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
 	outtemp=1
 	output=1
     else
 	echo "[PASS:] Dependence analyzer: OK";
 	rm -f $i.structest
-	rm -f $i.optscoptest
     fi
+    ##
+    ## .SCoP with optional tags tests.
+    echo "[TEST:] Dependence analyzer test:== $i.opt.scop ==";
+    $top_builddir/source/candl -inscop -outscop -structure $i.opt.scop > $i.outscop
+    $top_builddir/source/candl -inscop -structure $i.opt.scop > $i.optscoptest
+    x=`diff $i.optscoptest $i.struct`
+    z=`diff $i.outscop $i.depscop`
+    if ! [ -z "$x" ] || ! [ -z "$z" ]; then
+	echo -e "\033[31m[FAIL:] Dependence analyzer: Error in dependence computation\033[0m";
+	outtemp=1
+	output=1
+    else
+	echo "[PASS:] Dependence analyzer: OK";
+	rm -f $i.optscoptest
+	rm -f $i.outscop
+    fi
+    ##
+    ## Scalar analysis tests.
     echo "[TEST:] Scalar analysis test:== $i.scop ==";
-    $top_builddir/source/candl -scop -structure -scalpriv 1 -scalexp 1 -scalren 1 $i.scop > $i.scaltest
+    $top_builddir/source/candl -inscop -structure -scalpriv 1 -scalexp 1 -scalren 1 $i.scop > $i.scaltest
     y=`diff $i.scaltest $i.scalstruct`
     if ! [ -z "$y" ] || ! [ -z "$x" ]; then
 	echo -e "\033[31m[FAIL:] Scalar analysis: Error in dependence computation\033[0m";

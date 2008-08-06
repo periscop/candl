@@ -112,6 +112,7 @@ CandlOptions * candl_options_malloc(void)
   options->scalar_privatization = 0; /* Don't enable scalar privatization. */
   options->scalar_expansion = 0; /* Don't enable scalar expansion. */
   options->readscop = 0; /* Don't read a .scop format for the input. */
+  options->writescop = 0; /* Don't write a .scop format for the output. */
   options->verbose = 0; /* Don't be verbose. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
@@ -161,7 +162,8 @@ void candl_options_help()
   printf(
   "\nGeneral options:\n"
 #ifdef CANDL_SUPPORTS_CLAN
-  "  -scop		  Read a .scop formatted file as the input.\n"
+  "  -inscop		  Read a .scop formatted file as the input.\n"
+  "  -outscop		  Output a .scop formatted file as the output.\n"
 #endif
   "  -o <output>          Name of the output file; 'stdout' is a special\n"
   "                       value: when used, output is standard output\n"
@@ -304,15 +306,18 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
 	if (!strcmp(argv[i], "-verbose"))
 	  (*options)->verbose = 1;
 	else
-	if (!strcmp(argv[i], "-scop"))
+	if (!strcmp(argv[i], "-inscop"))
 	  (*options)->readscop = 1;
+	else
+	if (!strcmp(argv[i], "-outscop"))
+	  (*options)->writescop = 1;
 	else
 	if ((!strcmp(argv[i], "-struct")) ||
 	    (!strcmp(argv[i], "-structure")))
 	  (*options)->structure = 1;
 	else
 	if ((!strcmp(argv[i], "--help")) || (!strcmp(argv[i], "-h")))
-	  { 
+	  {
 	    candl_options_help();
 	    infos = 1;
 	  }

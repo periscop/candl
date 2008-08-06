@@ -61,7 +61,6 @@ int main(int argc, char * argv[])
   else
 #endif
     program = candl_program_read(input);
-  fclose(input);
 
   /* Calculating dependences. */
   dependence = candl_dependence(program, options);
@@ -81,20 +80,29 @@ int main(int argc, char * argv[])
       candl_violation_print(output, violation);
     }
 
-  /* Printing dependence graph if asked or if there is no transformation. */
-  if (options->depgraph || (program->transformation == NULL))
+#ifdef CANDL_SUPPORTS_CLAN
+  if (options->readscop && options->writescop)
+    candl_dependence_print_scop (input, output, dependence);
+  else
     {
-      candl_dependence_pprint(output, dependence);
-      if (options->view)
-	candl_dependence_view(dependence);
+#endif
+      /* Printing dependence graph if asked or if there is no transformation. */
+      if (options->depgraph || (program->transformation == NULL))
+	{
+	  candl_dependence_pprint(output, dependence);
+	  if (options->view)
+	    candl_dependence_view(dependence);
+	}
+      /* Printing violation graph if asked and if there is a transformation. */
+      if (options->violgraph && (program->transformation != NULL))
+	{
+	  candl_violation_pprint(output, violation);
+	  if (options->view)
+	    candl_violation_view(violation);
+	}
+#ifdef CANDL_SUPPORTS_CLAN
     }
-  /* Printing violation graph if asked and if there is a transformation. */
-  if (options->violgraph && (program->transformation != NULL))
-    {
-      candl_violation_pprint(output, violation);
-      if (options->view)
-	candl_violation_view(violation);
-    }
+#endif
 
   /* Being clean. */
   candl_violation_free(violation);
@@ -102,6 +110,7 @@ int main(int argc, char * argv[])
   candl_program_free(program);
   candl_options_free(options);
   pip_close();
+  fclose(input);
   fclose(output);
 
   return 0;
