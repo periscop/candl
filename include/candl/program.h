@@ -39,7 +39,6 @@
 
 # include <stdio.h>
 # include <stdlib.h>
-# include <candl/candl.h>
 # include <candl/matrix.h>
 # include <candl/statement.h>
 

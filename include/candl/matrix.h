@@ -38,6 +38,7 @@
 # define CANDL_MATRIX_H
 
 # include <stdio.h>
+# include <piplib/piplib.h>
 
 # if defined(__cplusplus)
 extern "C"

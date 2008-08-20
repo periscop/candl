@@ -1607,6 +1607,7 @@ candl_dependence_prune_with_privatization (candl_program_p program,
 
   if (program->nb_statements == 0)
     return;
+  /* Perform the scalar analysis, if not done before. */
   if (program->scalars_privatizable == NULL)
     {
       CandlOptions* options = candl_options_malloc ();
