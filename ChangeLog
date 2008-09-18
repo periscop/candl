@@ -1,3 +1,15 @@
+2008-09-18  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	Enable Candl to act as a .scop to .candl converter.
+
+	* include/candl/program.h,
+	* source/program.c: Add candl_program_print_candl_file function,
+	which dumps a .candl file from a candl_program_t structure.
+
+	* include/candl/options.h,
+	* source/options.c,
+	* source/candl.c: Add support of option -scoptocandl, which
+	converts a .scop to a .candl file.
+
 2008-08-20  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* include/candl/dependence.h,

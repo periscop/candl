@@ -113,6 +113,7 @@ CandlOptions * candl_options_malloc(void)
   options->scalar_expansion = 0; /* Don't enable scalar expansion. */
   options->readscop = 0; /* Don't read a .scop format for the input. */
   options->writescop = 0; /* Don't write a .scop format for the output. */
+  options->scoptocandl = 0; /* Don't act as a .scop to candl converter. */
   options->verbose = 0; /* Don't be verbose. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
@@ -164,6 +165,7 @@ void candl_options_help()
 #ifdef CANDL_SUPPORTS_CLAN
   "  -inscop		  Read a .scop formatted file as the input.\n"
   "  -outscop		  Output a .scop formatted file as the output.\n"
+  "  -scoptocandl      	  Output a .candl formatted file from a .scop input.\n"
 #endif
   "  -o <output>          Name of the output file; 'stdout' is a special\n"
   "                       value: when used, output is standard output\n"
@@ -311,6 +313,9 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
 	else
 	if (!strcmp(argv[i], "-outscop"))
 	  (*options)->writescop = 1;
+	else
+	if (!strcmp(argv[i], "-scoptocandl"))
+	  (*options)->scoptocandl = 1;
 	else
 	if ((!strcmp(argv[i], "-struct")) ||
 	    (!strcmp(argv[i], "-structure")))

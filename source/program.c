@@ -141,6 +141,50 @@ void candl_program_print(FILE * file,  candl_program_p program)
 }
 
 
+
+/**
+ * candl_program_print function:
+ * This function prints a candl_program_t structure (program) into a
+ * candl-formatted file (file, possibly stdout).
+ */
+void candl_program_print_candl_file(FILE * file, candl_program_p program)
+{
+  int i, j;
+
+  fprintf (file, "# -------------------\n");
+  fprintf (file, "# Context\n");
+  pip_matrix_print (file, program->context);
+  fprintf (file, "\n");
+  fprintf (file, "# Number of statements\n");
+  fprintf (file, "%d\n", program->nb_statements);
+  for (i = 0; i < program->nb_statements; ++i)
+    {
+      fprintf (file, "# -------------------\n");
+      fprintf (file, "# Statement %d\n", i + 1);
+      fprintf (file, "# Statement type\n");
+      /* All types set to Assignment. */
+      fprintf (file, "A\n");
+      fprintf (file, "\n");
+      fprintf (file, "# Iteration domain\n");
+      pip_matrix_print (file, program->statement[i]->domain);
+      fprintf (file, "\n");
+      fprintf (file, "# Loop labels\n");
+      for (j = 0; j < program->statement[i]->depth; ++j)
+	fprintf (file, "%d ", program->statement[i]->index[j]);
+      fprintf (file, "\n");
+      fprintf (file, "# Written items\n");
+      pip_matrix_print (file, program->statement[i]->written);
+      fprintf (file, "\n");
+      fprintf (file, "# Read items\n");
+      pip_matrix_print (file, program->statement[i]->read);
+      fprintf (file, "\n");
+    }
+  fprintf (file, "# -------------------\n");
+  fprintf (file, "# Transformation candidate\n");
+  fprintf (file, "0\n");
+}
+
+
 /******************************************************************************
  *                         Memory alloc/dealloc function                      *
  ******************************************************************************/
@@ -445,7 +489,7 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       statement->ref = s;
       if (s->domain->next != NULL)
 	CANDL_FAIL("Error: union of domains not supported");
-	  
+
       statement->domain = (CandlMatrix*) clan_matrix_copy(s->domain->elt);
       /* For the moment, we do not parse the statement to extract its type. */
       statement->type = CANDL_AFFECTATION;

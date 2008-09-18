@@ -81,6 +81,7 @@ typedef struct candl_program * candl_program_p;
  ******************************************************************************/
 void candl_program_print_structure(FILE *, candl_program_p, int);
 void candl_program_print(FILE *, candl_program_p);
+void candl_program_print_candl_file(FILE *, candl_program_p);
 
 /******************************************************************************
  *                         Memory alloc/dealloc function                      *
