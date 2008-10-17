@@ -80,6 +80,7 @@ typedef struct candlmatrixlist CandlMatrixList;
  ******************************************************************************/
 void candl_matrix_print_structure(FILE *, CandlMatrix *, int);
 void candl_matrix_print(FILE *, CandlMatrix *);
+void candl_matrix_print_data(FILE *, CandlMatrix *);
 void candl_matrix_list_print_structure(FILE *, CandlMatrixList *, int);
 void candl_matrix_list_print(FILE *, CandlMatrixList *);
 

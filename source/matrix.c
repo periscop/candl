@@ -110,6 +110,26 @@ void candl_matrix_print(FILE * file, CandlMatrix * matrix)
 }
 
 
+
+/**
+ * candl_matrix_print_data function:
+ * This function prints the content of a CandlMatrix data (matrix) into a
+ * file (file, possibly stdout).
+ */
+void candl_matrix_print_data(FILE * file, CandlMatrix * matrix)
+{
+  int i, j;
+
+  fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
+  for (i = 0; i < matrix->NbRows; ++i)
+    {
+      for (j = 0; j < matrix->NbColumns; ++j)
+	CLAN_print(file,CANDL_FMT,matrix->p[i][j]);
+      fprintf (file, "\n");
+    }
+}
+
+
 /**
  * candl_matrix_list_print_structure function:
  * Displays a CandlMatrixList structure (list) into a file (file, possibly
@@ -420,7 +440,7 @@ int ref_s, ref_t, depth, before, nb_par ;
     constraint++ ;
     subeq++;
   }
-  
+
   /* 4. The precedence constraints (their number is equal to depth). */
   for (i = 0; i < depth; i++)
   { /* i = i' for all dimension less than depth. */

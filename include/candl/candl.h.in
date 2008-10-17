@@ -88,11 +88,11 @@
  *                                   FORMAT                                   *
  ******************************************************************************/
 #if defined(LINEAR_VALUE_IS_LONGLONG)
-#define CANDL_FMT "%3lld "
+#define CANDL_FMT "%4lld "
 #elif defined(LINEAR_VALUE_IS_LONG)
-#define CANDL_FMT "%3ld "
+#define CANDL_FMT "%4ld "
 #else  /* GNUMP */
-#define CANDL_FMT "%3s"
+#define CANDL_FMT "%4s"
 #endif
 
 /******************************************************************************

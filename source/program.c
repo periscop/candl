@@ -149,20 +149,11 @@ void candl_program_print(FILE * file,  candl_program_p program)
  */
 void candl_program_print_candl_file(FILE * file, candl_program_p program)
 {
-  int i, j, k;
-  CandlMatrix* matrix;
+  int i, j;
 
   fprintf (file, "# -------------------\n");
   fprintf (file, "# Context\n");
-  matrix = program->context;
-  fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
-  for (j = 0; j <  matrix->NbRows; ++j)
-    {
-      for (k = 0; k < matrix->NbColumns; ++k)
-	    CLAN_print(file,CLAN_FMT,matrix->p[j][k]);
-      fprintf (file, "\n");
-    }
-/*   pip_matrix_print (file, program->context); */
+  candl_matrix_print_data(file, program->context);
   fprintf (file, "\n");
   fprintf (file, "# Number of statements\n");
   fprintf (file, "%d\n", program->nb_statements);
@@ -175,41 +166,17 @@ void candl_program_print_candl_file(FILE * file, candl_program_p program)
       fprintf (file, "A\n");
       fprintf (file, "\n");
       fprintf (file, "# Iteration domain\n");
-      matrix = program->statement[i]->domain;
-      fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
-      for (j = 0; j <  matrix->NbRows; ++j)
-	{
-	  for (k = 0; k < matrix->NbColumns; ++k)
-	    CLAN_print(file,CLAN_FMT,matrix->p[j][k]);
-	  fprintf (file, "\n");
-	}
-/*       pip_matrix_print (file, program->statement[i]->domain); */
+      candl_matrix_print_data(file, program->statement[i]->domain);
       fprintf (file, "\n");
       fprintf (file, "# Loop labels\n");
       for (j = 0; j < program->statement[i]->depth; ++j)
 	fprintf (file, "%d ", program->statement[i]->index[j]);
       fprintf (file, "\n");
       fprintf (file, "# Written items\n");
-      matrix = program->statement[i]->written;
-      fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
-      for (j = 0; j <  matrix->NbRows; ++j)
-	{
-	  for (k = 0; k < matrix->NbColumns; ++k)
-	    CLAN_print(file,CLAN_FMT,matrix->p[j][k]);
-	  fprintf (file, "\n");
-	}
-/*       pip_matrix_print (file, program->statement[i]->written); */
+      candl_matrix_print_data(file, program->statement[i]->written);
       fprintf (file, "\n");
       fprintf (file, "# Read items\n");
-      matrix = program->statement[i]->read;
-      fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
-      for (j = 0; j <  matrix->NbRows; ++j)
-	{
-	  for (k = 0; k < matrix->NbColumns; ++k)
-	    CLAN_print(file,CLAN_FMT,matrix->p[j][k]);
-	  fprintf (file, "\n");
-	}
-/*       pip_matrix_print (file, program->statement[i]->read); */
+      candl_matrix_print_data(file, program->statement[i]->read);
       fprintf (file, "\n");
     }
   fprintf (file, "# -------------------\n");

@@ -1,3 +1,13 @@
+2008-10-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* include/candl/matrix.h,
+	* source/matrix.c: Add candl_matrix_print_data, which prints a
+	matrix in a parsable form for candl_matrix_read.
+	* include/candl/candl.h.in: Update CANDL_FMT to %4...
+
+	* source/program.c: Replace calls to pip_matrix_print by
+	candl_matrix_print_data. The former caused bugs on ppc64.
+
 2008-09-18  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	Enable Candl to act as a .scop to .candl converter.
 
