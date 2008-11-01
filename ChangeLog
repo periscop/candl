@@ -1,3 +1,7 @@
+2008-11-01  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* Makefile.am: Remove useless re-copy of config/fm.m4 in dist-hook.
+
 2008-10-17  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* include/candl/matrix.h,
