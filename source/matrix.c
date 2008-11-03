@@ -124,7 +124,7 @@ void candl_matrix_print_data(FILE * file, CandlMatrix * matrix)
   for (i = 0; i < matrix->NbRows; ++i)
     {
       for (j = 0; j < matrix->NbColumns; ++j)
-	CLAN_print(file,CANDL_FMT,matrix->p[i][j]);
+	CANDL_print(file,CANDL_FMT,matrix->p[i][j]);
       fprintf (file, "\n");
     }
 }
