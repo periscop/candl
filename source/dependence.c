@@ -730,8 +730,10 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
                                    array_s, array_t, ref_s, ref_t,
 				   depth, (source->label >= target->label),
 				   context->NbColumns-2);
+
   /* We start by simple SIV/ZIV/GCD tests. */
-  if (!candl_dependence_gcd_test(source, target, system, depth))
+  if (!candl_dependence_gcd_test(source, target, system, depth)
+      && 0) // deactivated, buggy (see tests/aijji.c)
     return NULL;
 
   options = pip_options_init();
