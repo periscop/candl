@@ -56,7 +56,10 @@ TEST_FILES             	=			\
 	ax-do.scop				\
 	gemver.scop				\
 	matmul.scop				\
-	swim.scop
+	swim.scop				\
+	simple1.scop				\
+	lu.scop					\
+	jacobi1d.scop
 
 
 TEST_FILES_DEP			= $(TEST_FILES:.scop=.dep)

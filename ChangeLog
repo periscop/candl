@@ -1,4 +1,59 @@
 2009-01-31  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+	This patch fixes an important bug on the computation of precedence
+	constraints. Formerly it was not matching exactly the description
+	of dependence polyhedra as formalized by Bastoul et al.
+
+	* include/candl/matrix.h,
+	* source/matrix.c: Move and rename function candl_matrix_dependence to
+	candl_dependence_build_system.
+
+	* source/dependence.c: Fix an important bug in the dependence
+	computation. The precedence constraints were not correctly
+	computed. Bug reported by Uday Bondhugula.
+
+	* tests/jacobi1d.scop,
+	* tests/jacobi1d.dep,
+	* tests/jacobi1d.candl,
+	* tests/jacobi1d.scalstruct,
+	* tests/jacobi1d.opt.scop,
+	* tests/jacobi1d.struct,
+	* tests/jacobi1d.depscop,
+
+	* tests/simple1.dep,
+	* tests/simple1.candl,
+	* tests/simple1.scalstruct,
+	* tests/simple1.opt.scop,
+	* tests/simple1.struct,
+	* tests/simple1.depscop,
+	* tests/simple1.scop,
+
+	* tests/lu.opt.scop,
+	* tests/lu.struct,
+	* tests/lu.depscop,
+	* tests/lu.scop,
+	* tests/lu.dep,
+	* tests/lu.candl,
+	* tests/lu.scalstruct: New. Three instances of the previous bug.
+
+	* tests/checker.sh: Update to be transparent to Clan revision
+	changes.
+
+	* tests/matmul.scalstruct,
+	* tests/ax-do.struct,
+	* tests/matmul.depscop,
+	* tests/swim.struct,
+	* tests/ax-do.depscop,
+	* tests/gemver.scalstruct,
+	* tests/gemver.depscop,
+	* tests/matmul.struct,
+	* tests/ax-do.scalstruct,
+	* tests/swim.scalstruct,
+	* tests/gemver.struct,
+	* tests/Makefile.am,
+	* tests/swim.depscop: Update de the reference test
+	suite (CANDL_FMT is now %4)
+
+2009-01-31  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* include/candl/matrix.h: Support new clan_int_t type.
 

@@ -113,9 +113,6 @@ CandlMatrixList * candl_matrix_list_read(FILE *);
  ******************************************************************************/
 CandlMatrix     * candl_matrix_malloc(int, int);
 CandlMatrixList * candl_matrix_list_malloc();
-CandlMatrix     * candl_matrix_dependence(CandlMatrix  *, CandlMatrix  *,
-                                          CandlMatrix  *, CandlMatrix  *,
-					  int, int, int, int, int);
 CandlMatrix     * candl_matrix_violation(CandlMatrix  *, CandlMatrix  *,
                                          CandlMatrix  *, int, int);
 int		candl_matrix_check_point (CandlMatrix* , CandlMatrix* );

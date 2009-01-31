@@ -585,7 +585,7 @@ int candl_dependence_gcd_test_context (CandlMatrix* system, int id)
 
   return 1;
 }
-
+#define echo(S) { printf(S); }
 
 /**
  * candl_dependence_gcd_test function:
@@ -654,13 +654,19 @@ int candl_dependence_gcd_test(CandlStatement* source,
       null_cst = ! CANDL_get_si(system->p[id][system->NbColumns - 1]);
 
       /* Some useful ZIV/SIV/MIV tests. */
-      if (null_iter && null_param && !null_cst)
+      if (null_iter && null_param && !null_cst) {
+	echo("exit on 1\n");
 	return 0;
+      }
       if (null_iter)
-	if (! candl_dependence_gcd_test_context (system, id))
+	if (! candl_dependence_gcd_test_context (system, id)) {
+	  echo("exit on 2\n");
 	  return 0;
-      if (null_cst || !null_param)
+	}
+      if (null_cst || !null_param) {
+	echo("continue on 3\n");
 	continue;
+      }
 /* FIXME: implement the loop bound check. */
 /*       /\* A clever test on access bounds. *\/ */
 /*       if (null_param && pos_iter &&  */
@@ -676,14 +682,161 @@ int candl_dependence_gcd_test(CandlStatement* source,
 	gcd = candl_dependence_gcd(gcd, CANDL_get_si(system->p[id][i + 1]));
       value = system->p[id][system->NbColumns - 1];
       value = value < 0 ? -value : value;
-      if ((gcd == 0 && value != 0) || value % gcd)
+      if ((gcd == 0 && value != 0) || value % gcd) {
+	echo("exit on 4\n");
 	return 0;
+      }
     }
   /* Precedence constraint incompatible with the access function. */
-  if (strict_pred && !null_level)
+  if (strict_pred && !null_level) {
+    echo("exit on 5\n");
     return 0;
+  }
 
   return 1;
+}
+
+
+/**
+ * candl_matrix_dependence function :
+ * this function builds the constraint system corresponding to a data
+ * dependence, for a given statement couple (with iteration domains "source"
+ * and "target"), for a given reference couple (the source reference is array
+ * "ref_s" in "array_s" and the target reference is the array "ref_t" in
+ * "array_t"), at a given depth "depth" and knowing if the source is textually
+ * before the target (boolean "before"). The system is built... as always !
+ * See the [bastoul and Feautrier, PPL 2005] paper for details !
+ * - source is the source iteration domain,
+ * - target is the target iteration domain,
+ * - array_s is the array list for the source,
+ * - array_t is the array list for the target,
+ * - ref_s is the position of the source reference in array_s,
+ * - ref_s is the position of the target reference in array_t,
+ * - depth is the dependence depth,
+ * - before is 1 if the source is textually before the target, 0 otherwise,
+ * - nb_par is the number of parameters.
+ ***
+ * - 13/12/2005: first version (extracted from candl_dependence_system).
+ * - 23/02/2006: a stupid bug corrected in the subscript equality.
+ * - 07/04/2007: fix the precedence condition to respect C. Bastoul PhD thesis
+ */
+static
+CandlMatrix * candl_dependence_build_system(source, target, array_s, array_t,
+					    ref_s, ref_t, depth, before, nb_par)
+CandlStatement  * source, * target;
+CandlMatrix * array_s, * array_t ;
+int ref_s, ref_t, depth, before, nb_par ;
+{ int i, j, nb_rows, nb_columns, nb_dimensions, constraint, s_dims, t_dims ;
+  CandlMatrix * system ;
+  Entier temp ;
+
+  CANDL_init(temp) ;
+
+  /* We calculate the number of dimensions of the considered array. */
+  nb_dimensions = 1;
+  while (((ref_s + nb_dimensions + 1) <= array_s->NbRows) &&
+         (array_s->p[ref_s + nb_dimensions][0] == 0))
+  nb_dimensions ++ ;
+
+  /* The number of dimensions of the source and target domains. */
+  s_dims = source->domain->NbColumns - nb_par - 2 ;
+  t_dims = target->domain->NbColumns - nb_par - 2 ;
+
+  /* The number of rows of the system is:
+   * - the number of constraints of the source iteration domain +
+   * - the number of constraints of the target iteration domain +
+   * - the number of dimensions of the considered array (subscript equality) +
+   * - the number of precedence constraints (equal to depth).
+   */
+  nb_rows = source->domain->NbRows + target->domain->NbRows +
+    nb_dimensions + depth ;
+
+  /* The number of columns of the system is:
+   * - the number of source statement surrounding loops +
+   * - the number of target statement surrounding loops +
+   * - the number of parameters +
+   * - 2 (1 for equality/inequality identifier + 1 for the constant).
+   */
+  nb_columns = s_dims + t_dims + nb_par + 2 ;
+
+  /* We allocate memory space for the constraint system. */
+  system = candl_matrix_malloc(nb_rows,nb_columns) ;
+
+  /* Compute the maximal common depth. */
+  int min_depth = 0;
+  while (min_depth < source->depth && min_depth < target->depth &&
+	 source->index[min_depth] == target->index[min_depth])
+    ++min_depth;
+
+  /* We fill the constraint system (note that there is no need to put zeros
+   * in the empty zones since candl_matrix_alloc initialized all entries to 0):
+   */
+
+  /* 1. The source iteration domain constraints. */
+  constraint = 0 ;
+  for (i=0;i<source->domain->NbRows;i++)
+  { for (j=0;j<=s_dims;j++)
+    CANDL_assign(system->p[constraint][j],source->domain->p[i][j]) ;
+
+    for (j=s_dims+1;j<source->domain->NbColumns;j++)
+    CANDL_assign(system->p[constraint][j+t_dims],source->domain->p[i][j]) ;
+
+    constraint++ ;
+  }
+
+  /* 2. The target iteration domain constraints. */
+  for (i = 0; i < target->domain->NbRows; i++)
+  { CANDL_assign(system->p[constraint][0],target->domain->p[i][0]) ;
+
+    for (j = 1; j < target->domain->NbColumns; j++)
+    CANDL_assign(system->p[constraint][j + s_dims], target->domain->p[i][j]) ;
+
+    constraint++ ;
+  }
+
+  int subeq = 0;
+
+  /* 3. The equality of the subscripts. */
+  for (i = 0; i < nb_dimensions; i++)
+  { /* Source iterator coefficients part. */
+    for (j = 1; j <= s_dims; j++)
+    CANDL_assign(system->p[constraint][j], array_s->p[ref_s + i][j]) ;
+
+    /* Target iterator coefficients part (negative). */
+    for (j = 1; j <= t_dims; j++)
+    { CANDL_oppose(temp, array_t->p[ref_t + i][j]) ;
+      CANDL_assign(system->p[constraint][j + s_dims], temp) ;
+    }
+
+    /* Parameters and constant coefficients part. */
+    for (j = 1; j <= nb_par + 1; j++)
+    CANDL_substract(system->p[constraint][j + s_dims + t_dims],
+                    array_s->p[ref_s + i][j + s_dims],
+                    array_t->p[ref_t + i][j + t_dims]) ;
+    constraint++ ;
+    subeq++;
+  }
+
+  /* 4. The precedence constraints (their number is equal to depth). */
+  for (i = 0; i < depth; i++)
+  { /* i = i' for all dimension less than depth. */
+    CANDL_set_si(system->p[constraint][i + 1], -1) ;
+    CANDL_set_si(system->p[constraint][s_dims + i + 1], 1) ;
+    if (i == depth - 1)
+      {
+	/* i <= i' at dimension depth if source is textually before target. */
+	CANDL_set_si(system->p[constraint][0], 1) ;
+	/* If source is textually after target, this is obviously i < i'. */
+	if (before || depth < min_depth)
+	  //if (before)
+	  CANDL_set_si(system->p[constraint][nb_columns - 1], -1);
+      }
+
+    constraint++ ;
+  }
+
+  CANDL_clear(temp) ;
+  return system ;
 }
 
 
@@ -726,15 +879,16 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
     return NULL;
 
   /* We build the system of constraints. */
-  system = candl_matrix_dependence(source->domain,  target->domain,
-                                   array_s, array_t, ref_s, ref_t,
-				   depth, (source->label >= target->label),
-				   context->NbColumns-2);
+  system = candl_dependence_build_system(source,  target,
+					 array_s, array_t, ref_s, ref_t,
+					 depth,
+					 (source->label >= target->label),
+					 context->NbColumns-2);
 
-  /* We start by simple SIV/ZIV/GCD tests. */
-  if (!candl_dependence_gcd_test(source, target, system, depth)
-      && 0) // deactivated, buggy (see tests/aijji.c)
-    return NULL;
+/*   /\* We start by simple SIV/ZIV/GCD tests. *\/ */
+/*   if (!candl_dependence_gcd_test(source, target, system, depth))  */
+/*     // deactivated, buggy (see tests/aijji.c) */
+/*     return NULL; */
 
   options = pip_options_init();
   options->Simplify = 1;
@@ -756,9 +910,9 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
       dependence->ref_target = ref_t;
       dependence->domain     = system;
     }
-  else
+  else {
     candl_matrix_free(system);
-
+  }
   pip_options_free(options);
   pip_quast_free(solution);
 
@@ -840,8 +994,8 @@ candl_dependence_p candl_dependence_between(CandlStatement* source,
 						source->written,
 						target->written, j, k,
 						CANDL_WAW, i);
-		    candl_dependence_add(&dependence, &now, new);
-		  }
+		  candl_dependence_add(&dependence, &now, new);
+		}
       }
 
   /* Anti and input-dependences analysis. */
