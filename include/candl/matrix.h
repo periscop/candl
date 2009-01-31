@@ -40,6 +40,16 @@
 # include <stdio.h>
 # include <piplib/piplib.h>
 
+# ifdef LINEAR_VALUE_IS_LONG
+#  define CLAN_INT_T_IS_LONG
+# endif
+# ifdef LINEAR_VALUE_IS_LONGLONG
+#  define CLAN_INT_T_IS_LONGLONG
+# endif
+# ifdef LINEAR_VALUE_IS_GMP
+#  define CLAN_INT_T_IS_GMP
+# endif
+
 # if defined(__cplusplus)
 extern "C"
   {
