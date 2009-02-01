@@ -157,8 +157,7 @@ int
 candl_dependence_analyze_scalars(candl_program_p, CandlOptions*);
 
 int
-candl_dependence_analyze_scalars(candl_program_p program,
-				 CandlOptions* options);
+candl_num_dependences(CandlDependence *candl_deps);
 
 
 # if defined(__cplusplus)
