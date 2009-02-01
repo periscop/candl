@@ -2026,3 +2026,25 @@ candl_dependence_analyze_scalars(candl_program_p program,
 
   return 0;
 }
+
+
+/**
+ * candl_num_dependences function:
+ * This function returns the number of dependences in the dependence
+ * list 
+ * \param dependence The first dependence of the dependence list.
+ **
+ */
+int
+candl_num_dependences(CandlDependence *candl_deps)
+{
+    CandlDependence *candl_dep = candl_deps;
+
+    int num = 0;
+    while (candl_dep != NULL)
+    {
+        num++;
+        candl_dep = candl_dep->next;
+    }
+    return num;
+}
