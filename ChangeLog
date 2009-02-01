@@ -1,5 +1,10 @@
 2009-02-01  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
+	* source/program.c: Ensure null read/written info is always a
+	0-sized matrix.
+
+2009-02-01  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
 	* source/dependence.c: Fix and re-enable the GCD/ZIV tests.
 
 2009-01-31  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>

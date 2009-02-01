@@ -462,6 +462,8 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
 
   /* Duplicate the context. */
   res->context = (CandlMatrix*) clan_matrix_copy(scop->context);
+  if (res->context == NULL)
+    res->context = candl_matrix_malloc(0, 2);
 
   /* Count the number of statements. */
   for (res->nb_statements = 0; s; s = s->next, res->nb_statements++)
@@ -495,7 +497,12 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       statement->type = CANDL_AFFECTATION;
       statement->depth = statement->domain->NbColumns - 2 - scop->nb_parameters;
       statement->written = (CandlMatrix*) clan_matrix_copy(s->write);
+      if (statement->written == NULL)
+	statement->written = 
+	  candl_matrix_malloc(0, statement->domain->NbColumns);
       statement->read = (CandlMatrix*) clan_matrix_copy(s->read);
+      if (statement->read == NULL)
+	statement->read = candl_matrix_malloc(0, statement->domain->NbColumns);
       statement->index = (int*) malloc(statement->depth * sizeof(int));
       if (indices != NULL)
 	/* Iterator indices are provided. */
