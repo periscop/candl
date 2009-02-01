@@ -585,7 +585,7 @@ int candl_dependence_gcd_test_context (CandlMatrix* system, int id)
 
   return 1;
 }
-#define echo(S) { printf(S); }
+
 
 /**
  * candl_dependence_gcd_test function:
@@ -611,8 +611,7 @@ int candl_dependence_gcd_test(CandlStatement* source,
   int gcd;
   int id;
   int value;
-  int null_iter, null_param, null_cst, pos_iter, neg_iter, strict_pred,
-    null_level = 1;
+  int null_iter, null_param, null_cst, pos_iter, neg_iter, strict_pred;
 
   /* Check that the precedence constraint, if any, is not strict in a
      self-dependence. */
@@ -643,8 +642,6 @@ int candl_dependence_gcd_test(CandlStatement* source,
 	      pos_iter = 0;
 	    else if (CANDL_get_si(system->p[id][i]) > 0)
 	      neg_iter = 0;
-	    if (i == level || i == level + source->depth)
-	      null_level &= CANDL_get_si(system->p[id][i]) != 0 ? 0 : 1;
 	  }
       for (; i < system->NbColumns - 1 && CANDL_get_si(system->p[id][i]) == 0;
 	   ++i)
@@ -654,19 +651,13 @@ int candl_dependence_gcd_test(CandlStatement* source,
       null_cst = ! CANDL_get_si(system->p[id][system->NbColumns - 1]);
 
       /* Some useful ZIV/SIV/MIV tests. */
-      if (null_iter && null_param && !null_cst) {
-	echo("exit on 1\n");
+      if (null_iter && null_param && !null_cst)
 	return 0;
-      }
       if (null_iter)
-	if (! candl_dependence_gcd_test_context (system, id)) {
-	  echo("exit on 2\n");
+	if (! candl_dependence_gcd_test_context (system, id))
 	  return 0;
-	}
-      if (null_cst || !null_param) {
-	echo("continue on 3\n");
+      if (null_cst || !null_param)
 	continue;
-      }
 /* FIXME: implement the loop bound check. */
 /*       /\* A clever test on access bounds. *\/ */
 /*       if (null_param && pos_iter &&  */
@@ -682,23 +673,16 @@ int candl_dependence_gcd_test(CandlStatement* source,
 	gcd = candl_dependence_gcd(gcd, CANDL_get_si(system->p[id][i + 1]));
       value = system->p[id][system->NbColumns - 1];
       value = value < 0 ? -value : value;
-      if ((gcd == 0 && value != 0) || value % gcd) {
-	echo("exit on 4\n");
+      if ((gcd == 0 && value != 0) || value % gcd)
 	return 0;
-      }
     }
-  /* Precedence constraint incompatible with the access function. */
-  if (strict_pred && !null_level) {
-    echo("exit on 5\n");
-    return 0;
-  }
 
   return 1;
 }
 
 
 /**
- * candl_matrix_dependence function :
+ * candl_dependence_build_system function:
  * this function builds the constraint system corresponding to a data
  * dependence, for a given statement couple (with iteration domains "source"
  * and "target"), for a given reference couple (the source reference is array
@@ -885,10 +869,9 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
 					 (source->label >= target->label),
 					 context->NbColumns-2);
 
-/*   /\* We start by simple SIV/ZIV/GCD tests. *\/ */
-/*   if (!candl_dependence_gcd_test(source, target, system, depth))  */
-/*     // deactivated, buggy (see tests/aijji.c) */
-/*     return NULL; */
+  /* We start by simple SIV/ZIV/GCD tests. */
+  if (! candl_dependence_gcd_test(source, target, system, depth))
+    return NULL;
 
   options = pip_options_init();
   options->Simplify = 1;

@@ -1,3 +1,7 @@
+2009-02-01  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/dependence.c: Fix and re-enable the GCD/ZIV tests.
+
 2009-01-31  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 	This patch fixes an important bug on the computation of precedence
 	constraints. Formerly it was not matching exactly the description
@@ -103,7 +107,7 @@
 	* include/candl/options.h,
 	* source/candl.c,
 	* source/options.c: Create option -outscop. Rename option -scop to
-	-incsop.
+	-inscop.
 
 	* tests/matmul.depscop,
 	* tests/ax-do.depscop,
