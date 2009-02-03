@@ -46,8 +46,8 @@
 # ifdef LINEAR_VALUE_IS_LONGLONG
 #  define CLAN_INT_T_IS_LONGLONG
 # endif
-# ifdef LINEAR_VALUE_IS_GMP
-#  define CLAN_INT_T_IS_GMP
+# ifdef LINEAR_VALUE_IS_MP
+#  define CLAN_INT_T_IS_MP
 # endif
 
 # if defined(__cplusplus)
