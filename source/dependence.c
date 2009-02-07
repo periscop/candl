@@ -2151,6 +2151,9 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
 /* 
  * Compute last writer for a given dependence; does not make sense if the
  * supplied dependence is not a RAW or WAW dependence
+ *
+ * Returns 0 if lastwriter is computed successfully and dep domain updated,
+ * returns 1 otherwise
  */
 int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 {
@@ -2218,7 +2221,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 
     // pip_matrix_print(stdout, qp);
 
-    /* I do not expect nb to be > 1, hence, not completing this part */
+    /* Multiple cases are not handled */
     if (num >= 2)   {
         printf("WARNING: last writer failed (incomplete handling): %s\n", 
                "bailing out safely without modification");
