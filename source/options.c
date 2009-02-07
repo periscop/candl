@@ -111,6 +111,7 @@ CandlOptions * candl_options_malloc(void)
   options->scalar_renaming = 0; /* Don't enable scalar renaming. */
   options->scalar_privatization = 0; /* Don't enable scalar privatization. */
   options->scalar_expansion = 0; /* Don't enable scalar expansion. */
+  options->lastwriter = 0; /* Compute the last writer for RAW and WAW dependences */
   options->readscop = 0; /* Don't read a .scop format for the input. */
   options->writescop = 0; /* Don't write a .scop format for the output. */
   options->scoptocandl = 0; /* Don't act as a .scop to candl converter. */
@@ -301,6 +302,9 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
 	else
 	if (!strcmp(argv[i], "-scalexp"))
 	  candl_options_set(&(*options)->scalar_expansion, argc, argv, &i);
+	else
+	if (!strcmp(argv[i], "-lastwriter"))
+	  candl_options_set(&(*options)->lastwriter, argc, argv, &i);
 	else
 	if (!strcmp(argv[i], "-view"))
 	  (*options)->view = 1;

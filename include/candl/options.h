@@ -62,6 +62,7 @@ struct candloptions
   int scalar_renaming; /**< 1 to enable scalar renaming. */
   int scalar_privatization; /**< 1 to enable scalar privatization. */
   int scalar_expansion; /**< 1 to enable scalar privatization. */
+  int lastwriter; /**< 1 to compute last writer */
   int readscop; /**< 1 to enable reading from a .scop formatted file. */
   int writescop; /**< 1 to enable writing to a .scop formatted file. */
   int scoptocandl; /**< 1 to act as a .scop to candl converter. */

@@ -159,6 +159,8 @@ candl_dependence_analyze_scalars(candl_program_p, CandlOptions*);
 int
 candl_num_dependences(CandlDependence *candl_deps);
 
+void 
+candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog);
 
 # if defined(__cplusplus)
   }

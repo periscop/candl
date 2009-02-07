@@ -1,3 +1,17 @@
+2009-02-07  Uday K Bondhugula <bondhugula.1@osu.edu>
+	Computes last writer on RAW, WAW, RAR dependences. Long 
+	standing implementation finally committed. Last writer 
+	computation is only done under '-lastwriter 1' or 
+	options->lastwriter = 1. All code was written in Sep '08.
+	Does not handle cases where the last writer function is
+	split into different cases based on parameters (bails out
+	without modifying dependence polyhedron)
+
+    * source/dependence.c: Code to compute last writer
+	* source/options.c,
+	* include/candl/dependence.h,
+	* include/candl/options.h
+
 2009-02-01  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/program.c: Ensure null read/written info is always a

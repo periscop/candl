@@ -42,6 +42,8 @@
 # include <string.h>
 # include <candl/candl.h>
 
+#include <assert.h>
+
 
 /******************************************************************************
  *                          Structure display function                        *
@@ -1071,6 +1073,11 @@ candl_dependence_p candl_dependence(candl_program_p program,
   if (! check && options->scalar_privatization)
     candl_dependence_prune_with_privatization (program, options, &dependence);
 
+  /* Compute the last writer */
+  if (options->lastwriter)  {
+      candl_compute_last_writer(dependence, program);
+  }
+
   return dependence;
 }
 
@@ -2030,4 +2037,239 @@ candl_num_dependences(CandlDependence *candl_deps)
         candl_dep = candl_dep->next;
     }
     return num;
+}
+
+
+/* 
+ * Convert a PIP quast to a union of polyhedra (Pip matrices)
+ *
+ * num: number of Pip matrices returned
+ *
+ * TODO: cleanup the arguments and make this function general - free of
+ * CandlProgram, CandlDependence arguments  (very easy to do -- too dumb of me
+ * to have interfaced it this way)
+ **/
+PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
+        int nvar, int npar)
+{
+    int num1, num2;
+    PipMatrix *ep, *tp, *qp;
+    int i, j;
+
+    if (quast == NULL)  {
+        *num = 0;
+        return NULL;
+    }
+
+    if (quast->condition != NULL)   {
+        
+        tp = quast_to_polyhedra(quast->next_then, &num1, nvar, npar);
+        ep = quast_to_polyhedra(quast->next_else, &num2, nvar, npar);
+
+        /* Each of the matrices in the then tree needs to be augmented with
+         * the condition */
+        for (i=0; i<num1; i++)  {
+            int nrows = tp[i].NbRows;
+            tp[i].p[nrows][0] = 1;
+            for (j=1; j<1+nvar; j++) {
+                tp[i].p[nrows][j] = 0;
+            }
+            for (j=0; j<npar+1; j++)  {
+                tp[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
+            }
+            tp[i].NbRows++;
+        }
+
+        for (i=0; i<num2; i++)  {
+            int nrows = ep[i].NbRows;
+            /* Inequality */
+            ep[i].p[nrows][0] = 1;
+            for (j=1; j<1+nvar; j++) {
+                ep[i].p[nrows][j] = 0;
+            }
+            for (j=0; j<npar+1; j++)  {
+                ep[i].p[nrows][1+nvar+j] = -quast->condition->the_vector[j];
+            }
+            ep[i].NbRows++;
+        }
+
+        qp = (PipMatrix *) malloc((num1+num2)*sizeof(PipMatrix));
+
+        memcpy(qp, tp, sizeof(PipMatrix)*num1);
+        memcpy(qp+num1, ep, sizeof(PipMatrix)*num2);
+
+        *num = num1 + num2;
+
+        return qp;
+
+    }else{
+        /* quast condition is NULL */
+
+        PipMatrix *lwmatrix = pip_matrix_alloc(nvar+npar, nvar+npar+2);
+
+        PipList *vecList = quast->list;
+
+        int count=0;
+        while (vecList != NULL) {
+            /* Equality */
+            lwmatrix->p[count][0] = 0;
+            for (j=0; j<nvar; j++)   {
+                if (j == count) {
+                    lwmatrix->p[count][j+1] = 1;
+                }else{
+                    lwmatrix->p[count][j+1] = 0;
+                }
+            }
+
+            for (j=0; j<npar; j++)   {
+                lwmatrix->p[count][j+1+nvar] = -vecList->vector->the_vector[j];
+            }
+            /* Constant portion */
+            if (quast->newparm != NULL) {
+                /* Don't handle newparm for now */
+                lwmatrix->p[count][npar+1+nvar] = -vecList->vector->the_vector[npar+1];
+            }else{
+                lwmatrix->p[count][npar+1+nvar] = -vecList->vector->the_vector[npar];
+            }
+
+            count++;
+
+            vecList = vecList->next;
+        }
+        lwmatrix->NbRows = count;
+
+        if (count > 0) *num = 1;
+        else *num = 0;
+
+        // pip_matrix_print(stdout, lwmatrix);
+
+        return lwmatrix;
+    }
+}
+
+
+/* 
+ * Compute last writer for a given dependence; does not make sense if the
+ * supplied dependence is not a RAW or WAW dependence
+ */
+int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
+{
+    PipQuast *lexmax;
+    PipMatrix *new_domain;
+
+    int i, j;
+
+    int npar = prog->context->NbColumns-2;
+
+    PipOptions *pipOptions = pip_options_init();
+
+    /* We do a parametric lexmax on the source iterators  
+     * keeping the target iterators as parameters */
+    pipOptions->Maximize = 1;
+    pipOptions->Simplify = 1;
+    // pipOptions->Deepest_cut = 1;
+    // pipOptions->Urs_unknowns = -1;
+    // pipOptions->Urs_parms = -1;
+
+    /* Build a context with equalities /inequalities only on the target
+     * variables */
+    PipMatrix *context = pip_matrix_alloc(dep->domain->NbRows, 
+            dep->target->depth + npar + 2);
+
+    int nrows = 0;
+    for (i=0; i<dep->domain->NbRows; i++)  {
+        for (j=1; j<dep->source->depth+1; j++)  {
+            if (dep->domain->p[i][j] != 0) {
+                break;
+            }
+        }  
+        if (j == dep->source->depth+1)  {
+            /* Include this in the context */
+            context->p[nrows][0] = dep->domain->p[i][0];
+            for (j=1; j < 1+dep->target->depth+npar+1; j++)  {
+                context->p[nrows][j] = dep->domain->p[i][dep->source->depth+j];
+            }
+            nrows++;
+        }
+    }
+    context->NbRows = nrows;
+
+    // pip_matrix_print(stdout, context);
+
+    /* Parameteric lexmax */
+    lexmax = pip_solve(dep->domain, context, -1, pipOptions);
+
+    pip_options_free(pipOptions);
+
+    if (lexmax == NULL) {
+        printf("WARNING: last writer failed (mostly invalid dependence): %s\n", 
+               "bailing out safely without modification");
+        pip_matrix_print(stdout, dep->domain);
+        pip_matrix_print(stdout, context);
+        return 1;
+    }
+
+    // pip_quast_print(stdout, lexmax, 0);
+
+    int num;
+
+    PipMatrix *qp = quast_to_polyhedra(lexmax, &num, dep->source->depth, 
+            dep->target->depth + npar);
+
+    // pip_matrix_print(stdout, qp);
+
+    /* I do not expect nb to be > 1, hence, not completing this part */
+    if (num >= 2)   {
+        printf("WARNING: last writer failed (incomplete handling): %s\n", 
+               "bailing out safely without modification");
+        return 1;
+    }
+
+    /* Update the dependence domains */
+    if (num > 0) {
+        /* Just using qp[0] */
+
+        new_domain = pip_matrix_alloc(dep->domain->NbRows + qp->NbRows, 
+                dep->domain->NbColumns);
+        for (i=0; i<dep->domain->NbRows; i++)  {
+            for (j=0; j<dep->domain->NbColumns; j++)  {
+                new_domain->p[i][j] = dep->domain->p[i][j];
+            }
+        }
+
+        for (i=0; i<qp->NbRows; i++)  {
+            for (j=0; j<dep->domain->NbColumns; j++)  {
+                new_domain->p[i+dep->domain->NbRows][j] = qp->p[i][j];
+            }
+        }
+
+        pip_matrix_free(dep->domain);
+        dep->domain = new_domain;
+    }
+
+    pip_matrix_free(qp);
+    pip_quast_free(lexmax);
+    pip_matrix_free(context);
+
+    return 0;
+}
+
+
+/**
+ * Compute the last writer for each RAW, WAW, and RAR dependence. This will
+ * modify the dependence polyhedra. Be careful of any references to the old
+ * dependence polyhedra. They are freed and new ones allocated.
+ */
+void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
+{
+    int count=0;
+    while (dep != NULL)    {
+        if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
+            // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
+            // candl_matrix_print(stdout, dep->domain); 
+            candl_dep_compute_lastwriter(dep, prog);
+            // candl_matrix_print(stdout, dep->domain);
+        }
+        dep = dep->next;
+    }
 }
