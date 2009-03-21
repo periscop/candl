@@ -116,8 +116,8 @@
 
 /* Binary operators on 'Value' or 'Entier' */
 #define CANDL_increment(ref,val)       (mpz_add_ui((ref),(val),1))
-#define CANDL_decrement(ref,val)       (mpz_add_si((ref),(val),-1))
-#define CANDL_substract(ref,val1,val2) (mpz_sub((ref),(val1),(val2)))
+#define CANDL_decrement(ref,val)       (mpz_sub_ui((ref),(val),1))
+#define CANDL_subtract(ref,val1,val2) (mpz_sub((ref),(val1),(val2)))
 #define CANDL_oppose(ref,val)          (mpz_neg((ref),(val)))
 
 /* Conditional operations on 'Value' or 'Entier' */
