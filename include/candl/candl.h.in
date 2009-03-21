@@ -143,7 +143,7 @@
 /* Binary operators on 'Value' or 'Entier' */
 #define CANDL_increment(ref,val)       ((ref) = (val)+(Entier)(1))
 #define CANDL_decrement(ref,val)       ((ref) = (val)-(Entier)(1))
-#define CANDL_substract(ref,val1,val2) ((ref) = (val1)-(val2))
+#define CANDL_subtract(ref,val1,val2) ((ref) = (val1)-(val2))
 #define CANDL_oppose(ref,val)          ((ref) = (-(val)))
 
 /* Conditional operations on 'Value' or 'Entier' */
