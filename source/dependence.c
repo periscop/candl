@@ -291,7 +291,7 @@ candl_program_deps_to_string(CandlDependence* dependence)
 	    {
 	      for (j = 1; j < tmp->domain->NbColumns; ++j)
 		{
-		  sprintf(buff, "%Ld ", CANDL_get_si(tmp->domain->p[i][j]));
+		  sprintf(buff, "%ld ", CANDL_get_si(tmp->domain->p[i][j]));
 		  szbuff = strlen(buff);
 		  if (szbuff == 2)
 		    *(pbuffer++) = ' ';
@@ -673,7 +673,7 @@ int candl_dependence_gcd_test(CandlStatement* source,
       for (i = 1, gcd = CANDL_get_si(system->p[id][i]);
 	   i < source->depth + target->depth; ++i)
 	gcd = candl_dependence_gcd(gcd, CANDL_get_si(system->p[id][i + 1]));
-      value = system->p[id][system->NbColumns - 1];
+      value = CANDL_get_si(system->p[id][system->NbColumns - 1]);
       value = value < 0 ? -value : value;
       if ((gcd == 0 && value != 0) || value % gcd)
 	return 0;
@@ -796,7 +796,7 @@ int ref_s, ref_t, depth, before, nb_par ;
 
     /* Parameters and constant coefficients part. */
     for (j = 1; j <= nb_par + 1; j++)
-    CANDL_substract(system->p[constraint][j + s_dims + t_dims],
+    CANDL_subtract(system->p[constraint][j + s_dims + t_dims],
                     array_s->p[ref_s + i][j + s_dims],
                     array_t->p[ref_t + i][j + t_dims]) ;
     constraint++ ;
@@ -1716,7 +1716,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
   candl_dependence_compute_lb (m, &lb, i + 1);
   CANDL_assign(m->p[m->NbRows - 2][m->NbColumns - 1], lb);
   candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j);
-  CANDL_set_si(m->p[m->NbRows - 1][m->NbColumns - 1], lb);
+  CANDL_assign(m->p[m->NbRows - 1][m->NbColumns - 1], lb);
   CANDL_clear(lb);
   /* Copy the rest of the matrix. */
   for (i = 0; i < dep->domain->NbRows; ++i)
@@ -2070,12 +2070,12 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
          * the condition */
         for (i=0; i<num1; i++)  {
             int nrows = tp[i].NbRows;
-            tp[i].p[nrows][0] = 1;
+            CANDL_set_si(tp[i].p[nrows][0], 1);
             for (j=1; j<1+nvar; j++) {
-                tp[i].p[nrows][j] = 0;
+                CANDL_set_si(tp[i].p[nrows][j], 0);
             }
             for (j=0; j<npar+1; j++)  {
-                tp[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
+                CANDL_assign(tp[i].p[nrows][1+nvar+j], quast->condition->the_vector[j]);
             }
             tp[i].NbRows++;
         }
@@ -2083,12 +2083,13 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
         for (i=0; i<num2; i++)  {
             int nrows = ep[i].NbRows;
             /* Inequality */
-            ep[i].p[nrows][0] = 1;
+            CANDL_set_si(ep[i].p[nrows][0], 1);
             for (j=1; j<1+nvar; j++) {
-                ep[i].p[nrows][j] = 0;
+                CANDL_set_si(ep[i].p[nrows][j], 0);
             }
             for (j=0; j<npar+1; j++)  {
-                ep[i].p[nrows][1+nvar+j] = -quast->condition->the_vector[j];
+                CANDL_set_si(ep[i].p[nrows][1+nvar+j], -CANDL_get_si(quast->condition->the_vector[j]));
+                // ep[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
             }
             ep[i].NbRows++;
         }
@@ -2112,24 +2113,24 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
         int count=0;
         while (vecList != NULL) {
             /* Equality */
-            lwmatrix->p[count][0] = 0;
+            CANDL_set_si(lwmatrix->p[count][0], 0);
             for (j=0; j<nvar; j++)   {
                 if (j == count) {
-                    lwmatrix->p[count][j+1] = 1;
+                    CANDL_set_si(lwmatrix->p[count][j+1], 1);
                 }else{
-                    lwmatrix->p[count][j+1] = 0;
+                    CANDL_set_si(lwmatrix->p[count][j+1], 0);
                 }
             }
 
             for (j=0; j<npar; j++)   {
-                lwmatrix->p[count][j+1+nvar] = -vecList->vector->the_vector[j];
+                CANDL_set_si(lwmatrix->p[count][j+1+nvar], -CANDL_get_si(vecList->vector->the_vector[j]));
             }
             /* Constant portion */
             if (quast->newparm != NULL) {
                 /* Don't handle newparm for now */
-                lwmatrix->p[count][npar+1+nvar] = -vecList->vector->the_vector[npar+1];
+                CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar+1]));
             }else{
-                lwmatrix->p[count][npar+1+nvar] = -vecList->vector->the_vector[npar];
+                CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar]));
             }
 
             count++;
@@ -2188,9 +2189,9 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
         }  
         if (j == dep->source->depth+1)  {
             /* Include this in the context */
-            context->p[nrows][0] = dep->domain->p[i][0];
+            CANDL_assign(context->p[nrows][0], dep->domain->p[i][0]);
             for (j=1; j < 1+dep->target->depth+npar+1; j++)  {
-                context->p[nrows][j] = dep->domain->p[i][dep->source->depth+j];
+                CANDL_assign(context->p[nrows][j], dep->domain->p[i][dep->source->depth+j]);
             }
             nrows++;
         }
@@ -2236,13 +2237,13 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
                 dep->domain->NbColumns);
         for (i=0; i<dep->domain->NbRows; i++)  {
             for (j=0; j<dep->domain->NbColumns; j++)  {
-                new_domain->p[i][j] = dep->domain->p[i][j];
+                CANDL_assign(new_domain->p[i][j], dep->domain->p[i][j]);
             }
         }
 
         for (i=0; i<qp->NbRows; i++)  {
             for (j=0; j<dep->domain->NbColumns; j++)  {
-                new_domain->p[i+dep->domain->NbRows][j] = qp->p[i][j];
+                CANDL_assign(new_domain->p[i+dep->domain->NbRows][j], qp->p[i][j]);
             }
         }
 
@@ -2265,7 +2266,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
  */
 void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
 {
-    int count=0;
+    // int count=0;
     while (dep != NULL)    {
         if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
             // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);

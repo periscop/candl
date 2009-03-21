@@ -390,7 +390,7 @@ int dimension, nb_par ;
 
     /* The source-target parameter/scalar part. */
     for (; j < nb_columns; j++)
-    CANDL_substract(system->p[constraint][j],
+    CANDL_subtract(system->p[constraint][j],
                     t_source->p[i][j - t_dims],
                     t_target->p[i][j - s_dims]) ;
     constraint++ ;
@@ -412,7 +412,7 @@ int dimension, nb_par ;
 
   /* The source-target parameter/scalar part. */
   for (; j < nb_columns; j++)
-  CANDL_substract(system->p[constraint][j],
+  CANDL_subtract(system->p[constraint][j],
                   t_source->p[dimension][j - t_dims],
                   t_target->p[dimension][j - s_dims]) ;
 
