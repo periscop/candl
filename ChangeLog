@@ -1,3 +1,10 @@
+2009-03-21  Uday K Bondhugula <bondhugula.1@osu.edu>
+	Small fixes for gmp compilation.
+
+	* source/dependence.c
+	* source/matrix.c
+	* include/candl/candl.h.in
+
 2009-02-07  Uday K Bondhugula <bondhugula.1@osu.edu>
 	Computes last writer on RAW, WAW, RAR dependences. Long 
 	standing implementation finally committed. Last writer 
