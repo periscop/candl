@@ -42,9 +42,8 @@
 # include <candl/matrix.h>
 # include <candl/statement.h>
 
-# ifdef CANDL_SUPPORTS_CLAN
-#  include <clan/scop.h>
-#  include <clan/options.h>
+# ifdef CANDL_SUPPORTS_SCOPLIB
+#  include <scoplib/scop.h>
 # endif
 
 
@@ -95,7 +94,7 @@ void candl_program_free(candl_program_p);
  ******************************************************************************/
 candl_program_p candl_program_read(FILE *);
 /* This function is compiled if candl was configured with CLAN support. */
-# ifdef CANDL_SUPPORTS_CLAN
+# ifdef CANDL_SUPPORTS_SCOPLIB
 candl_program_p candl_program_read_scop(FILE *);
 # endif
 
@@ -103,8 +102,8 @@ candl_program_p candl_program_read_scop(FILE *);
  *                            Processing functions                            *
  ******************************************************************************/
 /* This function is compiled if candl was configured with CLAN support. */
-# ifdef CANDL_SUPPORTS_CLAN
-candl_program_p candl_program_convert_scop(clan_scop_p, int**);
+# ifdef CANDL_SUPPORTS_SCOPLIB
+candl_program_p candl_program_convert_scop(scoplib_scop_p, int**);
 # endif
 
 # if defined(__cplusplus)

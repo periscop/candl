@@ -1,3 +1,13 @@
+2009-05-03  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/program.c,
+	* source/dependence.c,
+	* include/candl/candl.h.in,
+	* include/candl/program.h,
+	* configure.in,
+	* autoconf/candl.m4: Change optional dependence from clan to
+	scoplib, for the support of .scop as input format.
+	
 2009-03-21  Uday K Bondhugula <bondhugula.1@osu.edu>
 	Small fixes for gmp compilation.
 

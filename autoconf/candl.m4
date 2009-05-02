@@ -27,24 +27,24 @@ dnl Check for piplib existence.
           fi
          ])
 	])
-dnl Offer --with-clan.
-  AC_ARG_WITH(clan,
-	      AC_HELP_STRING([--with-clan=DIR],
-              	             [DIR Location of CLAN package]),
-              [with_clan=$withval;
+dnl Offer --with-scoplib.
+  AC_ARG_WITH(scoplib,
+	      AC_HELP_STRING([--with-scoplib=DIR],
+              	             [DIR Location of ScopLib package]),
+              [with_scoplib=$withval;
 	       CPPFLAGS="${CPPFLAGS} -I$withval/include";
 	       LDFLAGS="${LDFLAGS} -L$withval/lib"
 	      ],
-              [with_clan=check])
-dnl Check for clan existence.
-  AS_IF([test "x$with_clan" != xno],
-	[AC_CHECK_LIB([clan], [clan_scop_read],
-	 [LIBS="-lclan $LIBS";
-	 DEFINE_HAS_CLAN_LIB="# define CANDL_SUPPORTS_CLAN"
+              [with_scoplib=check])
+dnl Check for scoplib existence.
+  AS_IF([test "x$with_scoplib" != xno],
+	[AC_CHECK_LIB([scoplib], [scoplib_scop_read],
+	 [LIBS="-lscoplib $LIBS";
+	 DEFINE_HAS_SCOPLIB_LIB="# define CANDL_SUPPORTS_SCOPLIB"
 	 ],
-         [DEFINE_HAS_CLAN_LIB=""
-  	  if test "x$with_clan" != xcheck; then
-           AC_MSG_FAILURE([Test for CLAN failed. Use --with-clan to specify libclan path.])
+         [DEFINE_HAS_SCOPLIB_LIB=""
+  	  if test "x$with_scoplib" != xcheck; then
+           AC_MSG_FAILURE([Test for ScopLib failed. Use --with-scoplib to specify libscoplib path.])
           fi
          ])
 	])

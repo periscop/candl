@@ -291,7 +291,7 @@ candl_program_deps_to_string(CandlDependence* dependence)
 	    {
 	      for (j = 1; j < tmp->domain->NbColumns; ++j)
 		{
-		  sprintf(buff, "%ld ", CANDL_get_si(tmp->domain->p[i][j]));
+		  sprintf(buff, "%lld ", CANDL_get_si(tmp->domain->p[i][j]));
 		  szbuff = strlen(buff);
 		  if (szbuff == 2)
 		    *(pbuffer++) = ' ';

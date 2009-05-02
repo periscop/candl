@@ -337,20 +337,20 @@ candl_program_p candl_program_read(FILE * file)
  * This function reads the .scop formatted file 'file', check for the
  * existence of the <candl> tag in the file, and retrieve the loop
  * index information, if any.
- * This function is built only if candl was configured with clan support.
+ * This function is built only if candl was configured with ScopLib support.
  *
  */
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
 static
-int** candl_program_scop_get_opt_indices(clan_scop_p scop)
+int** candl_program_scop_get_opt_indices(scoplib_scop_p scop)
 {
   /* Get the <candl></candl> tag content. */
-  char* candl_opts = clan_scop_tag_content(scop, "<candl>", "</candl>");
+  char* candl_opts = scoplib_scop_tag_content(scop, "<candl>", "</candl>");
   if (! candl_opts)
     return NULL;
   /* Get the <candl><indices></indices></candl> tag content. */
-  char* indices = clan_scop_tag_content_from_string(candl_opts, "<indices>",
-						    "</indices>");
+  char* indices = scoplib_scop_tag_content_from_string(candl_opts, "<indices>",
+						       "</indices>");
   free (candl_opts);
   if (! indices)
     return NULL;
@@ -412,16 +412,16 @@ int** candl_program_scop_get_opt_indices(clan_scop_p scop)
  * structure from a file (file, possibly stdin) following the .scop
  * format.  It returns a pointer to a candl_program_t structure
  * containing the read informations.
- * This function is built only if candl was configured with clan support.
+ * This function is built only if candl was configured with ScopLib support.
  *
  */
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
 candl_program_p candl_program_read_scop(FILE * file)
 {
   int i;
 
   /* Read the scop. */
-  clan_scop_p scop = clan_scop_read(file, NULL);
+  scoplib_scop_p scop = scoplib_scop_read(file);
   /* Check for the <candl> tag in the options of the .scop file. */
   int** indices = candl_program_scop_get_opt_indices(scop);
   /* Convert the scop. */
@@ -434,7 +434,7 @@ candl_program_p candl_program_read_scop(FILE * file)
 	free(indices[i]);
       free(indices);
     }
-  clan_scop_free(scop);
+  scoplib_scop_free(scop);
 
   return res;
 }
@@ -448,20 +448,20 @@ candl_program_p candl_program_read_scop(FILE * file)
 
 /**
  * candl_program_convert_scop function:
- * This function extracts the useful information of a clan_scop_t
+ * This function extracts the useful information of a scoplib_scop_t
  * structure to a fresh, independent candl_program_t structure.
- * This function is built only if candl was configured with clan support.
+ * This function is built only if candl was configured with ScopLib support.
  *
  */
-#ifdef CANDL_SUPPORTS_CLAN
-candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
+#ifdef CANDL_SUPPORTS_SCOPLIB
+candl_program_p candl_program_convert_scop(scoplib_scop_p scop, int** indices)
 {
   int i, j, k, l;
   candl_program_p res = candl_program_malloc();
-  clan_statement_p s = scop->statement;
+  scoplib_statement_p s = scop->statement;
 
   /* Duplicate the context. */
-  res->context = (CandlMatrix*) clan_matrix_copy(scop->context);
+  res->context = (CandlMatrix*) scoplib_matrix_copy(scop->context);
   if (res->context == NULL)
     res->context = candl_matrix_malloc(0, 2);
 
@@ -492,15 +492,15 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       if (s->domain->next != NULL)
 	CANDL_FAIL("Error: union of domains not supported");
 
-      statement->domain = (CandlMatrix*) clan_matrix_copy(s->domain->elt);
+      statement->domain = (CandlMatrix*) scoplib_matrix_copy(s->domain->elt);
       /* For the moment, we do not parse the statement to extract its type. */
       statement->type = CANDL_AFFECTATION;
       statement->depth = statement->domain->NbColumns - 2 - scop->nb_parameters;
-      statement->written = (CandlMatrix*) clan_matrix_copy(s->write);
+      statement->written = (CandlMatrix*) scoplib_matrix_copy(s->write);
       if (statement->written == NULL)
 	statement->written = 
 	  candl_matrix_malloc(0, statement->domain->NbColumns);
-      statement->read = (CandlMatrix*) clan_matrix_copy(s->read);
+      statement->read = (CandlMatrix*) scoplib_matrix_copy(s->read);
       if (statement->read == NULL)
 	statement->read = candl_matrix_malloc(0, statement->domain->NbColumns);
       statement->index = (int*) malloc(statement->depth * sizeof(int));
@@ -511,7 +511,7 @@ candl_program_p candl_program_convert_scop(clan_scop_p scop, int** indices)
       else
 	{
 	  /* Iterator indices must be computed from the scattering matrix. */
-	  clan_matrix_p m = s->schedule;
+	  scoplib_matrix_p m = s->schedule;
 	  if (m == NULL)
 	    CANDL_FAIL("Error: No scheduling matrix and no loop "
 		       "indices specification");
