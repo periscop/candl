@@ -1,3 +1,12 @@
+2009-12-03  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/candl.c,
+	* source/dependence.c,
+	* source/options.c,
+	* include/candl/dependence.h,
+	* doc/Doxyfile.in: Change CANDL_SUPPORTS_CLAN to
+	CANDL_SUPPORTS_SCOPLIB.
+
 2009-05-03  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/program.c,
@@ -7,7 +16,7 @@
 	* configure.in,
 	* autoconf/candl.m4: Change optional dependence from clan to
 	scoplib, for the support of .scop as input format.
-	
+
 2009-03-21  Uday K Bondhugula <bondhugula.1@osu.edu>
 	Small fixes for gmp compilation.
 
@@ -16,9 +25,9 @@
 	* include/candl/candl.h.in
 
 2009-02-07  Uday K Bondhugula <bondhugula.1@osu.edu>
-	Computes last writer on RAW, WAW, RAR dependences. Long 
-	standing implementation finally committed. Last writer 
-	computation is only done under '-lastwriter 1' or 
+	Computes last writer on RAW, WAW, RAR dependences. Long
+	standing implementation finally committed. Last writer
+	computation is only done under '-lastwriter 1' or
 	options->lastwriter = 1. All code was written in Sep '08.
 	Does not handle cases where the last writer function is
 	split into different cases based on parameters (bails out

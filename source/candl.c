@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
   candl_options_read(argc, argv, &input, &output, &options);
 
   /* Reading the program informations. */
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
   if (options->readscop)
     program = candl_program_read_scop(input);
   else if (options->scoptocandl)
@@ -88,7 +88,7 @@ int main(int argc, char * argv[])
       candl_violation_print(output, violation);
     }
 
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
   if (options->readscop && options->writescop)
     candl_dependence_print_scop (input, output, dependence);
   else
@@ -108,7 +108,7 @@ int main(int argc, char * argv[])
 	  if (options->view)
 	    candl_violation_view(violation);
 	}
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
     }
 #endif
 

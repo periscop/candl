@@ -98,7 +98,7 @@ void candl_dependence_print_structure(FILE *, candl_dependence_p, int);
 void candl_dependence_print(FILE *, candl_dependence_p);
 void candl_dependence_pprint(FILE *, candl_dependence_p);
 void candl_dependence_view(candl_dependence_p dependence);
-# ifdef CANDL_SUPPORTS_CLAN
+# ifdef CANDL_SUPPORTS_SCOPLIB
 void candl_dependence_print_scop(FILE*, FILE*, CandlDependence*);
 # endif
 
@@ -159,7 +159,7 @@ candl_dependence_analyze_scalars(candl_program_p, CandlOptions*);
 int
 candl_num_dependences(CandlDependence *candl_deps);
 
-void 
+void
 candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog);
 
 # if defined(__cplusplus)

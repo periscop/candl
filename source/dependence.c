@@ -327,7 +327,7 @@ candl_program_deps_to_string(CandlDependence* dependence)
  *
  *
  */
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
 void candl_dependence_print_scop(FILE* input, FILE* output,
 				 CandlDependence* dependence)
 {
@@ -339,7 +339,7 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
   char* newopttags;
   char* curr;
   char* tmp;
-  clan_scop_p scop;
+  scoplib_scop_p scop;
   int size = 0;
   int size_newdeps;
   int size_olddeps = 0;
@@ -349,15 +349,15 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
   rewind(input);
 
   /* Re-read the options tags. */
-  scop = clan_scop_read(input, NULL);
+  scop = scoplib_scop_read(input);
   start = stop = scop->optiontags;
   /* Get the candl tag, if any. */
-  content = clan_scop_tag_content(scop, "<candl>", "</candl>");
+  content = scoplib_scop_tag_content(scop, "<candl>", "</candl>");
   if (content)
     {
       /* Get the dependence tag, if any. */
-      olddeps = clan_scop_tag_content_from_string(content, "<dependences>",
-						  "</dependences>");
+      olddeps = scoplib_scop_tag_content_from_string(content, "<dependences>",
+						     "</dependences>");
       /* Seek for the correct start/stop characters to insert
 	 dependences. */
       if (olddeps)
@@ -435,12 +435,10 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
     free(scop->optiontags);
   scop->optiontags = newopttags;
 
-  /* Dump the .scop with clan. */
-  clan_options_p clan_options = clan_options_malloc();
-  clan_scop_print_dot_scop(output, scop, clan_options);
+  /* Dump the .scop. */
+  scoplib_scop_print_dot_scop(output, scop);
 
   /* Be clean. */
-  clan_options_free(clan_options);
   if (content)
     free(content);
   if (olddeps)
@@ -2021,7 +2019,7 @@ candl_dependence_analyze_scalars(candl_program_p program,
 /**
  * candl_num_dependences function:
  * This function returns the number of dependences in the dependence
- * list 
+ * list
  * \param dependence The first dependence of the dependence list.
  **
  */
@@ -2040,7 +2038,7 @@ candl_num_dependences(CandlDependence *candl_deps)
 }
 
 
-/* 
+/*
  * Convert a PIP quast to a union of polyhedra (Pip matrices)
  *
  * num: number of Pip matrices returned
@@ -2062,7 +2060,7 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
     }
 
     if (quast->condition != NULL)   {
-        
+
         tp = quast_to_polyhedra(quast->next_then, &num1, nvar, npar);
         ep = quast_to_polyhedra(quast->next_else, &num2, nvar, npar);
 
@@ -2149,7 +2147,7 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
 }
 
 
-/* 
+/*
  * Compute last writer for a given dependence; does not make sense if the
  * supplied dependence is not a RAW or WAW dependence
  *
@@ -2167,7 +2165,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 
     PipOptions *pipOptions = pip_options_init();
 
-    /* We do a parametric lexmax on the source iterators  
+    /* We do a parametric lexmax on the source iterators
      * keeping the target iterators as parameters */
     pipOptions->Maximize = 1;
     pipOptions->Simplify = 1;
@@ -2177,7 +2175,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 
     /* Build a context with equalities /inequalities only on the target
      * variables */
-    PipMatrix *context = pip_matrix_alloc(dep->domain->NbRows, 
+    PipMatrix *context = pip_matrix_alloc(dep->domain->NbRows,
             dep->target->depth + npar + 2);
 
     int nrows = 0;
@@ -2186,7 +2184,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
             if (dep->domain->p[i][j] != 0) {
                 break;
             }
-        }  
+        }
         if (j == dep->source->depth+1)  {
             /* Include this in the context */
             CANDL_assign(context->p[nrows][0], dep->domain->p[i][0]);
@@ -2206,7 +2204,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
     pip_options_free(pipOptions);
 
     if (lexmax == NULL) {
-        printf("WARNING: last writer failed (mostly invalid dependence): %s\n", 
+        printf("WARNING: last writer failed (mostly invalid dependence): %s\n",
                "bailing out safely without modification");
         pip_matrix_print(stdout, dep->domain);
         pip_matrix_print(stdout, context);
@@ -2217,14 +2215,14 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 
     int num;
 
-    PipMatrix *qp = quast_to_polyhedra(lexmax, &num, dep->source->depth, 
+    PipMatrix *qp = quast_to_polyhedra(lexmax, &num, dep->source->depth,
             dep->target->depth + npar);
 
     // pip_matrix_print(stdout, qp);
 
     /* Multiple cases are not handled */
     if (num >= 2)   {
-        printf("WARNING: last writer failed (incomplete handling): %s\n", 
+        printf("WARNING: last writer failed (incomplete handling): %s\n",
                "bailing out safely without modification");
         return 1;
     }
@@ -2233,7 +2231,7 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
     if (num > 0) {
         /* Just using qp[0] */
 
-        new_domain = pip_matrix_alloc(dep->domain->NbRows + qp->NbRows, 
+        new_domain = pip_matrix_alloc(dep->domain->NbRows + qp->NbRows,
                 dep->domain->NbColumns);
         for (i=0; i<dep->domain->NbRows; i++)  {
             for (j=0; j<dep->domain->NbColumns; j++)  {
@@ -2270,7 +2268,7 @@ void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
     while (dep != NULL)    {
         if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
             // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
-            // candl_matrix_print(stdout, dep->domain); 
+            // candl_matrix_print(stdout, dep->domain);
             candl_dep_compute_lastwriter(dep, prog);
             // candl_matrix_print(stdout, dep->domain);
         }

@@ -163,7 +163,7 @@ void candl_options_help()
   "                       (requires dot -graphviz- and gv tools).\n");
   printf(
   "\nGeneral options:\n"
-#ifdef CANDL_SUPPORTS_CLAN
+#ifdef CANDL_SUPPORTS_SCOPLIB
   "  -inscop		  Read a .scop formatted file as the input.\n"
   "  -outscop		  Output a .scop formatted file as the output.\n"
   "  -scoptocandl      	  Output a .candl formatted file from a .scop input.\n"
