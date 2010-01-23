@@ -498,7 +498,7 @@ candl_program_p candl_program_convert_scop(scoplib_scop_p scop, int** indices)
       statement->depth = statement->domain->NbColumns - 2 - scop->nb_parameters;
       statement->written = (CandlMatrix*) scoplib_matrix_copy(s->write);
       if (statement->written == NULL)
-	statement->written = 
+	statement->written =
 	  candl_matrix_malloc(0, statement->domain->NbColumns);
       statement->read = (CandlMatrix*) scoplib_matrix_copy(s->read);
       if (statement->read == NULL)

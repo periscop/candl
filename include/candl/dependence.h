@@ -97,8 +97,10 @@ typedef struct candldependence * candl_dependence_p;
 void candl_dependence_print_structure(FILE *, candl_dependence_p, int);
 void candl_dependence_print(FILE *, candl_dependence_p);
 void candl_dependence_pprint(FILE *, candl_dependence_p);
-void candl_dependence_view(candl_dependence_p dependence);
+void candl_dependence_view(candl_dependence_p);
 # ifdef CANDL_SUPPORTS_SCOPLIB
+CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p, CandlProgram*);
+void candl_dependence_update_scop_with_deps(scoplib_scop_p, CandlDependence*);
 void candl_dependence_print_scop(FILE*, FILE*, CandlDependence*);
 # endif
 

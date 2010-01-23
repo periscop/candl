@@ -1,3 +1,15 @@
+2010-01-22  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/program.c,
+	* source/dependence.c,
+	* include/candl/dependence.h: Create a mechanism to load/store
+	dependences inside the <options></options> tags of the
+	.scop. Dependences are stored now between the
+	<dependence-polyhedra></dependence-polyhedra> tags. A
+	CandlDependence* dependence list can be recomputed from the
+	scoplib_scop_p and the associated CandlProgram* with the function
+	candl_dependence_read_from_scop
+
 2009-12-03  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/candl.c,

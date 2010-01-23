@@ -280,16 +280,16 @@ candl_program_deps_to_string(CandlDependence* dependence)
 	  /* Output dependence information. */
 	  sprintf(buff, "# Description of dependence %d\n"
 		  "# type\n%s\n# From statement id\n%d\n"
-		  "# To statement id\n%d\n# Array id\n%d\n"
+		  "# To statement id\n%d\n# Depth \n%d\n# Array id\n%d\n"
 		  "# Dependence domain\n%d %d\n", nb_deps, type,
-		  tmp->source->label, tmp->target->label,
+		  tmp->source->label, tmp->target->label, tmp->depth,
 		  refs, tmp->domain->NbRows, tmp->domain->NbColumns);
 	  strcat(buffer, buff);
 	  /* Output dependence domain. */
 	  pbuffer = buffer + strlen(buffer);
 	  for (i = 0; i < tmp->domain->NbRows; ++i)
 	    {
-	      for (j = 1; j < tmp->domain->NbColumns; ++j)
+	      for (j = 0; j < tmp->domain->NbColumns; ++j)
 		{
 		  sprintf(buff, "%lld ", CANDL_get_si(tmp->domain->p[i][j]));
 		  szbuff = strlen(buff);
@@ -328,8 +328,229 @@ candl_program_deps_to_string(CandlDependence* dependence)
  *
  */
 #ifdef CANDL_SUPPORTS_SCOPLIB
-void candl_dependence_print_scop(FILE* input, FILE* output,
-				 CandlDependence* dependence)
+/**
+ * Read one dependence from a string.
+ *
+ */
+static
+CandlDependence* candl_dependence_read_one_dep(char* str, char** next,
+					       CandlProgram* program)
+{
+  CandlDependence* dep = candl_dependence_malloc();
+  CandlMatrix* msource = NULL;
+  CandlMatrix* mtarget = NULL;
+  char buffer[1024];
+
+  int i, j, k;
+  int id;
+  int id2;
+  /* # Description of dependence xxx */
+  for (; *str != '\n'; ++str);
+  ++str;
+
+  /* # type */
+  for (; *str != '\n'; ++str);
+  ++str;
+
+  /* {RAW,RAR,WAR,WAW} #(type) */
+  for (i = 0; *str != ' '; ++str, ++i)
+    buffer[i] = *str;
+  buffer[i] = '\0';
+  if (! strcmp(buffer, "RAW"))
+    dep->type = CANDL_RAW;
+  else if (! strcmp(buffer, "RAR"))
+    dep->type = CANDL_RAR;
+  else if (! strcmp(buffer, "WAR"))
+    dep->type = CANDL_WAR;
+  else if (! strcmp(buffer, "WAW"))
+    dep->type = CANDL_WAW;
+  for (; *str != '\n'; ++str);
+  ++str;
+
+  /* # From statement xxx */
+  for (; *str != '\n'; ++str);
+  ++str;
+  /* stmt-id */
+  for (i = 0; *str != '\n'; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  id = atoi(buffer);
+  for (i = 0; i < program->nb_statements; ++i)
+    if (program->statement[i]->label == id)
+      {
+	dep->source = program->statement[i];
+	break;
+      }
+
+  /* # To statement xxx */
+  for (; *str != '\n'; ++str);
+  ++str;
+  /* stmt-id */
+  for (i = 0; *str != '\n'; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  id = atoi(buffer);
+  for (i = 0; i < program->nb_statements; ++i)
+    if (program->statement[i]->label == id)
+      {
+	dep->target = program->statement[i];
+	break;
+      }
+
+  /* # Depth */
+  for (; *str != '\n'; ++str);
+  ++str;
+  /* depth */
+  for (i = 0; *str != '\n'; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  dep->depth = atoi(buffer);
+
+  /* # Array id */
+  for (; *str != '\n'; ++str);
+  ++str;
+  /* array-id */
+  for (i = 0; *str != '\n'; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  id = atoi(buffer);
+  switch (dep->type)
+    {
+    case CANDL_RAW:
+      msource = dep->source->written;
+      mtarget = dep->target->read;
+      break;
+    case CANDL_WAR:
+      msource = dep->source->read;
+      mtarget = dep->target->written;
+      break;
+    case CANDL_WAW:
+      msource = dep->source->written;
+      mtarget = dep->target->written;
+      break;
+    case CANDL_RAR:
+      msource = dep->source->read;
+      mtarget = dep->target->read;
+      break;
+    default:
+      exit(1);
+      break;
+    }
+  for (i = 0; i < msource->NbRows && msource->p[i][0] != id; ++i)
+    ;
+  if (i < msource->NbRows)
+    dep->ref_source = i;
+  for (i = 0; i < mtarget->NbRows && mtarget->p[i][0] != id; ++i)
+    ;
+  if (i < mtarget->NbRows)
+    dep->ref_target = i;
+
+  /* # Dependence domain */
+  for (; *str != '\n'; ++str);
+  ++str;
+
+  /* nb-row nb-col */
+  for (i = 0; *str != ' '; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  id = atoi(buffer);
+  for (i = 0; *str != '\n'; ++str, ++i)
+    buffer[i] = *str;
+  ++str;
+  buffer[i] = '\0';
+  id2 = atoi(buffer);
+
+  dep->domain = candl_matrix_malloc(id, id2);
+  /* Read matrix elements. */
+  for (j = 0; j < id; ++j)
+    {
+    for (k = 0; k < id2; ++k)
+      {
+	while (*str && *str == ' ')
+	  str++;
+	for (i = 0; *str != '\n' && *str != ' '; ++str, ++i)
+	  buffer[i] = *str;
+	buffer[i] = '\0';
+	++str;
+	CANDL_set_si(dep->domain->p[j][k], atoi(buffer));
+      }
+    if (*(str - 1) != '\n')
+      {
+	for (; *str != '\n'; ++str);
+	++str;
+      }
+    }
+  /* Store the next character in the string to be analyzed. */
+  *next = str;
+
+  return dep;
+}
+
+/**
+ * Retrieve a CandlDependence list from the option tag in the scop.
+ *
+ */
+CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p scop,
+						 CandlProgram* program)
+{
+  CandlDependence* first = NULL;
+  CandlDependence* currdep = NULL;
+
+  char* deps = scoplib_scop_tag_content(scop,
+					"<dependence-polyhedra>",
+					"</dependence-polyhedra>");
+  /* No dependence, nothing to do. */
+  if (deps == NULL)
+    return NULL;
+
+  /* Keep the starting address of the array. */
+  char* base = deps;
+
+  int i;
+  int depcount;
+  /* Get the number of dependences. */
+  char buffer_nb[32];
+  /* # Number of dependences */
+  for (; *deps != '\n'; ++deps);
+  ++deps;
+  for (i = 0; *deps != '\n'; ++i, ++deps)
+    buffer_nb[i] = deps[i];
+  buffer_nb[i] = '\0';
+  ++deps;
+  int nbdeps = atoi (buffer_nb);
+  char* next;
+  /* For each of them, read 1 and shift of the read size. */
+  for (depcount = 0; depcount < nbdeps; ++depcount)
+    {
+      CandlDependence* adep =
+	candl_dependence_read_one_dep(deps, &next, program);
+      if (first == NULL)
+	currdep = first = adep;
+      else
+	{
+	  currdep->next = adep;
+	  currdep = currdep->next;
+	}
+      deps = next;
+    }
+
+  /* Be clean. */
+  free(base);
+
+  return first;
+}
+
+/**
+ * Update the scop option tag with the dependence list.
+ *
+ */
+void candl_dependence_update_scop_with_deps(scoplib_scop_p scop,
+					    CandlDependence* dependence)
 {
   char* start;
   char* stop;
@@ -339,25 +560,19 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
   char* newopttags;
   char* curr;
   char* tmp;
-  scoplib_scop_p scop;
   int size = 0;
   int size_newdeps;
   int size_olddeps = 0;
   int size_optiontags;
 
-  /* Go to the beginning of the file. */
-  rewind(input);
-
-  /* Re-read the options tags. */
-  scop = scoplib_scop_read(input);
   start = stop = scop->optiontags;
   /* Get the candl tag, if any. */
   content = scoplib_scop_tag_content(scop, "<candl>", "</candl>");
   if (content)
     {
       /* Get the dependence tag, if any. */
-      olddeps = scoplib_scop_tag_content_from_string(content, "<dependences>",
-						     "</dependences>");
+      olddeps = scoplib_scop_tag_content_from_string
+	(content, "<dependence-polyhedra>", "</dependence-polyhedra>");
       /* Seek for the correct start/stop characters to insert
 	 dependences. */
       if (olddeps)
@@ -384,10 +599,11 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
   size_newdeps = newdeps ? strlen(newdeps) : 0;
   size_optiontags = scop->optiontags ? strlen(scop->optiontags) : 0;
   if (content == NULL)
-    size = strlen("<candl>") + strlen("</candl>") + strlen("<dependence>")
-      + strlen("</dependence>");
+    size = strlen("<candl>") + strlen("</candl>") +
+      strlen("<dependence-polyhedra>")
+      + strlen("</dependence-polyhedra>");
   else if (olddeps == NULL)
-    size = strlen("<dependence>") + strlen("</dependence>");
+    size = strlen("<dependence-polyhedra>") + strlen("</dependence-polyhedra>");
   else
     size = 0;
   newopttags = (char*) malloc((size_newdeps + size_optiontags
@@ -409,21 +625,22 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
     }
   if (olddeps == NULL)
     {
-      strcat(newopttags, "<dependences>\n");
-      curr += strlen("<dependences>\n");
+      strcat(newopttags, "<dependence-polyhedra>\n");
+      curr += strlen("<dependence-polyhedra>\n");
     }
   /* Copy the program dependences. */
   for (tmp = newdeps; tmp && *tmp; ++tmp)
       *(curr++) = *tmp;
+  *curr = '\0';
   /* Copy the candl tags, if needed. */
   if (olddeps == NULL)
     {
-      strcat(newopttags, "</dependences>\n");
-      curr += strlen("</dependences>\n");
+      strcat(curr, "</dependence-polyhedra>\n");
+      curr += strlen("</dependence-polyhedra>\n");
     }
   if (content == NULL)
     {
-      strcat(newopttags, "</candl>\n");
+      strcat(curr, "</candl>\n");
       curr += strlen("</candl>\n");
     }
   /* Copy the remainder of the options. */
@@ -435,9 +652,6 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
     free(scop->optiontags);
   scop->optiontags = newopttags;
 
-  /* Dump the .scop. */
-  scoplib_scop_print_dot_scop(output, scop);
-
   /* Be clean. */
   if (content)
     free(content);
@@ -445,6 +659,28 @@ void candl_dependence_print_scop(FILE* input, FILE* output,
     free(olddeps);
   if (newdeps)
     free(newdeps);
+}
+
+/**
+ * Print the scop, containing the list of dependences.
+ *
+ */
+void candl_dependence_print_scop(FILE* input, FILE* output,
+				 CandlDependence* dependence)
+{
+  scoplib_scop_p scop;
+
+  /* Go to the beginning of the file. */
+  rewind(input);
+
+  /* Re-read the options tags. */
+  scop = scoplib_scop_read(input);
+
+  /* Embed the dependences in the scop option tag. */
+  candl_dependence_update_scop_with_deps(scop, dependence);
+
+  /* Dump the .scop. */
+  scoplib_scop_print_dot_scop(output, scop);
 }
 #endif
 
