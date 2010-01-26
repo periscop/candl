@@ -494,7 +494,7 @@ candl_program_p candl_program_convert_scop(scoplib_scop_p scop, int** indices)
 
       statement->domain = (CandlMatrix*) scoplib_matrix_copy(s->domain->elt);
       /* For the moment, we do not parse the statement to extract its type. */
-      statement->type = CANDL_AFFECTATION;
+      statement->type = CANDL_ASSIGNMENT;
       statement->depth = statement->domain->NbColumns - 2 - scop->nb_parameters;
       statement->written = (CandlMatrix*) scoplib_matrix_copy(s->write);
       if (statement->written == NULL)

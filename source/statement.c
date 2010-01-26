@@ -90,7 +90,7 @@ int level ;
     fprintf(file,"Type: ") ;
     switch (statement->type)
     { case CANDL_UNSET        : fprintf(file,"UNSET\n") ;           break ;
-      case CANDL_AFFECTATION  : fprintf(file,"affectation\n") ;     break ;
+      case CANDL_ASSIGNMENT   : fprintf(file,"assignment\n") ;     break ;
       case CANDL_P_REDUCTION  : fprintf(file,"plus-reduction\n") ;  break ;
       case CANDL_M_REDUCTION  : fprintf(file,"minus-reduction\n") ; break ;
       case CANDL_T_REDUCTION  : fprintf(file,"times-reduction\n") ; break ;
@@ -197,13 +197,13 @@ CandlStatement * candl_statement_read(FILE * file, int label, int nb_parameters)
   fgets(s,CANDL_MAX_STRING,file) ;
   
   switch (type)
-  { case 'A': statement->type = CANDL_AFFECTATION ; break ;
+  { case 'A': statement->type = CANDL_ASSIGNMENT ; break ;
     case 'P': statement->type = CANDL_P_REDUCTION ; break ;
     case 'M': statement->type = CANDL_M_REDUCTION ; break ;
     case 'T': statement->type = CANDL_T_REDUCTION ; break ;
     default : fprintf(stderr, "[Candl]ERROR: unknown statement type %c\n",type);
               fprintf(stderr, "              possible types are:\n") ;
-              fprintf(stderr, "              - A for affectation     (=),\n") ;
+              fprintf(stderr, "              - A for assignment       (=),\n") ;
               fprintf(stderr, "              - P for plus-reduction  (+=),\n") ;
               fprintf(stderr, "              - M for minus-reduction (-=),\n") ;
               fprintf(stderr, "              - T for times-reduction (*=).\n") ;

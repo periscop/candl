@@ -1,3 +1,10 @@
+2010-01-26  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
+
+	* source/statement.c,
+	* source/program.c,
+	* include/candl/candl.h.in: FINALLY! change 'affectation' to
+	'assigment'.
+
 2010-01-22  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/program.c,

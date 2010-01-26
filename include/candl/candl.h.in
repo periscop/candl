@@ -63,7 +63,7 @@
 # define CANDL_WAW    3
 # define CANDL_RAR    4
 
-# define CANDL_AFFECTATION 1
+# define CANDL_ASSIGNMENT  1
 # define CANDL_P_REDUCTION 2
 # define CANDL_M_REDUCTION 3
 # define CANDL_T_REDUCTION 4
