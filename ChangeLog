@@ -1,3 +1,9 @@
+2010-02-05  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/matrix.c,
+	* source/violation.c,
+	* source/dependence.c: Minor code polishing fixes.
+
 2010-01-26  Louis-Noel Pouchet  <louis-noel.pouchet@inria.fr>
 
 	* source/statement.c,

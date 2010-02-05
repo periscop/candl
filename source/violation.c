@@ -325,12 +325,9 @@ CandlOptions * options ;
 
     /* The maximal dimension we have to check for legality. */
     max_dimension = CANDL_min(t_source->NbRows,t_target->NbRows) ;
-    /*printf("%d \n",max_dimension) ;
-    candl_matrix_print(stdout,t_source) ;
-    candl_matrix_print(stdout,t_target) ;*/
-    
+
     /* We check each dimension for legality. */
-    for (dimension=0; dimension<max_dimension; dimension++)
+    for (dimension = 0; dimension<max_dimension; dimension++)
     { violated = 0 ;
       system = NULL ;
 

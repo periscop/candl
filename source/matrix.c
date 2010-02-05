@@ -415,10 +415,9 @@ int dimension, nb_par ;
   CANDL_subtract(system->p[constraint][j],
                   t_source->p[dimension][j - t_dims],
                   t_target->p[dimension][j - s_dims]) ;
-
   /* We subtract 1 to the scalar to achieve >0 constraint. */
   CANDL_decrement(system->p[constraint][nb_columns - 1],
-                  system->p[constraint][nb_columns - 1]) ;
+		  system->p[constraint][nb_columns - 1]) ;
 
   CANDL_clear(temp) ;
   return system ;

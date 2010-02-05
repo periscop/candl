@@ -1958,6 +1958,9 @@ candl_dependence_is_loop_carried (candl_program_p program,
       CANDL_assign(m->p[i][j], dep->domain->p[i][j]);
   int ret = candl_matrix_check_point(m, program->context);
 
+  /* Be clean. */
+  candl_matrix_free(m);
+  
   return !ret;
 }
 
