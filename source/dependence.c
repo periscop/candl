@@ -1325,7 +1325,6 @@ candl_dependence_p candl_dependence(candl_program_p program,
  * This function returns true if the variable indexed by 'var_index'
  * is a scalar in the whole program.
  */
-static
 int
 candl_dependence_var_is_scalar (candl_program_p program, int var_index)
 {
@@ -1960,7 +1959,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
 
   /* Be clean. */
   candl_matrix_free(m);
-  
+
   return !ret;
 }
 
@@ -2292,43 +2291,42 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
     int num1, num2;
     PipMatrix *ep, *tp, *qp;
     int i, j;
-
     if (quast == NULL)  {
         *num = 0;
         return NULL;
     }
 
-    if (quast->condition != NULL)   {
-
+    if (quast->condition != NULL)
+      {
         tp = quast_to_polyhedra(quast->next_then, &num1, nvar, npar);
         ep = quast_to_polyhedra(quast->next_else, &num2, nvar, npar);
 
         /* Each of the matrices in the then tree needs to be augmented with
          * the condition */
         for (i=0; i<num1; i++)  {
-            int nrows = tp[i].NbRows;
-            CANDL_set_si(tp[i].p[nrows][0], 1);
-            for (j=1; j<1+nvar; j++) {
-                CANDL_set_si(tp[i].p[nrows][j], 0);
-            }
-            for (j=0; j<npar+1; j++)  {
-                CANDL_assign(tp[i].p[nrows][1+nvar+j], quast->condition->the_vector[j]);
-            }
-            tp[i].NbRows++;
+	  int nrows = tp[i].NbRows;
+	  CANDL_set_si(tp[i].p[nrows][0], 1);
+	  for (j=1; j<1+nvar; j++) {
+	    CANDL_set_si(tp[i].p[nrows][j], 0);
+	  }
+	  for (j=0; j<npar+1; j++)  {
+	    CANDL_assign(tp[i].p[nrows][1+nvar+j], quast->condition->the_vector[j]);
+	  }
+	  tp[i].NbRows++;
         }
 
         for (i=0; i<num2; i++)  {
-            int nrows = ep[i].NbRows;
-            /* Inequality */
-            CANDL_set_si(ep[i].p[nrows][0], 1);
-            for (j=1; j<1+nvar; j++) {
-                CANDL_set_si(ep[i].p[nrows][j], 0);
-            }
-            for (j=0; j<npar+1; j++)  {
-                CANDL_set_si(ep[i].p[nrows][1+nvar+j], -CANDL_get_si(quast->condition->the_vector[j]));
-                // ep[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
-            }
-            ep[i].NbRows++;
+	  int nrows = ep[i].NbRows;
+	  /* Inequality */
+	  CANDL_set_si(ep[i].p[nrows][0], 1);
+	  for (j=1; j<1+nvar; j++) {
+	    CANDL_set_si(ep[i].p[nrows][j], 0);
+	  }
+	  for (j=0; j<npar+1; j++)  {
+	    CANDL_set_si(ep[i].p[nrows][1+nvar+j], -CANDL_get_si(quast->condition->the_vector[j]));
+	    // ep[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
+	  }
+	  ep[i].NbRows++;
         }
 
         qp = (PipMatrix *) malloc((num1+num2)*sizeof(PipMatrix));
@@ -2340,39 +2338,40 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
 
         return qp;
 
-    }else{
+      }
+    else
+      {
         /* quast condition is NULL */
-
-        PipMatrix *lwmatrix = pip_matrix_alloc(nvar+npar, nvar+npar+2);
+        PipMatrix *lwmatrix = pip_matrix_alloc(nvar+npar+1, nvar+npar+2);
 
         PipList *vecList = quast->list;
 
         int count=0;
         while (vecList != NULL) {
-            /* Equality */
-            CANDL_set_si(lwmatrix->p[count][0], 0);
-            for (j=0; j<nvar; j++)   {
-                if (j == count) {
-                    CANDL_set_si(lwmatrix->p[count][j+1], 1);
-                }else{
-                    CANDL_set_si(lwmatrix->p[count][j+1], 0);
-                }
-            }
+	  /* Equality */
+	  CANDL_set_si(lwmatrix->p[count][0], 0);
+	  for (j=0; j<nvar; j++)   {
+	    if (j == count) {
+	      CANDL_set_si(lwmatrix->p[count][j+1], 1);
+	    }else{
+	      CANDL_set_si(lwmatrix->p[count][j+1], 0);
+	    }
+	  }
 
-            for (j=0; j<npar; j++)   {
-                CANDL_set_si(lwmatrix->p[count][j+1+nvar], -CANDL_get_si(vecList->vector->the_vector[j]));
-            }
-            /* Constant portion */
-            if (quast->newparm != NULL) {
-                /* Don't handle newparm for now */
-                CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar+1]));
-            }else{
-                CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar]));
-            }
+	  for (j=0; j<npar; j++)   {
+	    CANDL_set_si(lwmatrix->p[count][j+1+nvar], -CANDL_get_si(vecList->vector->the_vector[j]));
+	  }
+	  /* Constant portion */
+	  if (quast->newparm != NULL) {
+	    /* Don't handle newparm for now */
+	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar+1]));
+	  }else{
+	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar]));
+	  }
 
-            count++;
+	  count++;
 
-            vecList = vecList->next;
+	  vecList = vecList->next;
         }
         lwmatrix->NbRows = count;
 
@@ -2382,7 +2381,7 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
         // pip_matrix_print(stdout, lwmatrix);
 
         return lwmatrix;
-    }
+      }
 }
 
 
@@ -2453,7 +2452,6 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
     // pip_quast_print(stdout, lexmax, 0);
 
     int num;
-
     PipMatrix *qp = quast_to_polyhedra(lexmax, &num, dep->source->depth,
             dep->target->depth + npar);
 
@@ -2503,10 +2501,10 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
  */
 void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
 {
-    // int count=0;
+  // int count=0;
     while (dep != NULL)    {
         if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
-            // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
+	  // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
             // candl_matrix_print(stdout, dep->domain);
             candl_dep_compute_lastwriter(dep, prog);
             // candl_matrix_print(stdout, dep->domain);

@@ -3,6 +3,14 @@
 	* configure.in: Bump to Candl 0.4.0
 	* README: New. Mini readme file.
 
+2010-02-26  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/dependence.h: Export candl_dependence_var_is_scalar
+	function.
+	* source/dependence.c: Fix a bug in last_writer
+	computation (increase by one the number of lines of the allocated
+	matrix in quast_to_polyhedra).
+
 2010-02-05  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/matrix.c,

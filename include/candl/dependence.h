@@ -127,6 +127,9 @@ candl_dependence_p      candl_dependence(CandlProgram *, CandlOptions *);
 /******************************************************************************
  *                          Scalar analysis functions                         *
  ******************************************************************************/
+int
+candl_dependence_var_is_scalar (candl_program_p, int);
+
 CandlStatement**
 candl_dependence_refvar_chain(candl_program_p, CandlStatement*, int, int);
 
