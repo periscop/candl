@@ -1924,7 +1924,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
 {
   int i, j;
 
-  /* Ensure soure and sink share common loop 'loop_index', and that
+  /* Ensure source and sink share common loop 'loop_index', and that
      dependence depth is consistent with the considered loop. */
   for (i = 0; i < dep->source->depth; ++i)
     if (dep->source->index[i] == loop_index)
@@ -2281,20 +2281,21 @@ candl_num_dependences(CandlDependence *candl_deps)
  *
  * num: number of Pip matrices returned
  *
- * TODO: cleanup the arguments and make this function general - free of
- * CandlProgram, CandlDependence arguments  (very easy to do -- too dumb of me
- * to have interfaced it this way)
  **/
-PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
-        int nvar, int npar)
+static
+PipMatrix **quast_to_polyhedra (PipQuast *quast, int *num,
+				int nvar, int npar)
 {
     int num1, num2;
-    PipMatrix *ep, *tp, *qp;
+    PipMatrix** ep;
+    PipMatrix** tp;
+    PipMatrix** qp;
     int i, j;
-    if (quast == NULL)  {
+    if (quast == NULL)
+      {
         *num = 0;
         return NULL;
-    }
+      }
 
     if (quast->condition != NULL)
       {
@@ -2303,36 +2304,36 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
 
         /* Each of the matrices in the then tree needs to be augmented with
          * the condition */
-        for (i=0; i<num1; i++)  {
-	  int nrows = tp[i].NbRows;
-	  CANDL_set_si(tp[i].p[nrows][0], 1);
-	  for (j=1; j<1+nvar; j++) {
-	    CANDL_set_si(tp[i].p[nrows][j], 0);
+        for (i = 0; i < num1; i++)
+	  {
+	    int nrows = tp[i]->NbRows;
+	    CANDL_set_si(tp[i]->p[nrows][0], 1);
+	    for (j = 1; j < 1 + nvar; j++)
+	      CANDL_set_si(tp[i]->p[nrows][j], 0);
+	    for (j = 0; j < npar + 1; j++)
+	      CANDL_assign(tp[i]->p[nrows][1+nvar+j],
+			   quast->condition->the_vector[j]);
+	    (tp[i]->NbRows)++;
 	  }
-	  for (j=0; j<npar+1; j++)  {
-	    CANDL_assign(tp[i].p[nrows][1+nvar+j], quast->condition->the_vector[j]);
-	  }
-	  tp[i].NbRows++;
-        }
 
-        for (i=0; i<num2; i++)  {
-	  int nrows = ep[i].NbRows;
-	  /* Inequality */
-	  CANDL_set_si(ep[i].p[nrows][0], 1);
-	  for (j=1; j<1+nvar; j++) {
-	    CANDL_set_si(ep[i].p[nrows][j], 0);
+        for (i = 0; i < num2; i++)
+	  {
+	    int nrows = ep[i]->NbRows;
+	    /* Inequality */
+	    CANDL_set_si(ep[i]->p[nrows][0], 1);
+	    for (j = 1; j < 1 + nvar; j++)
+	      CANDL_set_si(ep[i]->p[nrows][j], 0);
+	    for (j = 0; j < npar + 1; j++)
+	      CANDL_set_si(ep[i]->p[nrows][1+nvar+j],
+			   -CANDL_get_si(quast->condition->the_vector[j]));
+	    (ep[i]->NbRows)++;
 	  }
-	  for (j=0; j<npar+1; j++)  {
-	    CANDL_set_si(ep[i].p[nrows][1+nvar+j], -CANDL_get_si(quast->condition->the_vector[j]));
-	    // ep[i].p[nrows][1+nvar+j] = quast->condition->the_vector[j];
-	  }
-	  ep[i].NbRows++;
-        }
 
-        qp = (PipMatrix *) malloc((num1+num2)*sizeof(PipMatrix));
-
-        memcpy(qp, tp, sizeof(PipMatrix)*num1);
-        memcpy(qp+num1, ep, sizeof(PipMatrix)*num2);
+        qp = (PipMatrix **) malloc((num1 + num2) * sizeof(PipMatrix*));
+	for (i = 0; i < num1; ++i)
+	  qp[i] = tp[i];
+	for (i = 0; i < num2; ++i)
+	  qp[i + num1] = ep[i];
 
         *num = num1 + num2;
 
@@ -2350,24 +2351,23 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
         while (vecList != NULL) {
 	  /* Equality */
 	  CANDL_set_si(lwmatrix->p[count][0], 0);
-	  for (j=0; j<nvar; j++)   {
-	    if (j == count) {
+	  for (j=0; j<nvar; j++)
+	    if (j == count)
 	      CANDL_set_si(lwmatrix->p[count][j+1], 1);
-	    }else{
+	    else
 	      CANDL_set_si(lwmatrix->p[count][j+1], 0);
-	    }
-	  }
 
-	  for (j=0; j<npar; j++)   {
-	    CANDL_set_si(lwmatrix->p[count][j+1+nvar], -CANDL_get_si(vecList->vector->the_vector[j]));
-	  }
+	  for (j=0; j<npar; j++)
+	    CANDL_set_si(lwmatrix->p[count][j+1+nvar],
+			 -CANDL_get_si(vecList->vector->the_vector[j]));
 	  /* Constant portion */
-	  if (quast->newparm != NULL) {
+	  if (quast->newparm != NULL)
 	    /* Don't handle newparm for now */
-	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar+1]));
-	  }else{
-	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar], -CANDL_get_si(vecList->vector->the_vector[npar]));
-	  }
+	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar],
+			 -CANDL_get_si(vecList->vector->the_vector[npar+1]));
+	  else
+	    CANDL_set_si(lwmatrix->p[count][npar+1+nvar],
+			 -CANDL_get_si(vecList->vector->the_vector[npar]));
 
 	  count++;
 
@@ -2375,12 +2375,14 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
         }
         lwmatrix->NbRows = count;
 
-        if (count > 0) *num = 1;
-        else *num = 0;
+        if (count > 0)
+	  *num = 1;
+        else
+	  *num = 0;
 
-        // pip_matrix_print(stdout, lwmatrix);
-
-        return lwmatrix;
+	PipMatrix** ret = (PipMatrix**) malloc(sizeof(PipMatrix*));
+	ret[0] = lwmatrix;
+        return ret;
       }
 }
 
@@ -2392,7 +2394,8 @@ PipMatrix *quast_to_polyhedra (PipQuast *quast, int *num,
  * Returns 0 if lastwriter is computed successfully and dep domain updated,
  * returns 1 otherwise
  */
-int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
+static
+int candl_dep_compute_lastwriter (CandlDependence **dep, CandlProgram *prog)
 {
     PipQuast *lexmax;
     PipMatrix *new_domain;
@@ -2413,80 +2416,93 @@ int candl_dep_compute_lastwriter (CandlDependence *dep, CandlProgram *prog)
 
     /* Build a context with equalities /inequalities only on the target
      * variables */
-    PipMatrix *context = pip_matrix_alloc(dep->domain->NbRows,
-            dep->target->depth + npar + 2);
+    PipMatrix *context = pip_matrix_alloc((*dep)->domain->NbRows,
+					  (*dep)->target->depth + npar + 2);
 
     int nrows = 0;
-    for (i=0; i<dep->domain->NbRows; i++)  {
-        for (j=1; j<dep->source->depth+1; j++)  {
-            if (dep->domain->p[i][j] != 0) {
-                break;
-            }
-        }
-        if (j == dep->source->depth+1)  {
-            /* Include this in the context */
-            CANDL_assign(context->p[nrows][0], dep->domain->p[i][0]);
-            for (j=1; j < 1+dep->target->depth+npar+1; j++)  {
-                CANDL_assign(context->p[nrows][j], dep->domain->p[i][dep->source->depth+j]);
-            }
-            nrows++;
-        }
-    }
+    for (i = 0; i < (*dep)->domain->NbRows; i++)
+      {
+	for (j = 1; j < (*dep)->source->depth+1; j++)
+	  {
+	    if ((*dep)->domain->p[i][j] != 0)
+	      break;
+	  }
+	if (j == (*dep)->source->depth+1)
+	  {
+	    /* Include this in the context */
+	    CANDL_assign(context->p[nrows][0], (*dep)->domain->p[i][0]);
+	    for (j = 1; j < 1 + (*dep)->target->depth + npar + 1; j++)
+	      CANDL_assign(context->p[nrows][j],
+			   (*dep)->domain->p[i][(*dep)->source->depth+j]);
+
+	    nrows++;
+	  }
+      }
     context->NbRows = nrows;
 
-    // pip_matrix_print(stdout, context);
-
     /* Parameteric lexmax */
-    lexmax = pip_solve(dep->domain, context, -1, pipOptions);
+    lexmax = pip_solve((*dep)->domain, context, -1, pipOptions);
 
     pip_options_free(pipOptions);
 
-    if (lexmax == NULL) {
+    if (lexmax == NULL)
+      {
         printf("WARNING: last writer failed (mostly invalid dependence): %s\n",
                "bailing out safely without modification");
-        pip_matrix_print(stdout, dep->domain);
+        pip_matrix_print(stdout, (*dep)->domain);
         pip_matrix_print(stdout, context);
         return 1;
-    }
-
-    // pip_quast_print(stdout, lexmax, 0);
+      }
 
     int num;
-    PipMatrix *qp = quast_to_polyhedra(lexmax, &num, dep->source->depth,
-            dep->target->depth + npar);
-
-    // pip_matrix_print(stdout, qp);
-
-    /* Multiple cases are not handled */
-    if (num >= 2)   {
-        printf("WARNING: last writer failed (incomplete handling): %s\n",
-               "bailing out safely without modification");
-        return 1;
-    }
+    PipMatrix **qp = quast_to_polyhedra(lexmax, &num, (*dep)->source->depth,
+					(*dep)->target->depth + npar);
 
     /* Update the dependence domains */
-    if (num > 0) {
-        /* Just using qp[0] */
+    if (num > 0)
+      {
+	int it_mat;
+	PipMatrix* original_domain = (*dep)->domain;
+	for (it_mat = 0; it_mat < num; ++it_mat)
+	  {
+	    new_domain = pip_matrix_alloc(original_domain->NbRows +
+					  qp[it_mat]->NbRows,
+					  original_domain->NbColumns);
+	    for (i = 0; i < original_domain->NbRows; i++)
+	      for (j = 0; j < original_domain->NbColumns; j++)
+		CANDL_assign(new_domain->p[i][j], original_domain->p[i][j]);
 
-        new_domain = pip_matrix_alloc(dep->domain->NbRows + qp->NbRows,
-                dep->domain->NbColumns);
-        for (i=0; i<dep->domain->NbRows; i++)  {
-            for (j=0; j<dep->domain->NbColumns; j++)  {
-                CANDL_assign(new_domain->p[i][j], dep->domain->p[i][j]);
-            }
-        }
+	    for (i = 0; i < qp[it_mat]->NbRows; i++)
+	      for (j = 0; j < original_domain->NbColumns; j++)
+		CANDL_assign(new_domain->p[i+original_domain->NbRows][j],
+			     qp[it_mat]->p[i][j]);
 
-        for (i=0; i<qp->NbRows; i++)  {
-            for (j=0; j<dep->domain->NbColumns; j++)  {
-                CANDL_assign(new_domain->p[i+dep->domain->NbRows][j], qp->p[i][j]);
-            }
-        }
+	    (*dep)->domain = new_domain;
+	    /* More than 1 pipmatrix from the quast, we need to insert
+	       new dependences to have the union of domains. */
+	    if (it_mat < num - 1)
+	      {
+		CandlDependence* newdep = candl_dependence_malloc ();
+		newdep->source = (*dep)->source;
+		newdep->target = (*dep)->target;
+		newdep->depth = (*dep)->depth;
+		newdep->type = (*dep)->type;
+		newdep->ref_source = (*dep)->ref_source;
+		newdep->ref_target = (*dep)->ref_target;
+		newdep->usr = (*dep)->usr;
+		newdep->next = (*dep)->next;
+		(*dep)->next = newdep;
+		*dep = newdep;
+	      }
+	  }
 
-        pip_matrix_free(dep->domain);
-        dep->domain = new_domain;
-    }
+	pip_matrix_free(original_domain);
+	for (i = 0; i < num; ++i)
+	  pip_matrix_free(qp[i]);
+      }
 
-    pip_matrix_free(qp);
+    if (qp)
+      free(qp);
     pip_quast_free(lexmax);
     pip_matrix_free(context);
 
@@ -2506,7 +2522,7 @@ void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
         if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
 	  // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
             // candl_matrix_print(stdout, dep->domain);
-            candl_dep_compute_lastwriter(dep, prog);
+            candl_dep_compute_lastwriter(&dep, prog);
             // candl_matrix_print(stdout, dep->domain);
         }
         dep = dep->next;
