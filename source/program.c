@@ -554,6 +554,8 @@ candl_program_p candl_program_convert_scop(scoplib_scop_p scop, int** indices)
 	      if (last[j] < val)
 		{
 		  last[j] = val;
+		  for (k = j + 1; k < max_loop_depth; ++k)
+		    last[k] = 0;
 		  for (k = j; k < max_loop_depth; ++k)
 		    cur_index[k] = max + (k - j) + 1;
 		  break;

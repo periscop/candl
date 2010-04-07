@@ -1,3 +1,7 @@
+2010-04-07  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/program.c: Fix a bug in Scop to Candl conversion.
+
 2010-04-01  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/dependence.c: Implement missing feature for last-writer.
