@@ -1944,6 +1944,10 @@ candl_dependence_is_loop_carried (candl_program_p program,
 				       dep->domain->NbColumns);
   CANDL_set_si(m->p[m->NbRows - 2][i + 1], -1);
   CANDL_set_si(m->p[m->NbRows - 1][dep->source->depth + 1 + j], -1);
+  /* Copy the rest of the matrix. */
+  for (i = 0; i < dep->domain->NbRows; ++i)
+    for (j = 0; j < dep->domain->NbColumns; ++j)
+      CANDL_assign(m->p[i][j], dep->domain->p[i][j]);
   /* Compute real lb of loops. */
   Entier lb; CANDL_init(lb);
   candl_dependence_compute_lb (m, &lb, i + 1);
@@ -1951,10 +1955,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
   candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j);
   CANDL_assign(m->p[m->NbRows - 1][m->NbColumns - 1], lb);
   CANDL_clear(lb);
-  /* Copy the rest of the matrix. */
-  for (i = 0; i < dep->domain->NbRows; ++i)
-    for (j = 0; j < dep->domain->NbColumns; ++j)
-      CANDL_assign(m->p[i][j], dep->domain->p[i][j]);
   int ret = candl_matrix_check_point(m, program->context);
 
   /* Be clean. */

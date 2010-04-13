@@ -1,3 +1,7 @@
+2010-04-13  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/dependence.c: Fix a potential bug in is_loop_carried.
+
 2010-04-07  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/program.c: Fix a bug in Scop to Candl conversion.
