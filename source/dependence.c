@@ -504,6 +504,7 @@ CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p scop,
   char* deps = scoplib_scop_tag_content(scop,
 					"<dependence-polyhedra>",
 					"</dependence-polyhedra>");
+
   /* No dependence, nothing to do. */
   if (deps == NULL)
     return NULL;
@@ -519,11 +520,12 @@ CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p scop,
   for (; *deps != '\n'; ++deps);
   ++deps;
   for (i = 0; *deps != '\n'; ++i, ++deps)
-    buffer_nb[i] = deps[i];
+    buffer_nb[i] = *deps;
   buffer_nb[i] = '\0';
   ++deps;
   int nbdeps = atoi (buffer_nb);
   char* next;
+  
   /* For each of them, read 1 and shift of the read size. */
   for (depcount = 0; depcount < nbdeps; ++depcount)
     {

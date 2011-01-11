@@ -518,7 +518,7 @@ candl_program_p candl_program_convert_scop(scoplib_scop_p scop, int** indices)
 
 	  /* FIXME: Sort the statements in their execution order. */
 	  /* It must be a 2d+1 identity scheduling matrix, and
-	     statement must be sorted in their execution order. */
+	     statements must be sorted in their execution order. */
 	  /* Check that it is a identity matrix. */
 	  int error = 0;
 	  if (m->NbRows != 2 * statement->depth + 1)
