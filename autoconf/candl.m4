@@ -48,6 +48,33 @@ dnl Check for scoplib existence.
           fi
          ])
 	])
+dnl Offer --with-isl.
+  AC_ARG_WITH(isl,
+	      AC_HELP_STRING([--with-isl=DIR],
+              	             [DIR Location of Isl package]),
+              [with_isl=$withval;
+	       CPPFLAGS="${CPPFLAGS} -I$withval/include";
+	       LDFLAGS="${LDFLAGS} -L$withval/lib"
+	      ],
+              [with_isl=check])
+dnl Check for isl existence.
+  AS_IF([test "x$with_isl" != xno],
+	[AC_CHECK_LIB([isl], [isl_printer_to_file],
+	 [LIBS="-lisl $LIBS";
+	 DEFINE_HAS_ISL_LIB="# define CANDL_SUPPORTS_ISL"
+	 ],
+         [DEFINE_HAS_ISL_LIB=""
+  	  if test "x$with_isl" != xcheck; then
+           AC_MSG_FAILURE([Test for Isl failed. Use --with-isl to specify libisl path.])
+          fi
+         ])
+	])
+dnl Offer --with-gmp-prefix.
+  AC_ARG_WITH(gmp-prefix,
+	      AC_HELP_STRING([--with-gmp-prefix=DIR],
+              	             [DIR Location of GMP package (only headers are needed)]),
+              [CPPFLAGS="${CPPFLAGS} -I$withval/include";
+	      ])
 ])
 
 

@@ -1,3 +1,19 @@
+2011-02-01  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* include/candl/candl.h.in,
+	* autoconf/candl.m4: Offer optional configure option to build
+	with ISL support.
+
+	* source/isl-wrapper.c: New. In- and out- of ISL functions,
+	from CandlMatrix (aka PipMatrix).
+	* source/Makefile.am: Update accordingly.
+
+	* source/dependence.c,
+	* include/candl/dependence.h: Add candl_dependence_isl_simplify
+	which uses ISL to simplify the dependence polyhedra.
+
+	* configure.in: Bump to Candl 0.5.0
+
 2011-01-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/dependence.c: Fix a minor bug in the Scop dependence

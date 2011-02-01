@@ -45,6 +45,8 @@
 # define CANDL_RELEASE "@PACKAGE_VERSION@"
 # define CANDL_VERSION "@BITS@"
 @DEFINE_HAS_SCOPLIB_LIB@
+@DEFINE_HAS_ISL_LIB@
+
 
 # include <piplib/piplib@BITS@.h>
 # include <candl/options.h>

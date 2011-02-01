@@ -50,6 +50,7 @@ lib_LTLIBRARIES 	= libcandl.la
 
 libcandl_la_SOURCES 	=			\
 	dependence.c				\
+	isl-wrapper.c				\
 	matrix.c				\
 	options.c				\
 	program.c				\

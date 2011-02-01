@@ -37,13 +37,20 @@
  * \author Cedric Bastoul and Louis-Noel Pouchet
  */
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
-# include <candl/candl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <candl/candl.h>
 
 #include <assert.h>
 
+#ifdef CANDL_SUPPORTS_ISL
+# undef Q // Thank you polylib...
+# include <isl/int.h>
+# include <isl/constraint.h>
+# include <isl/ctx.h>
+# include <isl/set.h>
+#endif
 
 /******************************************************************************
  *                          Structure display function                        *
@@ -318,6 +325,60 @@ candl_program_deps_to_string(CandlDependence* dependence)
   return buffer;
 }
 
+#ifdef CANDL_SUPPORTS_ISL
+
+struct isl_set*
+isl_set_from_piplib_matrix(struct isl_ctx* ctx,
+			   PipMatrix* matrix,
+			   int nparam);
+PipMatrix*
+isl_set_to_piplib_matrix(struct isl_ctx* ctx,
+			 struct isl_set* set,
+			 int nparam);
+/**
+ * candl_dependence_isl_simplify function:
+ *
+ * This function uses ISL to simplify the dependence polyhedra.
+ * Useful for polyhedra that contain large coefficient values.
+ *
+ */
+CandlDependence* candl_dependence_isl_simplify(CandlDependence* dep,
+					       CandlProgram* program)
+{
+  if (dep == NULL || program == NULL)
+    return dep;
+
+  CandlDependence* tmp;
+  PipMatrix* context = (PipMatrix*) program->context;
+  int nparam = context->NbColumns - 2;
+
+  struct isl_ctx* ctx = isl_ctx_alloc ();
+
+  for (tmp = dep; tmp; tmp = tmp->next)
+    {
+      // 1- Convert the dependence polyhedron into ISL set.
+      struct isl_set* set =
+	isl_set_from_piplib_matrix(ctx, tmp->domain, nparam);
+
+      // 2- Simplify the ISL set.
+      set = isl_set_detect_equalities(set);
+
+      // 3- Convert back into Candl matrix representation.
+      PipMatrix* newdom = isl_set_to_piplib_matrix(ctx, set, nparam);
+      isl_set_free (set);
+      candl_matrix_free (tmp->domain);
+      tmp->domain = (CandlMatrix*) newdom;
+    }
+
+  /// FIXME: Some dead ref.
+  //isl_ctx_free (ctx);
+
+  return dep;
+}
+
+#endif
+
+
 
 /**
  * candl_dependence_print_scop function:
@@ -525,7 +586,7 @@ CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p scop,
   ++deps;
   int nbdeps = atoi (buffer_nb);
   char* next;
-  
+
   /* For each of them, read 1 and shift of the read size. */
   for (depcount = 0; depcount < nbdeps; ++depcount)
     {

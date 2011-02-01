@@ -37,11 +37,14 @@
 #ifndef CANDL_DEPENDENCE_H
 # define CANDL_DEPENDENCE_H
 
+
 # include <stdio.h>
 # include <candl/statement.h>
 # include <candl/matrix.h>
 # include <candl/program.h>
 # include <candl/options.h>
+
+
 
 # define CANDL_ARRAY_BUFF_SIZE		2048
 # define CANDL_VAR_UNDEF		1
@@ -102,6 +105,10 @@ void candl_dependence_view(candl_dependence_p);
 CandlDependence* candl_dependence_read_from_scop(scoplib_scop_p, CandlProgram*);
 void candl_dependence_update_scop_with_deps(scoplib_scop_p, CandlDependence*);
 void candl_dependence_print_scop(FILE*, FILE*, CandlDependence*);
+# endif
+
+#ifdef CANDL_SUPPORTS_ISL
+CandlDependence* candl_dependence_isl_simplify(CandlDependence*, CandlProgram*);
 # endif
 
 
