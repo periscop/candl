@@ -24,7 +24,7 @@
 ####################
 # -------------------------
 # Statement 1
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration domain

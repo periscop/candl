@@ -11,7 +11,7 @@ Program:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -33,7 +33,7 @@ Program:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -55,7 +55,7 @@ Program:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -87,7 +87,7 @@ Program:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -119,7 +119,7 @@ Program:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -163,7 +163,7 @@ Program:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -207,7 +207,7 @@ Program:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -233,7 +233,7 @@ Program:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -259,7 +259,7 @@ Program:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -285,7 +285,7 @@ Program:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -311,7 +311,7 @@ Program:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -337,7 +337,7 @@ Program:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -363,7 +363,7 @@ Program:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -389,7 +389,7 @@ Program:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -415,7 +415,7 @@ Program:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -439,7 +439,7 @@ Program:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -463,7 +463,7 @@ Program:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -487,7 +487,7 @@ Program:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -511,7 +511,7 @@ Program:
 |	|	|	
 |	|	Label: 18
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -533,7 +533,7 @@ Program:
 |	|	|	
 |	|	Label: 19
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -556,7 +556,7 @@ Program:
 |	|	|	
 |	|	Label: 20
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -579,7 +579,7 @@ Program:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -625,7 +625,7 @@ Program:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -671,7 +671,7 @@ Program:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -709,7 +709,7 @@ Program:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -735,7 +735,7 @@ Program:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -761,7 +761,7 @@ Program:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -787,7 +787,7 @@ Program:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -813,7 +813,7 @@ Program:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -839,7 +839,7 @@ Program:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -865,7 +865,7 @@ Program:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -889,7 +889,7 @@ Program:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -913,7 +913,7 @@ Program:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -937,7 +937,7 @@ Program:
 |	|	|	
 |	|	Label: 33
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -960,7 +960,7 @@ Program:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -995,7 +995,7 @@ Program:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -1030,7 +1030,7 @@ Program:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -1065,7 +1065,7 @@ Program:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -1093,7 +1093,7 @@ Program:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -1121,7 +1121,7 @@ Program:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -1149,7 +1149,7 @@ Program:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1175,7 +1175,7 @@ Program:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1201,7 +1201,7 @@ Program:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1227,7 +1227,7 @@ Program:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1253,7 +1253,7 @@ Program:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1279,7 +1279,7 @@ Program:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -1305,7 +1305,7 @@ Program:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1331,7 +1331,7 @@ Program:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1357,7 +1357,7 @@ Program:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1383,7 +1383,7 @@ Program:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1409,7 +1409,7 @@ Program:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1435,7 +1435,7 @@ Program:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -1461,7 +1461,7 @@ Program:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1485,7 +1485,7 @@ Program:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1509,7 +1509,7 @@ Program:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1533,7 +1533,7 @@ Program:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1557,7 +1557,7 @@ Program:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1581,7 +1581,7 @@ Program:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1616,7 +1616,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1638,7 +1638,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -1702,7 +1702,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -1724,7 +1724,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -1788,7 +1788,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -1820,7 +1820,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -1877,7 +1877,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -1909,7 +1909,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -1958,7 +1958,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -1984,7 +1984,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2039,7 +2039,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2071,7 +2071,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -2116,7 +2116,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -2140,7 +2140,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2193,7 +2193,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2225,7 +2225,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2296,7 +2296,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2328,7 +2328,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2399,7 +2399,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2431,7 +2431,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2502,7 +2502,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2534,7 +2534,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2605,7 +2605,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2651,7 +2651,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2708,7 +2708,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2754,7 +2754,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2811,7 +2811,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2857,7 +2857,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -2914,7 +2914,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -2960,7 +2960,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3017,7 +3017,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3049,7 +3049,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -3112,7 +3112,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3144,7 +3144,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -3207,7 +3207,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -3245,7 +3245,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3302,7 +3302,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -3340,7 +3340,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3397,7 +3397,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3429,7 +3429,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3482,7 +3482,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3510,7 +3510,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3567,7 +3567,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3599,7 +3599,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3652,7 +3652,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3684,7 +3684,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3737,7 +3737,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3765,7 +3765,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3822,7 +3822,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -3850,7 +3850,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3907,7 +3907,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -3939,7 +3939,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -3988,7 +3988,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -4014,7 +4014,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4069,7 +4069,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4101,7 +4101,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -4150,7 +4150,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -4176,7 +4176,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4231,7 +4231,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4263,7 +4263,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4320,7 +4320,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4352,7 +4352,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -4401,7 +4401,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -4427,7 +4427,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4482,7 +4482,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4514,7 +4514,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -4563,7 +4563,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -4589,7 +4589,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4644,7 +4644,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4676,7 +4676,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -4721,7 +4721,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -4745,7 +4745,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4798,7 +4798,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4830,7 +4830,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -4901,7 +4901,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -4933,7 +4933,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5004,7 +5004,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5036,7 +5036,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5107,7 +5107,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5139,7 +5139,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5210,7 +5210,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5256,7 +5256,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5313,7 +5313,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5359,7 +5359,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5416,7 +5416,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5462,7 +5462,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5519,7 +5519,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5565,7 +5565,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5622,7 +5622,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5654,7 +5654,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5717,7 +5717,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5749,7 +5749,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5812,7 +5812,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5850,7 +5850,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -5907,7 +5907,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -5945,7 +5945,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6002,7 +6002,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6034,7 +6034,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6087,7 +6087,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6115,7 +6115,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6172,7 +6172,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6204,7 +6204,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6257,7 +6257,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6289,7 +6289,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6342,7 +6342,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6370,7 +6370,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6427,7 +6427,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -6455,7 +6455,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6512,7 +6512,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6544,7 +6544,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -6593,7 +6593,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -6619,7 +6619,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6674,7 +6674,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6706,7 +6706,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -6755,7 +6755,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -6781,7 +6781,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6836,7 +6836,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6880,7 +6880,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6949,7 +6949,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -6993,7 +6993,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -7042,7 +7042,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -7068,7 +7068,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7135,7 +7135,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7179,7 +7179,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -7228,7 +7228,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -7254,7 +7254,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7321,7 +7321,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7365,7 +7365,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -7410,7 +7410,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -7434,7 +7434,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7499,7 +7499,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7543,7 +7543,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -7614,7 +7614,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7658,7 +7658,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -7729,7 +7729,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -7775,7 +7775,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7844,7 +7844,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -7890,7 +7890,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -7959,7 +7959,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8003,7 +8003,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -8074,7 +8074,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8118,7 +8118,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -8189,7 +8189,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -8235,7 +8235,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8304,7 +8304,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -8350,7 +8350,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8419,7 +8419,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8463,7 +8463,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -8516,7 +8516,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8560,7 +8560,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -8613,7 +8613,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -8641,7 +8641,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8710,7 +8710,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -8738,7 +8738,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8807,7 +8807,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8851,7 +8851,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -8904,7 +8904,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -8948,7 +8948,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9001,7 +9001,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9029,7 +9029,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9098,7 +9098,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9126,7 +9126,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9195,7 +9195,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9239,7 +9239,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9292,7 +9292,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9336,7 +9336,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9389,7 +9389,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9433,7 +9433,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9486,7 +9486,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9530,7 +9530,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9583,7 +9583,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9611,7 +9611,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9680,7 +9680,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9708,7 +9708,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9777,7 +9777,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9805,7 +9805,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9874,7 +9874,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -9902,7 +9902,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -9971,7 +9971,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10015,7 +10015,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10064,7 +10064,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10108,7 +10108,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10157,7 +10157,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10183,7 +10183,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10250,7 +10250,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10276,7 +10276,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10343,7 +10343,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10387,7 +10387,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10436,7 +10436,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10462,7 +10462,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10529,7 +10529,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10573,7 +10573,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10622,7 +10622,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10666,7 +10666,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10715,7 +10715,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10741,7 +10741,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10808,7 +10808,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -10834,7 +10834,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10901,7 +10901,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -10945,7 +10945,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -10994,7 +10994,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11020,7 +11020,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11087,7 +11087,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11131,7 +11131,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11180,7 +11180,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11224,7 +11224,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11273,7 +11273,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11299,7 +11299,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11366,7 +11366,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11392,7 +11392,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11459,7 +11459,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11503,7 +11503,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11552,7 +11552,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11596,7 +11596,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11645,7 +11645,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11671,7 +11671,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11738,7 +11738,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -11764,7 +11764,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11831,7 +11831,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -11875,7 +11875,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -11920,7 +11920,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -11944,7 +11944,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12009,7 +12009,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12053,7 +12053,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12098,7 +12098,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12122,7 +12122,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12187,7 +12187,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12231,7 +12231,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12276,7 +12276,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12300,7 +12300,7 @@ Dependences:
 |	|	|	
 |	|	Label: 4
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12365,7 +12365,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12409,7 +12409,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12478,7 +12478,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12522,7 +12522,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -12571,7 +12571,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -12597,7 +12597,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12664,7 +12664,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12708,7 +12708,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -12757,7 +12757,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -12783,7 +12783,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12850,7 +12850,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -12894,7 +12894,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12939,7 +12939,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -12963,7 +12963,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13028,7 +13028,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13072,7 +13072,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13143,7 +13143,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13187,7 +13187,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13258,7 +13258,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13304,7 +13304,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13373,7 +13373,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13419,7 +13419,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13488,7 +13488,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13532,7 +13532,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13603,7 +13603,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13647,7 +13647,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13718,7 +13718,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13764,7 +13764,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13833,7 +13833,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -13879,7 +13879,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13948,7 +13948,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -13992,7 +13992,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14045,7 +14045,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14089,7 +14089,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14142,7 +14142,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14186,7 +14186,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14239,7 +14239,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14283,7 +14283,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14336,7 +14336,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14364,7 +14364,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14433,7 +14433,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14461,7 +14461,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14530,7 +14530,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14558,7 +14558,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14627,7 +14627,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14655,7 +14655,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14724,7 +14724,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14768,7 +14768,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14821,7 +14821,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14865,7 +14865,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -14918,7 +14918,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -14962,7 +14962,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15015,7 +15015,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15059,7 +15059,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15112,7 +15112,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15140,7 +15140,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15209,7 +15209,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15237,7 +15237,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15306,7 +15306,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15334,7 +15334,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15403,7 +15403,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15431,7 +15431,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15500,7 +15500,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15544,7 +15544,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15597,7 +15597,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -15625,7 +15625,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15694,7 +15694,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15738,7 +15738,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -15787,7 +15787,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15831,7 +15831,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -15880,7 +15880,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -15906,7 +15906,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -15973,7 +15973,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -15999,7 +15999,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -16066,7 +16066,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -16110,7 +16110,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -16159,7 +16159,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -16203,7 +16203,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -16252,7 +16252,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -16278,7 +16278,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -16345,7 +16345,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -16371,7 +16371,7 @@ Dependences:
 |	|	|	
 |	|	Label: 5
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 1 2
 |	|	|	
@@ -16438,7 +16438,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16464,7 +16464,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16511,7 +16511,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16537,7 +16537,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16584,7 +16584,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16610,7 +16610,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16657,7 +16657,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16683,7 +16683,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -16726,7 +16726,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -16750,7 +16750,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16795,7 +16795,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16821,7 +16821,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -16890,7 +16890,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -16916,7 +16916,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -16985,7 +16985,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17031,7 +17031,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17080,7 +17080,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17126,7 +17126,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17175,7 +17175,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17201,7 +17201,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17262,7 +17262,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17300,7 +17300,7 @@ Dependences:
 |	|	|	
 |	|	Label: 6
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17349,7 +17349,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17375,7 +17375,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17422,7 +17422,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17448,7 +17448,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17495,7 +17495,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17521,7 +17521,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17568,7 +17568,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17594,7 +17594,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -17637,7 +17637,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -17661,7 +17661,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17706,7 +17706,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17732,7 +17732,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17801,7 +17801,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17827,7 +17827,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17896,7 +17896,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -17942,7 +17942,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -17991,7 +17991,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -18037,7 +18037,7 @@ Dependences:
 |	|	|	
 |	|	Label: 7
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18086,7 +18086,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18112,7 +18112,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18159,7 +18159,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18185,7 +18185,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18232,7 +18232,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18258,7 +18258,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18305,7 +18305,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18331,7 +18331,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -18374,7 +18374,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -18398,7 +18398,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18443,7 +18443,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18469,7 +18469,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -18538,7 +18538,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -18584,7 +18584,7 @@ Dependences:
 |	|	|	
 |	|	Label: 8
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18633,7 +18633,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18659,7 +18659,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18706,7 +18706,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18732,7 +18732,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18779,7 +18779,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18805,7 +18805,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18852,7 +18852,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18878,7 +18878,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -18921,7 +18921,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -18945,7 +18945,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -18990,7 +18990,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -19016,7 +19016,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19085,7 +19085,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19131,7 +19131,7 @@ Dependences:
 |	|	|	
 |	|	Label: 9
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 3
 |	|	|	
@@ -19180,7 +19180,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19206,7 +19206,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19253,7 +19253,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19279,7 +19279,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19326,7 +19326,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19352,7 +19352,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19399,7 +19399,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19425,7 +19425,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -19468,7 +19468,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -19492,7 +19492,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19537,7 +19537,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19563,7 +19563,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19632,7 +19632,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19658,7 +19658,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19727,7 +19727,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19773,7 +19773,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19822,7 +19822,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -19868,7 +19868,7 @@ Dependences:
 |	|	|	
 |	|	Label: 10
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19917,7 +19917,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19943,7 +19943,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -19990,7 +19990,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20016,7 +20016,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20063,7 +20063,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20089,7 +20089,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20136,7 +20136,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20162,7 +20162,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -20205,7 +20205,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -20229,7 +20229,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20274,7 +20274,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20300,7 +20300,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20369,7 +20369,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20395,7 +20395,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20464,7 +20464,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20510,7 +20510,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20559,7 +20559,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20605,7 +20605,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20654,7 +20654,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20680,7 +20680,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20741,7 +20741,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -20779,7 +20779,7 @@ Dependences:
 |	|	|	
 |	|	Label: 11
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20828,7 +20828,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20854,7 +20854,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20901,7 +20901,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20927,7 +20927,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -20974,7 +20974,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21000,7 +21000,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21047,7 +21047,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21073,7 +21073,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21116,7 +21116,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21140,7 +21140,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21185,7 +21185,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21211,7 +21211,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -21280,7 +21280,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -21326,7 +21326,7 @@ Dependences:
 |	|	|	
 |	|	Label: 12
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21375,7 +21375,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21401,7 +21401,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21448,7 +21448,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21474,7 +21474,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21521,7 +21521,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21547,7 +21547,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21594,7 +21594,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21620,7 +21620,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21663,7 +21663,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21687,7 +21687,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21732,7 +21732,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21758,7 +21758,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -21827,7 +21827,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -21873,7 +21873,7 @@ Dependences:
 |	|	|	
 |	|	Label: 13
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 4
 |	|	|	
@@ -21922,7 +21922,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21946,7 +21946,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -21987,7 +21987,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22011,7 +22011,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22052,7 +22052,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22076,7 +22076,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22117,7 +22117,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22141,7 +22141,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -22208,7 +22208,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -22254,7 +22254,7 @@ Dependences:
 |	|	|	
 |	|	Label: 14
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22299,7 +22299,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22323,7 +22323,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22364,7 +22364,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22388,7 +22388,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22429,7 +22429,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22453,7 +22453,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22494,7 +22494,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22518,7 +22518,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -22585,7 +22585,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -22631,7 +22631,7 @@ Dependences:
 |	|	|	
 |	|	Label: 15
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22676,7 +22676,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22700,7 +22700,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22741,7 +22741,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22765,7 +22765,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22806,7 +22806,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22830,7 +22830,7 @@ Dependences:
 |	|	|	
 |	|	Label: 16
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22871,7 +22871,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22895,7 +22895,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22936,7 +22936,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -22960,7 +22960,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23001,7 +23001,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23025,7 +23025,7 @@ Dependences:
 |	|	|	
 |	|	Label: 17
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23066,7 +23066,7 @@ Dependences:
 |	|	|	
 |	|	Label: 18
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23088,7 +23088,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23154,7 +23154,7 @@ Dependences:
 |	|	|	
 |	|	Label: 18
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23176,7 +23176,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23242,7 +23242,7 @@ Dependences:
 |	|	|	
 |	|	Label: 19
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23265,7 +23265,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23331,7 +23331,7 @@ Dependences:
 |	|	|	
 |	|	Label: 19
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23354,7 +23354,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23412,7 +23412,7 @@ Dependences:
 |	|	|	
 |	|	Label: 20
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23435,7 +23435,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23501,7 +23501,7 @@ Dependences:
 |	|	|	
 |	|	Label: 20
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -23524,7 +23524,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23582,7 +23582,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23628,7 +23628,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23699,7 +23699,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23745,7 +23745,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -23794,7 +23794,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -23820,7 +23820,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23889,7 +23889,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -23935,7 +23935,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -23984,7 +23984,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -24010,7 +24010,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24079,7 +24079,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24125,7 +24125,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -24170,7 +24170,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -24194,7 +24194,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24261,7 +24261,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24307,7 +24307,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24367,7 +24367,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24413,7 +24413,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24473,7 +24473,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24508,7 +24508,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24579,7 +24579,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24614,7 +24614,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24685,7 +24685,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24731,7 +24731,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24784,7 +24784,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -24812,7 +24812,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24883,7 +24883,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -24929,7 +24929,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -24978,7 +24978,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -25004,7 +25004,7 @@ Dependences:
 |	|	|	
 |	|	Label: 21
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25073,7 +25073,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25119,7 +25119,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25190,7 +25190,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25236,7 +25236,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -25285,7 +25285,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -25311,7 +25311,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25380,7 +25380,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25426,7 +25426,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -25475,7 +25475,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -25501,7 +25501,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25570,7 +25570,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25616,7 +25616,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -25661,7 +25661,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -25685,7 +25685,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25752,7 +25752,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25798,7 +25798,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -25858,7 +25858,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -25904,7 +25904,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -25964,7 +25964,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -25999,7 +25999,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26070,7 +26070,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -26105,7 +26105,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26176,7 +26176,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26222,7 +26222,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -26275,7 +26275,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -26303,7 +26303,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26374,7 +26374,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26420,7 +26420,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -26469,7 +26469,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -26495,7 +26495,7 @@ Dependences:
 |	|	|	
 |	|	Label: 22
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26564,7 +26564,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26602,7 +26602,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26665,7 +26665,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26703,7 +26703,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -26752,7 +26752,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -26778,7 +26778,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26839,7 +26839,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -26877,7 +26877,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -26926,7 +26926,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -26952,7 +26952,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27013,7 +27013,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27051,7 +27051,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -27096,7 +27096,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -27120,7 +27120,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27179,7 +27179,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27217,7 +27217,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27277,7 +27277,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27315,7 +27315,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27375,7 +27375,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27410,7 +27410,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27473,7 +27473,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27508,7 +27508,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27571,7 +27571,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27609,7 +27609,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27662,7 +27662,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -27690,7 +27690,7 @@ Dependences:
 |	|	|	
 |	|	Label: 23
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 5 6
 |	|	|	
@@ -27753,7 +27753,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27779,7 +27779,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27826,7 +27826,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27852,7 +27852,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27899,7 +27899,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27925,7 +27925,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27972,7 +27972,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -27998,7 +27998,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -28041,7 +28041,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -28065,7 +28065,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28110,7 +28110,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28136,7 +28136,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -28194,7 +28194,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -28229,7 +28229,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28278,7 +28278,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28304,7 +28304,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -28355,7 +28355,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -28383,7 +28383,7 @@ Dependences:
 |	|	|	
 |	|	Label: 24
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28432,7 +28432,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28458,7 +28458,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28505,7 +28505,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28531,7 +28531,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28578,7 +28578,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28604,7 +28604,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28651,7 +28651,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28677,7 +28677,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -28720,7 +28720,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -28744,7 +28744,7 @@ Dependences:
 |	|	|	
 |	|	Label: 25
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28789,7 +28789,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28815,7 +28815,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28862,7 +28862,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28888,7 +28888,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28935,7 +28935,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -28961,7 +28961,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -29008,7 +29008,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -29034,7 +29034,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29077,7 +29077,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29101,7 +29101,7 @@ Dependences:
 |	|	|	
 |	|	Label: 26
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 7
 |	|	|	
@@ -29146,7 +29146,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29172,7 +29172,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29219,7 +29219,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29245,7 +29245,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29292,7 +29292,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29318,7 +29318,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29365,7 +29365,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29391,7 +29391,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29434,7 +29434,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29458,7 +29458,7 @@ Dependences:
 |	|	|	
 |	|	Label: 27
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29503,7 +29503,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29529,7 +29529,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29576,7 +29576,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29602,7 +29602,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29649,7 +29649,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29675,7 +29675,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29722,7 +29722,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29748,7 +29748,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29791,7 +29791,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -29815,7 +29815,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29860,7 +29860,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -29886,7 +29886,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -29944,7 +29944,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -29979,7 +29979,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30028,7 +30028,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30054,7 +30054,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -30105,7 +30105,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -30133,7 +30133,7 @@ Dependences:
 |	|	|	
 |	|	Label: 28
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30182,7 +30182,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30208,7 +30208,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30255,7 +30255,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30281,7 +30281,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30328,7 +30328,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30354,7 +30354,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30401,7 +30401,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30427,7 +30427,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30470,7 +30470,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30494,7 +30494,7 @@ Dependences:
 |	|	|	
 |	|	Label: 29
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 8
 |	|	|	
@@ -30539,7 +30539,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30563,7 +30563,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30604,7 +30604,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30628,7 +30628,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30669,7 +30669,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30693,7 +30693,7 @@ Dependences:
 |	|	|	
 |	|	Label: 30
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30734,7 +30734,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30758,7 +30758,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30799,7 +30799,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30823,7 +30823,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30864,7 +30864,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30888,7 +30888,7 @@ Dependences:
 |	|	|	
 |	|	Label: 31
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30929,7 +30929,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30953,7 +30953,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -30994,7 +30994,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31018,7 +31018,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31059,7 +31059,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31083,7 +31083,7 @@ Dependences:
 |	|	|	
 |	|	Label: 32
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31124,7 +31124,7 @@ Dependences:
 |	|	|	
 |	|	Label: 33
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31147,69 +31147,7 @@ Dependences:
 |	|	|	
 |	|	Label: 33
 |	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 1, outer loops(s): 0
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 6
-|	|	|	[    1     1     0     0     0     0  ]
-|	|	|	[    1    -1     1     0     0    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	1 6
-|	|	|	[   22     0     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 6
-|	|	|	[   22     0     0     0     0     0  ]
-|	|	|	[   23     0     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlMatrix
-|	|	6 7
-|	|	[    1     1     0     0     0     0     0  ]
-|	|	[    1    -1     0     1     0     0    -1  ]
-|	|	[    1     0     1     0     0     0     0  ]
-|	|	[    1     0    -1     1     0     0    -1  ]
-|	|	[    0     0     0     0     0     0     0  ]
-|	|	[    1    -1     1     0     0     0    -1  ]
-|	|	
-|	V
-|   CandlDependence
-|	|	
-|	Type: WAR (anti)
-|	|	
-|	Depth: 1
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 33
-|	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 1, outer loops(s): 0
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 6
-|	|	|	[    1     1     0     0     0     0  ]
-|	|	|	[    1    -1     1     0     0    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	1 6
-|	|	|	[   22     0     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 6
-|	|	|	[   22     0     0     0     0     0  ]
-|	|	|	[   23     0     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 33
-|	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -31240,6 +31178,68 @@ Dependences:
 |	V
 |   CandlDependence
 |	|	
+|	Type: WAR (anti)
+|	|	
+|	Depth: 1
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 33
+|	|	|	
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 1, outer loops(s): 0
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 6
+|	|	|	[    1     1     0     0     0     0  ]
+|	|	|	[    1    -1     1     0     0    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	1 6
+|	|	|	[   22     0     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 6
+|	|	|	[   22     0     0     0     0     0  ]
+|	|	|	[   23     0     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 33
+|	|	|	
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 1, outer loops(s): 0
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 6
+|	|	|	[    1     1     0     0     0     0  ]
+|	|	|	[    1    -1     1     0     0    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	1 6
+|	|	|	[   22     0     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 6
+|	|	|	[   22     0     0     0     0     0  ]
+|	|	|	[   23     0     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlMatrix
+|	|	6 7
+|	|	[    1     1     0     0     0     0     0  ]
+|	|	[    1    -1     0     1     0     0    -1  ]
+|	|	[    1     0     1     0     0     0     0  ]
+|	|	[    1     0    -1     1     0     0    -1  ]
+|	|	[    0     0     0     0     0     0     0  ]
+|	|	[    1    -1     1     0     0     0    -1  ]
+|	|	
+|	V
+|   CandlDependence
+|	|	
 |	Type: RAW (flow)
 |	|	
 |	Depth: 1
@@ -31248,7 +31248,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31283,7 +31283,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31343,7 +31343,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31378,102 +31378,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   17     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    7     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   16     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    7     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   17     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlMatrix
-|	|	15 11
-|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
-|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
-|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
-|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
-|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
-|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
-|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
-|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
-|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
-|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
-|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
-|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
-|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
-|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
-|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
-|	|	
-|	V
-|   CandlDependence
-|	|	
-|	Type: WAR (anti)
-|	|	
-|	Depth: 1
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 34
-|	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   17     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    7     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   16     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    7     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   17     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 34
-|	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31533,7 +31438,102 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   17     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    7     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   16     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    7     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   17     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 34
+|	|	|	
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   17     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    7     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   16     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    7     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   17     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlMatrix
+|	|	15 11
+|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
+|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
+|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
+|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
+|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
+|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
+|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
+|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
+|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
+|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
+|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
+|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
+|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
+|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
+|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
+|	|	
+|	V
+|   CandlDependence
+|	|	
+|	Type: WAR (anti)
+|	|	
+|	Depth: 1
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 34
+|	|	|	
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31568,7 +31568,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31621,7 +31621,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31656,7 +31656,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31711,7 +31711,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31746,7 +31746,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31799,7 +31799,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31834,7 +31834,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31889,7 +31889,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31917,7 +31917,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -31977,7 +31977,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32005,7 +32005,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32065,7 +32065,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32100,7 +32100,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -32149,7 +32149,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -32175,7 +32175,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32233,7 +32233,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32268,7 +32268,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -32317,7 +32317,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -32343,7 +32343,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32401,7 +32401,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32436,7 +32436,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -32481,7 +32481,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -32505,7 +32505,7 @@ Dependences:
 |	|	|	
 |	|	Label: 34
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32561,7 +32561,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32596,7 +32596,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32656,7 +32656,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32691,102 +32691,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   19     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    9     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   18     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    9     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   19     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlMatrix
-|	|	15 11
-|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
-|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
-|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
-|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
-|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
-|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
-|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
-|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
-|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
-|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
-|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
-|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
-|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
-|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
-|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
-|	|	
-|	V
-|   CandlDependence
-|	|	
-|	Type: WAR (anti)
-|	|	
-|	Depth: 1
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 35
-|	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   19     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    9     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   18     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    9     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   19     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 35
-|	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32846,7 +32751,102 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   19     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    9     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   18     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    9     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   19     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 35
+|	|	|	
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   19     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    9     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   18     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    9     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   19     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlMatrix
+|	|	15 11
+|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
+|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
+|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
+|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
+|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
+|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
+|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
+|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
+|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
+|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
+|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
+|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
+|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
+|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
+|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
+|	|	
+|	V
+|   CandlDependence
+|	|	
+|	Type: WAR (anti)
+|	|	
+|	Depth: 1
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 35
+|	|	|	
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32881,7 +32881,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32934,7 +32934,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -32969,7 +32969,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33024,7 +33024,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33059,7 +33059,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33112,7 +33112,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33147,7 +33147,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33202,7 +33202,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33230,7 +33230,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33290,7 +33290,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33318,7 +33318,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33378,7 +33378,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33413,7 +33413,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -33462,7 +33462,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -33488,7 +33488,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33546,7 +33546,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33581,7 +33581,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -33630,7 +33630,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -33656,7 +33656,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33714,7 +33714,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33749,7 +33749,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -33794,7 +33794,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -33818,7 +33818,7 @@ Dependences:
 |	|	|	
 |	|	Label: 35
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33874,7 +33874,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33909,7 +33909,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -33969,7 +33969,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34004,102 +34004,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   21     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    6     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   20     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    6     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   21     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlMatrix
-|	|	15 11
-|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
-|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
-|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
-|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
-|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
-|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
-|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
-|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
-|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
-|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
-|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
-|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
-|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
-|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
-|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
-|	|	
-|	V
-|   CandlDependence
-|	|	
-|	Type: WAR (anti)
-|	|	
-|	Depth: 1
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 36
-|	|	|	
-|	|	Type: affectation
-|	|	|	
-|	|	Depth: 3, outer loops(s): 0 9 10
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	6 8
-|	|	|	[    1     1     0     0     0     0     0     0  ]
-|	|	|	[    1    -1     0     0     1     0     0    -1  ]
-|	|	|	[    1     0     1     0     0     0     0     0  ]
-|	|	|	[    1     0    -1     0     0     1     0    -1  ]
-|	|	|	[    1     0     0     1     0     0     0     0  ]
-|	|	|	[    1     0     0    -1     0     0     1    -1  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	2 8
-|	|	|	[   21     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	+-- CandlMatrix
-|	|	|	9 8
-|	|	|	[    6     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   24     0     0     0     0     0     0     0  ]
-|	|	|	[   20     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[    6     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	[   21     0     1     0     0     0     0     0  ]
-|	|	|	[    0     0     0     1     0     0     0     0  ]
-|	|	|	
-|	|	
-|	+-- CandlStatement
-|	|	|	
-|	|	Label: 36
-|	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34159,7 +34064,102 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   21     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    6     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   20     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    6     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   21     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 36
+|	|	|	
+|	|	Type: assignment
+|	|	|	
+|	|	Depth: 3, outer loops(s): 0 9 10
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	6 8
+|	|	|	[    1     1     0     0     0     0     0     0  ]
+|	|	|	[    1    -1     0     0     1     0     0    -1  ]
+|	|	|	[    1     0     1     0     0     0     0     0  ]
+|	|	|	[    1     0    -1     0     0     1     0    -1  ]
+|	|	|	[    1     0     0     1     0     0     0     0  ]
+|	|	|	[    1     0     0    -1     0     0     1    -1  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	2 8
+|	|	|	[   21     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	+-- CandlMatrix
+|	|	|	9 8
+|	|	|	[    6     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   24     0     0     0     0     0     0     0  ]
+|	|	|	[   20     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[    6     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	[   21     0     1     0     0     0     0     0  ]
+|	|	|	[    0     0     0     1     0     0     0     0  ]
+|	|	|	
+|	|	
+|	+-- CandlMatrix
+|	|	15 11
+|	|	[    1     1     0     0     0     0     0     0     0     0     0  ]
+|	|	[    1    -1     0     0     0     0     0     1     0     0    -1  ]
+|	|	[    1     0     1     0     0     0     0     0     0     0     0  ]
+|	|	[    1     0    -1     0     0     0     0     0     1     0    -1  ]
+|	|	[    1     0     0     1     0     0     0     0     0     0     0  ]
+|	|	[    1     0     0    -1     0     0     0     0     0     1    -1  ]
+|	|	[    1     0     0     0     1     0     0     0     0     0     0  ]
+|	|	[    1     0     0     0    -1     0     0     1     0     0    -1  ]
+|	|	[    1     0     0     0     0     1     0     0     0     0     0  ]
+|	|	[    1     0     0     0     0    -1     0     0     1     0    -1  ]
+|	|	[    1     0     0     0     0     0     1     0     0     0     0  ]
+|	|	[    1     0     0     0     0     0    -1     0     0     1    -1  ]
+|	|	[    0     0     1     0     0    -1     0     0     0     0     0  ]
+|	|	[    0     0     0     1     0     0    -1     0     0     0     0  ]
+|	|	[    1    -1     0     0     1     0     0     0     0     0    -1  ]
+|	|	
+|	V
+|   CandlDependence
+|	|	
+|	Type: WAR (anti)
+|	|	
+|	Depth: 1
+|	|	
+|	+-- CandlStatement
+|	|	|	
+|	|	Label: 36
+|	|	|	
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34194,7 +34194,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34247,7 +34247,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34282,7 +34282,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34337,7 +34337,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34372,7 +34372,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34425,7 +34425,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34460,7 +34460,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34515,7 +34515,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34543,7 +34543,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34603,7 +34603,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34631,7 +34631,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34691,7 +34691,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34726,7 +34726,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -34775,7 +34775,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -34801,7 +34801,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34859,7 +34859,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -34894,7 +34894,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -34943,7 +34943,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -34969,7 +34969,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35027,7 +35027,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35062,7 +35062,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -35107,7 +35107,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -35131,7 +35131,7 @@ Dependences:
 |	|	|	
 |	|	Label: 36
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35187,7 +35187,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35215,7 +35215,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35268,7 +35268,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35296,7 +35296,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -35345,7 +35345,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -35371,7 +35371,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35422,7 +35422,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35450,7 +35450,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -35499,7 +35499,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -35525,7 +35525,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35576,7 +35576,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35604,7 +35604,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -35649,7 +35649,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -35673,7 +35673,7 @@ Dependences:
 |	|	|	
 |	|	Label: 37
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35722,7 +35722,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35750,7 +35750,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35803,7 +35803,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35831,7 +35831,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -35880,7 +35880,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -35906,7 +35906,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35957,7 +35957,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -35985,7 +35985,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -36034,7 +36034,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -36060,7 +36060,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36111,7 +36111,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36139,7 +36139,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -36184,7 +36184,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -36208,7 +36208,7 @@ Dependences:
 |	|	|	
 |	|	Label: 38
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36257,7 +36257,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36285,7 +36285,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36338,7 +36338,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36366,7 +36366,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36415,7 +36415,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36441,7 +36441,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36492,7 +36492,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36520,7 +36520,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -36569,7 +36569,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -36595,7 +36595,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36646,7 +36646,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36674,7 +36674,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -36719,7 +36719,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -36743,7 +36743,7 @@ Dependences:
 |	|	|	
 |	|	Label: 39
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 3, outer loops(s): 0 9 10
 |	|	|	
@@ -36792,7 +36792,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36818,7 +36818,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36865,7 +36865,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36891,7 +36891,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36938,7 +36938,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -36964,7 +36964,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37011,7 +37011,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37037,7 +37037,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37080,7 +37080,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37104,7 +37104,7 @@ Dependences:
 |	|	|	
 |	|	Label: 40
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37149,7 +37149,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37175,7 +37175,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37222,7 +37222,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37248,7 +37248,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37295,7 +37295,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37321,7 +37321,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37368,7 +37368,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37394,7 +37394,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37437,7 +37437,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37461,7 +37461,7 @@ Dependences:
 |	|	|	
 |	|	Label: 41
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37506,7 +37506,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37532,7 +37532,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37579,7 +37579,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37605,7 +37605,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37652,7 +37652,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37678,7 +37678,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37725,7 +37725,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37751,7 +37751,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37794,7 +37794,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -37818,7 +37818,7 @@ Dependences:
 |	|	|	
 |	|	Label: 42
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37863,7 +37863,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37889,7 +37889,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37936,7 +37936,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -37962,7 +37962,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38009,7 +38009,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38035,7 +38035,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38082,7 +38082,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38108,7 +38108,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38151,7 +38151,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38175,7 +38175,7 @@ Dependences:
 |	|	|	
 |	|	Label: 43
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38220,7 +38220,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38246,7 +38246,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38293,7 +38293,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38319,7 +38319,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38366,7 +38366,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38392,7 +38392,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38439,7 +38439,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38465,7 +38465,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38508,7 +38508,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38532,7 +38532,7 @@ Dependences:
 |	|	|	
 |	|	Label: 44
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38577,7 +38577,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38603,7 +38603,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38650,7 +38650,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38676,7 +38676,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38723,7 +38723,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38749,7 +38749,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38796,7 +38796,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38822,7 +38822,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38865,7 +38865,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -38889,7 +38889,7 @@ Dependences:
 |	|	|	
 |	|	Label: 45
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 11
 |	|	|	
@@ -38934,7 +38934,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -38960,7 +38960,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39007,7 +39007,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39033,7 +39033,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39080,7 +39080,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39106,7 +39106,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39153,7 +39153,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39179,7 +39179,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39222,7 +39222,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39246,7 +39246,7 @@ Dependences:
 |	|	|	
 |	|	Label: 46
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39291,7 +39291,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39317,7 +39317,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39364,7 +39364,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39390,7 +39390,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39437,7 +39437,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39463,7 +39463,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39510,7 +39510,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39536,7 +39536,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39579,7 +39579,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39603,7 +39603,7 @@ Dependences:
 |	|	|	
 |	|	Label: 47
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39648,7 +39648,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39674,7 +39674,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39721,7 +39721,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39747,7 +39747,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39794,7 +39794,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39820,7 +39820,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39867,7 +39867,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -39893,7 +39893,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39936,7 +39936,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -39960,7 +39960,7 @@ Dependences:
 |	|	|	
 |	|	Label: 48
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40005,7 +40005,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40031,7 +40031,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40078,7 +40078,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40104,7 +40104,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40151,7 +40151,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40177,7 +40177,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40224,7 +40224,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40250,7 +40250,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -40293,7 +40293,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -40317,7 +40317,7 @@ Dependences:
 |	|	|	
 |	|	Label: 49
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40362,7 +40362,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40388,7 +40388,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40435,7 +40435,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40461,7 +40461,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40508,7 +40508,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40534,7 +40534,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40581,7 +40581,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40607,7 +40607,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -40650,7 +40650,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -40674,7 +40674,7 @@ Dependences:
 |	|	|	
 |	|	Label: 50
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40719,7 +40719,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40745,7 +40745,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40792,7 +40792,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40818,7 +40818,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40865,7 +40865,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40891,7 +40891,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40938,7 +40938,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -40964,7 +40964,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41007,7 +41007,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41031,7 +41031,7 @@ Dependences:
 |	|	|	
 |	|	Label: 51
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 12
 |	|	|	
@@ -41076,7 +41076,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41100,7 +41100,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41141,7 +41141,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41165,7 +41165,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41206,7 +41206,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41230,7 +41230,7 @@ Dependences:
 |	|	|	
 |	|	Label: 52
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41271,7 +41271,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41295,7 +41295,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41336,7 +41336,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41360,7 +41360,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41401,7 +41401,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41425,7 +41425,7 @@ Dependences:
 |	|	|	
 |	|	Label: 53
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41466,7 +41466,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41490,7 +41490,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41531,7 +41531,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41555,7 +41555,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41596,7 +41596,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41620,7 +41620,7 @@ Dependences:
 |	|	|	
 |	|	Label: 54
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41661,7 +41661,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41685,7 +41685,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41726,7 +41726,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41750,7 +41750,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41791,7 +41791,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41815,7 +41815,7 @@ Dependences:
 |	|	|	
 |	|	Label: 55
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41856,7 +41856,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41880,7 +41880,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41921,7 +41921,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41945,7 +41945,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -41986,7 +41986,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42010,7 +42010,7 @@ Dependences:
 |	|	|	
 |	|	Label: 56
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42051,7 +42051,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42075,7 +42075,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42116,7 +42116,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42140,7 +42140,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42181,7 +42181,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	
@@ -42205,7 +42205,7 @@ Dependences:
 |	|	|	
 |	|	Label: 57
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 0
 |	|	|	

@@ -11,7 +11,7 @@ Program:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -50,7 +50,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -78,7 +78,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -127,7 +127,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -155,7 +155,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -205,7 +205,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -233,7 +233,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	

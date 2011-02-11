@@ -11,7 +11,7 @@ Program:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -41,7 +41,7 @@ Program:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -69,7 +69,7 @@ Program:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 4
 |	|	|	
@@ -92,7 +92,7 @@ Program:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -131,7 +131,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -161,7 +161,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -209,7 +209,7 @@ Dependences:
 |	|	|	
 |	|	Label: 0
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 0 1
 |	|	|	
@@ -239,7 +239,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -287,7 +287,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -315,7 +315,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -364,7 +364,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -392,7 +392,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -441,7 +441,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -469,7 +469,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -518,7 +518,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -546,7 +546,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 4
 |	|	|	
@@ -586,7 +586,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -614,7 +614,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 4
 |	|	|	
@@ -654,7 +654,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -682,7 +682,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 4
 |	|	|	
@@ -722,7 +722,7 @@ Dependences:
 |	|	|	
 |	|	Label: 1
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 2 3
 |	|	|	
@@ -750,7 +750,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -797,7 +797,7 @@ Dependences:
 |	|	|	
 |	|	Label: 2
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 1, outer loops(s): 4
 |	|	|	
@@ -820,7 +820,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -865,7 +865,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -893,7 +893,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -942,7 +942,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -970,7 +970,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -1019,7 +1019,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -1047,7 +1047,7 @@ Dependences:
 |	|	|	
 |	|	Label: 3
 |	|	|	
-|	|	Type: affectation
+|	|	Type: assignment
 |	|	|	
 |	|	Depth: 2, outer loops(s): 5 6
 |	|	|	
@@ -1090,32 +1090,7 @@ Dependences:
 Violations:
 +-- NULL dependence violation
 |	
-#                                                   
-#          <|                                       
-#           A                                       
-#          /.\                                     
-#     <|  [""M#                                   
-#      A   | #              Clan McCloog Castle     
-#     /.\ [""M#             [File generated by Clan 0.5.0 64 bits]
-#    [""M# | #  U"U#U                            
-#     | #  | #  \ .:/                              
-#     | #  | #___| #                                
-#     | "--'     .-"                              
-#   |"-"-"-"-"-#-#-##                          
-#   |     # ## ######                               
-#    \       .::::'/                               
-#     \      ::::'/                                
-#   :8a|    # # ##                                  
-#   ::88a      ###                                  
-#  ::::888a  8a ##::.                               
-#  ::::::888a88a[]::::                              
-# :::::::::SUNDOGa8a::::. ..                        
-# :::::8::::888:Y8888:::::::::...                   
-#::':::88::::888::Y88a______________________________________________________
-#:: ::::88a::::88a:Y88a                                  __---__-- __
-#' .: ::Y88a:::::8a:Y88a                            __----_-- -------_-__
-#  :' ::::8P::::::::::88aa.                   _ _- --  --_ --- __  --- __--
-#.::  :::::::::::::::::::Y88as88a...s88aa.
+# [File generated by ScopLib 0.2.0 64 bits]
 
 SCoP
 
@@ -1310,7 +1285,7 @@ w[i]=w[i]+alpha*A[i][j]*x[j];
 
 <\Comments>
 <candl>
-<dependences>
+<dependence-polyhedra>
 # Number of dependences
 13
 # Description of dependence 1
@@ -1320,20 +1295,22 @@ RAW #(flow)
 0
 # To statement id
 1
+# Depth 
+0
 # Array id
 1
 # Dependence domain
 10 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
- 0  1  0 -1  0  0 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0  0  1  0 -1  0  0 
 # Description of dependence 2
 # type
 RAW #(flow)
@@ -1341,20 +1318,22 @@ RAW #(flow)
 0
 # To statement id
 3
+# Depth 
+0
 # Array id
 1
 # Dependence domain
 10 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
- 0  1  0 -1  0  0 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0  0  1  0 -1  0  0 
 # Description of dependence 3
 # type
 RAW #(flow)
@@ -1362,21 +1341,23 @@ RAW #(flow)
 1
 # To statement id
 1
+# Depth 
+2
 # Array id
 6
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
 # Description of dependence 4
 # type
 WAW #(output)
@@ -1384,21 +1365,23 @@ WAW #(output)
 1
 # To statement id
 1
+# Depth 
+2
 # Array id
 6
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
 # Description of dependence 5
 # type
 WAR #(anti)
@@ -1406,21 +1389,23 @@ WAR #(anti)
 1
 # To statement id
 1
+# Depth 
+2
 # Array id
 6
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
 # Description of dependence 6
 # type
 RAW #(flow)
@@ -1428,17 +1413,19 @@ RAW #(flow)
 1
 # To statement id
 2
+# Depth 
+0
 # Array id
 6
 # Dependence domain
 7 6
- 1  0  0  0  0 
--1  0  0  1 -1 
- 0  1  0  0  0 
- 0 -1  0  1 -1 
- 0  0  1  0  0 
- 0  0 -1  1 -1 
- 1  0 -1  0  0 
+ 1  1  0  0  0  0 
+ 1 -1  0  0  1 -1 
+ 1  0  1  0  0  0 
+ 1  0 -1  0  1 -1 
+ 1  0  0  1  0  0 
+ 1  0  0 -1  1 -1 
+ 0  1  0 -1  0  0 
 # Description of dependence 7
 # type
 WAW #(output)
@@ -1446,17 +1433,19 @@ WAW #(output)
 1
 # To statement id
 2
+# Depth 
+0
 # Array id
 6
 # Dependence domain
 7 6
- 1  0  0  0  0 
--1  0  0  1 -1 
- 0  1  0  0  0 
- 0 -1  0  1 -1 
- 0  0  1  0  0 
- 0  0 -1  1 -1 
- 1  0 -1  0  0 
+ 1  1  0  0  0  0 
+ 1 -1  0  0  1 -1 
+ 1  0  1  0  0  0 
+ 1  0 -1  0  1 -1 
+ 1  0  0  1  0  0 
+ 1  0  0 -1  1 -1 
+ 0  1  0 -1  0  0 
 # Description of dependence 8
 # type
 WAR #(anti)
@@ -1464,17 +1453,19 @@ WAR #(anti)
 1
 # To statement id
 2
+# Depth 
+0
 # Array id
 6
 # Dependence domain
 7 6
- 1  0  0  0  0 
--1  0  0  1 -1 
- 0  1  0  0  0 
- 0 -1  0  1 -1 
- 0  0  1  0  0 
- 0  0 -1  1 -1 
- 1  0 -1  0  0 
+ 1  1  0  0  0  0 
+ 1 -1  0  0  1 -1 
+ 1  0  1  0  0  0 
+ 1  0 -1  0  1 -1 
+ 1  0  0  1  0  0 
+ 1  0  0 -1  1 -1 
+ 0  1  0 -1  0  0 
 # Description of dependence 9
 # type
 RAW #(flow)
@@ -1482,19 +1473,21 @@ RAW #(flow)
 1
 # To statement id
 3
+# Depth 
+0
 # Array id
 6
 # Dependence domain
 9 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0  0 -1  0  0 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0  0 -1  0  0 
 # Description of dependence 10
 # type
 RAW #(flow)
@@ -1502,17 +1495,19 @@ RAW #(flow)
 2
 # To statement id
 3
+# Depth 
+0
 # Array id
 6
 # Dependence domain
 7 6
- 1  0  0  0  0 
--1  0  0  1 -1 
- 0  1  0  0  0 
- 0 -1  0  1 -1 
- 0  0  1  0  0 
- 0  0 -1  1 -1 
- 1  0 -1  0  0 
+ 1  1  0  0  0  0 
+ 1 -1  0  0  1 -1 
+ 1  0  1  0  0  0 
+ 1  0 -1  0  1 -1 
+ 1  0  0  1  0  0 
+ 1  0  0 -1  1 -1 
+ 0  1  0 -1  0  0 
 # Description of dependence 11
 # type
 RAW #(flow)
@@ -1520,21 +1515,23 @@ RAW #(flow)
 3
 # To statement id
 3
+# Depth 
+2
 # Array id
 10
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
 # Description of dependence 12
 # type
 WAW #(output)
@@ -1542,21 +1539,23 @@ WAW #(output)
 3
 # To statement id
 3
+# Depth 
+2
 # Array id
 10
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
 # Description of dependence 13
 # type
 WAR #(anti)
@@ -1564,22 +1563,24 @@ WAR #(anti)
 3
 # To statement id
 3
+# Depth 
+2
 # Array id
 10
 # Dependence domain
 11 7
- 1  0  0  0  0  0 
--1  0  0  0  1 -1 
- 0  1  0  0  0  0 
- 0 -1  0  0  1 -1 
- 0  0  1  0  0  0 
- 0  0 -1  0  1 -1 
- 0  0  0  1  0  0 
- 0  0  0 -1  1 -1 
- 1  0 -1  0  0  0 
--1  0  1  0  0  0 
- 0 -1  0  1  0 -1 
-</dependences>
+ 1  1  0  0  0  0  0 
+ 1 -1  0  0  0  1 -1 
+ 1  0  1  0  0  0  0 
+ 1  0 -1  0  0  1 -1 
+ 1  0  0  1  0  0  0 
+ 1  0  0 -1  0  1 -1 
+ 1  0  0  0  1  0  0 
+ 1  0  0  0 -1  1 -1 
+ 0  1  0 -1  0  0  0 
+ 0 -1  0  1  0  0  0 
+ 1  0 -1  0  1  0 -1 
+</dependence-polyhedra>
 <indices>
 # Loop labels for statement 1
 0 1

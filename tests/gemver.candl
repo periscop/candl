@@ -27,7 +27,7 @@
 4
 
 # Statement 1
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -55,7 +55,7 @@ A
 6   0   1   0   0 
 
 # Statement 2
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -81,7 +81,7 @@ A
 11   0   1   0   0 
 
 # Statement 3
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -102,7 +102,7 @@ A
 14   1   0   0 
 
 # Statement 4
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain

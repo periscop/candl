@@ -39,7 +39,7 @@
 58
 
 # Statement 1
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -59,7 +59,7 @@ A
 62   0   0   0   0   0 
 
 # Statement 2
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -79,7 +79,7 @@ A
 65   0   0   0   0   0 
 
 # Statement 3
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -109,7 +109,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 4
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -139,7 +139,7 @@ A
 0   0   0   1   0   0   0   1 
 
 # Statement 5
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -181,7 +181,7 @@ A
 0   0   0   1   0   0   0   1 
 
 # Statement 6
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -223,7 +223,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 7
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -247,7 +247,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 8
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -271,7 +271,7 @@ A
 0   0   1   0   0   0   1 
 
 # Statement 9
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -295,7 +295,7 @@ A
 0   0   1   0   0   0   1 
 
 # Statement 10
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -319,7 +319,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 11
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -343,7 +343,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 12
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -367,7 +367,7 @@ A
 0   0   0   0   0   1   0 
 
 # Statement 13
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -391,7 +391,7 @@ A
 0   0   0   0   0   1   0 
 
 # Statement 14
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -415,7 +415,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 15
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -437,7 +437,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 16
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -459,7 +459,7 @@ A
 0   0   0   0   1   0 
 
 # Statement 17
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -481,7 +481,7 @@ A
 0   0   0   0   1   0 
 
 # Statement 18
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -503,7 +503,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 19
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -523,7 +523,7 @@ A
 64   0   0   0   0   0 
 
 # Statement 20
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -544,7 +544,7 @@ A
 62   0   0   0   0   0 
 
 # Statement 21
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -565,7 +565,7 @@ A
 65   0   0   0   0   0 
 
 # Statement 22
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -609,7 +609,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 23
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -653,7 +653,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 24
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -689,7 +689,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 25
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -713,7 +713,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 26
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -737,7 +737,7 @@ A
 0   0   1   0   0   0   1 
 
 # Statement 27
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -761,7 +761,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 28
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -785,7 +785,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 29
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -809,7 +809,7 @@ A
 0   0   0   0   0   1   0 
 
 # Statement 30
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -833,7 +833,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 31
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -855,7 +855,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 32
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -877,7 +877,7 @@ A
 0   0   0   0   1   0 
 
 # Statement 33
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -899,7 +899,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 34
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -920,7 +920,7 @@ A
 118   0   0   0   0   0 
 
 # Statement 35
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -953,7 +953,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 36
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -986,7 +986,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 37
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1019,7 +1019,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 38
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1045,7 +1045,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 39
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1071,7 +1071,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 40
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1097,7 +1097,7 @@ A
 0   0   0   1   0   0   0   0 
 
 # Statement 41
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1121,7 +1121,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 42
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1145,7 +1145,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 43
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1169,7 +1169,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 44
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1193,7 +1193,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 45
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1217,7 +1217,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 46
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1241,7 +1241,7 @@ A
 0   0   1   0   0   0   0 
 
 # Statement 47
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1265,7 +1265,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 48
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1289,7 +1289,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 49
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1313,7 +1313,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 50
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1337,7 +1337,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 51
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1361,7 +1361,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 52
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1385,7 +1385,7 @@ A
 0   0   0   0   0   0   0 
 
 # Statement 53
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1407,7 +1407,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 54
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1429,7 +1429,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 55
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1451,7 +1451,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 56
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1473,7 +1473,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 57
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain
@@ -1495,7 +1495,7 @@ A
 0   0   0   0   0   0 
 
 # Statement 58
-# Statement type (A: affectation)
+# Statement type (A: assignment)
 A
 
 # Iteration Domain

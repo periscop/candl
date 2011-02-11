@@ -1,4 +1,38 @@
 2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* tests/matmul.scalstruct,
+	* tests/ax-do.struct,
+	* tests/matmul.depscop,
+	* tests/swim.candl,
+	* tests/simple1.scalstruct,
+	* tests/swim.struct,
+	* tests/jacobi1d.scalstruct,
+	* tests/lu.struct,
+	* tests/ax-do.depscop,
+	* tests/gemver.scalstruct,
+	* tests/lu.depscop,
+	* tests/checker.sh,
+	* tests/matmul.candl,
+	* tests/gemver.depscop,
+	* tests/matmul.struct,
+	* tests/ax-do.candl,
+	* tests/simple1.struct,
+	* tests/ax-do.scalstruct,
+	* tests/jacobi1d.struct,
+	* tests/gemver.candl,
+	* tests/swim.scalstruct,
+	* tests/lu.scalstruct,
+	* tests/simple1.depscop,
+	* tests/jacobi1d.depscop,
+	* tests/gemver.struct,
+
+	* tests/swim.depscop: Update the test suite to mirror latest
+	changes (s/affectation/assignment,
+	s/<dependence>/<dependence-polyhedra>)
+
+	* README: Update.
+
+2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 	This patch provides a dependence distance vector computation for a
 	given loop, given the set of dependence polyhedra. One DDV is
 	created per dependence polyhedra related to the given loop.
