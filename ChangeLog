@@ -1,3 +1,16 @@
+2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+	This patch provides a dependence distance vector computation for a
+	given loop, given the set of dependence polyhedra. One DDV is
+	created per dependence polyhedra related to the given loop.
+
+	* source/ddv.c,
+	* include/candl/ddv.h: New. Dependence Distance Vector extraction
+	from the program dependence polyhedra.
+
+	* include/candl/candl.h.in
+	* include/Makefile.am
+	* source/Makefile.am: Update accordingly.
+
 2011-02-01  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* include/candl/candl.h.in,

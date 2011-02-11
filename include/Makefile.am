@@ -44,6 +44,7 @@ MAINTAINERCLEANFILES	= Makefile.in
 pkginclude_HEADERS 	=			\
 	candl/candl.h				\
 	candl/dependence.h			\
+	candl/ddv.h				\
 	candl/matrix.h				\
 	candl/options.h				\
 	candl/program.h				\

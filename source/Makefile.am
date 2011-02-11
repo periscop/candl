@@ -6,7 +6,7 @@
 #    **-------------------------------------------------------------------**
 #    **                 First version: september 8th 2003                 **
 #    **-------------------------------------------------------------------**/
-# 
+#
 #/*****************************************************************************
 # *   CAnDL : the Chunky Analyser for Dependences in Loops (experimental)     *
 # *****************************************************************************
@@ -50,6 +50,7 @@ lib_LTLIBRARIES 	= libcandl.la
 
 libcandl_la_SOURCES 	=			\
 	dependence.c				\
+	ddv.c					\
 	isl-wrapper.c				\
 	matrix.c				\
 	options.c				\

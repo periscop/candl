@@ -54,6 +54,7 @@
 # include <candl/statement.h>
 # include <candl/program.h>
 # include <candl/dependence.h>
+# include <candl/ddv.h>
 # include <candl/violation.h>
 
 # define CANDL_UNSET -1 /* Must be negative (we do use that property).
