@@ -1333,7 +1333,6 @@ candl_dependence_p candl_dependence(candl_program_p program,
 
   statement = program->statement;
   context = program->context;
-
   if (options->scalar_privatization || options->scalar_expansion)
     candl_dependence_analyze_scalars (program, options);
 
@@ -1589,7 +1588,8 @@ candl_dependence_compute_lb (CandlMatrix* m, Entier* lb, int col)
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
     {
-      for (l = solution->list; l && col > 0; l = l->next, --col)
+      l = solution->list;
+      for (; l && col > 0; l = l->next, --col)
 	;
       CANDL_assign(*lb, l->vector->the_vector[0]);
     }
@@ -1986,7 +1986,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
 				  int loop_index)
 {
   int i, j;
-
   /* Ensure source and sink share common loop 'loop_index', and that
      dependence depth is consistent with the considered loop. */
   for (i = 0; i < dep->source->depth; ++i)
@@ -2008,9 +2007,10 @@ candl_dependence_is_loop_carried (candl_program_p program,
   CANDL_set_si(m->p[m->NbRows - 2][i + 1], -1);
   CANDL_set_si(m->p[m->NbRows - 1][dep->source->depth + 1 + j], -1);
   /* Copy the rest of the matrix. */
-  for (i = 0; i < dep->domain->NbRows; ++i)
-    for (j = 0; j < dep->domain->NbColumns; ++j)
-      CANDL_assign(m->p[i][j], dep->domain->p[i][j]);
+  int ii, jj;
+  for (ii = 0; ii < dep->domain->NbRows; ++ii)
+    for (jj = 0; jj < dep->domain->NbColumns; ++jj)
+      CANDL_assign(m->p[ii][jj], dep->domain->p[ii][jj]);
   /* Compute real lb of loops. */
   Entier lb; CANDL_init(lb);
   candl_dependence_compute_lb (m, &lb, i + 1);

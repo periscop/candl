@@ -1,5 +1,10 @@
 2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
+	* source/dependence.c: Fix a potential bug in
+	candl_dependence_compute_lb.
+
+2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
 	* tests/matmul.scalstruct,
 	* tests/ax-do.struct,
 	* tests/matmul.depscop,
