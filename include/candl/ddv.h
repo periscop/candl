@@ -105,6 +105,7 @@ extern "C"
     struct candl_ddv {
       int loop_id;
       int length;
+      int deptype;
       s_dv_descriptor* data;
       struct candl_ddv* next;
     };
@@ -163,6 +164,14 @@ candl_ddv_set_type_at(CandlDDV*, e_dv_type, int);
  */
 void
 candl_ddv_set_value_at(CandlDDV*, int, int);
+
+/**
+ * candl_ddv_set_type: Set the type of the dependence in
+ * CANDL_UNSET, CANDL_RAW, CANDL_WAR, CANDL_WAW, CANDL_RAR.
+ *
+ */
+void
+candl_ddv_set_deptype(CandlDDV*, int);
 
 
 /******************************************************************************

@@ -146,6 +146,16 @@ candl_ddv_set_value_at(CandlDDV* dv, int value, int pos)
   dv->data[pos].value = value;
 }
 
+/**
+ * candl_ddv_set_type: Set the type of the dependence in
+ * CANDL_UNSET, CANDL_RAW, CANDL_WAR, CANDL_WAW, CANDL_RAR.
+ *
+ */
+void
+candl_ddv_set_deptype(CandlDDV* dv, int type)
+{
+  dv->deptype = type;
+}
 
 
 /******************************************************************************
@@ -352,6 +362,7 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
   CandlStatement* src = dep->source;
   CandlDDV* dv = candl_ddv_alloc(ddv_size);
   dv->loop_id = loop_id;
+  dv->deptype = dep->type;
 
   // Create the template of the system to operate on.
   // Add one dimension at the beginning, and one row for the extra constraint.

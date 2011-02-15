@@ -1,3 +1,9 @@
+2011-02-15  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* include/candl/ddv.h,
+	* source/ddv.c: Add storage for the dependence type associated to
+	a DDV (e.g., RAW, WAR, WAW or RAR).
+
 2011-02-14  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/ddv.c: Fix a bug in DDV computation.
