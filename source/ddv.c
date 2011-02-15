@@ -350,7 +350,6 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
   int pos;
   CandlMatrix* mat = dep->domain;
   CandlStatement* src = dep->source;
-  CandlStatement* dst = dep->target;
   CandlDDV* dv = candl_ddv_alloc(ddv_size);
   dv->loop_id = loop_id;
 
@@ -367,13 +366,13 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
     }
   int has_eq, has_pos, has_neg, has_cst;
   int scal1, scal2;
-  int min_depth = min(src->depth, dst->depth);
-  for (i = 1; i <= min_depth; ++i)
+  for (i = 1; i <= ddv_size; ++i)
     {
       // Test for '='.
       CANDL_set_si(testsyst->p[pos][0], 0);
       CANDL_set_si(testsyst->p[pos][1 + i], 1);
       CANDL_set_si(testsyst->p[pos][1 + i + src->depth], -1);
+      CANDL_set_si(testsyst->p[pos][testsyst->NbColumns - 1], 0);
       has_eq = candl_ddv_has_point(testsyst);
 
       // Test for '>'.
@@ -392,7 +391,7 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
 
       // Test for constant distance.
       // min(x_R^i - x_S^i)
-      // max(x_R^i - x_S^i)
+      // max(x_R^i - x_S^i) = - min(- x_R^i + x_S^i)
       CANDL_set_si(testsyst->p[pos][0], 0);
       CANDL_set_si(testsyst->p[pos][1], 1);
       CANDL_set_si(testsyst->p[pos][1 + i], -1);
@@ -403,8 +402,9 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
 	{
 	  CANDL_set_si(testsyst->p[pos][1 + i], 1);
 	  CANDL_set_si(testsyst->p[pos][1 + i + src->depth], -1);
-	  CANDL_set_si(testsyst->p[pos][1], -1);
+	  CANDL_set_si(testsyst->p[pos][1], 1);
 	  has_cst = candl_ddv_constant_val(testsyst, &scal2, nb_par);
+	  scal2 *= -1;
 	  if (has_cst)
 	    has_cst = (scal1 == scal2);
 	}
@@ -469,15 +469,13 @@ candl_ddv_extract_in_loop(CandlProgram* program, CandlDependence* deps,
       // Convert it into dependence vector.
       CandlDDV* dv = candl_ddv_create_from_dep(tmp, loop_id, i + 1);
 
-      candl_ddv_print (stdout, dv);
-
       // Append the dependence vector to the list.
       if (head == NULL)
 	head = last = dv;
       else
 	{
 	  last->next = dv;
-	  last = last->next;
+	  last = dv;
 	}
     }
 

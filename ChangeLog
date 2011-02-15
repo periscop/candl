@@ -1,3 +1,7 @@
+2011-02-14  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/ddv.c: Fix a bug in DDV computation.
+
 2011-02-11  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/dependence.c: Fix a potential bug in
