@@ -48,6 +48,13 @@ dnl Check for scoplib existence.
           fi
          ])
 	])
+dnl Offer --with-gmp-prefix.
+  AC_ARG_WITH(gmp-prefix,
+	      AC_HELP_STRING([--with-gmp-prefix=DIR],
+              	             [DIR Location of GMP package (only headers are needed)]),
+              [CPPFLAGS="${CPPFLAGS} -I$withval/include";
+               LDFLAGS="${LDFLAGS} -L$withval/lib";
+	      ])
 dnl Offer --with-isl.
   AC_ARG_WITH(isl,
 	      AC_HELP_STRING([--with-isl=DIR],
@@ -69,13 +76,6 @@ dnl Check for isl existence.
           fi
          ])
 	])
-dnl Offer --with-gmp-prefix.
-  AC_ARG_WITH(gmp-prefix,
-	      AC_HELP_STRING([--with-gmp-prefix=DIR],
-              	             [DIR Location of GMP package (only headers are needed)]),
-              [CPPFLAGS="${CPPFLAGS} -I$withval/include";
-               LDFLAGS="${LDFLAGS} -L$withval/lib";
-	      ])
 ])
 
 

@@ -1,3 +1,9 @@
+2011-02-16  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* autoconf/candl.m4: Fix a potential configuration issue with GMP
+	and ISL, when multiple incompatible versions of GMP are already
+	installed on the system.
+
 2011-02-15  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* include/candl/ddv.h,
