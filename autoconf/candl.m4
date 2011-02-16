@@ -59,7 +59,7 @@ dnl Offer --with-isl.
               [with_isl=check])
 dnl Check for isl existence.
   AS_IF([test "x$with_isl" != xno],
-	[AC_CHECK_LIB([isl], [isl_printer_to_file],
+	[AC_CHECK_LIB([isl], [isl_version],
 	 [LIBS="-lisl $LIBS";
 	 DEFINE_HAS_ISL_LIB="# define CANDL_SUPPORTS_ISL"
 	 ],
@@ -74,6 +74,7 @@ dnl Offer --with-gmp-prefix.
 	      AC_HELP_STRING([--with-gmp-prefix=DIR],
               	             [DIR Location of GMP package (only headers are needed)]),
               [CPPFLAGS="${CPPFLAGS} -I$withval/include";
+               LDFLAGS="${LDFLAGS} -L$withval/lib";
 	      ])
 ])
 
