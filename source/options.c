@@ -177,7 +177,7 @@ void candl_options_help()
   "The special value 'stdin' for 'file' makes Candl to read data on\n"
   "standard input.\n\n"
   "For bug reporting or any suggestions, please send an email to the author\n"
-  "<cedric.bastoul@inria.fr> or to the maintainer of Candl:\n");
+  "<cedric.bastoul@inria.fr> or to the maintainer of Candl:\n"
   "<pouchet@cse.ohio-state.edu>.\n");
 }
 
