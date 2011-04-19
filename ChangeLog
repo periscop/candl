@@ -1,3 +1,8 @@
+2011-04-19  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/candl.c: Fix a minor option parsing incompatibility when
+	using both -inscop and -scoptocandl.
+
 2011-02-16  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* autoconf/candl.m4: Fix a potential configuration issue with GMP

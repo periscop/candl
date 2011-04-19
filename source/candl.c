@@ -58,9 +58,10 @@ int main(int argc, char * argv[])
 #ifdef CANDL_SUPPORTS_SCOPLIB
   if (options->readscop)
     program = candl_program_read_scop(input);
-  else if (options->scoptocandl)
+  if (options->scoptocandl)
     {
-      program = candl_program_read_scop(input);
+      if (! options->readscop)
+	program = candl_program_read_scop(input);
       candl_program_print_candl_file(output, program);
       candl_program_free(program);
       candl_options_free(options);
