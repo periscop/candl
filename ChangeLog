@@ -1,3 +1,8 @@
+2011-05-17  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* include/candl/ddv.h,
+	* source/ddv.c: Add function candl_loops_are_permutable.
+
 2011-04-19  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/candl.c: Fix a minor option parsing incompatibility when

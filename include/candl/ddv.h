@@ -200,7 +200,16 @@ candl_ddv_print(FILE*, CandlDDV*);
  */
 CandlDDV*
 candl_ddv_extract_in_loop(CandlProgram*, CandlDependence*, int);
-
+    
+/**
+ * candl_loops_are_permutable: output 1 if the 2 loops are permutable.
+ * 
+ *
+ */
+int
+candl_loops_are_permutable(CandlProgram* program, CandlDependence* deps,
+			   int loop_id1, int loop_id2);
+    
 
 
 # if defined(__cplusplus)

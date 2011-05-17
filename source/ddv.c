@@ -170,6 +170,12 @@ candl_ddv_set_deptype(CandlDDV* dv, int type)
 void
 candl_ddv_print(FILE* out, CandlDDV* dv)
 {
+  if (!dv)
+    {
+      fprintf(out, "(null ddv)\n");
+      return;
+    }
+
   int i;
   fprintf(out, "loop_id=%d, (", dv->loop_id);
   for (i = 0; i < dv->length; ++i)
@@ -409,6 +415,7 @@ candl_ddv_create_from_dep(CandlDependence* dep, int loop_id, int ddv_size)
       CANDL_set_si(testsyst->p[pos][1 + i + src->depth], 1);
       CANDL_set_si(testsyst->p[pos][testsyst->NbColumns - 1], 0);
       has_cst = candl_ddv_constant_val(testsyst, &scal1, nb_par);
+
       if (has_cst)
 	{
 	  CANDL_set_si(testsyst->p[pos][1 + i], 1);
@@ -491,5 +498,106 @@ candl_ddv_extract_in_loop(CandlProgram* program, CandlDependence* deps,
     }
 
   return head;
+}
+
+
+
+/**
+ * candl_loops_are_permutable: output 1 if the 2 loops are permutable.
+ * Assume loop1 and loop2 are nested.
+ *
+ */
+int
+candl_loops_are_permutable(CandlProgram* program, CandlDependence* deps,
+			   int loop_id1, int loop_id2)
+{
+  CandlDDV* l1 = candl_ddv_extract_in_loop (program, deps, loop_id1);
+  CandlDDV* l2 = candl_ddv_extract_in_loop (program, deps, loop_id2);
+
+  // One of the loop do not carry any dependence.
+  if (l1 == NULL || l2 == NULL)
+    return 1;
+
+  CandlDDV* dv;
+  if (l1->length > l2->length)
+    dv = l1;
+  else
+    dv = l2;
+
+  int loop_dim_1 = -1;
+  int loop_dim_2 = -1;
+  int i, j;
+  CandlStatement* stm;
+  for (j = 0; j < program->nb_statements; ++j)
+    {
+      stm = program->statement[j];
+      for (i = 0; i < stm->depth; ++i)
+	if (stm->index[i] == loop_id1)
+	  loop_dim_1 = i;
+	else if (stm->index[i] == loop_id2)
+	  loop_dim_2 = i;
+      if (loop_dim_1 != -1 && loop_dim_2 != -1)
+	break;
+    }
+
+  int is_pos_1 = 0;
+  int is_neg_1 = 0;
+  int is_pos_2 = 0;
+  int is_neg_2 = 0;
+  int is_star = 0;
+  for (; dv; dv = dv->next)
+    {
+      switch (dv->data[loop_dim_1].type)
+	{
+	case candl_dv_plus:
+	  is_pos_1 = 1;
+	  break;
+	case candl_dv_minus:
+	  is_neg_1 = 1;
+	  break;
+	case candl_dv_scalar:
+	  if (dv->data[loop_dim_1].value > 0)
+	    is_pos_1 = 1;
+	  else if (dv->data[loop_dim_1].value < 0)
+	    is_neg_1 = 1;
+	  break;
+	case candl_dv_star:
+	  is_star = 1;
+	  break;
+	default:
+	  break;
+	}
+      switch (dv->data[loop_dim_2].type)
+	{
+	case candl_dv_plus:
+	  is_pos_2 = 1;
+	  break;
+	case candl_dv_minus:
+	  is_neg_2 = 1;
+	  break;
+	case candl_dv_scalar:
+	  if (dv->data[loop_dim_2].value > 0)
+	    is_pos_2 = 1;
+	  else if (dv->data[loop_dim_2].value < 0)
+	    is_neg_2 = 1;
+	  break;
+	case candl_dv_star:
+	  is_star = 1;
+	  break;
+	default:
+	  break;
+	}
+      if ((is_pos_1 && is_neg_1) || (is_pos_2 && is_neg_2) || is_star)
+	{
+	  candl_ddv_free (l1);
+	  candl_ddv_free (l2);
+	  return 0;
+	}
+    }
+
+  candl_ddv_free (l1);
+  candl_ddv_free (l2);
+
+  return ! ((is_pos_1 && is_neg_2) || (is_neg_1 && is_pos_2));
 }
 
