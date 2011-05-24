@@ -18,7 +18,7 @@ dnl Offer --with-piplib.
               [with_piplib=yes])
 dnl Check for piplib existence.
   AS_IF([test "x$with_piplib" != xno],
-	[AC_CHECK_LIB([piplib$BITS], [pip_solve],
+	[AC_SEARCH_LIBS([pip_solve], [piplib$BITS],
 	 [LIBS="-lpiplib$BITS $LIBS";
 	 AC_DEFINE([HAVE_LIBPIPLIB], [1], [Define if you have libpiplib$BITS])
          ],
@@ -38,7 +38,7 @@ dnl Offer --with-scoplib.
               [with_scoplib=check])
 dnl Check for scoplib existence.
   AS_IF([test "x$with_scoplib" != xno],
-	[AC_CHECK_LIB([scoplib], [scoplib_scop_read],
+	[AC_SEARCH_LIBS([scoplib_scop_read], [scoplib],
 	 [LIBS="-lscoplib $LIBS";
 	 DEFINE_HAS_SCOPLIB_LIB="# define CANDL_SUPPORTS_SCOPLIB"
 	 ],
@@ -66,7 +66,7 @@ dnl Offer --with-isl.
               [with_isl=check])
 dnl Check for isl existence.
   AS_IF([test "x$with_isl" != xno],
-	[AC_CHECK_LIB([isl], [isl_version],
+	[AC_SEARCH_LIBS([isl_version], [isl],
 	 [LIBS="-lisl $LIBS";
 	 DEFINE_HAS_ISL_LIB="# define CANDL_SUPPORTS_ISL"
 	 ],

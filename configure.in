@@ -148,8 +148,7 @@ else
     echo "Mode normal GMP"
     TO_BUILD="$TO_BUILD MP"
     AC_CHECK_HEADER(gmp.h,
-                    [AC_CHECK_LIB(gmp,
-		                  __gmpz_init,
+                    [AC_SEARCH_LIBS([__gmpz_init], [gmp],
 		                  [LIBS="$LIBS -lgmp"],
 				  [echo "Can't find gmp library." &&
 				   echo "MP version will not be built." &&
@@ -181,8 +180,7 @@ else
     AC_CHECK_HEADER(gmp.h,
                     [],
                     [AC_MSG_ERROR(Can't find gmp headers.)])
-    AC_CHECK_LIB(gmp,
-                 __gmpz_init,
+    AC_SEARCH_LIBS([__gmpz_init], [gmp],
                  [LIBS="$LIBS -lgmp"],
                  [AC_MSG_ERROR(Can't find gmp library.)])
 
