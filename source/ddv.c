@@ -296,7 +296,7 @@ candl_ddv_constant_val(CandlMatrix* system, int* val, int nb_par)
   options->Simplify = 1;
   options->Urs_parms = -1;
   options->Urs_unknowns = -1;
-  options->Nq = 1;
+  options->Nq = 0;
   CandlMatrix* context = candl_matrix_malloc(0, nb_par + 2);
   solution = pip_solve(system, context, -1, options);
 
