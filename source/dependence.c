@@ -2020,7 +2020,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
     matt = dep->target->read;
   else
     matt = dep->target->written;
-  int must_test = 0;
 
   /* Ensure it is not a basic loop-carried dependence (does not
      contain the loop iterator). */
@@ -2038,10 +2037,13 @@ candl_dependence_is_loop_carried (candl_program_p program,
   if (loopdep == 1)
       // This is conservative: if the loop iterates only once, then it
       // is not a loop-carried dependence.
-      return 1;
+    return 1;
 
-  /* Ensure it is not a basic loop-independent dependence (pure equality of
-     the access functions, and contain the loop iterator. */
+  /* Ensure it is not a basic loop-independent dependence (pure
+     equality of the access functions for the surrounding iterators +
+     parameters + constant, no occurence of the inner loop iterators,
+     and contain the current loop iterator. */
+  int must_test = 0;
   k = 0;
   do
     {
