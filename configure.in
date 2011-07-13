@@ -34,7 +34,7 @@ dnl ***************************************************************************/
 
 AC_PREREQ(2.13)
 dnl Fill here the @bug email adress.
-AC_INIT([candl], [0.5.0], [cedric.bastoul@inria.fr,pouchet@cse.ohio-state.edu])
+AC_INIT([candl], [0.5.1], [cedric.bastoul@inria.fr,pouchet@cse.ohio-state.edu])
 dnl A common file, which serve as a test.
 AC_CONFIG_SRCDIR([include/candl/program.h])
 dnl Put as most as possible configuration files to an auxialiry

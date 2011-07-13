@@ -1,3 +1,10 @@
+2011-07-12  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* configure.in: Bump to Candl 0.5.1.
+
+	* source/dependence.c: Fix a conservativeness issue in
+	candl_dependence_is_loop_carried.
+
 2011-06-24  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/ddv.c: Use rational point check in PIPLib, because of

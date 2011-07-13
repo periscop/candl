@@ -1999,6 +1999,39 @@ candl_dependence_is_loop_carried (candl_program_p program,
   if (j != i)
     return 0;
 
+  /* Ensure it is not a basic loop-independent dependence (pure equality of
+     the access functions, and contain the loop iterator. */
+  int k = 0;
+  int l = 0;
+  CandlMatrix* mats;
+  if (dep->type == CANDL_WAR || dep->type == CANDL_RAR)
+    mats = dep->source->read;
+  else
+    mats = dep->source->written;
+  CandlMatrix* matt;
+  if (dep->type == CANDL_RAW || dep->type == CANDL_RAR)
+    matt = dep->target->read;
+  else
+    matt = dep->target->written;
+  int has_iter = 0;
+  do
+    {
+      // Ensure the access functions are equal (conservative).
+      for (l = 0; l < mats->NbColumns; ++l)
+	if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
+	    CANDL_get_si(matt->p[dep->ref_target + k][l]))
+	  break;
+      // Ensure the reference do reference the current loop iterator
+      // to be tested.
+      if (CANDL_get_si(mats->p[dep->ref_source + k][i + 1]) != 0)
+	has_iter = 1;
+      ++k;
+    }
+  while (dep->ref_source + k < mats->NbRows &&
+	 CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
+  if (l == mats->NbColumns && has_iter)
+    return 0;
+
   /* Final check. The dependence exists only because the loop
      iterates. Make the loop not iterate and check if there's still
      dependent iterations. */
@@ -2017,8 +2050,8 @@ candl_dependence_is_loop_carried (candl_program_p program,
   CANDL_assign(m->p[m->NbRows - 2][m->NbColumns - 1], lb);
   candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j);
   CANDL_assign(m->p[m->NbRows - 1][m->NbColumns - 1], lb);
-  CANDL_clear(lb);
   int ret = candl_matrix_check_point(m, program->context);
+  CANDL_clear(lb);
 
   /* Be clean. */
   candl_matrix_free(m);
