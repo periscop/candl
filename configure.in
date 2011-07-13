@@ -34,7 +34,7 @@ dnl ***************************************************************************/
 
 AC_PREREQ(2.13)
 dnl Fill here the @bug email adress.
-AC_INIT([candl], [0.5.1], [cedric.bastoul@inria.fr,pouchet@cse.ohio-state.edu])
+AC_INIT([candl], [0.6.0], [cedric.bastoul@inria.fr,pouchet@cse.ohio-state.edu])
 dnl A common file, which serve as a test.
 AC_CONFIG_SRCDIR([include/candl/program.h])
 dnl Put as most as possible configuration files to an auxialiry
@@ -131,6 +131,12 @@ AC_ARG_ENABLE(mp-version,
 	  BITS="MP" &&
           CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
           NEED_MP="yes"])
+
+AC_ARG_ENABLE(piplib-hybrid,
+	[  --enable-piplib-hybrid   Link with piplib-hybrid],
+	[ echo "Piplib-hybrid support : $enableval" &&
+          CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID])
+
 
 dnl /**************************************************************************
 dnl  *                            Where is GMP?                               *

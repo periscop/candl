@@ -1152,8 +1152,6 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
 {
   candl_dependence_p dependence = NULL;
   CandlMatrix * system;
-  PipOptions * options;
-  PipQuast * solution;
 
   /* First, a trivial case: for two different statements at depth 0, there is
    * a dependence only if the source is textually before the target.
@@ -1172,6 +1170,12 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
   if (! candl_dependence_gcd_test(source, target, system, depth))
     return NULL;
 
+#ifdef CANDL_HAS_PIPLIB_HYBRID
+  if (piplib_hybrid_has_rational_point (system, context, 1))
+    {
+#else
+  PipOptions * options;
+  PipQuast * solution;
   options = pip_options_init();
   options->Simplify = 1;
   options->Urs_parms = -1;
@@ -1181,6 +1185,7 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
     {
+#endif
       dependence = candl_dependence_malloc();
 
       /* We set the various fields with corresponding values. */
@@ -1195,8 +1200,11 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
   else {
     candl_matrix_free(system);
   }
+
+#ifndef CANDL_HAS_PIPLIB_HYBRID
   pip_options_free(options);
   pip_quast_free(solution);
+#endif
 
   return dependence;
 }

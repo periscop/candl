@@ -1,3 +1,11 @@
+2011-07-13  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* configure.in: Bump to Candl 0.6.0. Add --enable-piplib-hybrid.
+
+	* source/matrix.c,
+	* source/dependence.c: Conditionally use piplib-hybrid
+	functionality to test polyhedron emptiness.
+
 2011-07-12  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* configure.in: Bump to Candl 0.5.1.

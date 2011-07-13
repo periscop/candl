@@ -42,7 +42,6 @@
 # include <string.h>
 # include "../include/candl/candl.h"
 
-
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
@@ -436,6 +435,9 @@ int
 candl_matrix_check_point (CandlMatrix* domain,
 			  CandlMatrix* context)
 {
+#ifdef CANDL_HAS_PIPLIB_HYBRID
+  return piplib_hybrid_has_integer_point (domain, context, 1);
+#else  
   PipOptions* options;
   PipQuast* solution;
   int ret = 0;
@@ -452,4 +454,5 @@ candl_matrix_check_point (CandlMatrix* domain,
   pip_quast_free (solution);
 
   return ret;
+#endif  
 }
