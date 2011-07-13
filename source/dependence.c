@@ -2007,8 +2007,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
   if (j != i)
     return 0;
 
-  /* Ensure it is not a basic loop-independent dependence (pure equality of
-     the access functions, and contain the loop iterator. */
+
   int k = 0;
   int l = 0;
   CandlMatrix* mats;
@@ -2021,6 +2020,29 @@ candl_dependence_is_loop_carried (candl_program_p program,
     matt = dep->target->read;
   else
     matt = dep->target->written;
+  int must_test = 0;
+
+  /* Ensure it is not a basic loop-carried dependence (does not
+     contain the loop iterator). */
+  int loopdep = 1;
+  for (k = 0; k == 0 ||
+	 (dep->ref_source + k < mats->NbRows &&
+	  CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0); ++k)
+    if (CANDL_get_si(mats->p[dep->ref_source + k][i + 1]) != 0)
+      loopdep = 0;
+  for (k = 0; k == 0 ||
+	 (dep->ref_target + k < matt->NbRows &&
+	  CANDL_get_si(matt->p[dep->ref_target + k][0]) == 0); ++k)
+    if (CANDL_get_si(matt->p[dep->ref_target + k][j + 1]) != 0)
+      loopdep = 0;
+  if (loopdep == 1)
+      // This is conservative: if the loop iterates only once, then it
+      // is not a loop-carried dependence.
+      return 1;
+
+  /* Ensure it is not a basic loop-independent dependence (pure equality of
+     the access functions, and contain the loop iterator. */
+  k = 0;
   do
     {
       // Ensure the reference do reference the current loop iterator
@@ -2031,21 +2053,53 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	  do
 	    {
 	      if (CANDL_get_si(matt->p[dep->ref_target + kp][j + 1]) != 0)
-		// Ensure the access functions are equal (conservative).
-		for (l = 0; l < mats->NbColumns; ++l)
-		  if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
-		      CANDL_get_si(matt->p[dep->ref_target + kp][l]))
-		    break;
+		{
+		  // Ensure the access functions are equal for the
+		  // surrounding loop iterators, and no inner iterator
+		  // is referenced.
+		  for (l = 0; l <= i + 1; ++l)
+		    if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
+		  	CANDL_get_si(matt->p[dep->ref_target + kp][l]))
+		      {
+		  	must_test = 1;
+		  	break;
+		      }
+		  int m = l;
+		  if (!must_test)
+		    for (; l <= dep->source->depth; ++l)
+		      if (CANDL_get_si(mats->p[dep->ref_source + k][l]) != 0)
+		  	{
+		  	  must_test = 1;
+		  	  break;
+		  	}
+		  if (!must_test)
+		    for (; m <= dep->target->depth; ++m)
+		      if (CANDL_get_si(matt->p[dep->ref_target + kp][m]) != 0)
+		  	{
+		  	  must_test = 1;
+		  	  break;
+		  	}
+		  if (!must_test)
+		    for (; l < mats->NbColumns; ++l, ++m)
+		      if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
+		  	  CANDL_get_si(matt->p[dep->ref_target + kp][m]))
+		  	{
+		  	  must_test = 1;
+		  	  break;
+		  	}
+		}
 	      ++kp;
 	    }
-	  while (dep->ref_target + kp < matt->NbRows &&
+	  while (!must_test &&
+		 dep->ref_target + kp < matt->NbRows &&
 		 CANDL_get_si(matt->p[dep->ref_target + kp][0]) == 0);
 	}
       ++k;
     }
-  while (dep->ref_source + k < mats->NbRows &&
+  while (!must_test &&
+	 dep->ref_source + k < mats->NbRows &&
 	 CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
-  if (l == mats->NbColumns)
+  if (!must_test)
     return 0;
 
   /* Final check. The dependence exists only because the loop
