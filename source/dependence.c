@@ -2022,7 +2022,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	  int kp = 0;
 	  do
 	    {
-	      if (CANDL_get_si(matt->p[dep->ref_source + kp][j + 1]) != 0)
+	      if (CANDL_get_si(matt->p[dep->ref_target + kp][j + 1]) != 0)
 		// Ensure the access functions are equal (conservative).
 		for (l = 0; l < mats->NbColumns; ++l)
 		  if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
