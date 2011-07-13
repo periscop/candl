@@ -2013,23 +2013,31 @@ candl_dependence_is_loop_carried (candl_program_p program,
     matt = dep->target->read;
   else
     matt = dep->target->written;
-  int has_iter = 0;
   do
     {
-      // Ensure the access functions are equal (conservative).
-      for (l = 0; l < mats->NbColumns; ++l)
-	if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
-	    CANDL_get_si(matt->p[dep->ref_target + k][l]))
-	  break;
       // Ensure the reference do reference the current loop iterator
       // to be tested.
       if (CANDL_get_si(mats->p[dep->ref_source + k][i + 1]) != 0)
-	has_iter = 1;
+	{
+	  int kp = 0;
+	  do
+	    {
+	      if (CANDL_get_si(matt->p[dep->ref_source + kp][j + 1]) != 0)
+		// Ensure the access functions are equal (conservative).
+		for (l = 0; l < mats->NbColumns; ++l)
+		  if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
+		      CANDL_get_si(matt->p[dep->ref_target + kp][l]))
+		    break;
+	      ++kp;
+	    }
+	  while (dep->ref_target + kp < matt->NbRows &&
+		 CANDL_get_si(matt->p[dep->ref_target + kp][0]) == 0);
+	}
       ++k;
     }
   while (dep->ref_source + k < mats->NbRows &&
 	 CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
-  if (l == mats->NbColumns && has_iter)
+  if (l == mats->NbColumns)
     return 0;
 
   /* Final check. The dependence exists only because the loop
