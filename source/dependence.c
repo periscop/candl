@@ -2007,7 +2007,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
   if (j != i)
     return 0;
 
-
   int k = 0;
   int l = 0;
   CandlMatrix* mats;
@@ -2024,17 +2023,27 @@ candl_dependence_is_loop_carried (candl_program_p program,
   /* Ensure it is not a basic loop-carried dependence (does not
      contain the loop iterator). */
   int loopdep = 1;
+  int src_ref_iter = 0;
+  int dst_ref_iter = 0;
   for (k = 0; k == 0 ||
 	 (dep->ref_source + k < mats->NbRows &&
 	  CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0); ++k)
     if (CANDL_get_si(mats->p[dep->ref_source + k][i + 1]) != 0)
-      loopdep = 0;
+      {
+	loopdep = 0;
+	src_ref_iter = 1;
+	break;
+      }
   for (k = 0; k == 0 ||
 	 (dep->ref_target + k < matt->NbRows &&
 	  CANDL_get_si(matt->p[dep->ref_target + k][0]) == 0); ++k)
     if (CANDL_get_si(matt->p[dep->ref_target + k][j + 1]) != 0)
-      loopdep = 0;
-  if (loopdep == 1)
+      {
+	loopdep = 0;
+	dst_ref_iter = 1;
+	break;
+      }
+  if (loopdep)
       // This is conservative: if the loop iterates only once, then it
       // is not a loop-carried dependence.
     return 1;
@@ -2101,9 +2110,8 @@ candl_dependence_is_loop_carried (candl_program_p program,
   while (!must_test &&
 	 dep->ref_source + k < mats->NbRows &&
 	 CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
-  if (!must_test)
+  if (src_ref_iter && dst_ref_iter && !must_test)
     return 0;
-
   /* Final check. The dependence exists only because the loop
      iterates. Make the loop not iterate and check if there's still
      dependent iterations. */

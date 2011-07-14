@@ -1,3 +1,7 @@
+2011-07-14  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/dependence.c: Fix a minor bug in is_loop_carried test.
+
 2011-07-13  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/dependence.c: Improve is_loop_carried test.
