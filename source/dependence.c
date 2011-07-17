@@ -2020,8 +2020,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
   else
     matt = dep->target->written;
 
-  /* Ensure it is not a basic loop-carried dependence (does not
-     contain the loop iterator). */
   int loopdep = 1;
   int src_ref_iter = 0;
   int dst_ref_iter = 0;
@@ -2043,10 +2041,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	dst_ref_iter = 1;
 	break;
       }
-  if (loopdep)
-      // This is conservative: if the loop iterates only once, then it
-      // is not a loop-carried dependence.
-    return 1;
 
   /* Ensure it is not a basic loop-independent dependence (pure
      equality of the access functions for the surrounding iterators +
@@ -2112,29 +2106,70 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	 CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
   if (src_ref_iter && dst_ref_iter && !must_test)
     return 0;
-  /* Final check. The dependence exists only because the loop
-     iterates. Make the loop not iterate and check if there's still
-     dependent iterations. */
-  CandlMatrix* m = candl_matrix_malloc(dep->domain->NbRows + 2,
-				       dep->domain->NbColumns);
-  CANDL_set_si(m->p[m->NbRows - 2][i + 1], -1);
-  CANDL_set_si(m->p[m->NbRows - 1][dep->source->depth + 1 + j], -1);
-  /* Copy the rest of the matrix. */
-  int ii, jj;
-  for (ii = 0; ii < dep->domain->NbRows; ++ii)
-    for (jj = 0; jj < dep->domain->NbColumns; ++jj)
-      CANDL_assign(m->p[ii][jj], dep->domain->p[ii][jj]);
-  /* Compute real lb of loops. */
-  Entier lb; CANDL_init(lb);
-  candl_dependence_compute_lb (m, &lb, i + 1);
-  CANDL_assign(m->p[m->NbRows - 2][m->NbColumns - 1], lb);
-  candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j);
-  CANDL_assign(m->p[m->NbRows - 1][m->NbColumns - 1], lb);
-  int ret = candl_matrix_check_point(m, program->context);
-  CANDL_clear(lb);
 
-  /* Be clean. */
-  candl_matrix_free(m);
+
+  /* Final check. For loop i, the dependence is loop carried if there exists
+     x_i^R != x_i^S in the dependence polyhedron, with
+     x_{1..i-1}^R = x_{1..i-1}^S
+  */
+  int pos;
+  CandlMatrix* mat = dep->domain;
+  CandlStatement* src = dep->source;
+  CandlMatrix* testsyst =
+    candl_matrix_malloc(mat->NbRows + 1 + dep->source->depth, mat->NbColumns);
+  for (pos = 0; pos < mat->NbRows; ++pos)
+    for (j = 0; j < mat->NbColumns; ++j)
+      CANDL_assign(testsyst->p[pos][j], mat->p[pos][j]);
+  for (j = 0; j < i; ++j)
+    {
+      CANDL_set_si(testsyst->p[pos + j + 1][0], 0);
+      CANDL_set_si(testsyst->p[pos + j + 1][1 + j], -1);
+      CANDL_set_si(testsyst->p[pos + j + 1][1 + j + dep->source->depth], 1);
+    }
+
+  int has_pt = 0;
+  // Test for '>'.
+  CANDL_set_si(testsyst->p[pos][0], 1);
+  CANDL_set_si(testsyst->p[pos][testsyst->NbColumns - 1], -1);
+  CANDL_set_si(testsyst->p[pos][1 + i], 1);
+  CANDL_set_si(testsyst->p[pos][1 + i + src->depth], -1);
+  has_pt = piplib_hybrid_has_rational_point (testsyst, NULL, 1);
+  if (! has_pt)
+    {
+      // Test for '<'.
+      CANDL_set_si(testsyst->p[pos][1 + i], -1);
+      CANDL_set_si(testsyst->p[pos][1 + i + src->depth], 1);
+      has_pt = piplib_hybrid_has_rational_point (testsyst, NULL, 1);
+    }
+
+  candl_matrix_free (testsyst);
+
+  return has_pt;
+
+  /* LNP: OLD VERSION. The above is more robust. */
+/*   /\* Final check. The dependence exists only because the loop */
+/*      iterates. Make the loop not iterate and check if there's still */
+/*      dependent iterations. *\/ */
+/*   CandlMatrix* m = candl_matrix_malloc(dep->domain->NbRows + 2, */
+/* 				       dep->domain->NbColumns); */
+/*   CANDL_set_si(m->p[m->NbRows - 2][i + 1], -1); */
+/*   CANDL_set_si(m->p[m->NbRows - 1][dep->source->depth + 1 + j], -1); */
+/*   /\* Copy the rest of the matrix. *\/ */
+/*   int ii, jj; */
+/*   for (ii = 0; ii < dep->domain->NbRows; ++ii) */
+/*     for (jj = 0; jj < dep->domain->NbColumns; ++jj) */
+/*       CANDL_assign(m->p[ii][jj], dep->domain->p[ii][jj]); */
+/*   /\* Compute real lb of loops. *\/ */
+/*   Entier lb; CANDL_init(lb); */
+/*   candl_dependence_compute_lb (m, &lb, i + 1); */
+/*   CANDL_assign(m->p[m->NbRows - 2][m->NbColumns - 1], lb); */
+/*   candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j); */
+/*   CANDL_assign(m->p[m->NbRows - 1][m->NbColumns - 1], lb); */
+/*   int ret = candl_matrix_check_point(m, program->context); */
+/*   CANDL_clear(lb); */
+
+/*   /\* Be clean. *\/ */
+/*   candl_matrix_free(m); */
 
   return !ret;
 }

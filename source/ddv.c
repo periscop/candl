@@ -211,6 +211,9 @@ static
 int
 candl_ddv_has_point(CandlMatrix* system)
 {
+#ifdef CANDL_HAS_PIPLIB_HYBRID
+  return piplib_hybrid_has_rational_point (system, NULL, 1);
+#else  
   PipOptions * options;
   PipQuast * solution;
   int has_sol = 0;
@@ -229,6 +232,7 @@ candl_ddv_has_point(CandlMatrix* system)
   pip_options_free(options);
 
   return has_sol;
+#endif  
 }
 
 
