@@ -2171,7 +2171,7 @@ candl_dependence_is_loop_carried (candl_program_p program,
 /*   /\* Be clean. *\/ */
 /*   candl_matrix_free(m); */
 
-  return !ret;
+/*   return !ret; */
 }
 
 
