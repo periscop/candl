@@ -1382,6 +1382,10 @@ candl_dependence_p candl_dependence(candl_program_p program,
       candl_compute_last_writer(dependence, program);
   }
 
+  /* Remove some transitively covered dependences (experimental). */
+  if (options->prune_dups)
+    dependence = candl_dependence_prune_transitively_covered (dependence);
+
   return dependence;
 }
 
@@ -2719,7 +2723,6 @@ int candl_dep_compute_lastwriter (CandlDependence **dep, CandlProgram *prog)
 
     return 0;
 }
-
 
 /**
  * Compute the last writer for each RAW, WAW, and RAR dependence. This will

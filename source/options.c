@@ -119,6 +119,7 @@ CandlOptions * candl_options_malloc(void)
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
   options->structure = 0; /* Don't print internal dependence structure. */
+  options->prune_dups = 0; /**< 1 to use experimental dependence pruning algorithm. */
 
   return options;
 }

@@ -56,6 +56,7 @@
 # include <candl/dependence.h>
 # include <candl/ddv.h>
 # include <candl/violation.h>
+# include <candl/pruning.h>
 
 # define CANDL_UNSET -1 /* Must be negative (we do use that property).
                          * All other constants have to be different.

@@ -48,5 +48,6 @@ pkginclude_HEADERS 	=			\
 	candl/matrix.h				\
 	candl/options.h				\
 	candl/program.h				\
+	candl/pruning.h				\
 	candl/statement.h			\
 	candl/violation.h

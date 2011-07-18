@@ -45,7 +45,7 @@
 
 int main(int argc, char * argv[])
 {
-  CandlProgram * program;
+  CandlProgram * program = NULL;
   CandlOptions * options;
   CandlDependence * dependence;
   CandlViolation * violation = NULL;

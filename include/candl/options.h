@@ -70,6 +70,7 @@ struct candloptions
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */
   int structure; /**< 1 to print internal dependence structure. */
+  int prune_dups; /**< 1 to use experimental dependence pruning algorithm. */
 } ;
 typedef struct candloptions CandlOptions;
 

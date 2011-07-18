@@ -55,6 +55,7 @@ libcandl_la_SOURCES 	=			\
 	matrix.c				\
 	options.c				\
 	program.c				\
+	pruning.c				\
 	statement.c				\
 	violation.c
 

@@ -174,6 +174,9 @@ candl_num_dependences(CandlDependence *candl_deps);
 void
 candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog);
 
+CandlDependence*
+candl_dependence_prune_transitively_covered (CandlDependence* deps);
+
 # if defined(__cplusplus)
   }
 # endif
