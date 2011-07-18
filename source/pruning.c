@@ -76,7 +76,7 @@ int candl_matrix_equal(CandlMatrix* m1, CandlMatrix* m2)
  * Finds all paths in the graph represented by the list of dependences
  * 'alldeps', that start from statement label 'tgt_id' and ends at
  * statement label 'final_id', of length <= 'max_length'.
- * Paths are stored as lists of list of dependences in 'paths_list'.
+ * Paths are stored as list of lists of dependences in 'paths_list'.
  */
 static
 void find_paths_rec (int tgt_id, int cur_length, int max_length,
@@ -121,15 +121,18 @@ void find_paths_rec (int tgt_id, int cur_length, int max_length,
 		      for (pos = 0; (*paths_list)[pos]; ++pos)
 			;
 		      if (pos + 1 % BUFF_SIZE == 0)
-			*paths_list = (CandlDependence***)
-			  realloc(*paths_list, sizeof(CandlDependence**) *
-				  (BUFF_SIZE + pos + 1));
+			{
+			  *paths_list = (CandlDependence***)
+			    realloc(*paths_list, sizeof(CandlDependence**) *
+				    (BUFF_SIZE + pos + 1));
+			  *paths_list[pos + 1] = NULL;
+			}
 		      (*paths_list)[pos] = (CandlDependence**)
 			malloc((max_length + 1) * sizeof(CandlDependence*));
 		      for (j = 0; j < max_length - 1; ++j)
 			(*paths_list)[pos][j] = cur_path[j];
 		      (*paths_list)[pos][j++] = alldeps[i];
-		       (*paths_list)[pos][j] = NULL;
+		      (*paths_list)[pos][j] = NULL;
 		    }
 		}
 	      else
@@ -173,7 +176,7 @@ find_dep_paths (CandlDependence** ardeps,
     (CandlDependence***)malloc(BUFF_SIZE * sizeof(CandlDependence**));
   for (i = 0; i < BUFF_SIZE; ++i)
     paths_list[i] = NULL;
-  // Iterate on all possible paths length from Sx to Sy, of length y-x.
+  // Iterate on all possible paths length, from Sx to Sy, of length y-x.
   for (i = 2; i <= target->label - source->label; ++i)
     find_paths_rec (source->label, 0, i, target->label, ardeps, cur_path,
 		    &paths_list);
@@ -337,7 +340,10 @@ is_covering (CandlDependence* dep, CandlDependence**  path)
 	}
       iter_off += path[k]->source->depth;
     }
-
+  
+  // Algo:
+  // lexmin(dep, R) == lexmin(path, R) && lexmax(dep, R) == lexmax(path, R) &&
+  // lexmin(dep, S) == lexmin(path, S) && lexmax(dep, S) == lexmax(path, S)
   PipOptions* options;
   options = pip_options_init ();
   options->Simplify = 1;
@@ -568,7 +574,7 @@ candl_dependence_prune_transitively_covered (CandlDependence* deps)
 			    if (paths[k])
 			      {
 				candl_matrix_free (ardeps[j]->domain);
-				free(ardeps[j]);
+				free (ardeps[j]);
 				if (j == 0)
 				  deps = ardeps[j + 1];
 				else
