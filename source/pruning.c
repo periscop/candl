@@ -340,7 +340,7 @@ is_covering (CandlDependence* dep, CandlDependence**  path)
 	}
       iter_off += path[k]->source->depth;
     }
-  
+
   // Algo:
   // lexmin(dep, R) == lexmin(path, R) && lexmax(dep, R) == lexmax(path, R) &&
   // lexmin(dep, S) == lexmin(path, S) && lexmax(dep, S) == lexmax(path, S)
@@ -471,7 +471,7 @@ candl_dependence_prune_transitively_covered (CandlDependence* deps)
     }
   allarrays[cnt] = -1;
 
-  // Iterate on all arrays.
+  // 2- Iterate on all arrays.
   for (i = 0; allarrays[i] != -1; ++i)
     {
       // a- Collect all dependences to this array.
