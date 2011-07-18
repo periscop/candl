@@ -323,6 +323,9 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
 	if (!strcmp(argv[i], "-scoptocandl"))
 	  (*options)->scoptocandl = 1;
 	else
+	if (!strcmp(argv[i], "-prune-dups"))
+	  (*options)->prune_dups = 1;
+	else
 	if ((!strcmp(argv[i], "-struct")) ||
 	    (!strcmp(argv[i], "-structure")))
 	  (*options)->structure = 1;
