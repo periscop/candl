@@ -197,27 +197,23 @@ int piplist_are_equal (PipList* l1, PipList* l2, int size)
   if (l1->vector == NULL && l2->vector == NULL)
     return 1;
   if (l1->vector == NULL || l2->vector == NULL)
-      return 0;
-
-  PipList* vlist1;
-  PipList* vlist2;
+    return 0;
 
   int count = 0;
-  for (vlist1 = l1, vlist2 = l2; vlist1 && vlist2 && count < size;
-       vlist1 = vlist1->next, vlist2 = vlist2->next, ++count)
+  for (; l1 && l2 && count < size; l1 = l1->next, l2 = l2->next, ++count)
     {
-      if (vlist1->vector == NULL && vlist2->vector == NULL)
+      if (l1->vector == NULL && l2->vector == NULL)
 	return 1;
-      if (vlist1->vector == NULL || vlist2->vector == NULL)
+      if (l1->vector == NULL || l2->vector == NULL)
 	return 0;
-      if (vlist1->vector->nb_elements != vlist2->vector->nb_elements)
+      if (l1->vector->nb_elements != l2->vector->nb_elements)
 	return 0;
       int j;
-      for (j = 0; j < vlist1->vector->nb_elements; ++j)
-	if (! CANDL_eq(vlist1->vector->the_vector[j],
-		       vlist2->vector->the_vector[j]) ||
-	    ! CANDL_eq(vlist1->vector->the_deno[j],
-		       vlist2->vector->the_deno[j]))
+      for (j = 0; j < l1->vector->nb_elements; ++j)
+	if (! CANDL_eq(l1->vector->the_vector[j],
+		       l2->vector->the_vector[j]) ||
+	    ! CANDL_eq(l1->vector->the_deno[j],
+		       l2->vector->the_deno[j]))
 	  return 0;
     }
 
@@ -301,9 +297,10 @@ is_covering (CandlDependence* dep, CandlDependence**  path)
   // a- Fast check. Ensure the dependence depth is consistent across
   // the path. We may correctly cover _more_ points and still have a
   // perfect transitive cover.
-  for (i = 0; i < path_length; ++i)
-    if (path[i]->depth < dep->depth)
-      return 0;
+  /// FIXME: ambiguous test?
+/*   for (i = 0; i < path_length; ++i) */
+/*     if (path[i]->depth > dep->depth) */
+/*       return 0; */
 
   // b- Check the covering property. Works only if
   // the iterator part of iteration domains and access functions are
@@ -530,7 +527,7 @@ candl_dependence_prune_transitively_covered (CandlDependence* deps)
 
       // d- Given a pair of statements, check if there is a dependence
       // path from its source to its target, of same type of a found
-      // direct dependence
+      // direct dependence.
       int stmts, stmtt;
       for (stmts = 0; stmts < nb_stmts - 2; ++stmts)
 	for (stmtt = stmts + 2; stmtt < nb_stmts; ++stmtt)

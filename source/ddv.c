@@ -598,10 +598,11 @@ candl_loops_are_permutable(CandlProgram* program, CandlDependence* deps,
 	  return 0;
 	}
     }
-
+  
   candl_ddv_free (l1);
   candl_ddv_free (l2);
-
+  
+  
   return ! ((is_pos_1 && is_neg_2) || (is_neg_1 && is_pos_2));
 }
 
