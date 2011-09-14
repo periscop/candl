@@ -57,15 +57,17 @@ int main(int argc, char * argv[])
   /* Reading the program informations. */
 #ifdef CANDL_SUPPORTS_SCOPLIB
   if (options->readscop)
-    program = candl_program_read_scop(input);
-  if (options->scoptocandl)
     {
-      if (! options->readscop)
-	program = candl_program_read_scop(input);
-      candl_program_print_candl_file(output, program);
-      candl_program_free(program);
-      candl_options_free(options);
-      return 0;
+      program = candl_program_read_scop(input);
+      if (options->scoptocandl)
+	{
+	  if (! options->readscop)
+	    program = candl_program_read_scop(input);
+	  candl_program_print_candl_file(output, program);
+	  candl_program_free(program);
+	  candl_options_free(options);
+	  return 0;
+	}
     }
   else
 #endif
@@ -109,9 +111,11 @@ int main(int argc, char * argv[])
 	  if (options->view)
 	    candl_violation_view(violation);
 	}
+
 #ifdef CANDL_SUPPORTS_SCOPLIB
     }
 #endif
+
 
   /* Being clean. */
   candl_violation_free(violation);

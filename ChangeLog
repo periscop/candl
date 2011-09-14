@@ -1,3 +1,8 @@
+2011-09-14  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/candl.c: Fix incorrect condition for inscop/outscop
+	option.
+
 2011-07-18  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* include/candl/pruning.h,
