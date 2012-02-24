@@ -1601,8 +1601,8 @@ candl_dependence_compute_lb (CandlMatrix* m, Entier* lb, int col)
       ((solution->list != NULL) || (solution->condition != NULL)))
     {
       l = solution->list;
-      for (; l && col > 0; l = l->next, --col)
-	;
+      while (col-- > 1)
+	l = l->next;
       CANDL_assign(*lb, l->vector->the_vector[0]);
     }
   pip_options_free (options);
@@ -1627,7 +1627,6 @@ candl_dependence_check_domain_is_included(CandlStatement* s1,
   Entier lb; CANDL_init(lb);
   max = s1->depth < max ? s1->depth : max;
   max = s2->depth < max ? s2->depth : max;
-
   CandlMatrix* m = candl_matrix_malloc(s2->domain->NbRows + s2->depth - max +1,
 				       s2->domain->NbColumns);
   int i, j;
@@ -2359,7 +2358,6 @@ candl_dependence_analyze_scalars(candl_program_p program,
 	      /* No more statement in the chain, exit. */
 	      if (stmts[0] == NULL)
 		break;
-
 	      int c = 0;
 	      is_priv = candl_dependence_var_is_ref (stmts[c], scalars[i])
 		== CANDL_VAR_IS_DEF;
@@ -2429,16 +2427,16 @@ candl_dependence_analyze_scalars(candl_program_p program,
 			{
 			  free (program->scalars_privatizable);
 			  program->scalars_privatizable =
-			    (int*)malloc(priv_buff_size * 2 * sizeof(int));
+			    (int*)malloc(priv_buff_size * sizeof(int));
 			  for (l = 0; l < priv_buff_size; ++l)
 			    program->scalars_privatizable[l] = -1;
 			}
-		      if (2 * nb_priv == priv_buff_size)
+		      if (nb_priv == priv_buff_size)
 			{
 			  program->scalars_privatizable =
 			    realloc(program->scalars_privatizable,
 				    (priv_buff_size *= 2) * sizeof(int));
-			  for (l = 2 * nb_priv; l < priv_buff_size; ++l)
+			  for (l = nb_priv; l < priv_buff_size; ++l)
 			    program->scalars_privatizable[l] = -1;
 			}
 		      /* Memorize the scalar information in the

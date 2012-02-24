@@ -1,3 +1,8 @@
+2012-02-24  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* source/dependence.c: Fix a bug in compute_lb (used in scalar
+	privatization detection).
+
 2011-09-14  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* source/candl.c: Fix incorrect condition for inscop/outscop
