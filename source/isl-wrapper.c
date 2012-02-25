@@ -33,7 +33,7 @@
  *                                                                            *
  ******************************************************************************/
 /**
- * \file dependence.c
+ * \file isl-wrapper.c
  * \author Sven Verdoolaege and Louis-Noel Pouchet
  */
 

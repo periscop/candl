@@ -52,6 +52,14 @@
 # include <isl/set.h>
 #endif
 
+
+extern
+int 
+pip_has_rational_point(PipMatrix* system,
+		       PipMatrix* context,
+		       int conservative);
+
+
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
@@ -1170,22 +1178,8 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
   if (! candl_dependence_gcd_test(source, target, system, depth))
     return NULL;
 
-#ifdef CANDL_HAS_PIPLIB_HYBRID
-  if (piplib_hybrid_has_rational_point (system, context, 1))
+  if (pip_has_rational_point (system, context, 1))
     {
-#else
-  PipOptions * options;
-  PipQuast * solution;
-  options = pip_options_init();
-  options->Simplify = 1;
-  options->Urs_parms = -1;
-  options->Urs_unknowns = -1;
-  solution = pip_solve(system,context, -1, options);
-
-  if ((solution != NULL) &&
-      ((solution->list != NULL) || (solution->condition != NULL)))
-    {
-#endif
       dependence = candl_dependence_malloc();
 
       /* We set the various fields with corresponding values. */
@@ -1197,14 +1191,8 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
       dependence->ref_target = ref_t;
       dependence->domain     = system;
     }
-  else {
+  else 
     candl_matrix_free(system);
-  }
-
-#ifndef CANDL_HAS_PIPLIB_HYBRID
-  pip_options_free(options);
-  pip_quast_free(solution);
-#endif
 
   return dependence;
 }
@@ -2136,13 +2124,13 @@ candl_dependence_is_loop_carried (candl_program_p program,
   CANDL_set_si(testsyst->p[pos][testsyst->NbColumns - 1], -1);
   CANDL_set_si(testsyst->p[pos][1 + i], 1);
   CANDL_set_si(testsyst->p[pos][1 + i + src->depth], -1);
-  has_pt = piplib_hybrid_has_rational_point (testsyst, NULL, 1);
+  has_pt = pip_has_rational_point (testsyst, NULL, 1);
   if (! has_pt)
     {
       // Test for '<'.
       CANDL_set_si(testsyst->p[pos][1 + i], -1);
       CANDL_set_si(testsyst->p[pos][1 + i + src->depth], 1);
-      has_pt = piplib_hybrid_has_rational_point (testsyst, NULL, 1);
+      has_pt = pip_has_rational_point (testsyst, NULL, 1);
     }
 
   candl_matrix_free (testsyst);

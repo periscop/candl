@@ -168,6 +168,9 @@ candl_dependence_scalar_renaming(candl_program_p, CandlOptions*,
 int
 candl_dependence_analyze_scalars(candl_program_p, CandlOptions*);
 
+/******************************************************************************
+ *                          Miscellaneous functions                           *
+ ******************************************************************************/
 int
 candl_num_dependences(CandlDependence *candl_deps);
 
@@ -176,7 +179,7 @@ candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog);
 
 CandlDependence*
 candl_dependence_prune_transitively_covered (CandlDependence* deps);
-
+    
 # if defined(__cplusplus)
   }
 # endif

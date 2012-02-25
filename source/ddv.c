@@ -45,6 +45,12 @@
 
 #include <assert.h>
 
+extern
+int 
+pip_has_rational_point(PipMatrix* system,
+		       PipMatrix* context,
+		       int conservative);
+
 
 #ifndef min
 # define min(x,y) (x < y ? x : y)
@@ -211,28 +217,7 @@ static
 int
 candl_ddv_has_point(CandlMatrix* system)
 {
-#ifdef CANDL_HAS_PIPLIB_HYBRID
-  return piplib_hybrid_has_rational_point (system, NULL, 1);
-#else  
-  PipOptions * options;
-  PipQuast * solution;
-  int has_sol = 0;
-
-  options = pip_options_init();
-  options->Simplify = 1;
-  options->Urs_parms = -1;
-  options->Urs_unknowns = -1;
-  options->Nq = 1;
-  solution = pip_solve(system, NULL, -1, options);
-
-  if ((solution != NULL) &&
-      ((solution->list != NULL) || (solution->condition != NULL)))
-    has_sol = 1;
-  pip_quast_free(solution);
-  pip_options_free(options);
-
-  return has_sol;
-#endif  
+  return pip_has_rational_point (system, NULL, 1);
 }
 
 

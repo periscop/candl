@@ -54,6 +54,7 @@ libcandl_la_SOURCES 	=			\
 	isl-wrapper.c				\
 	matrix.c				\
 	options.c				\
+	piplib-wrapper.c			\
 	program.c				\
 	pruning.c				\
 	statement.c				\
