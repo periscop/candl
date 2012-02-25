@@ -42,6 +42,8 @@
 #include <string.h>
 #include <candl/candl.h>
 
+#include <candl/piplib-wrapper.h>
+
 #include <assert.h>
 
 #ifdef CANDL_SUPPORTS_ISL
@@ -52,12 +54,6 @@
 # include <isl/set.h>
 #endif
 
-
-extern
-int 
-pip_has_rational_point(PipMatrix* system,
-		       PipMatrix* context,
-		       int conservative);
 
 
 /******************************************************************************

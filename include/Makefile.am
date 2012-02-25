@@ -47,6 +47,7 @@ pkginclude_HEADERS 	=			\
 	candl/ddv.h				\
 	candl/matrix.h				\
 	candl/options.h				\
+	candl/piplib-wrapper.h			\
 	candl/program.h				\
 	candl/pruning.h				\
 	candl/statement.h			\

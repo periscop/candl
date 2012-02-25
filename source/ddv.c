@@ -45,11 +45,7 @@
 
 #include <assert.h>
 
-extern
-int 
-pip_has_rational_point(PipMatrix* system,
-		       PipMatrix* context,
-		       int conservative);
+#include <candl/piplib-wrapper.h>
 
 
 #ifndef min

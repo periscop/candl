@@ -1,5 +1,12 @@
 2012-02-25  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
+	* include/candl/piplib-wrapper.h: New. Header for the wrapper.
+	* source/dependence.c,
+	* source/ddv.c,
+	* include/Makefile.am: Update accordingly.
+
+2012-02-25  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
 	* configure.in: Bump to 0.6.1.
 	* source/piplib-wrapper.c: New. PIPLib hybrid/non-hybrid wrapper.
 	* include/candl/dependence.h,
