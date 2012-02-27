@@ -44,7 +44,7 @@
 #include <candl/candl.h>
 
 
-int 
+int
 pip_has_rational_point(PipMatrix* system,
 		       PipMatrix* context,
 		       int conservative)
@@ -59,7 +59,7 @@ pip_has_rational_point(PipMatrix* system,
   options->Urs_parms = -1;
   options->Urs_unknowns = -1;
   options->Nq = 0;
-  PipQuast* solution = pip_solve (domain, context, -1, options);
+  PipQuast* solution = pip_solve (system, context, -1, options);
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
     ret = 1;

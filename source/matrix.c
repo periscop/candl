@@ -40,7 +40,7 @@
 # include <stdio.h>
 # include <ctype.h>
 # include <string.h>
-# include "../include/candl/candl.h"
+# include <candl/candl.h>
 
 /******************************************************************************
  *                          Structure display function                        *

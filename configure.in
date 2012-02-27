@@ -135,7 +135,9 @@ AC_ARG_ENABLE(mp-version,
 AC_ARG_ENABLE(piplib-hybrid,
 	[  --enable-piplib-hybrid   Link with piplib-hybrid],
 	[ echo "Piplib-hybrid support : $enableval" &&
-          CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID])
+          if test "x$enableval" = "xyes"; then 
+            CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
+          fi])
 
 
 dnl /**************************************************************************

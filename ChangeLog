@@ -1,3 +1,9 @@
+2012-02-26  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* configure.in,
+	* source/piplib-wrapper.c,
+	* source/matrix.c: Fix support of piplib non-hybrid.
+
 2012-02-25  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* include/candl/piplib-wrapper.h: New. Header for the wrapper.
