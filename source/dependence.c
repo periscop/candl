@@ -114,6 +114,7 @@ void candl_dependence_print_structure(FILE* file,
 	case CANDL_WAR   : fprintf(file, "WAR (anti)\n");   break;
 	case CANDL_WAW   : fprintf(file, "WAW (output)\n"); break;
 	case CANDL_RAR   : fprintf(file, "RAR (input)\n");  break;
+	case CANDL_RAW_SCALPRIV   : fprintf(file, "RAW_SCALPRIV (scalar priv)\n");  break;
 	default : fprintf(file, "unknown\n"); break;
 	}
 
@@ -193,6 +194,7 @@ void candl_dependence_pprint(FILE * file, candl_dependence_p dependence)
 	case CANDL_WAR   : fprintf(file, "WAR")  ; break;
 	case CANDL_WAW   : fprintf(file, "WAW")  ; break;
 	case CANDL_RAR   : fprintf(file, "RAR")  ; break;
+	case CANDL_RAW_SCALPRIV   : fprintf(file, "RAW_SCALPRIV (scalar-priv)")  ; break;
 	default : fprintf(file, "unknown"); break;
 	}
       fprintf(file, " depth %d, ref %d->%d \"];\n", dependence->depth,
@@ -278,6 +280,11 @@ candl_program_deps_to_string(CandlDependence* dependence)
 	    case CANDL_RAR:
 	      type = "RAR #(input)";
 	      refs = CANDL_get_si(tmp->source->read->p[tmp->ref_source][0]);
+	      reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
+	      break;
+	    case CANDL_RAW_SCALPRIV:
+	      type = "RAW_SCALPRIV #(scalar priv)";
+	      refs = CANDL_get_si(tmp->source->written->p[tmp->ref_source][0]);
 	      reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
 	      break;
 	    default:
@@ -429,6 +436,8 @@ CandlDependence* candl_dependence_read_one_dep(char* str, char** next,
     dep->type = CANDL_WAR;
   else if (! strcmp(buffer, "WAW"))
     dep->type = CANDL_WAW;
+  else if (! strcmp(buffer, "RAW_SCALPRIV"))
+    dep->type = CANDL_RAW_SCALPRIV;
   for (; *str != '\n'; ++str);
   ++str;
 
@@ -486,6 +495,7 @@ CandlDependence* candl_dependence_read_one_dep(char* str, char** next,
   switch (dep->type)
     {
     case CANDL_RAW:
+    case CANDL_RAW_SCALPRIV:
       msource = dep->source->written;
       mtarget = dep->target->read;
       break;
@@ -914,16 +924,17 @@ int candl_dependence_gcd_test(CandlStatement* source,
   int gcd;
   int id;
   int value;
-  int null_iter, null_param, null_cst, pos_iter, neg_iter, strict_pred;
+  int null_iter, null_param, null_cst, pos_iter, neg_iter;
 
   /* Check that the precedence constraint, if any, is not strict in a
      self-dependence. */
-  if (source == target &&
-      CANDL_get_si(system->p[system->NbRows - 1][0]) == 1 &&
-      CANDL_get_si(system->p[system->NbRows - 1][system->NbColumns - 1]) == -1)
-    strict_pred = 1;
-  else
-    strict_pred = 0;
+  /* int strict_pred; */
+  /* if (source == target && */
+  /*     CANDL_get_si(system->p[system->NbRows - 1][0]) == 1 && */
+  /*     CANDL_get_si(system->p[system->NbRows - 1][system->NbColumns - 1]) == -1) */
+  /*   strict_pred = 1; */
+  /* else */
+  /*   strict_pred = 0; */
 
   /* Inspect the array access function equalities. */
   for (id = source->domain->NbRows + target->domain->NbRows;
@@ -1187,7 +1198,7 @@ candl_dependence_p candl_dependence_system(CandlStatement* source,
       dependence->ref_target = ref_t;
       dependence->domain     = system;
     }
-  else 
+  else
     candl_matrix_free(system);
 
   return dependence;
@@ -1350,9 +1361,10 @@ candl_dependence_p candl_dependence(candl_program_p program,
     }
 
   /* If scalar analysis is called, remove some useless dependences. */
-  if (options->scalar_privatization || options->scalar_expansion ||
-      options->scalar_renaming)
-    candl_dependence_prune_scalar_waw (program, options, &dependence);
+  /* LNP: This is subsubmed by the updated prune-with-privatization function. */
+  /* if (options->scalar_privatization || options->scalar_expansion || */
+  /*     options->scalar_renaming) */
+  /*   candl_dependence_prune_scalar_waw (program, options, &dependence); */
 
   /* Final treatment for scalar analysis. */
   int check = 0;
@@ -1738,6 +1750,7 @@ candl_dependence_get_array_refs_in_dep (CandlDependence* tmp, int* refs,
       *reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
       break;
     case CANDL_RAW:
+    case CANDL_RAW_SCALPRIV:
       *refs = CANDL_get_si(tmp->source->written->p[tmp->ref_source][0]);
       *reft = CANDL_get_si(tmp->target->read->p[tmp->ref_target][0]);
       break;
@@ -2002,12 +2015,12 @@ candl_dependence_is_loop_carried (candl_program_p program,
   else
     mats = dep->source->written;
   CandlMatrix* matt;
-  if (dep->type == CANDL_RAW || dep->type == CANDL_RAR)
+  if (dep->type == CANDL_RAW || dep->type == CANDL_RAW_SCALPRIV
+      || dep->type == CANDL_RAR)
     matt = dep->target->read;
   else
     matt = dep->target->written;
 
-  int loopdep = 1;
   int src_ref_iter = 0;
   int dst_ref_iter = 0;
   for (k = 0; k == 0 ||
@@ -2015,7 +2028,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	  CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0); ++k)
     if (CANDL_get_si(mats->p[dep->ref_source + k][i + 1]) != 0)
       {
-	loopdep = 0;
 	src_ref_iter = 1;
 	break;
       }
@@ -2024,7 +2036,6 @@ candl_dependence_is_loop_carried (candl_program_p program,
 	  CANDL_get_si(matt->p[dep->ref_target + k][0]) == 0); ++k)
     if (CANDL_get_si(matt->p[dep->ref_target + k][j + 1]) != 0)
       {
-	loopdep = 0;
 	dst_ref_iter = 1;
 	break;
       }
@@ -2176,9 +2187,10 @@ candl_dependence_prune_with_privatization (candl_program_p program,
   CandlDependence* tmp;
   CandlDependence* pred = NULL;
   int is_priv;
-  int i;
+  int i, j;
   int loop_idx = 0;
   int refs, reft;
+  int loop_pos_priv;
 
 
   if (options->verbose)
@@ -2218,18 +2230,40 @@ candl_dependence_prune_with_privatization (candl_program_p program,
 	}
       else
 	loop_idx = tmp->source->index[i];
+      loop_pos_priv = i;
       /* Check if the dependence is loop-carried at loop i. */
       if (is_priv && candl_dependence_is_loop_carried (program, tmp, loop_idx))
 	{
-	  /* It is, the dependence can be removed. */
+	  /* If so, make the dependence loop-independent. */
+	  CandlMatrix* m = candl_matrix_malloc (tmp->domain->NbRows + 1,
+						tmp->domain->NbColumns);
+	  for (i = 0; i < tmp->domain->NbRows; ++i)
+	    for (j = 0; j < tmp->domain->NbColumns; ++j)
+	      CANDL_assign(m->p[i][j], tmp->domain->p[i][j]);
 	  candl_matrix_free (tmp->domain);
+	  tmp->domain = m;
+	  CANDL_set_si(tmp->domain->p[tmp->domain->NbRows - 1]
+		       [1 + loop_pos_priv], 1);
+	  CANDL_set_si(tmp->domain->p[tmp->domain->NbRows - 1]
+		       [1 + loop_pos_priv + tmp->source->depth], -1);
+	  /* Set the type of the dependence as special
+	     scalar-privatization one. */
+	  if (tmp->type == CANDL_RAW)
+	    tmp->type = CANDL_RAW_SCALPRIV;
 	  next = tmp->next;
-	  if (pred == NULL)
-	    *deps = next;
-	  else
-	    pred->next = next;
-	  free (tmp);
+	  if (!candl_matrix_check_point (tmp->domain, NULL))
+	    {
+	      /* It is, the dependence can be removed. */
+	      candl_matrix_free (tmp->domain);
+	      if (pred == NULL)
+		*deps = next;
+	      else
+		pred->next = next;
+	      free (tmp);
+	    }
+	  pred = tmp;
 	  tmp = next;
+
 	  continue;
 	}
       /* Go to the next victim. */
@@ -2285,7 +2319,7 @@ candl_dependence_analyze_scalars(candl_program_p program,
   CandlStatement** fullchain = NULL;
   int i, j, k, l, n;
   CandlMatrix* m;
-  int idx, max, is_priv, cpt, offset, was_priv;
+  int max, is_priv, cpt, offset, was_priv;
   CandlStatement* curlast;
   CandlStatement* last;
   int nb_priv = 0;
@@ -2305,7 +2339,6 @@ candl_dependence_analyze_scalars(candl_program_p program,
      / expanded / renamed. */
   for (i = 0; scalars[i] != -1; ++i)
     {
-      idx = scalars[i];
       /* Go to the first statement referencing the scalar. */
       for (j = 0; j < program->nb_statements; ++j)
 	if (candl_dependence_var_is_ref (program->statement[j], scalars[i])
@@ -2345,6 +2378,13 @@ candl_dependence_analyze_scalars(candl_program_p program,
 	      int c = 0;
 	      is_priv = candl_dependence_var_is_ref (stmts[c], scalars[i])
 		== CANDL_VAR_IS_DEF;
+	      /* Ensure we have a use in the chain. */
+	      for (l = c + 1; stmts[l - 1] && stmts[l]; ++l)
+		if (candl_dependence_var_is_ref (stmts[l], scalars[i]) ==
+		    CANDL_VAR_IS_USED)
+		  break;
+	      if (stmts[l - 1] == NULL || stmts[l] == NULL)
+	      	is_priv = 0;
 	      /* Check for privatization, while the entry of the chain
 		 is a DEF. */
 	      while (stmts[c] && candl_dependence_var_is_ref
@@ -2715,7 +2755,7 @@ void candl_compute_last_writer (CandlDependence *dep, CandlProgram *prog)
 {
   // int count=0;
     while (dep != NULL)    {
-        if (dep->type == CANDL_RAW || dep->type == CANDL_WAW || dep->type == CANDL_RAR)   {
+        if (dep->type != CANDL_WAR)   {
 	  // printf("Last writer for dep %d: %d %d\n", count++, dep->source->depth, dep->target->depth);
             // candl_matrix_print(stdout, dep->domain);
             candl_dep_compute_lastwriter(&dep, prog);

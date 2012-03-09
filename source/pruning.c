@@ -97,6 +97,7 @@ void find_paths_rec (int tgt_id, int cur_length, int max_length,
 	      if (cur_length > 1)
 		{
 		  if (cur_path[cur_length - 1]->type == CANDL_RAW ||
+		      cur_path[cur_length - 1]->type == CANDL_RAW_SCALPRIV ||
 		      cur_path[cur_length - 1]->type == CANDL_RAR)
 		    {
 		      // RAW or RAR.
@@ -265,13 +266,16 @@ is_covering (CandlDependence* dep, CandlDependence**  path)
 
   /// FIXME: This may be overly conservative.
   // Check the path extremal points type.
-  if (dep->type == CANDL_RAW || dep->type == CANDL_WAW)
+  if (dep->type == CANDL_RAW || dep->type == CANDL_RAW_SCALPRIV
+      || dep->type == CANDL_WAW)
     {
       // RAW or WAW.
-      if (path[0]->type != CANDL_RAW && path[0]->type != CANDL_WAW)
+      if (path[0]->type != CANDL_RAW && path[0]->type != CANDL_RAW_SCALPRIV &&
+	  path[0]->type != CANDL_WAW)
 	return 0;
-      if (dep->type == CANDL_RAW)
+      if (dep->type == CANDL_RAW || dep->type == CANDL_RAW_SCALPRIV)
 	if (path[path_length - 1]->type != CANDL_RAW &&
+	    path[path_length - 1]->type != CANDL_RAW_SCALPRIV &&
 	    path[path_length - 1]->type != CANDL_RAR)
 	  return 0;
       if (dep->type == CANDL_WAW)
@@ -290,6 +294,7 @@ is_covering (CandlDependence* dep, CandlDependence**  path)
 	  return 0;
       if (dep->type == CANDL_RAR)
 	if (path[path_length - 1]->type != CANDL_RAR &&
+	    path[path_length - 1]->type != CANDL_RAW_SCALPRIV &&
 	    path[path_length - 1]->type != CANDL_RAW)
 	  return 0;
     }
@@ -456,7 +461,8 @@ candl_dependence_prune_transitively_covered (CandlDependence* deps)
   for (tmp = deps, cnt = 0; tmp; tmp = tmp->next)
     {
       CandlMatrix* srcmat;
-      if (tmp->type == CANDL_RAW || tmp->type == CANDL_WAW)
+      if (tmp->type == CANDL_RAW || tmp->type == CANDL_RAW_SCALPRIV
+	  || tmp->type == CANDL_WAW)
 	srcmat = tmp->source->written;
       else
 	srcmat = tmp->source->read;
@@ -476,7 +482,8 @@ candl_dependence_prune_transitively_covered (CandlDependence* deps)
       for (tmp = deps, cnt = 0; tmp; tmp = tmp->next)
 	{
 	  CandlMatrix* srcmat;
-	  if (tmp->type == CANDL_RAW || tmp->type == CANDL_WAW)
+	  if (tmp->type == CANDL_RAW || tmp->type == CANDL_RAW_SCALPRIV
+	      || tmp->type == CANDL_WAW)
 	    srcmat = tmp->source->written;
 	  else
 	    srcmat = tmp->source->read;

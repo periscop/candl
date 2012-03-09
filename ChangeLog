@@ -1,3 +1,13 @@
+2012-03-09  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
+
+	* configure.in: Bump to candl-0.6.2.
+	* include/candl/candl.h.in: Create a new dependence type,
+	CANDL_RAW_SCALPRIV. It is used only for RAW that has been modified
+	due to scalar privatization pruning pass.
+	* source/pruning.c: Update accordingly.
+	* source/dependence.c: Update, and fix two bugs in scalar
+	privatization.
+
 2012-02-26  Louis-Noel Pouchet  <pouchet@cse.ohio-state.edu>
 
 	* configure.in,

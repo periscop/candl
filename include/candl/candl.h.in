@@ -66,6 +66,7 @@
 # define CANDL_WAR    2
 # define CANDL_WAW    3
 # define CANDL_RAR    4
+# define CANDL_RAW_SCALPRIV	5
 
 # define CANDL_ASSIGNMENT  1
 # define CANDL_P_REDUCTION 2
