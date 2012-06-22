@@ -6,8 +6,8 @@
     **----  \#/  --------------------------------------------------------**
     **    .-"#'-.        First version: december 9th 2005                **
     **--- |"-.-"| -------------------------------------------------------**
-          |     |
-          |     |
+    |     |
+    |     |
  ******** |     | *************************************************************
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
@@ -36,297 +36,17 @@
  *          please feel free to correct and improve it !
  */
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <ctype.h>
-# include <string.h>
-# include <candl/candl.h>
-
-/******************************************************************************
- *                          Structure display function                        *
- ******************************************************************************/
-
-
-/**
- * candl_matrix_print_structure function:
- * Displays a CandlMatrix structure (matrix) into a file (file, possibly stdout)
- * in a way that trends to be understandable without falling in a deep
- * depression or, for the lucky ones, getting a headache... It includes an
- * indentation level (level) in order to work with others print_structure
- * functions.
- * - 09/12/2005: first version (from CLooG 0.14.0).
- */
-void candl_matrix_print_structure(FILE * file, CandlMatrix * matrix, int level)
-{ int i, j ;
-
-  if (matrix != NULL)
-  { /* Go to the right level. */
-    for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- CandlMatrix\n") ;
-
-    for(j=0; j<=level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"%d %d\n",matrix->NbRows,matrix->NbColumns) ;
-
-    /* Display the matrix. */
-    for (i=0; i<matrix->NbRows; i++)
-    { for(j=0; j<=level; j++)
-      fprintf(file,"|\t") ;
-
-      fprintf(file,"[ ") ;
-
-      for (j=0; j<matrix->NbColumns; j++)
-      { CANDL_print(file,CANDL_FMT,matrix->p[i][j]) ;
-        fprintf(file," ") ;
-      }
-
-      fprintf(file,"]\n") ;
-    }
-  }
-  else
-  { /* Go to the right level. */
-    for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- NULL matrix\n") ;
-  }
-
-  /* The last line. */
-  for(j=0; j<=level; j++)
-  fprintf(file,"|\t") ;
-  fprintf(file,"\n") ;
-}
-
-
-/**
- * candl_matrix_print function:
- * This function prints the content of a CandlMatrix structure (matrix) into a
- * file (file, possibly stdout).
- * - 09/12/2005: first version (from CLooG 0.14.0).
- */
-void candl_matrix_print(FILE * file, CandlMatrix * matrix)
-{ candl_matrix_print_structure(file,matrix,0) ;
-}
-
-
-
-/**
- * candl_matrix_print_data function:
- * This function prints the content of a CandlMatrix data (matrix) into a
- * file (file, possibly stdout).
- */
-void candl_matrix_print_data(FILE * file, CandlMatrix * matrix)
-{
-  int i, j;
-
-  fprintf (file, "%d %d\n", matrix->NbRows, matrix->NbColumns);
-  for (i = 0; i < matrix->NbRows; ++i)
-    {
-      for (j = 0; j < matrix->NbColumns; ++j)
-	CANDL_print(file,CANDL_FMT,matrix->p[i][j]);
-      fprintf (file, "\n");
-    }
-}
-
-
-/**
- * candl_matrix_list_print_structure function:
- * Displays a CandlMatrixList structure (list) into a file (file, possibly
- * stdout) in a way that trends to be understandable without falling in a deep
- * depression or, for the lucky ones, getting a headache... It includes an
- * indentation level (level) in order to work with others print_structure
- * functions.
- * - 11/12/2005: first version.
- */
-void candl_matrix_list_print_structure(file, list, level)
-FILE * file ;
-CandlMatrixList *list ;
-int level ;
-{ int i, j, first=1 ;
-
-  if (list != NULL)
-  { /* Go to the right level. */
-    for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- CandlMatrixList\n") ;
-  }
-  else
-  { /* Go to the right level. */
-    for(j=0; j<level; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"+-- NULL matrix list\n") ;
-  }
-
-  while (list != NULL)
-  { if (!first)
-    { /* Go to the right level. */
-      for(j=0; j<level; j++)
-      fprintf(file,"|\t") ;
-      fprintf(file,"|   CandlMatrixList\n") ;
-    }
-    else
-    first = 0 ;
-
-    /* A blank line. */
-    for(j=0; j<=level+1; j++)
-    fprintf(file,"|\t") ;
-    fprintf(file,"\n") ;
-
-    /* Print the matrix. */
-    candl_matrix_print_structure(file,list->matrix,level+1) ;
-
-    /* Next line. */
-    if (list->next != NULL)
-    { for(i=0; i<=level; i++)
-      fprintf(file,"|\t") ;
-      fprintf(file,"V\n") ;
-    }
-    list = list->next ;
-  }
-
-  /* The last line. */
-  for(j=0; j<=level; j++)
-  fprintf(file,"|\t") ;
-  fprintf(file,"\n") ;
-}
-
-
-/**
- * candl_matrix_list_print function:
- * This function prints the content of a CandlMatrixList structure (list) into a
- * file (file, possibly stdout).
- * - 11/12/2005: first version.
- */
-void candl_matrix_list_print(FILE * file, CandlMatrixList * list)
-{ candl_matrix_list_print_structure(file,list,0) ;
-}
-
-
-/******************************************************************************
- *                         Memory deallocation function                       *
- ******************************************************************************/
-
-
-/**
- * candl_matrix_free function:
- * This function frees the allocated memory for a CandlMatrix structure.
- * - 09/12/2005: first version.
- */
-void candl_matrix_free(CandlMatrix * matrix)
-{ pip_matrix_free(matrix) ;
-}
-
-
-/**
- * candl_matrix_list_free function:
- * This function frees the allocated memory for a CandlMatrixList structure.
- * - 11/12/2005: first version.
- */
-void candl_matrix_list_free(CandlMatrixList * list)
-{ CandlMatrixList * next ;
-
-  while (list != NULL)
-  { next = list->next ;
-    pip_matrix_free(list->matrix) ;
-    free(list) ;
-    list = next ;
-  }
-}
-
-
-/******************************************************************************
- *                              Reading functions                             *
- ******************************************************************************/
-
-
-/**
- * candl_matrix_read function:
- * This function reads a matrix into a file (foo, posibly stdin) and returns a
- * pointer to a CandlMatrix containing the read informations.
- * - 09/12/2005: first version.
- */
-CandlMatrix * candl_matrix_read(FILE * file)
-{ return pip_matrix_read(file) ;
-}
-
-
-/**
- * cloog_domain_list_read function:
- * This function reads a list of matrices into a file (foo, posibly stdin) and
- * returns a pointer to a CandlMatrixList containing the read information.
- * - 11/12/2005: first version (from CLooG 0.14.0's cloog_domain_list_read).
- */
-CandlMatrixList * candl_matrix_list_read(FILE * file)
-{ int i, nb_matrices ;
-  char s[CANDL_MAX_STRING] ;
-  CandlMatrixList * list, * now, * next ;
-
-  /* We read first the number of matrices in the list. */
-  while (fgets(s,CANDL_MAX_STRING,file) == 0) ;
-  while ((*s=='#' || *s=='\n') || (sscanf(s," %d",&nb_matrices)<1))
-  fgets(s,CANDL_MAX_STRING,file) ;
-
-  /* Then we read the matrices. */
-  list = NULL ;
-  if (nb_matrices > 0)
-  { list = (CandlMatrixList *)malloc(sizeof(CandlMatrixList)) ;
-    list->matrix = candl_matrix_read(file) ;
-    list->next = NULL ;
-    now = list ;
-    for (i=1;i<nb_matrices;i++)
-    { next = (CandlMatrixList *)malloc(sizeof(CandlMatrixList)) ;
-      next->matrix = candl_matrix_read(file) ;
-      next->next = NULL ;
-      now->next = next ;
-      now = now->next ;
-    }
-  }
-
-  return(list) ;
-}
-
-
-/******************************************************************************
- *                            Processing functions                            *
- ******************************************************************************/
-
-
-/**
- * candl_matrix_malloc function:
- * This function allocates the memory space for a CandlMatrix structure and
- * sets its fields with default values. Then it returns a pointer to the
- * allocated space.
- * - 09/12/2005: first version.
- */
-CandlMatrix * candl_matrix_malloc(int nb_rows, int nb_columns)
-{ return pip_matrix_alloc(nb_rows,nb_columns) ;
-}
-
-
-/**
- * candl_matrix_list_malloc function:
- * This function allocates the memory space for a CandlMatrixList structure and
- * sets its fields with default values. Then it returns a pointer to the
- * allocated space.
- * - 11/12/2005: first version.
- */
-CandlMatrixList * candl_matrix_list_malloc()
-{ CandlMatrixList * list ;
-
-  /* Memory allocation for the CandlDependence structure. */
-  list = (CandlMatrixList *)malloc(sizeof(CandlMatrixList)) ;
-  if (list == NULL)
-  { fprintf(stderr, "[Candl]ERROR: memory overflow.\n") ;
-    exit(1) ;
-  }
-
-  /* We set the various fields with default values. */
-  list->matrix = NULL ;
-  list->next   = NULL ;
-
-  return list ;
-}
-
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <candl/candl.h>
+#include <candl/matrix.h>
+#include <candl/violation.h>
+#include <candl/dependence.h>
+#include <candl/piplib-wrapper.h>
+#include <osl/macros.h>
+#include <clay/beta.h>
 
 
 
@@ -335,7 +55,7 @@ CandlMatrixList * candl_matrix_list_malloc()
  * this function builds the constraint system corresponding to a violation of a
  * dependence, for a given transformation couple at a given depth.
  * - dependence is the constraint system of a dependence between two
-     statements,
+ statements,
  * - t_source is the transformation function for the source statement,
  * - t_target is the transformation function for the target statement,
  * - dimension is the transformation dimension checked for legality,
@@ -343,86 +63,215 @@ CandlMatrixList * candl_matrix_list_malloc()
  ***
  * - 13/12/2005: first version (extracted from candl_violation).
  */
-CandlMatrix * candl_matrix_violation(dependence,t_source,t_target,
-                                     dimension,nb_par)
-CandlMatrix * dependence, * t_source, * t_target ;
-int dimension, nb_par ;
-{ int i, j, nb_rows, nb_columns, constraint, s_dims, t_dims ;
-  CandlMatrix * system ;
-  Entier temp ;
+candl_violation_p candl_matrix_violation(candl_dependence_p dependence,
+                                         osl_relation_p source,
+                                         osl_relation_p target,
+                                         int dimension, int nb_par) {
+  candl_violation_p violation;
+  osl_relation_p system;
+  int i, j, k, c;
+  int constraint = 0;
+  int precision = dependence->domain->precision;
+  int nb_rows, nb_columns;
+  int nb_output_dims, nb_input_dims, nb_local_dims;
+  int ind_source_output_scatt;
+  int ind_target_output_scatt;
+  int ind_source_local_scatt;
+  int ind_target_local_scatt;
+  int ind_params;
+  
+  /* Create a new violation structure */
+  violation = candl_violation_malloc();
+  
+  violation->source_nb_output_dims_scattering = source->nb_output_dims;
+  violation->target_nb_output_dims_scattering = target->nb_output_dims;
+  violation->source_nb_local_dims_scattering  = source->nb_local_dims;
+  violation->target_nb_local_dims_scattering  = target->nb_local_dims;
+  
+  /* Compute the system size */
+  nb_local_dims  = dependence->domain->nb_local_dims +
+                   violation->source_nb_local_dims_scattering +
+                   violation->target_nb_local_dims_scattering;
+  nb_output_dims = dependence->domain->nb_output_dims +
+                   violation->source_nb_output_dims_scattering;
+  nb_input_dims  = dependence->domain->nb_input_dims +
+                   violation->target_nb_output_dims_scattering;
 
-  CANDL_init(temp) ;
+  nb_columns = nb_output_dims + nb_input_dims + nb_local_dims + nb_par + 2;
+  nb_rows    = dependence->domain->nb_rows +
+               source->nb_rows + target->nb_rows + 
+               dimension;
 
-  /* The number of dimensions of the source and target domains. */
-  s_dims = t_source->NbColumns - nb_par - 2 ;
-  t_dims = t_target->NbColumns - nb_par - 2 ;
+  system = osl_relation_pmalloc(precision, nb_rows, nb_columns);
+  
+  /* Compute some indexes */
+  ind_source_output_scatt = 1 + dependence->domain->nb_output_dims;
+  ind_target_output_scatt = ind_source_output_scatt + source->nb_output_dims +  
+                            dependence->domain->nb_input_dims;
+  ind_source_local_scatt  = ind_target_output_scatt + target->nb_output_dims +
+                            dependence->domain->nb_local_dims;
+  ind_target_local_scatt  = ind_source_local_scatt + source->nb_local_dims +
+                            dependence->domain->nb_local_dims;
+  ind_params              = ind_target_local_scatt + target->nb_local_dims;
+  
+  /* 1. Copy the dependence domain */
+  for (i = 0 ; i < dependence->domain->nb_rows ; i++) {
+    /* eq/in */
+    osl_int_assign(precision,
+                   system->m[constraint], 0,
+                   dependence->domain->m[i], 0);
+    /* output dims */
+    k = 1;
+    j = 1;
+    for (c = dependence->domain->nb_output_dims ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     dependence->domain->m[i], j);
+    /* input dims */
+    k += source->nb_output_dims;
+    for (c = dependence->domain->nb_input_dims ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     dependence->domain->m[i], j);
+    /* source local dims */
+    k += target->nb_output_dims;
+    for (c = dependence->source_nb_local_dims_domain +
+             dependence->source_nb_local_dims_access ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     dependence->domain->m[i], j);
+    /* target local dims */
+    k += source->nb_local_dims;
+    for (c = dependence->target_nb_local_dims_domain +
+             dependence->target_nb_local_dims_access ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     dependence->domain->m[i], j);
+    /* params + const */
+    k = ind_params;
+    for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     dependence->domain->m[i], j);
+    constraint++;
+  }
+  
+  /* 2. Copy the source scattering */
+  for (i = 0 ; i < source->nb_rows ; i++) {
+    /* eq/in */
+    osl_int_assign(precision,
+                   system->m[constraint], 0,
+                   source->m[i], 0);
+    /* output dims */
+    k = ind_source_output_scatt;
+    j = 1;
+    for (c = source->nb_output_dims ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     source->m[i], j);
+    /* input dims (linked with the output dims of domain) */
+    k = 1;
+    for (c = source->nb_input_dims ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     source->m[i], j);
+    /* local dims */
+    k = ind_source_local_scatt;
+    for (c = source->nb_local_dims ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     source->m[i], j);
+    /* params + const */
+    k = ind_params;
+    for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     source->m[i], j);
+    constraint++;
+  }
 
-  /* Size of the constraint system. */
-  nb_rows    = dependence->NbRows + dimension + 1 ;
-  nb_columns = dependence->NbColumns ;
-
-  /* We allocate memory space for the constraint system. */
-  system = candl_matrix_malloc(nb_rows, nb_columns) ;
-
-  /* We fill the constraint system (there is no need to put zeros in the
-   * empty zones since candl_matrix_alloc initialized all to 0):
-   */
-
-  /* 1. We copy the constraints of the dependence polyhedron. */
-  for (i = 0; i < dependence->NbRows; i++)
-  for (j = 0; j < dependence->NbColumns; j++)
-  CANDL_assign(system->p[i][j],dependence->p[i][j]) ;
-
-  constraint = dependence->NbRows ;
-
-  /* 2. We set the equality constraints (equality tag is already 0). */
-  for (i = 0; i < dimension; i++)
-  { /* The source dimension part. */
-    for (j = 1; j <= s_dims; j++)
-    CANDL_assign(system->p[constraint][j],t_source->p[i][j]) ;
-
-    /* The -target dimension part. */
-    for (; j <= s_dims + t_dims; j++)
-    { CANDL_oppose(temp,t_target->p[i][j - s_dims]) ;
-      CANDL_assign(system->p[constraint][j], temp) ;
+  /* 2. Copy the target scattering */
+  for (i = 0 ; i < target->nb_rows ; i++) {
+    /* eq/in */
+    osl_int_assign(precision,
+                   system->m[constraint], 0,
+                   target->m[i], 0);
+    /* output dims */
+    k = ind_target_output_scatt;
+    j = 1;
+    for (c = target->nb_output_dims ; c > 0 ; c--, k++, j++) {
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     target->m[i], j);
+      osl_int_oppose(precision,
+                     system->m[constraint], k,
+                     system->m[constraint], k);
     }
-
-    /* The source-target parameter/scalar part. */
-    for (; j < nb_columns; j++)
-    CANDL_subtract(system->p[constraint][j],
-                    t_source->p[i][j - t_dims],
-                    t_target->p[i][j - s_dims]) ;
-    constraint++ ;
+    /* input dims (linked with the output dims of domain) */
+    k = 1 + nb_output_dims;
+    for (c = target->nb_input_dims ; c > 0 ; c--, k++, j++) {
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     target->m[i], j);
+      osl_int_oppose(precision,
+                     system->m[constraint], k,
+                     system->m[constraint], k);
+    }
+    /* local dims */
+    k = ind_target_local_scatt;
+    for (c = target->nb_local_dims ; c > 0 ; c--, k++, j++) {
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     target->m[i], j);
+      osl_int_oppose(precision,
+                     system->m[constraint], k,
+                     system->m[constraint], k);
+    }
+    /* params + const */
+    k = ind_params;
+    for (c = nb_par+1 ; c > 0 ; c--, k++, j++) {
+      osl_int_assign(precision,
+                     system->m[constraint], k,
+                     target->m[i], j);
+      osl_int_oppose(precision,
+                     system->m[constraint], k,
+                     system->m[constraint], k);
+    }
+    constraint++;
+  }
+  
+  /* 3. We set the equality constraints */
+  k = ind_source_output_scatt;
+  j = ind_target_output_scatt;
+  for (i = 1; i < dimension; i++, k++, j++) {
+    /* source */
+    osl_int_set_si(precision, system->m[constraint], k, 1);
+    /* target */
+    osl_int_set_si(precision, system->m[constraint], j, -1);
+    constraint++;
   }
 
-  /* 3. We set the target < source constraint. */
-  /* This is an inequality. */
-  CANDL_set_si(system->p[constraint][0], 1) ;
-
-  /* The source dimension part. */
-  for (j = 1; j<= s_dims; j++)
-  CANDL_assign(system->p[constraint][j],t_source->p[dimension][j]) ;
-
-  /* The -target dimension part. */
-  for (; j<= s_dims + t_dims; j++)
-  { CANDL_oppose(temp,t_target->p[dimension][j - s_dims]) ;
-    CANDL_assign(system->p[constraint][j],temp) ;
-  }
-
-  /* The source-target parameter/scalar part. */
-  for (; j < nb_columns; j++)
-  CANDL_subtract(system->p[constraint][j],
-                  t_source->p[dimension][j - t_dims],
-                  t_target->p[dimension][j - s_dims]) ;
+  /* 4. We set the target < source constraint. */
+  osl_int_set_si(precision, system->m[constraint], 0, 1);
+  /* source */
+  osl_int_set_si(precision, system->m[constraint], k, 1);
+  /* target */
+  osl_int_set_si(precision, system->m[constraint], j, -1);
   /* We subtract 1 to the scalar to achieve >0 constraint. */
-  CANDL_decrement(system->p[constraint][nb_columns - 1],
-		  system->p[constraint][nb_columns - 1]) ;
-
-  CANDL_clear(temp) ;
-  return system ;
+  osl_int_decrement(precision,
+                    system->m[constraint], nb_columns - 1,
+                    system->m[constraint], nb_columns - 1);
+  
+  system->nb_output_dims = nb_output_dims;
+  system->nb_input_dims = nb_input_dims;
+  system->nb_parameters = nb_par;
+  system->nb_local_dims = nb_local_dims;
+  system->type = OSL_TYPE_DOMAIN;
+  
+  violation->domain = system;
+  
+  return violation;
 }
-
-
 
 
 /**
@@ -430,29 +279,33 @@ int dimension, nb_par ;
  * This function checks if there is an integral point in the set of
  * constraints, provided a given domain (possibly NULL).
  *
+ * FIXME : is it the same as pip_has_rational_point ?
+ * here options->Nq = 1 (default)
  */
 int
-candl_matrix_check_point (CandlMatrix* domain,
-			  CandlMatrix* context)
-{
-#ifdef CANDL_HAS_PIPLIB_HYBRID
-  return piplib_hybrid_has_integer_point (domain, context, 0);
-#else  
+candl_matrix_check_point(osl_relation_p domain,
+                         osl_relation_p context) {
+// FIXME : compatibility with osl
+//#ifdef CANDL_HAS_PIPLIB_HYBRID
+//  return piplib_hybrid_has_integer_point (domain, context, 0);
+//#else  
   PipOptions* options;
   PipQuast* solution;
   int ret = 0;
-  options = pip_options_init ();
+  options = pip_options_init();
   options->Simplify = 1;
   options->Urs_parms = -1;
   options->Urs_unknowns = -1;
-  solution = pip_solve (domain, context, -1, options);
+  
+  solution = pip_solve_osl(domain, context, -1, options);
 
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
     ret = 1;
-  pip_options_free (options);
-  pip_quast_free (solution);
+  pip_options_free(options);
+  pip_quast_free(solution);
 
   return ret;
-#endif  
+//#endif  
 }
+

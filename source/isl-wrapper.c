@@ -6,8 +6,8 @@
     **----  \#/  --------------------------------------------------------**
     **    .-"#'-.        First version: January 31st 2011                **
     **--- |"-.-"| -------------------------------------------------------**
-          |     |
-          |     |
+    |     |
+    |     |
  ******** |     | *************************************************************
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
@@ -43,16 +43,16 @@
 #include <string.h>
 #include <candl/candl.h>
 
-# ifdef CANDL_SUPPORTS_ISL
+#ifdef CANDL_SUPPORTS_ISL
 
-# undef Q
-# include <isl/constraint.h>
-# include <isl/map.h>
-# include <isl/map.h>
-# include <isl/set.h>
-# include <isl/dim.h>
-# include <isl/seq.h>
-# include <isl/ctx.h>
+#undef Q
+#include <isl/constraint.h>
+#include <isl/map.h>
+#include <isl/map.h>
+#include <isl/set.h>
+#include <isl/dim.h>
+#include <isl/seq.h>
+#include <isl/ctx.h>
 
 
 
@@ -66,8 +66,7 @@
  */
 static
 struct isl_constraint*
-isl_constraint_read_from_matrix(struct isl_dim* dim, Entier* row)
-{
+isl_constraint_read_from_matrix(struct isl_dim* dim, Entier* row) {
   struct isl_constraint* constraint;
   int j;
   int nvariables = isl_dim_size(dim, isl_dim_set);
@@ -79,17 +78,15 @@ isl_constraint_read_from_matrix(struct isl_dim* dim, Entier* row)
   else
     constraint = isl_inequality_alloc(dim);
 
-  for (j = 0; j < nvariables; ++j)
-    {
-      mpz_set_si(val, CANDL_get_si(row[1 + j]));
-      isl_constraint_set_coefficient(constraint, isl_dim_out, j, val);
-    }
+  for (j = 0; j < nvariables; ++j) {
+    mpz_set_si(val, CANDL_get_si(row[1 + j]));
+    isl_constraint_set_coefficient(constraint, isl_dim_out, j, val);
+  }
 
-  for (j = 0; j < nparam; ++j)
-    {
-      mpz_set_si(val, CANDL_get_si(row[1 + nvariables + j]));
-      isl_constraint_set_coefficient(constraint, isl_dim_param, j, val);
-    }
+  for (j = 0; j < nparam; ++j) {
+    mpz_set_si(val, CANDL_get_si(row[1 + nvariables + j]));
+    isl_constraint_set_coefficient(constraint, isl_dim_param, j, val);
+  }
 
   mpz_set_si(val, CANDL_get_si(row[1 + nvariables + nparam]));
   isl_constraint_set_constant(constraint, val);
@@ -102,9 +99,8 @@ isl_constraint_read_from_matrix(struct isl_dim* dim, Entier* row)
 
 struct isl_set*
 isl_set_from_piplib_matrix(struct isl_ctx* ctx,
-			   PipMatrix* matrix,
-			   int nparam)
-{
+                           PipMatrix* matrix,
+                           int nparam) {
   struct isl_dim* dim;
   struct isl_basic_set* bset;
   int i;
@@ -121,7 +117,7 @@ isl_set_from_piplib_matrix(struct isl_ctx* ctx,
   for (i = 0; i < nrows; ++i) {
     Entier* row = matrix->p[i];
     struct isl_constraint* constraint =
-      isl_constraint_read_from_matrix(isl_dim_copy(dim), row);
+        isl_constraint_read_from_matrix(isl_dim_copy(dim), row);
     bset = isl_basic_set_add_constraint(bset, constraint);
   }
 
@@ -132,8 +128,7 @@ isl_set_from_piplib_matrix(struct isl_ctx* ctx,
 
 
 static
-int count_cst(__isl_take isl_constraint *c, void *user)
-{
+int count_cst(__isl_take isl_constraint *c, void *user) {
   (*((int*)user))++;
 
   return 0;
@@ -142,13 +137,12 @@ int count_cst(__isl_take isl_constraint *c, void *user)
 
 
 static
-int copy_cst_to_mat(__isl_take isl_constraint *c, void *user)
-{
+int copy_cst_to_mat(__isl_take isl_constraint *c, void *user) {
   // 1- Get the first free row of the matrix.
   int pos;
   PipMatrix* mat = (PipMatrix*)user;
   for (pos = 0; pos < mat->NbRows &&
-	 CANDL_get_si(mat->p[pos][0]) != -1; ++pos)
+       CANDL_get_si(mat->p[pos][0]) != -1; ++pos)
     ;
 
   // 2- Set the eq/ineq bit.
@@ -161,17 +155,15 @@ int copy_cst_to_mat(__isl_take isl_constraint *c, void *user)
   isl_int val; isl_int_init(val);
   int j;
   int nb_vars = isl_constraint_dim(c, isl_dim_set);
-  for (j = 0; j < nb_vars; ++j)
-    {
-      isl_constraint_get_coefficient(c, isl_dim_set, j, &val);
-      CANDL_set_si(mat->p[pos][j + 1], isl_int_get_si(val));
-    }
+  for (j = 0; j < nb_vars; ++j) {
+    isl_constraint_get_coefficient(c, isl_dim_set, j, &val);
+    CANDL_set_si(mat->p[pos][j + 1], isl_int_get_si(val));
+  }
   int nb_param = isl_constraint_dim(c, isl_dim_param);
-  for (j = 0; j < nb_param; ++j)
-    {
-      isl_constraint_get_coefficient(c, isl_dim_param, j, &val);
-      CANDL_set_si(mat->p[pos][j + nb_vars + 1], isl_int_get_si(val));
-    }
+  for (j = 0; j < nb_param; ++j) {
+    isl_constraint_get_coefficient(c, isl_dim_param, j, &val);
+    CANDL_set_si(mat->p[pos][j + nb_vars + 1], isl_int_get_si(val));
+  }
   isl_constraint_get_constant(c, &val);
   CANDL_set_si(mat->p[pos][mat->NbColumns - 1], isl_int_get_si(val));
 
@@ -181,8 +173,7 @@ int copy_cst_to_mat(__isl_take isl_constraint *c, void *user)
 }
 
 
-int bset_get(__isl_take isl_basic_set *bset, void *user)
-{
+int bset_get(__isl_take isl_basic_set *bset, void *user) {
   *((struct isl_basic_set**)user) = bset;
 
   return 0;
@@ -191,9 +182,8 @@ int bset_get(__isl_take isl_basic_set *bset, void *user)
 
 PipMatrix*
 isl_set_to_piplib_matrix(struct isl_ctx* ctx,
-			 struct isl_set* set,
-			 int nparam)
-{
+                         struct isl_set* set,
+                         int nparam) {
   struct isl_basic_set* bset = NULL;
   // There is only one basic set in this set.
   isl_set_foreach_basic_set(set, bset_get, &bset);

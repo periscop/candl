@@ -1,13 +1,13 @@
 
-   /**------ ( ----------------------------------------------------------**
-    **       )\                      CAnDL                               **
-    **----- /  ) --------------------------------------------------------**
-    **     ( * (               piplib-wrapper.c                          **
-    **----  \#/  --------------------------------------------------------**
-    **    .-"#'-.        First version: January 31st 2012                **
-    **--- |"-.-"| -------------------------------------------------------**
-          |     |
-          |     |
+/**------ ( ----------------------------------------------------------**
+ **       )\                      CAnDL                               **
+ **----- /  ) --------------------------------------------------------**
+ **     ( * (               piplib-wrapper.c                          **
+ **----  \#/  --------------------------------------------------------**
+ **    .-"#'-.        First version: January 31st 2012                **
+ **--- |"-.-"| -------------------------------------------------------**
+ |     |
+ |     |
  ******** |     | *************************************************************
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
@@ -34,7 +34,7 @@
  ******************************************************************************/
 /**
  * \file piplib-wrapper.c
- * \author Louis-Noel Pouchet
+ * \author Louis-Noel Pouchet and Joel Poudroux
  */
 
 
@@ -42,16 +42,66 @@
 #include <stdio.h>
 #include <string.h>
 #include <candl/candl.h>
+#include <osl/relation.h>
+#include <osl/macros.h> /* Need OSL_PRECISION for compatibility with piplib */
+#include <candl/matrix.h>
+#include <candl/piplib-wrapper.h>
+
+
+/**
+ * pip_relation2matrix function :
+ * This function is used to keep the compatibility with Piplib
+ */
+PipMatrix* pip_relation2matrix(osl_relation_p in) {
+  if (in == NULL)
+    return NULL;
+    
+  #if defined(LINEAR_VALUE_IS_INT)
+    if (OSL_PRECISION_SP != in->precision)
+      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    if (OSL_PRECISION_DP != in->precision)
+      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+  #elif defined(LINEAR_VALUE_IS_MP)
+    if (OSL_PRECISION_MP != in->precision)
+      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+  #endif
+  
+  PipMatrix *out;
+  int i, j;
+  
+  out = pip_matrix_alloc(in->nb_rows, in->nb_columns);
+  
+  for (i = 0 ; i < in->nb_rows ; i++) {
+    for (j = 0 ; j < in->nb_columns ; j++) {
+      #if defined(LINEAR_VALUE_IS_INT)
+        osl_int_assign(OSL_PRECISION_SP,
+                       out->p[i], j,
+                       in->m[i], j);
+      #elif defined(LINEAR_VALUE_IS_LONGLONG)
+        osl_int_assign(OSL_PRECISION_DP,
+                       out->p[i], j,
+                       in->m[i], j);
+      #elif defined(LINEAR_VALUE_IS_MP)
+        osl_int_assign(OSL_PRECISION_MP,
+                       out->p[i], j,
+                       in->m[i], j);
+      #endif
+    }
+  }
+  
+  return out;
+}
 
 
 int
-pip_has_rational_point(PipMatrix* system,
-		       PipMatrix* context,
-		       int conservative)
-{
-#ifdef CANDL_HAS_PIPLIB_HYBRID
-  return piplib_hybrid_has_rational_point(system, context, conservative);
-#else
+pip_has_rational_point(osl_relation_p system,
+                       osl_relation_p context,
+                       int conservative) {
+// FIXME : compatibility with osl
+//#ifdef CANDL_HAS_PIPLIB_HYBRID
+//  return piplib_hybrid_has_rational_point(system, context, conservative);
+//#else
   PipOptions* options;
   int ret = 0;
   options = pip_options_init ();
@@ -59,13 +109,28 @@ pip_has_rational_point(PipMatrix* system,
   options->Urs_parms = -1;
   options->Urs_unknowns = -1;
   options->Nq = 0;
-  PipQuast* solution = pip_solve (system, context, -1, options);
+  PipQuast* solution = pip_solve_osl(system, context, -1, options);
   if ((solution != NULL) &&
       ((solution->list != NULL) || (solution->condition != NULL)))
     ret = 1;
-  pip_options_free (options);
-  pip_quast_free (solution);
+  pip_options_free(options);
+  pip_quast_free(solution);
   return ret;
-#endif
+//#endif
+}
+
+
+/**
+ * pip_solve_osl function :
+ * A pip_solve with osl_relation_p instead of PipMatrix
+ */
+PipQuast* pip_solve_osl(osl_relation_p inequnk, osl_relation_p ineqpar,
+                        int Bg, PipOptions *options) {
+  PipMatrix *pip_unk  = pip_relation2matrix(inequnk);
+  PipMatrix *pip_par  = pip_relation2matrix(ineqpar);
+  PipQuast  *solution = pip_solve(pip_unk, pip_par, Bg, options);
+  if (pip_unk) pip_matrix_free(pip_unk);
+  if (pip_par) pip_matrix_free(pip_par);
+  return solution;
 }
 

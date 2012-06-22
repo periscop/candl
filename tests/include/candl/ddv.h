@@ -2,9 +2,9 @@
    /**------ ( ----------------------------------------------------------**
     **       )\                      CAnDL                               **
     **----- /  ) --------------------------------------------------------**
-    **     ( * (                   statement.h                           **
+    **     ( * (                     ddv.h                               **
     **----  \#/  --------------------------------------------------------**
-    **    .-"#'-.        First version: september 8th 2003               **
+    **    .-"#'-.         First version: February 4th 2010               **
     **--- |"-.-"| -------------------------------------------------------**
           |     |
           |     |
@@ -33,12 +33,24 @@
  *                                                                            *
  ******************************************************************************/
 
+/**
+ * \file ddv.h
+ * \author Louis-Noel Pouchet
+ */
 
-#ifndef CANDL_STATEMENT_H
-# define CANDL_STATEMENT_H
+
+#ifndef CANDL_DDV_H
+# define CANDL_DDV_H
+
 
 # include <stdio.h>
-# include <candl/matrix.h>
+# include <osl/statement.h>
+# include <osl/relation.h>
+# include <osl/scop.h>
+# include <candl/options.h>
+# include <candl/dependence.h>
+
+
 
 # if defined(__cplusplus)
 extern "C"
@@ -46,55 +58,161 @@ extern "C"
 # endif
 
 
-/**
- * CandlStatement structure:
- * this structure contains all the informations about a program statement.
- */
-struct candlstatement
-{ int label;                    /**< Statement number (it must be the array
-                                  *   index of this statement in the "statement"
-                                  *   field of the CandlProgram structure).
-                                  */
-  int type;                     /**< Statement type. */
-  int depth;                    /**< Nesting level (nb of surrounding loops).*/
-  int * index;                  /**< Iteration domain's iterator labels. */
-  CandlMatrix * domain;         /**< Iteration domain. */
-  CandlMatrix * written;        /**< Array of written data. */
-  CandlMatrix * read;           /**< Array of read data. */
-  void* ref;			/**< Reference to another structure
-				   describing the same statement. */
-};
-typedef struct candlstatement CandlStatement;
-
 
 /******************************************************************************
- *                          Structure display function                        *
+ *                        Dependence Distance structures                      *
  ******************************************************************************/
-void candl_statement_print_structure(FILE *, CandlStatement *, int);
-void candl_statement_print(FILE *, CandlStatement *);
+
+    /**
+     * A DDV is a vector of elements, each of which has a type and
+     * optionally a scalar value.
+     *
+     * Ex: DDV1 is ('=', '=', '<')
+     * Ex: DDV2 is ('1', '1', '*')
+     *
+     */
+
+
+    /**
+     * Types of elements are defined with the e_dv_type enum.
+     * '=' -> candl_dv_eq
+     * '>' -> candl_dv_plus
+     * '<' -> candl_dv_minus
+     * '*' -> candl_dv_star
+     * 'x' -> candl_dv_scalar (x is some integer)
+     *
+     */
+    enum dv_type {
+      candl_dv_scalar, candl_dv_plus, candl_dv_minus, candl_dv_star, candl_dv_eq
+    };
+    typedef enum dv_type e_dv_type;
+
+    /**
+     * Elements are tuples, <type,value> where 'value' is defined iff
+     * 'type' is candl_dv_scalar.
+     *
+     */
+    struct dv_descriptor {
+      e_dv_type type;
+      int value;
+    };
+    typedef struct dv_descriptor s_dv_descriptor;
+
+    /**
+     * DDV are a chained list of vectors of s_dv_descriptor.
+     *
+     */
+    struct candl_ddv {
+      int loop_id;
+      int length;
+      int deptype;
+      s_dv_descriptor* data;
+      struct candl_ddv* next;
+    };
+
+    typedef struct candl_ddv CandlDDV;
+
+
 
 
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
-void candl_statement_free(CandlStatement *);
+
+/**
+ * candl_ddv_malloc: Allocate an empty ddv.
+ *
+ *
+ */
+CandlDDV*
+candl_ddv_malloc();
+
+
+/**
+ * candl_ddv_alloc: Allocate a ddv for a loop of depth 'size'.
+ *
+ *
+ */
+CandlDDV*
+candl_ddv_alloc(int);
+
+
+/**
+ * candl_ddv_free: Free a ddv.
+ *
+ *
+ */
+void
+candl_ddv_free(CandlDDV*);
+
+
+/**
+ * candl_ddv_set_type_at: Set the type of a ddv component. Type is one of
+ * '=', '>', '<', '*' or 'constant' as defined by the enum e_dv_type.
+ *
+ *
+ */
+void
+candl_ddv_set_type_at(CandlDDV*, e_dv_type, int);
+
+/**
+ * candl_ddv_set_value_at: Set the scalar value of a ddv
+ * component. This is meaningful only if the type of this component is
+ * 'constant'.
+ *
+ *
+ */
+void
+candl_ddv_set_value_at(CandlDDV*, int, int);
+
+/**
+ * candl_ddv_set_type: Set the type of the dependence in
+ * CANDL_UNSET, CANDL_RAW, CANDL_WAR, CANDL_WAW, CANDL_RAR.
+ *
+ */
+void
+candl_ddv_set_deptype(CandlDDV*, int);
 
 
 /******************************************************************************
- *                              Reading functions                             *
+ *                          Structure display function                        *
  ******************************************************************************/
-CandlStatement * candl_statement_read(FILE *, int, int);
+
+
+/**
+ * candl_ddv_print: print a ddv.
+ *
+ */
+void
+candl_ddv_print(FILE*, CandlDDV*);
 
 
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
-CandlStatement * candl_statement_malloc();
-int              candl_statement_commute(CandlStatement *, CandlStatement *);
+
+/**
+ * candl_ddv_extract_in_loop: Create a chained list of dependence distance
+ * vectors, from the list of polyhedral dependences. Only dependences
+ * involving statements surrounded by loop 'loop_id' are considered. One
+ * ddv is generated per polyhedral dependence.
+ *
+ */
+CandlDDV*
+candl_ddv_extract_in_loop(osl_scop_p, candl_dependence_p, int);
+    
+/**
+ * candl_loops_are_permutable: output 1 if the 2 loops are permutable.
+ * 
+ *
+ */
+int
+candl_loops_are_permutable(osl_scop_p, candl_dependence_p, int, int);
+    
 
 
 # if defined(__cplusplus)
   }
 # endif
-#endif /* define CANDL_STATEMENT_H */
+#endif /* define CANDL_DDV_H */
 

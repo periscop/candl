@@ -6,7 +6,7 @@
 #    **-------------------------------------------------------------------**
 #    **                 First version: september 8th 2003                 **
 #    **-------------------------------------------------------------------**/
-#
+# 
 #/*****************************************************************************
 # *   CAnDL : the Chunky Analyser for Dependences in Loops (experimental)     *
 # *****************************************************************************
@@ -34,37 +34,29 @@
 
 
 #############################################################################
-SUBDIRS			=
+SUBDIRS 		=
 
 #############################################################################
+
 MAINTAINERCLEANFILES	= Makefile.in
 
-INCLUDES		= -I$(top_builddir) -I$(top_srcdir)	\
-			  -I$(top_builddir)/include		\
-		          -I$(top_srcdir)/include
-
-#############################################################################
-
-lib_LTLIBRARIES 	= libcandl.la
+EXTRA_DIST		=			\
+	htmldoc.tar.gz				\
+	candl.pdf
 
 
-libcandl_la_SOURCES 	=			\
-	dependence.c				\
-	ddv.c					\
-	isl-wrapper.c				\
-	matrix.c				\
-	options.c				\
-	piplib-wrapper.c			\
-	program.c				\
-	pruning.c				\
-	statement.c				\
-	violation.c
+info_TEXINFOS		= candl.texi
 
-AM_CFLAGS = -Wall -fomit-frame-pointer -g
+DOCDIR			= htmldoc
+DOXYFILE		= Doxyfile
+DOXYGEN			= @DOXYGEN@
 
+# The following requires a fixed version of the Emacs 19.30 etags.
+ETAGS_ARGS		= --lang=none \
+ --regex='/^@node[ \t]+\([^,]+\)/\1/' $(srcdir)/doc/clan.texi
+TAGS_DEPENDENCIES	= clan.texi $(DOXYFILE).in
 
-bin_PROGRAMS = candl
-
-LDADD = libcandl.la
-
-candl_SOURCES = candl.c
+htmldoc.tar.gz:
+	mkdir -p $(top_srcdir)/doc/htmldoc
+	$(DOXYGEN) $(DOXYFILE)
+	tar czf htmldoc.tar.gz htmldoc

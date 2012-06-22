@@ -1,0 +1,146 @@
+
+   /**------ ( ----------------------------------------------------------**
+    **       )\                      CAnDL                               **
+    **----- /  ) --------------------------------------------------------**
+    **     ( * (                   usr.c                                 **
+    **----  \#/  --------------------------------------------------------**
+    **    .-"#'-.        First version: june 7th 2012                    **
+    **--- |"-.-"| -------------------------------------------------------**
+          |     |
+          |     |
+ ******** |     | *************************************************************
+ * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
+ ******************************************************************************
+ *                                                                            *
+ * Copyright (C) 2003-2008 Cedric Bastoul                                     *
+ *                                                                            *
+ * This is free software; you can redistribute it and/or modify it under the  *
+ * terms of the GNU General Public License as published by the Free Software  *
+ * Foundation; either version 2 of the License, or (at your option) any later *
+ * version.                                                                   *
+ *                                                                            *
+ * This software is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
+ * for more details.                                                          *
+ *                                                                            *
+ * You should have received a copy of the GNU General Public License along    *
+ * with software; if not, write to the Free Software Foundation, Inc.,        *
+ * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
+ *                                                                            *
+ * CAnDL, the Chunky Dependence Analyzer                                      *
+ * Written by Cedric Bastoul, Cedric.Bastoul@inria.fr                         *
+ *                                                                            *
+ ******************************************************************************/
+
+/*
+ * author Joel Poudroux and Cedric Bastoul
+ */
+
+#include <stdlib.h>
+#include <osl/scop.h>
+#include <osl/statement.h>
+#include <osl/relation.h>
+#include <candl/macros.h>
+#include <candl/usr.h>
+#include <clay/beta.h>
+#include <clay/array.h>
+
+#define CANDL_USR_INDEX_MAX_LOOP_DEPTH 128
+
+
+/**
+ * candl_usr_init function:
+ * Init a candl_scop_usr and a candl_statement_usr structure
+ */
+void candl_usr_init(osl_scop_p scop) {
+  osl_statement_p iter;
+  osl_relation_p scattering;
+  candl_scop_usr_p scop_usr;
+  candl_statement_usr_p stmt_usr;
+  int i, j, k;
+  int row;
+  int precision = scop->context->precision;
+  int count = 0; /* counter for statements */
+  
+  /* Initialize structures used in iterator indices computation. */
+  int val;
+  int max = 0;
+  int cur_index[CANDL_USR_INDEX_MAX_LOOP_DEPTH];
+  int last[CANDL_USR_INDEX_MAX_LOOP_DEPTH];
+  for (i = 0; i < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++i) {
+    cur_index[i] = i;
+    last[i] = 0;
+  }
+  
+  /* Init the scop_usr structure */
+  scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
+  scop_usr->scalars_privatizable = NULL;
+  scop_usr->usr_backup           = scop->usr;
+  scop->usr = scop_usr;
+  
+  /* Add useful information in the usr field of each statements */
+  for (iter = scop->statement ; iter != NULL ; iter = iter->next) {
+    scattering = iter->scattering;
+    
+    stmt_usr = (candl_statement_usr_p) malloc(sizeof(candl_statement_usr_t));
+    stmt_usr->depth      = scattering->nb_output_dims/2;
+    stmt_usr->label      = count;
+    stmt_usr->type       = CANDL_ASSIGNMENT;
+    stmt_usr->usr_backup = iter->usr;
+    stmt_usr->index      = (stmt_usr->depth ?
+                            (int*) malloc(stmt_usr->depth * sizeof(int)) : 
+                            NULL);
+    
+    /* Compute the value of the iterator indices. */
+    for (j = 0; j < stmt_usr->depth; ++j) {
+      row = clay_relation_get_line(scattering, j*2);
+      val = osl_int_get_si(precision,
+                           scattering->m[row],
+                           scattering->nb_columns-1);
+      if (last[j] < val) {
+        last[j] = val;
+        for (k = j + 1; k < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++k)
+          last[k] = 0;
+        for (k = j; k < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++k)
+          cur_index[k] = max + (k - j) + 1;
+        break;
+      }
+    }
+    for (j = 0; j < stmt_usr->depth; ++j)
+      stmt_usr->index[j] = cur_index[j];
+
+    max = max < cur_index[j - 1] ? cur_index[j - 1] : max;
+    
+    iter->usr = stmt_usr;
+    count++;
+  }
+}
+
+
+/**
+ * candl_usr_free function:
+ */
+void candl_usr_cleanup(osl_scop_p scop) {
+  osl_statement_p statement = scop->statement;
+  candl_statement_usr_p stmt_usr;
+  candl_scop_usr_p scop_usr;
+  while (statement != NULL) {
+    stmt_usr = statement->usr;
+    if (stmt_usr) {
+      if (stmt_usr->index)
+        free(stmt_usr->index);
+      statement->usr = stmt_usr->usr_backup;
+      free(stmt_usr);
+    }
+    statement = statement->next;
+  }
+  scop_usr = scop->usr;
+  if (scop_usr) {
+    if (scop_usr->scalars_privatizable)
+      free(scop_usr->scalars_privatizable);
+    scop->usr = scop_usr->usr_backup;
+    free(scop_usr);
+  }
+}
+

@@ -35,24 +35,16 @@
 
 
 /******************************************************************************
- *  THIS FILE HAS BEEN AUTOMATICALLY GENERATED FROM candl.h.in BY configure   *
+ *  THIS FILE HAS BEEN AUTOMATICALLY GENERATED FROM macros.h.in BY configure  *
  ******************************************************************************/
 
 
-#ifndef CANDL_H
-# define CANDL_H
+#ifndef CANDL_MACROS_H
+# define CANDL_MACROS_H
 
-# define CANDL_RELEASE "@PACKAGE_VERSION@"
-# define CANDL_VERSION "@BITS@"
-@DEFINE_HAS_SCOPLIB_LIB@
-@DEFINE_HAS_ISL_LIB@
-
-
-# include <piplib/piplib@BITS@.h>
+# include <piplib/piplib64.h>
 # include <candl/options.h>
 # include <candl/matrix.h>
-# include <candl/statement.h>
-# include <candl/program.h>
 # include <candl/dependence.h>
 # include <candl/ddv.h>
 # include <candl/violation.h>
@@ -82,6 +74,11 @@
 
 # define CANDL_MAX_STRING  2048
 # define CANDL_TEMP_OUTPUT "candl.temp"
+
+# define CANDL_RELEASE "0.6.2"
+# define CANDL_VERSION "64"
+
+
 
 /* Useful macros. */
 # define CANDL_max(x,y)    ((x) > (y)? (x) : (y))
@@ -157,4 +154,4 @@
 
 #endif
 
-#endif // !CANDL_H
+#endif // !CANDL_MACROS_H

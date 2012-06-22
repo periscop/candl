@@ -2,9 +2,9 @@
    /**------ ( ----------------------------------------------------------**
     **       )\                      CAnDL                               **
     **----- /  ) --------------------------------------------------------**
-    **     ( * (                   program.h                             **
+    **     ( * (                   options.h                             **
     **----  \#/  --------------------------------------------------------**
-    **    .-"#'-.        First version: september 9th 2003               **
+    **    .-"#'-.        First version: september 8th 2003               **
     **--- |"-.-"| -------------------------------------------------------**
           |     |
           |     |
@@ -28,86 +28,77 @@
  * with software; if not, write to the Free Software Foundation, Inc.,        *
  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
  *                                                                            *
- * CAnDL, the Chunky Dependence Analyzer                                      *
+ * CAnDL, the Chunky Dependence Analyser                                      *
  * Written by Cedric Bastoul, Cedric.Bastoul@inria.fr                         *
  *                                                                            *
  ******************************************************************************/
 
 
-#ifndef CANDL_PROGRAM_H
-# define CANDL_PROGRAM_H
+#ifndef CANDL_OPTIONS_H
+# define CANDL_OPTIONS_H
 
 # include <stdio.h>
-# include <stdlib.h>
-# include <candl/matrix.h>
-# include <candl/statement.h>
-
-# ifdef CANDL_SUPPORTS_SCOPLIB
-#  include <scoplib/scop.h>
-# endif
-
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
+
 /**
- * candl_program_t structure:
- * this structure contains all the informations about a program.
+ * candl_options structure:
+ * this structure contains all the informations on the state of Candl options.
  */
-struct candl_program
-{
-  CandlMatrix * context;            /**< The context of the program. */
-  int nb_statements;                /**< The number of statements. */
-  CandlStatement ** statement;      /**< Array of nb_statements pointers on
-                                      *   the statements of the program.
-                                      */
-  CandlMatrix    ** transformation; /**< Array of nb_statements pointers on
-                                      *   the transformation candidate (one
-                                      *   function per statement). If NULL:
-                                      *   no tranformation candidate.
-                                      */
-  int* scalars_privatizable;
+struct candl_options {
+  /* OPTIONS FOR DEPENDENCE COMPUTATION */
+  int waw;       /**< 1 if write after write (output) dependences matter. */
+  int raw;       /**< 1 if read  after write (flow)   dependences matter. */
+  int war;       /**< 1 if write after read  (anti)   dependences matter. */
+  int rar;       /**< 1 if read  after read  (input)  dependences matter. */
+  int commute;   /**< 1 to use commutativity to simplify dependences. */
+  int fullcheck; /**< 1 to compute all dependence violations. */
+  int scalar_renaming; /**< 1 to enable scalar renaming. */
+  int scalar_privatization; /**< 1 to enable scalar privatization. */
+  int scalar_expansion; /**< 1 to enable scalar privatization. */
+  int lastwriter; /**< 1 to compute last writer */
+  int verbose; /**< 1 to enable verbose output. */
+  int outscop; /**< 1 to print the scop with dependences. */
+  /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
+  int view;      /**< 1 to call dot and gv to visualize the graphs. */
+  int structure; /**< 1 to print internal dependence structure. */
+  int prune_dups; /**< 1 to use experimental dependence pruning algorithm. */
 };
-typedef struct candl_program CandlProgram;
-typedef struct candl_program candl_program_t;
-typedef struct candl_program * candl_program_p;
+
+typedef struct candl_options  candl_options_t;
+typedef struct candl_options* candl_options_p;
 
 
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-void candl_program_print_structure(FILE *, candl_program_p, int);
-void candl_program_print(FILE *, candl_program_p);
-void candl_program_print_candl_file(FILE *, candl_program_p);
+void candl_options_print(FILE *, candl_options_p);
+
 
 /******************************************************************************
- *                         Memory alloc/dealloc function                      *
+ *                         Memory deallocation function                       *
  ******************************************************************************/
-candl_program_p candl_program_malloc();
-void candl_program_free(candl_program_p);
+void candl_options_free(candl_options_p);
 
 
 /******************************************************************************
  *                               Reading function                             *
  ******************************************************************************/
-candl_program_p candl_program_read(FILE *);
-/* This function is compiled if candl was configured with CLAN support. */
-# ifdef CANDL_SUPPORTS_SCOPLIB
-candl_program_p candl_program_read_scop(FILE *);
-# endif
+void candl_options_read(int, char **, FILE **, FILE **, FILE**, FILE**, FILE**,
+                        candl_options_p*);
+
 
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
-/* This function is compiled if candl was configured with CLAN support. */
-# ifdef CANDL_SUPPORTS_SCOPLIB
-candl_program_p candl_program_convert_scop(scoplib_scop_p, int**);
-# endif
+candl_options_p candl_options_malloc(void);
 
-# if defined(__cplusplus)
+
+#if defined(__cplusplus)
   }
-# endif
-#endif /* define CANDL_PROGRAM_H */
-
+#endif
+#endif /* define CANDL_OPTIONS_H */

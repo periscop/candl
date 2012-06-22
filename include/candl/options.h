@@ -46,57 +46,56 @@ extern "C"
 
 
 /**
- * CandlOptions structure:
+ * candl_options structure:
  * this structure contains all the informations on the state of Candl options.
  */
-struct candloptions
-{ /* OPTIONS FOR DEPENDENCE COMPUTATION */
+struct candl_options {
+  /* OPTIONS FOR DEPENDENCE COMPUTATION */
   int waw;       /**< 1 if write after write (output) dependences matter. */
   int raw;       /**< 1 if read  after write (flow)   dependences matter. */
   int war;       /**< 1 if write after read  (anti)   dependences matter. */
   int rar;       /**< 1 if read  after read  (input)  dependences matter. */
   int commute;   /**< 1 to use commutativity to simplify dependences. */
   int fullcheck; /**< 1 to compute all dependence violations. */
-  int depgraph;  /**< 1 to print the dependence graph. */
-  int violgraph; /**< 1 to print the violation graph. */
   int scalar_renaming; /**< 1 to enable scalar renaming. */
   int scalar_privatization; /**< 1 to enable scalar privatization. */
   int scalar_expansion; /**< 1 to enable scalar privatization. */
   int lastwriter; /**< 1 to compute last writer */
-  int readscop; /**< 1 to enable reading from a .scop formatted file. */
-  int writescop; /**< 1 to enable writing to a .scop formatted file. */
-  int scoptocandl; /**< 1 to act as a .scop to candl converter. */
   int verbose; /**< 1 to enable verbose output. */
+  int outscop; /**< 1 to print the scop with dependences. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */
   int structure; /**< 1 to print internal dependence structure. */
   int prune_dups; /**< 1 to use experimental dependence pruning algorithm. */
-} ;
-typedef struct candloptions CandlOptions;
+};
+
+typedef struct candl_options  candl_options_t;
+typedef struct candl_options* candl_options_p;
 
 
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-void candl_options_print(FILE *, CandlOptions *);
+void candl_options_print(FILE *, candl_options_p);
 
 
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
-void candl_options_free(CandlOptions *);
+void candl_options_free(candl_options_p);
 
 
 /******************************************************************************
  *                               Reading function                             *
  ******************************************************************************/
-void candl_options_read(int, char **, FILE **, FILE **, CandlOptions **);
+void candl_options_read(int, char **, FILE **, FILE **, FILE**, FILE**, FILE**,
+                        candl_options_p*);
 
 
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
-CandlOptions * candl_options_malloc(void);
+candl_options_p candl_options_malloc(void);
 
 
 #if defined(__cplusplus)

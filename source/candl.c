@@ -6,8 +6,8 @@
     **----  \#/  --------------------------------------------------------**
     **    .-"#'-.        First version: september 8th 2003               **
     **--- |"-.-"| -------------------------------------------------------**
-          |     |
-          |     |
+    |     |
+    |     |
  ******** |     | *************************************************************
  * CAnDL  '-._,-' the Chunky Analyzer for Dependences in Loops (experimental) *
  ******************************************************************************
@@ -33,98 +33,161 @@
  *                                                                            *
  ******************************************************************************/
 
-
 #include <stdlib.h>
 #include <stdio.h>
+#include <osl/scop.h>
+#include <osl/macros.h>
+#include <osl/util.h>
+#include <clay/beta.h>
 #include <candl/candl.h>
 #include <candl/dependence.h>
-#include <candl/program.h>
 #include <candl/violation.h>
 #include <candl/options.h>
+#include <candl/usr.h>
+#include <candl/util.h>
 
 
-int main(int argc, char * argv[])
-{
-  CandlProgram * program = NULL;
-  CandlOptions * options;
-  CandlDependence * dependence;
-  CandlViolation * violation = NULL;
-  FILE * input, * output;
+int main(int argc, char * argv[]) {
+  
+  osl_scop_p scop = NULL;
+  osl_scop_p orig_scop = NULL;
+  candl_options_p options;
+  candl_dependence_p orig_dependence = NULL;
+  candl_violation_p violation = NULL;
+  FILE *input, *output, *outcandl, *incandl, *input_test;
 
   /* Options and input/output file setting. */
-  candl_options_read(argc, argv, &input, &output, &options);
-
-  /* Reading the program informations. */
-#ifdef CANDL_SUPPORTS_SCOPLIB
-  if (options->readscop)
-    {
-      program = candl_program_read_scop(input);
-      if (options->scoptocandl)
-	{
-	  if (! options->readscop)
-	    program = candl_program_read_scop(input);
-	  candl_program_print_candl_file(output, program);
-	  candl_program_free(program);
-	  candl_options_free(options);
-	  return 0;
-	}
+  candl_options_read(argc, argv, &input, &output, &outcandl, &incandl,
+                     &input_test, &options);
+  
+  /* Open the scop
+   * If there is no original scop (given with the -test), the input file
+   * is considered as the original scop
+   */
+  osl_interface_p registry = osl_interface_get_default_registry();
+  #if defined(LINEAR_VALUE_IS_INT)
+    if (input_test != NULL) {
+      scop = osl_scop_pread(input, registry, OSL_PRECISION_SP);
+      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_SP);
+    } else {
+      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_SP);
     }
-  else
-#endif
-    program = candl_program_read(input);
+  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    if (input_test != NULL) {
+      scop = osl_scop_pread(input, registry, OSL_PRECISION_DP);
+      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_DP);
+    } else {
+      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_DP);
+    }
+  #elif defined(LINEAR_VALUE_IS_MP)
+    if (input_test != NULL) {
+      scop = osl_scop_pread(input, registry, OSL_PRECISION_MP);
+      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_MP);
+    } else {
+      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_MP);
+    }
+  #endif
+  osl_interface_free(registry);
+  
+  if (orig_scop == NULL || (scop == NULL && input_test != NULL)) {
+    CANDL_FAIL("Fail to open scop");
+    exit(1);
+  }
+  
+  /* Sort the list of statements, we have to be sure that the list is sorted */
+  clay_beta_sort(orig_scop);
+  
+  /* Try to align 'scop' with 'orig_scop' */
+  if (input_test != NULL)
+    candl_util_scop_align(orig_scop, scop);
+  
+  /* Add more infos (depth, label, ...)
+   * Not important for the transformed scop
+   */
+  candl_usr_init(orig_scop);
 
   /* Calculating dependences. */
-  dependence = candl_dependence(program, options);
+  if (incandl != NULL) {
+    /* Read dependences from the candl tag */
+    // TODO : make an osl extension
+    char *content = NULL;
+    int f_size;
+    char *tmp;
+    fseek(incandl, 0, SEEK_END);
+    f_size = ftell(incandl);
+    fseek(incandl, 0, SEEK_SET);
+    content = (char*) malloc(sizeof(char) * f_size);
+    if (fread(content, 1, f_size, incandl) > 0) {
+      tmp = osl_util_tag_content(content, "candl");
+      free(content);
+      content = osl_util_tag_content(tmp, "dependence-polyhedra");
+      free(tmp);
+      orig_dependence = candl_dependence_read_from_scop(orig_scop, content);
+    }
+    free(content);
+  } else {
+    orig_dependence = candl_dependence(orig_scop, options);
+  }
 
   /* Calculating legality violations. */
-  if (options->violgraph)
-    violation = candl_violation(program, dependence, options);
+  if (input_test != NULL)
+    violation = candl_violation(orig_scop, orig_dependence, scop, options);
 
   /* Printing data structures if asked. */
-  if (options->structure)
-    {
-      fprintf(output, "Program:\n");
-      candl_program_print(output, program);
-      fprintf(output, "\nDependences:\n");
-      candl_dependence_print(output, dependence);
-      fprintf(output, "\nViolations:\n");
-      candl_violation_print(output, violation);
+  if (options->structure) {
+    if (input_test != NULL) {
+      fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
+      osl_scop_print(output, orig_scop);
+      fprintf(output, "\n\033[33mTRANSFORMED SCOP:\033[00m\n");
+      osl_scop_print(output, scop);
+      fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
+      candl_dependence_pprint(output, orig_dependence);
+      fprintf(output, "\n\n\033[33mVIOLATIONS:\033[00m\n");
+      candl_violation_pprint(output, violation);
+    } else {
+      fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
+      osl_scop_print(output, orig_scop);
+      fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
+      candl_dependence_pprint(output, orig_dependence);
     }
-
-#ifdef CANDL_SUPPORTS_SCOPLIB
-  if (options->readscop && options->writescop)
-    candl_dependence_print_scop (input, output, dependence);
-  else
-    {
-#endif
-      /* Printing dependence graph if asked or if there is no transformation. */
-      if (options->depgraph || (program->transformation == NULL))
-	{
-	  candl_dependence_pprint(output, dependence);
-	  if (options->view)
-	    candl_dependence_view(dependence);
-	}
-      /* Printing violation graph if asked and if there is a transformation. */
-      if (options->violgraph && (program->transformation != NULL))
-	{
-	  candl_violation_pprint(output, violation);
-	  if (options->view)
-	    candl_violation_view(violation);
-	}
-
-#ifdef CANDL_SUPPORTS_SCOPLIB
+    
+  } else if (options->outscop) {
+    /* Update the scop */
+    osl_scop_print(output, orig_scop);
+    candl_dependence_print(outcandl, orig_dependence);
+    
+  } else {
+    /* Printing dependence graph if asked or if there is no transformation. */
+    if (input_test == NULL) {
+      candl_dependence_pprint(output, orig_dependence);
+      if (options->view)
+        candl_dependence_view(orig_dependence);
     }
-#endif
-
+    /* Printing violation graph if asked and if there is a transformation. */
+    else {
+      candl_violation_pprint(output, violation);
+      if (options->view)
+        candl_violation_view(violation);
+    }
+  }
 
   /* Being clean. */
-  candl_violation_free(violation);
-  candl_dependence_free(dependence);
-  candl_program_free(program);
+  if (input_test != NULL) {
+    candl_violation_free(violation);
+    osl_scop_free(scop);
+    fclose(input_test);
+  }
+  candl_dependence_free(orig_dependence);
+  candl_usr_cleanup(orig_scop);
+  osl_scop_free(orig_scop);
   candl_options_free(options);
   pip_close();
   fclose(input);
   fclose(output);
+  fclose(outcandl);
+  
+  if (incandl)
+    fclose(incandl);
 
   return 0;
 }

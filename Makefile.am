@@ -34,31 +34,73 @@
 
 
 #############################################################################
-SUBDIRS 		= doc source include tests
 
+if BUNDLED_OSL
+    MAYBE_OSL = osl
+    OSL_LA = $(top_builddir)/osl/source/libosl.la
+endif
+
+SUBDIRS         = $(MAYBE_OSL) doc tests
+DIST_SUBDIRS    = $(MAYBE_OSL) doc tests
+ACLOCAL_AMFLAGS = -I m4
 
 #############################################################################
-ACLOCAL_AMFLAGS		= -I autoconf
 
-m4datadir		= $(datadir)/aclocal
+bin_PROGRAMS    = candl
+lib_LTLIBRARIES = libcandl.la
+
+#############################################################################
+
+pkginclude_HEADERS 	=            \
+	include/candl/candl.h          \
+	include/candl/dependence.h     \
+	include/candl/usr.h            \
+	include/candl/util.h           \
+	include/candl/ddv.h            \
+	include/candl/matrix.h         \
+	include/candl/options.h        \
+	include/candl/piplib-wrapper.h \
+	include/candl/pruning.h        \
+	include/candl/violation.h
+
+DEFAULT_INCLUDES = -I.
+INCLUDES = -I$(top_builddir)/include -I$(top_srcdir)/include
+AM_CFLAGS = $(CFLAGS_WARN)
+
+#############################################################################
 
 EXTRA_DIST		= COPYING.LESSER AUTHORS
 
-AUX_DIST                =			\
-	$(ac_aux_dir)/config.guess		\
-	$(ac_aux_dir)/config.sub		\
-	$(ac_aux_dir)/install-sh		\
-	$(ac_aux_dir)/ltmain.sh			\
-	$(ac_aux_dir)/missing			\
-	$(ac_aux_dir)/depcomp			\
-	$(ac_aux_dir)/texinfo.tex
+libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ @CLAY_LIBS@ $(OSL_LA)
+libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@ @CLAY_CPPFLAGS@ -g
+libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDFLAGS@ @CLAY_LDFLAGS@
+libcandl_la_SOURCES =        \
+	source/dependence.c        \
+	source/ddv.c               \
+	source/usr.c               \
+	source/util.c              \
+	source/isl-wrapper.c       \
+	source/matrix.c            \
+	source/options.c           \
+	source/piplib-wrapper.c    \
+	source/pruning.c           \
+	source/violation.c
 
+#############################################################################
+
+LDADD              = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ @CLAY_LIBS@ libcandl.la
+candl_CPPFLAGS     = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@ @CLAY_CPPFLAGS@ -g -Wall
+candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDLAGS@ @CLAY_LDFLAGS@ # TO BE REMOVED
+candl_DEPENDENCIES = libcandl.la
+candl_SOURCES      = source/candl.c
+
+
+#############################################################################
 
 MAINTAINERCLEANFILES 	=			\
 	Makefile.in				\
 	aclocal.m4				\
 	configure				\
-	source/stamp-h.in			\
 	$(AUX_DIST)
 
 #############################################################################
