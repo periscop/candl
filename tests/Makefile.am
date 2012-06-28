@@ -4,7 +4,7 @@
 #    **-------------------------------------------------------------------**
 #    **                           Makefile.am                             **
 #    **-------------------------------------------------------------------**
-#    **                 First version: september 8th 2003                 **
+#    **                 First version: june 28th 2012                     **
 #    **-------------------------------------------------------------------**/
 #
 #/*****************************************************************************
@@ -32,7 +32,6 @@
 # *                                                                           *
 # *****************************************************************************/
 
-
 #############################################################################
 SUBDIRS 		=
 
@@ -44,57 +43,37 @@ TESTS_ENVIRONMENT       = top_builddir=$(top_builddir) SRCDIR=$(srcdir)
 
 #############################################################################
 
-EXTRA_DIST              = checker.sh
+check_SCRIPTS		= check_unitary.sh check_fail.sh check_tests.sh
 
-check_SCRIPTS		= check_suite.sh
+EXTRA_DIST              = checker.sh
 
 ## Replace by program names when needed
 # check_PROGRAMS = ...
 TESTS			= $(check_SCRIPTS)
 
-TEST_FILES             	=			\
-	ax-do.scop				\
-	gemver.scop				\
-	matmul.scop				\
-	swim.scop				\
-	simple1.scop				\
-	lu.scop					\
-	jacobi1d.scop
+TEST_FILES = \
+	$(top_srcdir)/tests/tests/ax-do1.c \
+	
+UNITARY_TEST_FILES = \
+	$(top_srcdir)/tests/unitary/empty_code.c \
 
+FAIL_TEST_FILES = \
+	$(top_srcdir)/tests/must_fail/beta_not_found.c \
 
-TEST_FILES_DEP			= $(TEST_FILES:.scop=.dep)
-TEST_FILES_CANDL		= $(TEST_FILES:.scop=.candl)
-TEST_FILES_STRUCT		= $(TEST_FILES:.scop=.struct)
-TEST_FILES_OPT			= $(TEST_FILES:.scop=.opt.scop)
-TEST_FILES_SCAL			= $(TEST_FILES:.scop=.scalstruct)
-TEST_FILES_DEPSCOP		= $(TEST_FILES:.scop=.depscop)
+TEST_FILES_REF = $(TEST_FILES:.c=.c.scop)
+UNITARY_TEST_FILES_REF = $(UNITARY_TEST_FILES:.c=.c.scop)
+FAIL_TEST_FILES_REF = $(FAIL_TEST_FILES:.c=.c.scop)
 
-TEST_FILES_CLEAN_CANDL		= $(TEST_FILES:.scop=.candltest)
-TEST_FILES_CLEAN_OPTSCOP	= $(TEST_FILES:.scop=.optscoptest)
-TEST_FILES_CLEAN_STRUCT		= $(TEST_FILES:.scop=.structest)
-TEST_FILES_CLEAN_SCAL		= $(TEST_FILES:.scop=.scaltest)
-TEST_FILES_CLEAN_OUTSCOP	= $(TEST_FILES:.scop=.outscop)
-
-BASE_TEST_FILES			= $(TEST_FILES:.scop=)
-
-CLEANFILES			=		\
-	$(TEST_FILES_CLEAN_CANDL)		\
-	$(TEST_FILES_CLEAN_OPTSCOP)		\
-	$(TEST_FILES_CLEAN_SCAL)		\
-	$(TEST_FILES_CLEAN_STRUCT)		\
-	$(TEST_FILES_CLEAN_OUTSCOP)
-
-
-EXTRA_DIST	+=				\
-	$(TEST_FILES)				\
-	$(TEST_FILES_DEP)			\
-	$(TEST_FILES_CANDL)			\
-	$(TEST_FILES_STRUCT)			\
-	$(TEST_FILES_OPT)			\
-	$(TEST_FILES_SCAL)			\
-	$(TEST_FILES_DEPSCOP)			\
+EXTRA_DIST += \
+	$(UNITARY_TEST_FILES) \
+	$(TEST_FILES) \
+	$(FAIL_TEST_FILES) \
 	$(check_SCRIPTS)
 
+CLEANFILES = ""
 
-TESTS_ENVIRONMENT +=				\
-	TEST_FILES="$(BASE_TEST_FILES)"
+TESTS_ENVIRONMENT += \
+	CHECKER="$(top_srcdir)/tests/checker.sh" \
+	TEST_FILES="$(TEST_FILES)" \
+	UNITARY_TEST_FILES="$(UNITARY_TEST_FILES)" \
+	FAIL_TEST_FILES="$(FAIL_TEST_FILES)"

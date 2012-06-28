@@ -300,7 +300,7 @@ void candl_violation_add(candl_violation_p* start,
  */
 candl_violation_p candl_violation(osl_scop_p orig_scop,
                                   candl_dependence_p orig_dependence,
-                                  osl_scop_p scop_test,
+                                  osl_scop_p test_scop,
                                   candl_options_p options) {
   osl_statement_p source, target, iter;
   osl_statement_p *stmts;
@@ -315,15 +315,15 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   int dimension, max_dimension, violated;
   
   /* If there is no scop or transformation, we consider this legal. */
-  if (scop_test == NULL)
+  if (test_scop == NULL)
     return NULL;
   
   /* Temporary array to access faster at the `label'th statement */
-  for (iter = scop_test->statement ; iter != NULL ;
+  for (iter = test_scop->statement ; iter != NULL ;
        iter = iter->next, nb_stmts++)
     ;
   stmts = (osl_statement_p*) malloc(sizeof(osl_statement_p) * nb_stmts);
-  for (i = 0, iter = scop_test->statement ; iter != NULL ;
+  for (i = 0, iter = test_scop->statement ; iter != NULL ;
        iter = iter->next, i++) {
     stmts[i] = iter;
   }

@@ -44,7 +44,6 @@
 #include <candl/violation.h>
 #include <candl/options.h>
 #include <candl/usr.h>
-#include <candl/util.h>
 
 
 int main(int argc, char * argv[]) {
@@ -94,18 +93,15 @@ int main(int argc, char * argv[]) {
     exit(1);
   }
   
-  /* Sort the list of statements, we have to be sure that the list is sorted */
-  clay_beta_sort(orig_scop);
   
-  /* Try to align 'scop' with 'orig_scop' */
-  if (input_test != NULL)
-    candl_util_scop_align(orig_scop, scop);
+  if (input_test != NULL && !candl_util_check_scop(orig_scop, scop))
+    CANDL_FAIL("The two scop can't be compared");
   
   /* Add more infos (depth, label, ...)
    * Not important for the transformed scop
    */
   candl_usr_init(orig_scop);
-
+  
   /* Calculating dependences. */
   if (incandl != NULL) {
     /* Read dependences from the candl tag */
@@ -154,8 +150,8 @@ int main(int argc, char * argv[]) {
   } else if (options->outscop) {
     /* Update the scop */
     osl_scop_print(output, orig_scop);
-    candl_dependence_print(outcandl, orig_dependence);
-    
+    if (outcandl != NULL)
+      candl_dependence_print(outcandl, orig_dependence);
   } else {
     /* Printing dependence graph if asked or if there is no transformation. */
     if (input_test == NULL) {
@@ -177,6 +173,8 @@ int main(int argc, char * argv[]) {
     osl_scop_free(scop);
     fclose(input_test);
   }
+  
+  
   candl_dependence_free(orig_dependence);
   candl_usr_cleanup(orig_scop);
   osl_scop_free(orig_scop);
@@ -184,7 +182,9 @@ int main(int argc, char * argv[]) {
   pip_close();
   fclose(input);
   fclose(output);
-  fclose(outcandl);
+  
+  if (outcandl != stdout)
+    fclose(outcandl);
   
   if (incandl)
     fclose(incandl);

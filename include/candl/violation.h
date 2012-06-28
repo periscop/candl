@@ -51,17 +51,55 @@ extern "C"
 /**
  * CandlViolation structure:
  * this structure contains all informations about a data dependence violation.
- */
+ *
+ 
+  Violation domain structure
+                                     ————————————————————————————————————————————————————————————————————————————————————————————————  
+                                   /       source (output) |       target (input)  |                   local dims                     \ 
+                                —— |———————————————————————|———————————————————————|———————————————————————————————————————————————————|—————————————
+                              / eq |output |output |output |output |output |output |ld dom |ld acc |ld scatt |ld dom |ld acc |ld scatt |           |  \ 
+                              | in |domain |access |scatt  |domain |access |scatt  |source |source |source   |target |target |target   |parameters | 1 |
+         —————————————————————|————|———————|———————|———————|———————|———————|———————|———————|———————|—————————|———————|———————|—————————|———————————|———|
+             |Domain source   | X  |   X   :       :       |       :       :       |   X   :       :         |       :       :         |     X     | X |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+             |Domain target   | X  |       :       :       |   X   :       :       |       :       :         |   X   :       :         |     X     | X |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+  Dependence |Access source   | X  |   X   :   X   :       |       :       :       |       :   X   :         |       :       :         |     X     | X |
+  system     |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———| 
+             |Access target   | X  |       :       :       |   X   :   X   :       |       :       :         |       :   X   :         |     X     | X |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+             |Access equality |    |       :  Id   :       |       :  -Id  :       |       :       :         |       :       :         |           |   |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|    | 0    : 0..depth-1 
+             |Precedence      | X  |  Id   :       :       |  -Id  :       :       |       :       :         |       :       :         |           | X | <--| 0|-1 : depth
+
+         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+             |Scattering      |    |       :       :       |       :       :       |       :       :         |       :       :         |           |   |
+             |source          | X  |   X   :       :   X   |       :       :       |       :       :    X    |       :       :         |     X     | X |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+             |Scattering      |    |       :       :       |       :       :       |       :       :         |       :       :         |           |   |
+             |target          | X  |       :       :       |   X   :       :   X   |       :       :         |       :       :    X    |     X     | X |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+             |Equality at     |    |       :       :       |       :       :       |       :       :         |       :       :         |           |   |
+             |1 ... dim—1     |    |       :       :  Id   |       :       : -Id   |       :       :         |       :       :         |           |   |
+             |————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———|
+         at  |Scat source >   |    |       :       :       |       :       :       |       :       :         |       :       :         |           |   |
+         dim |Scat target     | 1  |       :       :   1   |       :       :  -1   |       :       :         |       :       :         |           |-1 |
+             \————————————————|————|———————:———————:———————|———————:———————:———————|———————:———————:—————————|———————:———————:—————————|———————————|———/
+
+                                                      (1)                     (2)                      (3)                       (4)
+*/
+
 struct candl_violation {
   candl_dependence_p dependence; /**< Pointer to violated dependence. */
   int dimension;                 /**< Violation dimension. */
   osl_relation_p domain;         /**< Violation polyhedron. */
   struct candl_violation *next;        /**< Pointer to next violation. */
   
-  int source_nb_output_dims_scattering;
-  int target_nb_output_dims_scattering;
-  int source_nb_local_dims_scattering;
-  int target_nb_local_dims_scattering;
+  int source_nb_output_dims_scattering; // (1)
+  int target_nb_output_dims_scattering; // (2)
+  int source_nb_local_dims_scattering;  // (3)
+  int target_nb_local_dims_scattering;  // (4)
 };
 typedef struct candl_violation  candl_violation_t;
 typedef struct candl_violation* candl_violation_p;

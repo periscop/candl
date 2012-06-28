@@ -39,90 +39,119 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <candl/candl.h>
 #include <candl/util.h>
-#include <candl/macros.h>
-#include <osl/scop.h>
+#include <candl/usr.h>
+#include <clay/beta.h>
+#include <osl/macros.h>
 #include <osl/statement.h>
-#include <osl/body.h>
-#include <osl/strings.h>
+#include <osl/relation.h>
+#include <osl/relation_list.h>
 
 
-static int find_body(osl_body_p body, osl_statement_p *stmts, int size) {
-  /* here stmts is not a chained list ! */
-  char *str = body->expression->string[0];
-  char *tmp;
-  int i;
-  for (i = 0 ; i < size ; i++) {
-    tmp = ((osl_body_p) stmts[i]->body->data)->expression->string[0];
-    if (strcmp(tmp, str) == 0)
-      break;
+
+/* Check if two scop can be compared (same number of statements and
+ * same access array/domain in the same order)
+ */
+int candl_util_check_scop(osl_scop_p s1, osl_scop_p s2) {
+  
+  osl_statement_p it1 = s1->statement, it2 = s2->statement;
+  for (; it1 != NULL && it2 != NULL ; it1 = it1->next, it2 = it2->next) {
+    if (!osl_relation_list_equal(it1->access, it2->access))
+      return 0;
+    if (!osl_relation_equal(it1->domain, it2->domain))
+      return 0;
   }
-  return (i == size ? -1 : i);
+  
+  /* Different number of statements */
+  if ((it1 == NULL || it2 == NULL) && it1 != it2)
+    return 0;
+  
+  return 1;
+}
+
+
+/* Return the number access array which have the type `type'
+ */
+static int count_nb_access(osl_statement_p st, int type) {
+  osl_relation_list_p access = st->access;
+  int count = 0;
+  for (; access != NULL ; access = access->next)
+    if (access->elt->type == type)
+      count ++;
+  return count;
 }
 
 
 /**
- * candl_util_scop_align function:
- * Align the scop s2 with the s1
- * That is to say, the first statement in the list of s1 corresponds to
- * the first statement in the list of s2
- * The alignment is based on the body string
+ * candl_util_statement_commute function:
+ * This function returns 1 if the two statements given as parameter commute,
+ * 0 otherwise. It uses the statement type information to answer the question.
+ * - 09/12/2005: first version.
  */
-void candl_util_scop_align(osl_scop_p s1, osl_scop_p s2) {
+int candl_util_statement_commute(osl_statement_p statement1,
+                                 osl_statement_p statement2) {
+  candl_statement_usr_p usr1, usr2;
+  int type1, type2;
+  int precision = statement1->domain->precision;
+  int row_1, row_2;
   
-  /* TODO
-   * We can maybe use a better comparaison instead of the body string
-   */
-   
-  osl_body_p body;
-  osl_statement_p it1, it2, tmp;
-  osl_statement_p *buff;
-  int nb_stmts = 0;
-  int sizebuff = 50;
-  int i, curr;
-  
-  /* Create an array containing the statements of s2 */
-  buff = (osl_statement_p*) malloc(sizeof(osl_statement_p) * sizebuff);
-  for (it1 = s1->statement, it2 = s2->statement ; 
-       it1 != NULL && it2 != NULL ;
-       it1 = it1->next, it2 = it2->next) {
-    buff[nb_stmts++] = it2;
-    if (nb_stmts == sizebuff) {
-      sizebuff *= 2;
-      buff = (osl_statement_p*) realloc(buff, sizeof(osl_statement_p) * sizebuff);
-    }
-  }
-  
-  if (it1 != it2) {
-    CANDL_FAIL("The two scop haven't the same number of statements");
-  }
+  usr1  = statement1->usr;
+  usr2  = statement2->usr;
+  type1 = usr1->type;
+  type2 = usr2->type;
 
-  /* Align s2 with s1 */
-  curr = 0;
-  for (it1 = s1->statement ; it1 != NULL ; it1 = it1->next) {
-    body = (osl_body_p) it1->body->data;
-    i = find_body(body, buff, nb_stmts);
-    if (i == -1) {
-      fprintf(stderr, 
-        "[Candl] Error: The statement '%s' was not found in the input scop\n",
-        body->expression->string[0]);
-      exit(1);
+  /* In the case of self-dependence, a statement commutes with hitself if
+   * it is a reduction.
+   */
+  if ((statement1 == statement2) &&
+      ((type1 == CANDL_P_REDUCTION) ||
+       (type1 == CANDL_M_REDUCTION) ||
+       (type1 == CANDL_T_REDUCTION)))
+  return 1;
+  
+  /* Two statement commute when they are a reduction of the same type (or if
+   * their left and right members are the same, but it's not exploited here).
+   * The type may differ if it is either minus or plus-reduction. Furthermore,
+   * they have to write onto the same array (and only one array).
+   */
+  if ((type1 == CANDL_P_REDUCTION && type2 == CANDL_P_REDUCTION) ||
+      (type1 == CANDL_M_REDUCTION && type2 == CANDL_M_REDUCTION) ||
+      (type1 == CANDL_T_REDUCTION && type2 == CANDL_T_REDUCTION) ||
+      (type1 == CANDL_P_REDUCTION && type2 == CANDL_M_REDUCTION) ||
+      (type1 == CANDL_M_REDUCTION && type2 == CANDL_P_REDUCTION)) {
+    /* Here we check that there is one, only one and the same array. */
+    if (count_nb_access(statement1, OSL_TYPE_WRITE) > 1 ||
+        count_nb_access(statement2, OSL_TYPE_WRITE) > 1)
+      return 0;
+    
+    /* search the first osl_write access */
+    osl_relation_list_p access1 = statement1->access;
+    osl_relation_list_p access2 = statement2->access;
+    for (; access1 != NULL && access2 != NULL ;
+         access1 = access1->next, access2 = access2->next)
+      if (access1->elt->type == OSL_TYPE_WRITE)
+        break;
+    
+    if (access1 == NULL || access2 == NULL ||
+        access2->elt->type != OSL_TYPE_WRITE || 
+        access2->elt->nb_output_dims != access1->elt->nb_output_dims) {
+      osl_statement_dump(stderr, statement1);
+      osl_statement_dump(stderr, statement2);
+      CANDL_FAIL("These statements haven't the same access array or access is NULL");
     }
-    if (curr != i) {
-      tmp = buff[curr];
-      buff[curr] = buff[i];
-      buff[i] = tmp;
-    }
-    curr++;
+    
+    /* Check if the first dim (the Arr column) is the same */
+    row_1 = clay_relation_get_line(access1->elt, 0);
+    row_2 = clay_relation_get_line(access2->elt, 0);
+    if (!osl_int_eq(precision,
+                    access1->elt->m[row_1], access1->elt->nb_columns-1,
+                    access2->elt->m[row_2], access2->elt->nb_columns-1))
+      return 0;
+  
+    return 1;
   }
   
-  /* Reconstruct the statements list of s2 */
-  s2->statement = buff[0];
-  for (i = 0 ; i < nb_stmts-1 ; i++) {
-    buff[i]->next = buff[i+1];
-  }
-  buff[i]->next = NULL;
-  
-  free(buff);
+  return 0;
 }
+

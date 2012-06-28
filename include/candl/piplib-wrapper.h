@@ -53,10 +53,11 @@ extern "C"
 # endif
     
 
-PipMatrix*  pip_relation2matrix(osl_relation_p);
-int         pip_has_rational_point(osl_relation_p,  osl_relation_p, int);
-PipQuast*   pip_solve_osl(osl_relation_p, osl_relation_p, int, PipOptions*);
-    
+PipMatrix*      pip_relation2matrix(osl_relation_p);
+osl_relation_p  pip_matrix2relation(PipMatrix*);
+int             pip_has_rational_point(osl_relation_p,  osl_relation_p, int);
+PipQuast*       pip_solve_osl(osl_relation_p, osl_relation_p, int, PipOptions*);
+int             piplist_are_equal(PipList*, PipList*, int);
 
 # if defined(__cplusplus)
   }

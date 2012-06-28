@@ -42,6 +42,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <candl/candl.h>
+#include <osl/relation.h>
+#include <candl/piplib-wrapper.h>
 
 #ifdef CANDL_SUPPORTS_ISL
 
@@ -99,15 +101,16 @@ isl_constraint_read_from_matrix(struct isl_dim* dim, Entier* row) {
 
 struct isl_set*
 isl_set_from_piplib_matrix(struct isl_ctx* ctx,
-                           PipMatrix* matrix,
+                           osl_relation_p matrix,
                            int nparam) {
+  PipMatrix* pmatrix = pip_relation2matrix(matrix);
   struct isl_dim* dim;
   struct isl_basic_set* bset;
   int i;
   unsigned nrows, ncolumns;
 
-  nrows = matrix->NbRows;
-  ncolumns = matrix->NbColumns;
+  nrows = pmatrix->NbRows;
+  ncolumns = pmatrix->NbColumns;
   int nvariables = ncolumns - 2 - nparam;
 
   dim = isl_dim_set_alloc(ctx, nparam, nvariables);
@@ -115,7 +118,7 @@ isl_set_from_piplib_matrix(struct isl_ctx* ctx,
   bset = isl_basic_set_universe(isl_dim_copy(dim));
 
   for (i = 0; i < nrows; ++i) {
-    Entier* row = matrix->p[i];
+    Entier* row = pmatrix->p[i];
     struct isl_constraint* constraint =
         isl_constraint_read_from_matrix(isl_dim_copy(dim), row);
     bset = isl_basic_set_add_constraint(bset, constraint);
@@ -123,7 +126,7 @@ isl_set_from_piplib_matrix(struct isl_ctx* ctx,
 
   isl_dim_free(dim);
 
-  return isl_set_from_basic_set(bset);;
+  return isl_set_from_basic_set(bset);
 }
 
 
@@ -180,7 +183,7 @@ int bset_get(__isl_take isl_basic_set *bset, void *user) {
 }
 
 
-PipMatrix*
+osl_relation_p
 isl_set_to_piplib_matrix(struct isl_ctx* ctx,
                          struct isl_set* set,
                          int nparam) {
@@ -205,8 +208,11 @@ isl_set_to_piplib_matrix(struct isl_ctx* ctx,
 
   // 4- Convert each constraint to a row of the matrix.
   isl_basic_set_foreach_constraint(bset, copy_cst_to_mat, res);
-
-  return res;
+  
+  osl_relation_p tmp = pip_matrix2relation(res);
+  pip_matrix_free(res);
+  
+  return tmp;
 }
 
 

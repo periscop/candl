@@ -42,12 +42,14 @@
 #include <string.h>
 #include <candl/candl.h>
 #include <candl/usr.h>
+#include <candl/util.h>
 #include <candl/matrix.h>
 #include <candl/piplib-wrapper.h>
 #include <osl/macros.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
 #include <osl/relation.h>
+#include <osl/names.h>
 #include <clay/beta.h>
 
 #include <assert.h>
@@ -63,19 +65,16 @@
 
 
 /**
- * candl_dependence_get_relation_refs_in_dep function:
+ * candl_dependence_get_relation_ref_source_in_dep function:
  * This function return the corresponding osl_relation_p of
- * the ref_source and ref_target
+ * the ref_source
  */
-void candl_dependence_get_relation_refs_in_dep(candl_dependence_p tmp, 
-              osl_relation_p *src, osl_relation_p *targ) {
-  
-  osl_relation_list_p access;
+osl_relation_p candl_dependence_get_relation_ref_source_in_dep(candl_dependence_p tmp) {
+  if (tmp->cache_ref_source_ptr != NULL)
+    return tmp->cache_ref_source_ptr;
+  int count = 0;
   osl_relation_p elt = NULL;
-  int count;
-  
-  /* Source ref */
-  count = 0;
+  osl_relation_list_p access;
   access = tmp->source->access;
   for (; access != NULL ; access = access->next) {
     elt = access->elt;
@@ -83,10 +82,20 @@ void candl_dependence_get_relation_refs_in_dep(candl_dependence_p tmp,
       break;
     count++;
   }
-  *src = elt;
+  tmp->cache_ref_source_ptr = elt;
+  return elt;
+}
 
-  /* Target ref */
-  count = 0;
+/**
+ * candl_dependence_get_relation_ref_target_in_dep function:
+ * same as candl_dependence_get_relation_ref_source_in_dep but for the target
+ */
+osl_relation_p candl_dependence_get_relation_ref_target_in_dep(candl_dependence_p tmp) {
+  if (tmp->cache_ref_target_ptr != NULL)
+    return tmp->cache_ref_target_ptr;
+  int count = 0;
+  osl_relation_list_p access;
+  osl_relation_p elt = NULL;
   access = tmp->target->access;
   for (; access != NULL ; access = access->next) {
     elt = access->elt;
@@ -94,8 +103,10 @@ void candl_dependence_get_relation_refs_in_dep(candl_dependence_p tmp,
       break;
     count++;
   }
-  *targ = elt;
+  tmp->cache_ref_target_ptr = elt;
+  return elt;
 }
+
 
 
 /**
@@ -116,7 +127,8 @@ void candl_dependence_get_array_refs_in_dep(candl_dependence_p tmp,
   int row;
   int precision = tmp->domain->precision;
   
-  candl_dependence_get_relation_refs_in_dep(tmp, &src, &targ);
+  src = candl_dependence_get_relation_ref_source_in_dep(tmp);
+  targ = candl_dependence_get_relation_ref_target_in_dep(tmp);
     
   row = clay_relation_get_line(src, 0);
   *refs = osl_int_get_si(precision,
@@ -237,6 +249,17 @@ void candl_dependence_idump(FILE* file,
     dependence->target->next = tmp;
 
     /* Print the dependence polyhedron. */
+    for (j=0; j<=level; j++)
+      fprintf(file, "|\t");
+    fprintf(file, "%d %d %d %d %d %d %d %d\n",
+            dependence->source_nb_output_dims_domain,
+            dependence->source_nb_output_dims_access,
+            dependence->target_nb_output_dims_domain,
+            dependence->target_nb_output_dims_access,
+            dependence->source_nb_local_dims_domain,
+            dependence->source_nb_local_dims_access,
+            dependence->target_nb_local_dims_domain,
+            dependence->target_nb_local_dims_access);
     osl_relation_idump(file, dependence->domain, level+1);
 
     dependence = dependence->next;
@@ -256,7 +279,7 @@ void candl_dependence_idump(FILE* file,
 }
 
 
-/* candl_dependence_print function:
+/* candl_dependence_dump function:
  * This function prints the content of a CandlDependence structure (dependence)
  * into a file (file, possibly stdout).
  */
@@ -333,6 +356,7 @@ void candl_dependence_print(FILE *file, candl_dependence_p dependence) {
   char *string;
   candl_dependence_sprint(&string, dependence);
   fprintf(file, "%s\n", string);
+  free(string);
 }
 
 
@@ -347,11 +371,11 @@ void candl_dependence_sprint(char **string, candl_dependence_p dependence) {
   candl_statement_usr_p s_usr;
   candl_statement_usr_p t_usr;
   int refs = 0, reft = 0;
-  int i, j, k;
   int nb_deps;
   int buffer_size = 2048;
   int szbuff = 0;
   int precision;
+  int current_size = 0;
   char* buffer = (char*) malloc(buffer_size * sizeof(char));
   char buff[OSL_MAX_STRING];
   char* type;
@@ -363,11 +387,13 @@ void candl_dependence_sprint(char **string, candl_dependence_p dependence) {
    ;
   snprintf(buff, OSL_MAX_STRING, "# Number of dependences\n%d\n", nb_deps);
   strcat(buffer, buff);
+  current_size = strlen(buff);
   
   if (nb_deps) {
     precision = dependence->domain->precision;
     
     for (tmp = dependence, nb_deps = 1; tmp; tmp = tmp->next, ++nb_deps) {
+      
       /* Compute the type of the dependence, and the array id
          accessed. */
       candl_dependence_get_array_refs_in_dep(tmp, &refs, &reft);
@@ -404,40 +430,67 @@ void candl_dependence_sprint(char **string, candl_dependence_p dependence) {
       snprintf(buff, OSL_MAX_STRING, "# Description of dependence %d\n"
               "# type\n%s\n# From statement id\n%d\n"
               "# To statement id\n%d\n# Depth \n%d\n# Array id\n%d\n"
-              "# Dependence domain\n%d %d\n", nb_deps, type,
+              "# Dependence domain\n"
+              "# src outp domain / src outp access / "
+              "targ outp domain / targ outp access / src ld domain / "
+              "src ld access / targ ld domain / targ ld access\n"
+              "%d %d %d %d %d %d %d %d\n",
+              nb_deps, type,
               s_usr->label,
               t_usr->label, tmp->depth,
-              refs, tmp->domain->nb_rows, tmp->domain->nb_columns);
-      strcat(buffer, buff);
-      /* Output dependence domain. */
-      pbuffer = buffer + strlen(buffer);
-      for (i = 0; i < tmp->domain->nb_rows; ++i) {
-        for (j = 0; j < tmp->domain->nb_columns; ++j) {
-          osl_int_sprint(buff, precision, tmp->domain->m[i], j);
-          szbuff = strlen(buff);
-          if (szbuff == 2)
-            *(pbuffer++) = ' ';
-          for (k = 0; k < szbuff; ++k)
-            *(pbuffer++) = buff[k];
-        }
-        *(pbuffer++) = '\n';
+              refs,
+              tmp->source_nb_output_dims_domain,
+              tmp->source_nb_output_dims_access,
+              tmp->target_nb_output_dims_domain,
+              tmp->target_nb_output_dims_access,
+              tmp->source_nb_local_dims_domain,
+              tmp->source_nb_local_dims_access,
+              tmp->target_nb_local_dims_domain,
+              tmp->target_nb_local_dims_access);
+   
+      /* Increase the buffer size if needed. */
+      szbuff = strlen(buff);
+      while (current_size + szbuff >= buffer_size) {
+        buffer_size = buffer_size * 2;
+        OSL_realloc(buffer, char*, buffer_size * sizeof(char));
       }
-      *(pbuffer++) = '\0';
+      current_size += szbuff;
+      strcat(buffer, buff);
+      
+/*    printf("ok\n");
+    
+    void *t = tmp->next;
+    tmp->next = NULL;
+    candl_dependence_dump(stdout, tmp);
+    tmp->next = t;
+    */
+      /* Output dependence domain. */
+      //osl_relation_print(stdout, tmp->domain);
+      pbuffer = osl_relation_sprint(tmp->domain);
+
       /* Increase the buffer size if needed. Conservatively assume a
          dependence is never larger than 2k. */
-      szbuff = strlen(buffer);
-      while (szbuff + strlen(pbuffer) >= buffer_size) {
+      szbuff = strlen(pbuffer);
+      
+      
+      //printf("__________________________%d %d %d\n", current_size, szbuff, buffer_size);
+      
+      
+      while (current_size + szbuff >= buffer_size) {
         buffer_size *= 2;
-        OSL_realloc(buffer, char *, buffer_size * sizeof(char));
-        if (buffer == NULL)
-          CANDL_FAIL("Error: memory overflow");
-        buffer[szbuff] = '\0';
+        OSL_realloc(buffer, char*, buffer_size * sizeof(char));
       }
+      current_size += szbuff;
+      //printf("           after %d %d %d\n", current_size, szbuff, buffer_size);
+      
+      strcat(buffer, pbuffer);
+      free(pbuffer);
     }
   }
   
-  while (szbuff + strlen("</dependence-polyhedra>\n</candl>") >= buffer_size) {
-    buffer_size += 2048;
+  szbuff = strlen("</dependence-polyhedra>\n</candl>");
+  while (current_size + szbuff >= buffer_size) {
+    buffer_size = buffer_size * 2;
     OSL_realloc(buffer, char *, buffer_size * sizeof(char));
   }
   strcat(buffer, "</dependence-polyhedra>\n</candl>");
@@ -448,11 +501,11 @@ void candl_dependence_sprint(char **string, candl_dependence_p dependence) {
 #ifdef CANDL_SUPPORTS_ISL
 
 struct isl_set* isl_set_from_piplib_matrix(struct isl_ctx* ctx,
-                                           PipMatrix* matrix,
+                                           osl_relation_p matrix,
                                            int nparam);
-PipMatrix* isl_set_to_piplib_matrix(struct isl_ctx* ctx,
-                                    struct isl_set* set,
-                                    int nparam);
+osl_relation_p isl_set_to_piplib_matrix(struct isl_ctx* ctx,
+                                        struct isl_set* set,
+                                        int nparam);
 /**
  * candl_dependence_isl_simplify function:
  *
@@ -462,35 +515,38 @@ PipMatrix* isl_set_to_piplib_matrix(struct isl_ctx* ctx,
  */
 candl_dependence_p candl_dependence_isl_simplify(candl_dependence_p dep,
                                                  osl_scop_p scop) {
-  /*if (dep == NULL || scop == NULL)
+  if (dep == NULL || scop == NULL)
     return dep;
 
   candl_dependence_p tmp;
-  PipMatrix* context = (PipMatrix*) scop->context;
+  osl_relation_p context = scop->context;
   int nparam = context->nb_parameters;
 
-  struct isl_ctx* ctx = isl_ctx_alloc ();
+  struct isl_ctx* ctx = isl_ctx_alloc();
 
   for (tmp = dep; tmp; tmp = tmp->next) {
     // 1- Convert the dependence polyhedron into ISL set.
-    struct isl_set* set =
-        isl_set_from_piplib_matrix(ctx, tmp->domain, nparam);
-
+    
+    struct isl_set* set = isl_set_from_piplib_matrix(ctx, tmp->domain, nparam);
+    
     // 2- Simplify the ISL set.
     set = isl_set_detect_equalities(set);
 
     // 3- Convert back into Candl matrix representation.
-    PipMatrix* newdom = isl_set_to_piplib_matrix(ctx, set, nparam);
-    isl_set_free (set);
-    candl_matrix_free (tmp->domain);
-    tmp->domain = (CandlMatrix*) newdom;
+    osl_relation_p newdom = isl_set_to_piplib_matrix(ctx, set, nparam);
+    isl_set_free(set);
+    newdom->nb_output_dims = tmp->domain->nb_output_dims;
+    newdom->nb_input_dims  = tmp->domain->nb_input_dims;
+    newdom->nb_local_dims  = tmp->domain->nb_local_dims;
+    newdom->nb_parameters  = tmp->domain->nb_parameters;
+    osl_relation_free(tmp->domain);
+    tmp->domain = newdom;
   }
 
   /// FIXME: Some dead ref.
   //isl_ctx_free (ctx);
 
-  return dep;*/
-  return NULL;
+  return dep;
 }
 
 #endif
@@ -510,9 +566,8 @@ candl_dependence_p candl_dependence_read_one_dep(char* str, char** next,
   candl_statement_usr_p usr;
   char buffer[1024];
   int tmp;
-  int i, j, k;
+  int i;
   int id;
-  int id2;
   int precision = scop->context->precision;
   int row;
   
@@ -639,38 +694,27 @@ candl_dependence_p candl_dependence_read_one_dep(char* str, char** next,
   /* # Dependence domain */
   for (; *str != '\n'; ++str);
   ++str;
-
-  /* nb-row nb-col */
-  for (i = 0; *str != ' '; ++str, ++i)
-    buffer[i] = *str;
+  
+  /* # src outp domain / src outp access / .... */
+  for (; *str != '\n'; ++str);
   ++str;
-  buffer[i] = '\0';
-  id = atoi(buffer);
-  for (i = 0; *str != '\n'; ++str, ++i)
-    buffer[i] = *str;
+  
+  sscanf(str, "%d %d %d %d %d %d %d %d\n", 
+              &dep->source_nb_output_dims_domain,
+              &dep->source_nb_output_dims_access,
+              &dep->target_nb_output_dims_domain,
+              &dep->target_nb_output_dims_access,
+              &dep->source_nb_local_dims_domain,
+              &dep->source_nb_local_dims_access,
+              &dep->target_nb_local_dims_domain,
+              &dep->target_nb_local_dims_access);
+  
+  /* jmp the precedent line */
+  for (; *str != '\n'; ++str);
   ++str;
-  buffer[i] = '\0';
-  id2 = atoi(buffer);
-
-  dep->domain = osl_relation_pmalloc(precision, id, id2);
-  /* Read matrix elements. */
-  for (j = 0; j < id; ++j) {
-    for (k = 0; k < id2; ++k) {
-      while (*str && *str == ' ')
-        str++;
-      for (i = 0; *str != '\n' && *str != ' '; ++str, ++i)
-        buffer[i] = *str;
-      buffer[i] = '\0';
-      ++str;
-      osl_int_set_si(precision,
-                     dep->domain->m[j], k,
-                     atoi(buffer));
-    }
-    if (*(str - 1) != '\n') {
-      for (; *str != '\n'; ++str);
-      ++str;
-    }
-  }
+  
+  dep->domain = osl_relation_psread(&str, scop->context->precision);
+  
   /* Store the next character in the string to be analyzed. */
   *next = str;
 
@@ -728,7 +772,6 @@ candl_dependence_p candl_dependence_read_from_scop(osl_scop_p scop,
  */
 void candl_dependence_free(candl_dependence_p dependence) {
   candl_dependence_p next;
-
   while (dependence != NULL) {
     next = dependence->next;
     osl_relation_free(dependence->domain);
@@ -776,6 +819,8 @@ candl_dependence_p candl_dependence_malloc() {
   dependence->source_nb_local_dims_access  = -1;
   dependence->target_nb_local_dims_domain  = -1;
   dependence->target_nb_local_dims_access  = -1;
+  dependence->cache_ref_source_ptr = NULL;
+  dependence->cache_ref_target_ptr = NULL;
 
   return dependence;
 }
@@ -976,8 +1021,6 @@ static candl_dependence_p candl_dependence_build_system(
                             int depth, int before) {
   candl_dependence_p dependence;
   osl_relation_p system;
-  candl_statement_usr_p s_usr = source->usr;
-  candl_statement_usr_p t_usr = target->usr;
   int i, j, k, c;
   int constraint = 0;
   int precision = source->domain->precision;
@@ -1010,9 +1053,7 @@ static candl_dependence_p candl_dependence_build_system(
   dependence->next = NULL;
   
   /* Compute the maximal common depth. */
-  while (min_depth < s_usr->depth && min_depth < t_usr->depth &&
-         s_usr->index[min_depth] == t_usr->index[min_depth])
-    ++min_depth;
+  min_depth = CANDL_min(array_s->nb_output_dims, array_t->nb_output_dims);
   
   /* Compute the system size */
   nb_par         = source->domain->nb_parameters;
@@ -1028,7 +1069,7 @@ static candl_dependence_p candl_dependence_build_system(
   nb_columns = nb_output_dims + nb_input_dims + nb_local_dims + nb_par + 2;
   nb_rows    = source->domain->nb_rows + target->domain->nb_rows +
                array_s->nb_rows + array_t->nb_rows +
-               min_depth + 1 + // equality between the output access
+               min_depth + 
                depth;
 
   system = osl_relation_pmalloc(precision, nb_rows, nb_columns);
@@ -1186,7 +1227,7 @@ static candl_dependence_p candl_dependence_build_system(
   /* Note here that the equality between the 2 Arr are necessarily equal */
   k = 1 + source->domain->nb_output_dims;
   j = 1 + nb_output_dims + target->domain->nb_output_dims;
-  for (i = 0 ; i < min_depth+1 ; i++, k++, j++) { /* plus 1 for the Arr */
+  for (i = 0 ; i < min_depth ; i++, k++, j++) {
     osl_int_set_si(precision, system->m[constraint], k, -1);
     osl_int_set_si(precision, system->m[constraint], j, 1);
     constraint++;
@@ -1203,7 +1244,7 @@ static candl_dependence_p candl_dependence_build_system(
       /* i <= i' at dimension depth if source is textually before target. */
       osl_int_set_si(precision, system->m[constraint], 0, 1);
       /* If source is textually after target, this is obviously i < i'. */
-      if (before || depth < min_depth)
+      if (before || depth < min_depth-1) // sub 1 for the Arr dim
         osl_int_set_si(precision, system->m[constraint], nb_columns - 1, -1);
     }
 
@@ -1265,7 +1306,7 @@ candl_dependence_p candl_dependence_system(osl_statement_p source,
                                              depth,
                                              (s_usr->label >= 
                                               t_usr->label));
-
+  
   /* We start by simple SIV/ZIV/GCD tests. */
   if (!candl_dependence_gcd_test(source, target, dependence->domain, depth)) {
     candl_dependence_free(dependence);
@@ -1318,9 +1359,8 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
   /* If the statements commute and the user asks to use this information to
    * simplify the dependence graph, we return no dependences.
    */
-  // TODO
-  //if (options->commute && candl_statement_commute(source, target))
-  //  return NULL;
+  if (options->commute && candl_util_statement_commute(source, target))
+    return NULL;
 
   /* In the case of a self-dependence, the dependence depth can be as low as 1
    * (not 0 because at depth 0 there is no loop, thus there is only one
@@ -1483,9 +1523,9 @@ candl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
   
   /* If scalar analysis is called, remove some useless dependences. */
   /* LNP: This is subsubmed by the updated prune-with-privatization function. */
-   if (options->scalar_privatization || options->scalar_expansion || 
-       options->scalar_renaming) 
-     candl_dependence_prune_scalar_waw(scop, options, &dependence); 
+  /*  if (options->scalar_privatization || options->scalar_expansion || */
+  /*      options->scalar_renaming) */
+  /*    candl_dependence_prune_scalar_waw(scop, options, &dependence); */
 
   /* Final treatment for scalar analysis. */
   int check = 0;
@@ -1496,9 +1536,8 @@ candl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
     candl_dependence_prune_with_privatization(scop, options, &dependence);
 
   /* Compute the last writer */
-  if (options->lastwriter)  {
+  if (options->lastwriter)
     candl_compute_last_writer(dependence, scop);
-  }
 
   #if defined(CANDL_COMPILE_PRUNNING_C)
   /* Remove some transitively covered dependences (experimental). */
@@ -1578,40 +1617,17 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
     access = sl[i]->access;
     for (; access != NULL ; access = access->next) {
       elt = access->elt;
-      if (elt->type == OSL_TYPE_READ) {
-        row = clay_relation_get_line(elt, 0);
-        tmp = osl_int_get_si(precision,
-                             elt->m[row],
-                             elt->nb_columns-1);
-        if (tmp == scalar_idx)
-          break;
+      row = clay_relation_get_line(elt, 0);
+      tmp = osl_int_get_si(precision,
+                           elt->m[row],
+                           elt->nb_columns-1);
+      if (tmp == scalar_idx) {
+        row = elt->nb_rows;
+        osl_relation_insert_blank_row(elt, row);
+        osl_relation_insert_blank_column(elt, 1 + elt->nb_output_dims);
+        osl_int_set_si(precision, elt->m[row], 1 + elt->nb_output_dims, -1);
+        elt->nb_output_dims++;
       }
-    }
-    /* It is. */
-    if (access != NULL) {
-      /* Add a row to the 'read' matrix, just after the reference
-         to 'scalar_idx'. */
-      osl_relation_insert_blank_row(elt, elt->nb_rows);
-    }
-
-    /* Same for 'written' access function. */
-    access = sl[i]->access;
-    for (; access != NULL ; access = access->next) {
-      elt = access->elt;
-      if (elt->type != OSL_TYPE_READ) { /* WRITE | MAY_WRITE */ 
-        row = clay_relation_get_line(elt, 0);
-        tmp = osl_int_get_si(precision,
-                             elt->m[row],
-                             elt->nb_columns-1);
-        if (tmp == scalar_idx)
-          break;
-      }
-    }
-    /* It is. */
-    if (access != NULL) {
-      /* Add a row to the 'read' matrix, just after the reference
-         to 'scalar_idx'. */
-      osl_relation_insert_blank_row(elt, elt->nb_rows);
     }
   }
 }
@@ -1627,9 +1643,8 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
  * because it demands to clone every statements each time, and we need
  * to clone the field usr too.
  */
-osl_statement_p* 
-candl_dependence_refvar_chain(osl_scop_p scop, osl_statement_p dom,
-                              int var_index, int level) {
+osl_statement_p* candl_dependence_refvar_chain(osl_scop_p scop,
+                              osl_statement_p dom, int var_index, int level) {
   /* No or empty scop -> no chain! */
   if (scop == NULL || scop->statement == NULL)
     return NULL;
@@ -1704,7 +1719,7 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
   osl_relation_p elt;
   int row;
   int ret = CANDL_VAR_UNDEF;
-
+  
   if (s) {
     /* read access */
     access = s->access;
@@ -1730,9 +1745,9 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
         if (osl_int_get_si(elt->precision, elt->m[row], elt->nb_columns-1) ==
             var_index) {
           if (ret == CANDL_VAR_IS_USED)
-            ret = CANDL_VAR_IS_USED;
-          else
             ret = CANDL_VAR_IS_DEF_USED;
+          else
+            ret = CANDL_VAR_IS_DEF;
           break;
         }
       }
@@ -2179,6 +2194,8 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   candl_statement_usr_p s_usr = dep->source->usr;
   candl_statement_usr_p t_usr = dep->target->usr;
   int i, j;
+  int k, kp, l;
+  int row_k, row_kp;
   int precision = scop->context->precision;
   
   /* Ensure source and sink share common loop 'loop_index', and that
@@ -2194,128 +2211,124 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   if (j != i)
     return 0;
   
-  candl_dependence_get_relation_refs_in_dep(dep, &msrc, &mtarg);
+  msrc = candl_dependence_get_relation_ref_source_in_dep(dep);
+  mtarg = candl_dependence_get_relation_ref_target_in_dep(dep);
   
-  /* plus one for i and j for the Arr output dim */
+  /* plus one for the Arr output dim */
   int src_ref_iter = (clay_relation_get_line(msrc, i+1) != -1);
   int dst_ref_iter = (clay_relation_get_line(mtarg,j+1) != -1);
-
-  /* one for the inequ column and one for the Arr */
-  i += 2;
-  j += 2;
 
   /* Ensure it is not a basic loop-independent dependence (pure
      equality of the access functions for the surrounding iterators +
      parameters + constant, no occurence of the inner loop iterators,
      and contain the current loop iterator. */
-     
-     
-     
-     
-  // TODO 
-     
-     
-  /*   
-     
-     
   int must_test = 0;
-  k = 0;
-  do {
+  k = 1; // start after the Arr column
+  row_k = clay_relation_get_line(msrc, k);
+  while (!must_test &&
+         k < msrc->nb_output_dims &&
+         osl_int_zero(precision, msrc->m[row_k], 0)) {
+
     // Ensure the reference do reference the current loop iterator
     // to be tested.
-    if (!osl_int_zero(precision, msrc->m[k], i)) {
-      int kp = 0;
-      do {
-        if (!osl_int_zero(precision, mtarg->m[kp], j)) {
+    if (!osl_int_zero(precision, msrc->m[row_k], i)) {
+      kp = 1;
+      row_kp = clay_relation_get_line(mtarg, kp);
+
+      while (!must_test &&
+             kp < mtarg->nb_output_dims &&
+             osl_int_zero(precision, mtarg->m[row_kp], 0)) {
+
+        if (!osl_int_zero(precision, mtarg->m[row_kp], j)) {
           // Ensure the access functions are equal for the
           // surrounding loop iterators, and no inner iterator
           // is referenced.
-          for (l = 0; l <= i; ++l)
-            if (!osl_int_eq(precision,
-                            msrc->m[k], l,
-                            mtarg->m[kp], l)) {
-              must_test = 1;
-              break;
-            }
+          if (!osl_int_eq(precision,
+                          msrc->m[row_k], 0,
+                          mtarg->m[row_kp], 0)) {
+            must_test = 1;
+          } else {
+            for (l = 1; l <= i; ++l)
+              if (!osl_int_eq(precision,
+                              msrc->m[row_k], msrc->nb_output_dims + l,
+                              mtarg->m[row_kp], mtarg->nb_output_dims + l)) {
+                must_test = 1;
+                break;
+              }
+          }
           int m = l;
           if (!must_test)
             for (; l <= s_usr->depth+1; ++l)
-              if (!osl_int_zero(precision, msrc->m[k], l)) {
+              if (!osl_int_zero(precision, msrc->m[row_k], msrc->nb_output_dims + l)) {
                 must_test = 1;
                 break;
               }
           if (!must_test)
             for (; m <= t_usr->depth+1; ++m)
-              if (!osl_int_zero(precision, mtarg->m[kp], m)) {
+              if (!osl_int_zero(precision, mtarg->m[row_kp], mtarg->nb_output_dims + m)) {
                 must_test = 1;
                 break;
               }
           if (!must_test)
             for (; l < msrc->nb_columns-1; ++l, ++m)
             if (!osl_int_eq(precision,
-                            msrc->m[k], l,
-                            mtarg->m[kp], l)) {
-              if (CANDL_get_si(mats->p[dep->ref_source + k][l]) !=
-                  CANDL_get_si(matt->p[dep->ref_target + kp][m])) {
+                            msrc->m[row_k], msrc->nb_output_dims + l,
+                            mtarg->m[row_kp], mtarg->nb_output_dims + m)) {
                 must_test = 1;
                 break;
               }
         }
         ++kp;
-      } while (!must_test &&
-               dep->ref_target + kp < matt->NbRows &&
-               CANDL_get_si(matt->p[dep->ref_target + kp][0]) == 0);
+        row_kp = clay_relation_get_line(mtarg, kp);
+      }
     }
     ++k;
-  } while (!must_test &&
-           dep->ref_source + k < mats->NbRows &&
-           CANDL_get_si(mats->p[dep->ref_source + k][0]) == 0);
+    row_k = clay_relation_get_line(msrc, k);
+  }
   
   if (src_ref_iter && dst_ref_iter && !must_test)
     return 0;
-*/
 
   /* Final check. For loop i, the dependence is loop carried if there exists
      x_i^R != x_i^S in the dependence polyhedron, with
      x_{1..i-1}^R = x_{1..i-1}^S
    */
-/*  int pos;
+  int pos;
   osl_relation_p mat = dep->domain;
-  osl_statement_p src = dep->source;
   
-  osl_relation_p testsyst;
-  osl_relation_clone();
-      osl_relation_pmalloc(precision, mat->nb_rows + 1 + s_usr->depth,
-                           mat->NbColumns);
+  osl_relation_p testsyst = osl_relation_pmalloc(precision,
+                           mat->nb_rows + 1 + s_usr->depth,
+                           mat->nb_columns);
   for (pos = 0; pos < mat->nb_rows; ++pos)
     for (j = 0; j < mat->nb_columns; ++j)
-      CANDL_assign(testsyst->p[pos][j], mat->p[pos][j]);
+      osl_int_assign(precision,
+                     testsyst->m[pos], j,
+                     mat->m[pos], j);
   for (j = 0; j < i; ++j) {
-    CANDL_set_si(testsyst->p[pos + j + 1][0], 0);
-    CANDL_set_si(testsyst->p[pos + j + 1][1 + j], -1);
-    CANDL_set_si(testsyst->p[pos + j + 1][1 + j + s_usr->depth], 1);
+    osl_int_set_si(precision, testsyst->m[pos+j+1], 0, 0);
+    osl_int_set_si(precision, testsyst->m[pos+j+1], 1+j, -1);
+    osl_int_set_si(precision, testsyst->m[pos+j+1], 1+j+mat->nb_output_dims, 1);
   }
 
   int has_pt = 0;
   // Test for '>'.
-  CANDL_set_si(testsyst->p[pos][0], 1);
-  CANDL_set_si(testsyst->p[pos][testsyst->NbColumns - 1], -1);
-  CANDL_set_si(testsyst->p[pos][1 + i], 1);
-  CANDL_set_si(testsyst->p[pos][1 + i + s_usr->depth], -1);
-  has_pt = pip_has_rational_point (testsyst, NULL, 1);
-  if (! has_pt) {
+  osl_int_set_si(precision,testsyst->m[pos], 0, 1);
+  osl_int_set_si(precision,testsyst->m[pos], testsyst->nb_columns-1, -1);
+  osl_int_set_si(precision,testsyst->m[pos], 1+i, 1);
+  osl_int_set_si(precision,testsyst->m[pos], 1+i+mat->nb_output_dims, -1);
+  
+  has_pt = pip_has_rational_point(testsyst, NULL, 1);
+  if (!has_pt) {
     // Test for '<'.
-    CANDL_set_si(testsyst->p[pos][1 + i], -1);
-    CANDL_set_si(testsyst->p[pos][1 + i + s_usr->depth], 1);
-    has_pt = pip_has_rational_point (testsyst, NULL, 1);
+    osl_int_set_si(precision, testsyst->m[pos], 1+i, -1);
+    osl_int_set_si(precision, testsyst->m[pos], 1+i+mat->nb_output_dims, 1);
+    has_pt = pip_has_rational_point(testsyst, NULL, 1);
   }
+  
+  return has_pt;
 
-  candl_matrix_free (testsyst);
-
-  return has_pt;*/
-  return NULL;
-
-  /* LNP: OLD VERSION (not compatible with Openscop !).
+  // (not compatible with Openscop !).
+  /* LNP: OLD VERSION */
   /* The above is more robust. */
   /*   /\* Final check. The dependence exists only because the loop */
   /*      iterates. Make the loop not iterate and check if there's still */
@@ -2381,22 +2394,25 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
     candl_dependence_analyze_scalars(scop, options);
     candl_options_free(options);
   }
-
+  
   for (tmp = *deps; tmp; ) {
     s_usr = tmp->source->usr;
     t_usr = tmp->target->usr;
+    
     /* Check if the dependence is involving a privatizable scalar. */
     is_priv = 1;
     candl_dependence_get_array_refs_in_dep(tmp, &refs, &reft);
-    for (i = 0; i < s_usr->depth; ++i)
+    for (i = 0; i < s_usr->depth; ++i) {
       if (candl_dependence_scalar_is_privatizable_at(scop, refs,
                                                      s_usr->index[i]))
         break;
+    }
     if (i == s_usr->depth) {
-      for (i = 0; i < t_usr->depth; ++i)
+      for (i = 0; i < t_usr->depth; ++i) {
         if (candl_dependence_scalar_is_privatizable_at
             (scop, reft, t_usr->index[i]))
           break;
+      }
       if (i == t_usr->depth)
         is_priv = 0;
       else
@@ -2408,7 +2424,6 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
     
     /* Check if the dependence is loop-carried at loop i. */
     if (is_priv && candl_dependence_is_loop_carried(scop, tmp, loop_idx)) {
-      
       /* If so, make the dependence loop-independent. */
       row = tmp->domain->nb_rows;
       osl_relation_insert_blank_row(tmp->domain, row);
@@ -2464,6 +2479,10 @@ int candl_dependence_scalar_is_privatizable_at(osl_scop_p scop,
     candl_dependence_analyze_scalars(scop, options);
     candl_options_free(options);
   }
+  
+  i = 0;
+  while (scop_usr->scalars_privatizable[i] != -1)
+    i++;
 
   /* Check in the array of privatizable scalar variables for the tuple
      (var,loop). */
@@ -2513,7 +2532,6 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
   /* For each of those, detect (at any level) if it can be privatized
      / expanded / renamed. */
   for (i = 0; scalars[i] != -1; ++i) {
-    
     /* Go to the first statement referencing the scalar in the scop. */
     for (iter = scop->statement; iter != NULL; iter = iter->next) {
       if (candl_dependence_var_is_ref(iter, scalars[i])
@@ -2565,7 +2583,7 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
         
         is_priv = candl_dependence_var_is_ref(statement[0], scalars[i]) ==
                   CANDL_VAR_IS_DEF;
-                  
+        
         /* Ensure we have a use in the chain. */
         /* here statement[c] is not NULL */
         for (k = c + 1; statement[k]; ++k) {
@@ -2574,109 +2592,104 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
             break;
         }
         
-        if (statement[k] == NULL) {
+        if (statement[k] == NULL)
           is_priv = 0;
           
-        } else {
-          
-          /* Check for privatization, while the entry of the chain
-             is a DEF. */
-          while (statement[c] && candl_dependence_var_is_ref
-                 (statement[c], scalars[i]) == CANDL_VAR_IS_DEF) {
-            
-            /* From the current DEF node, ensure the rest of the
-               chain covers not more than the iteration domain
-               of the DEF. */
-            for (k = c + 1; statement[k]; ++k) {
-              /* FIXME: we should deal with
-                 def_1->use->def_2->use chains where dom(def_2)
-                 > dom(def_1). */
-              if (! candl_dependence_check_domain_is_included
-                  (statement[c], statement[k], scop->context, j)) {
-                /* dom(use) - dom(def) > 0. Check if there is
-                   another DEF to test at the entry of the
-                   block. */
-                if (candl_dependence_var_is_ref
-                    (statement[c+1], scalars[i]) != CANDL_VAR_IS_DEF)
-                  /* No. The variable is not privatizable. */
-                  is_priv = 0;
-                break;
-              }
-            }
-
-            if (! is_priv || ! statement[k])
+        /* Check for privatization, while the entry of the chain
+           is a DEF. */
+        while (statement[c] && candl_dependence_var_is_ref
+               (statement[c], scalars[i]) == CANDL_VAR_IS_DEF) {
+          /* From the current DEF node, ensure the rest of the
+             chain covers not more than the iteration domain
+             of the DEF. */
+          for (k = c + 1; statement[k]; ++k) {
+            /* FIXME: we should deal with
+               def_1->use->def_2->use chains where dom(def_2)
+               > dom(def_1). */
+            if (! candl_dependence_check_domain_is_included
+                (statement[c], statement[k], scop->context, j)) {
+              /* dom(use) - dom(def) > 0. Check if there is
+                 another DEF to test at the entry of the
+                 block. */
+              if (candl_dependence_var_is_ref
+                  (statement[c+1], scalars[i]) != CANDL_VAR_IS_DEF)
+                /* No. The variable is not privatizable. */
+                is_priv = 0;
               break;
+            }
+          }
 
-            /* The chain dominated by statement is not
-               privatizable. Go for the next DEF at the
-               beginning of the block, if any. */
-            ++c;
+          if (! is_priv || ! statement[k])
+            break;
+
+          /* The chain dominated by statement is not
+             privatizable. Go for the next DEF at the
+             beginning of the block, if any. */
+          ++c;
+        }
+        
+        if (is_priv) {
+          /* Perform the privatization / expansion. */
+          if (options->verbose)
+            fprintf(stderr, "[Candl] Scalar Analysis: The variable %d"
+                     " can be privatized at loop %d\n",
+                     scalars[i], 
+                     ((candl_statement_usr_p)statement[0]->usr)->index[j-1]);
+
+          if (options->scalar_expansion) {
+            int precision = scop->context->precision;
+            /* Traverse all statements in the chain. */
+            for (k = c; statement[k]; ++k) {
+              /* It's not the first expansion of the scalar,
+                 we need to increase its dimension all along
+                 the program. */
+              if (!offset && !was_priv)
+                candl_dependence_expand_scalar(fullchain,
+                                               scalars[i]);
+              /* Perform scalar expansion in the array
+                 access functions. */
+              access = statement[k]->access;
+              for (; access != NULL; access = access->next) {
+                elt = access->elt;
+                row = clay_relation_get_line(elt, 0);
+                if (scalars[i] ==
+                    osl_int_get_si(precision, elt->m[row], elt->nb_columns-1)) {
+                  row = clay_relation_get_line(elt, offset+1);
+                  osl_int_set_si(precision, elt->m[row], elt->nb_output_dims + j, 1);
+                }
+              }
+              was_priv = 1;
+            }
           }
           
-          if (is_priv) {
-            /* Perform the privatization / expansion. */
-            if (options->verbose)
-              fprintf(stderr, "[Candl] Scalar Analysis: The variable %d"
-                       " can be privatized at loop %d\n",
-                       scalars[i], 
-                       ((candl_statement_usr_p)statement[0]->usr)->index[j-1]);
-
-            if (options->scalar_expansion) {
-              int precision = scop->context->precision;
-              /* Traverse all statements in the chain. */
-              for (k = c; statement[k]; ++k) {
-                /* It's not the first expansion of the scalar,
-                   we need to increase its dimension all along
-                   the program. */
-                if (offset && !was_priv)
-                  candl_dependence_expand_scalar(fullchain,
-                                                 scalars[i]);
-                /* Perform scalar expansion in the array
-                   access functions. */
-                access = statement[k]->access;
-                for (; access != NULL; access = access->next) {
-                  elt = access->elt;
-                  row = clay_relation_get_line(elt, 0);
-                  if (scalars[i] ==
-                      osl_int_get_si(precision, elt->m[row], elt->nb_columns-1)) {
-                    /* plus one to jump the Arr */
-                    row = clay_relation_get_line(elt, offset+1);
-                    osl_int_set_si(precision, elt->m[row], j+1, 1);
-                  }
-                }
-                was_priv = 1;
-              }
+          if (options->scalar_privatization) {
+            /* Memory management for the array of
+               privatizable scalars. */
+            if (nb_priv == 0) {
+              free(scop_usr->scalars_privatizable);
+              scop_usr->scalars_privatizable =
+                  (int*)malloc(priv_buff_size * sizeof(int));
+              for (k = 0; k < priv_buff_size; ++k)
+                scop_usr->scalars_privatizable[k] = -1;
             }
-            
-            if (options->scalar_privatization) {
-              /* Memory management for the array of
-                 privatizable scalars. */
-              if (nb_priv == 0) {
-                free(scop_usr->scalars_privatizable);
-                scop_usr->scalars_privatizable =
-                    (int*)malloc(priv_buff_size * sizeof(int));
-                for (k = 0; k < priv_buff_size; ++k)
-                  scop_usr->scalars_privatizable[k] = -1;
-              }
 
-              if (nb_priv == priv_buff_size) {
-                scop_usr->scalars_privatizable =
-                    realloc(scop_usr->scalars_privatizable,
-                            (priv_buff_size *= 2) * sizeof(int));
-                for (k = nb_priv; k < priv_buff_size; ++k)
-                  scop_usr->scalars_privatizable[k] = -1;
-              }
-            
-              /* Memorize the scalar information in the
-                 privatizable list. */
-              scop_usr->scalars_privatizable[nb_priv++] = scalars[i];
-              scop_usr->scalars_privatizable[nb_priv++] =
-                  ((candl_statement_usr_p)statement[0]->usr)->index[j - 1];
+            if (nb_priv == priv_buff_size) {
+              scop_usr->scalars_privatizable =
+                  realloc(scop_usr->scalars_privatizable,
+                          (priv_buff_size *= 2) * sizeof(int));
+              for (k = nb_priv; k < priv_buff_size; ++k)
+                scop_usr->scalars_privatizable[k] = -1;
             }
-            
-          } // end is_priv
+          
+            /* Memorize the scalar information in the
+               privatizable list. */
+            scop_usr->scalars_privatizable[nb_priv++] = scalars[i];
+            scop_usr->scalars_privatizable[nb_priv++] =
+                ((candl_statement_usr_p)statement[0]->usr)->index[j - 1];
+          }
+          
+        } // end is_priv
 
-        } // end else
         
         /* Go to the next block, if any. */
         for (k = 0; statement[k]; ++k)
@@ -2851,7 +2864,7 @@ int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
   #elif defined(LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
   #elif defined(LINEAR_VALUE_IS_MP)
-    precision =OSL_PRECISION_MP;
+    precision = OSL_PRECISION_MP;
   #endif
   
   if (precision != scop->context->precision) {

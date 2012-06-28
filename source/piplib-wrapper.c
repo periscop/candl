@@ -34,7 +34,7 @@
  ******************************************************************************/
 /**
  * \file piplib-wrapper.c
- * \author Louis-Noel Pouchet and Joel Poudroux
+ * \author Louis-Noel Pouchet
  */
 
 
@@ -94,6 +94,51 @@ PipMatrix* pip_relation2matrix(osl_relation_p in) {
 }
 
 
+/**
+ * pip_matrix2relation function :
+ * This function is used to keep the compatibility with Piplib
+ */
+osl_relation_p pip_matrix2relation(PipMatrix* in) {
+  if (in == NULL)
+    return NULL;
+  
+  int precision;
+  
+  #if defined(LINEAR_VALUE_IS_INT)
+    precision = OSL_PRECISION_SP;
+  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    precision = OSL_PRECISION_DP;
+  #elif defined(LINEAR_VALUE_IS_MP)
+    precision = OSL_PRECISION_MP;
+  #endif
+  
+  osl_relation_p out;
+  int i, j;
+  
+  out = osl_relation_pmalloc(precision, in->NbRows, in->NbColumns);
+  
+  for (i = 0 ; i < in->NbRows ; i++) {
+    for (j = 0 ; j < in->NbColumns ; j++) {
+      #if defined(LINEAR_VALUE_IS_INT)
+        osl_int_assign(OSL_PRECISION_SP,
+                       out->m[i], j,
+                       in->p[i], j);
+      #elif defined(LINEAR_VALUE_IS_LONGLONG)
+        osl_int_assign(OSL_PRECISION_DP,
+                       out->m[i], j,
+                       in->p[i], j);
+      #elif defined(LINEAR_VALUE_IS_MP)
+        osl_int_assign(OSL_PRECISION_MP,
+                       out->m[i], j,
+                       in->p[i], j);
+      #endif
+    }
+  }
+  
+  return out;
+}
+
+
 int
 pip_has_rational_point(osl_relation_p system,
                        osl_relation_p context,
@@ -134,3 +179,36 @@ PipQuast* pip_solve_osl(osl_relation_p inequnk, osl_relation_p ineqpar,
   return solution;
 }
 
+
+/**
+ * Return true if the 'size' first elements of 'l1' and 'l2' are equal.
+ */
+int piplist_are_equal(PipList* l1, PipList* l2, int size) {
+  if (l1 == NULL && l2 == NULL)
+    return 1;
+  if (l1 == NULL || l2 == NULL)
+    return 0;
+  if (l1->vector == NULL && l2->vector == NULL)
+    return 1;
+  if (l1->vector == NULL || l2->vector == NULL)
+    return 0;
+
+  int count = 0;
+  for (; l1 && l2 && count < size; l1 = l1->next, l2 = l2->next, ++count) {
+    if (l1->vector == NULL && l2->vector == NULL)
+      return 1;
+    if (l1->vector == NULL || l2->vector == NULL)
+      return 0;
+    if (l1->vector->nb_elements != l2->vector->nb_elements)
+      return 0;
+    int j;
+    for (j = 0; j < l1->vector->nb_elements; ++j)
+      if (! CANDL_eq(l1->vector->the_vector[j],
+                     l2->vector->the_vector[j]) ||
+          ! CANDL_eq(l1->vector->the_deno[j],
+                     l2->vector->the_deno[j]))
+        return 0;
+  }
+
+  return 1;
+}

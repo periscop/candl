@@ -86,6 +86,13 @@
 
 # define CANDL_FAIL(msg)   { fprintf(stderr, "[Candl] " msg "\n"); exit(1); }
 
+# define CANDL_debug(msg) \
+        do {                                                              \
+          if (OSL_DEBUG)                                                  \
+            fprintf(stderr,"[osl] Debug: "msg" (%s).\n", __func__);       \
+        } while (0)
+
+
 /******************************************************************************
  *                                   FORMAT                                   *
  ******************************************************************************/
