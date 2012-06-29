@@ -44,6 +44,7 @@
 #include <candl/violation.h>
 #include <candl/options.h>
 #include <candl/usr.h>
+#include <candl/util.h>
 
 
 int main(int argc, char * argv[]) {
@@ -89,13 +90,13 @@ int main(int argc, char * argv[]) {
   osl_interface_free(registry);
   
   if (orig_scop == NULL || (scop == NULL && input_test != NULL)) {
-    CANDL_FAIL("Fail to open scop");
+    CANDL_error("Fail to open scop");
     exit(1);
   }
   
   
   if (input_test != NULL && !candl_util_check_scop(orig_scop, scop))
-    CANDL_FAIL("The two scop can't be compared");
+    CANDL_error("The two scop can't be compared");
   
   /* Add more infos (depth, label, ...)
    * Not important for the transformed scop
@@ -159,7 +160,7 @@ int main(int argc, char * argv[]) {
       if (options->view)
         candl_dependence_view(orig_dependence);
     }
-    /* Printing violation graph if asked and if there is a transformation. */
+    /* Printing violation graph */
     else {
       candl_violation_pprint(output, violation);
       if (options->view)

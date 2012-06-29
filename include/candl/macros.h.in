@@ -50,9 +50,9 @@
 # include <candl/violation.h>
 # include <candl/pruning.h>
 
-# define CANDL_UNSET -1 /* Must be negative (we do use that property).
-                         * All other constants have to be different.
-                         */
+# define CANDL_UNDEFINED -1 /* Must be negative (we do use that property).
+                             * All other constants have to be different.
+                             */
 
 # define CANDL_RAW    1
 # define CANDL_WAR    2
@@ -84,7 +84,25 @@
 # define CANDL_max(x,y)    ((x) > (y)? (x) : (y))
 # define CANDL_min(x,y)    ((x) < (y)? (x) : (y))
 
-# define CANDL_FAIL(msg)   { fprintf(stderr, "[Candl] " msg "\n"); exit(1); }
+# define CANDL_error(msg)                                                  \
+         do {                                                              \
+           fprintf(stderr,"[Candl] Error: "msg" (%s).\n", __func__);       \
+           exit(1);                                                        \
+         } while (0)
+
+# define CANDL_malloc(ptr, type, size)                                     \
+         do {                                                              \
+           if (((ptr) = (type)malloc(size)) == NULL)                       \
+             CANDL_error("memory overflow");                               \
+         } while (0)
+
+# define CANDL_realloc(ptr, type, size)                                    \
+         do {                                                              \
+           if (((ptr) = (type)realloc(ptr, size)) == NULL)                 \
+             CANDL_error("memory overflow");                               \
+         } while (0)
+
+# define CANDL_fail(msg)   { fprintf(stderr, "[Candl] " msg "\n"); exit(1); }
 
 /******************************************************************************
  *                                   FORMAT                                   *

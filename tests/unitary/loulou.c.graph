@@ -1,0 +1,7 @@
+digraph G {
+# Data Dependence Graph
+  S0 -> S1 [label=" RAW depth 1, ref 0->2 "];
+  S1 -> S1 [label=" WAW depth 1, ref 0->0 "];
+  S1 -> S1 [label=" RAW depth 1, ref 0->1 "];
+  S1 -> S1 [label=" WAR depth 1, ref 1->0 "];
+}

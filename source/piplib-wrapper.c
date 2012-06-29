@@ -58,13 +58,13 @@ PipMatrix* pip_relation2matrix(osl_relation_p in) {
     
   #if defined(LINEAR_VALUE_IS_INT)
     if (OSL_PRECISION_SP != in->precision)
-      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
   #elif defined(LINEAR_VALUE_IS_LONGLONG)
     if (OSL_PRECISION_DP != in->precision)
-      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
   #elif defined(LINEAR_VALUE_IS_MP)
     if (OSL_PRECISION_MP != in->precision)
-      CANDL_FAIL("Precision not compatible with piplib ! (pip_relation2matrix)");
+      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
   #endif
   
   PipMatrix *out;

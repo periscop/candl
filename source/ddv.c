@@ -145,7 +145,7 @@ candl_ddv_set_value_at(CandlDDV* dv, int value, int pos) {
 
 /**
  * candl_ddv_set_type: Set the type of the dependence in
- * CANDL_UNSET, CANDL_RAW, CANDL_WAR, CANDL_WAW, CANDL_RAR.
+ * CANDL_UNDEFINED, CANDL_RAW, CANDL_WAR, CANDL_WAW, CANDL_RAR.
  *
  */
 void

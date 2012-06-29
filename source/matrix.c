@@ -266,7 +266,7 @@ candl_violation_p candl_matrix_violation(candl_dependence_p dependence,
   system->nb_input_dims = nb_input_dims;
   system->nb_parameters = nb_par;
   system->nb_local_dims = nb_local_dims;
-  system->type = OSL_TYPE_DOMAIN;
+  system->type = OSL_TYPE_SCATTERING;
   
   violation->domain = system;
   

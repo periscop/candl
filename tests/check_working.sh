@@ -1,9 +1,4 @@
 #!/bin/sh
-
-#
-#   /**-------------------------------------------------------------------**
-#    **                              CAnDL                                **
-#    **-------------------------------------------------------------------**
 #    **                           Makefile.am                             **
 #    **-------------------------------------------------------------------**
 #    **                 First version: june 29th 2012                     **
@@ -34,39 +29,4 @@
 # *                                                                           *
 # *****************************************************************************/
 
-STRING=$1
-FILES=$2
-TRANSFO=$3
-
-echo "$STRING"
-
-for name in $FILES; do
-  echo "check $name \c"
-
-  orig_scop="$name.orig.scop"
-  graph="$name.graph"
-  clay_scop="$name.clay.scop"  # only for transformations tests
-
-  # read candl options
-  candloptions=`grep "candl options" "$name" | cut -d'|' -f2`
-
-  case $TRANSFO in
-    0)
-      candl $candloptions "$orig_scop" | grep -v "enerated by" >/tmp/candl_graph
-      ;;
-    1)
-      candl $candloptions "$clay_scop" -test "$orig_scop" | grep -v "enerated by" >/tmp/candl_graph
-      ;;
-  esac
-  
-  n=`diff /tmp/candl_graph "$graph" | wc -l`
-  if [ $n -ne 0 ]; then
-    echo "\n\033[31m[ FAIL ] \c"
-    cat /tmp/candl_graph
-    echo "\033[0m"
-  else
-    echo "\033[32m[ OK ]\033[0m"
-  fi
-
-  rm -f /tmp/candl_graph
-done
+./$CHECKER "Transformations working tests" "$TRANSFO_WORKING_TEST_FILES" 1

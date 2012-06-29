@@ -166,7 +166,7 @@ void candl_violation_pprint(FILE * file, candl_violation_p violation) {
     fprintf(file,"  S%d -> S%d [label=\" ", s_usr->label,
                                             t_usr->label);
     switch (dependence->type) {
-      case CANDL_UNSET : fprintf(file,"UNSET"); break;
+      case CANDL_UNDEFINED : fprintf(file,"UNSET"); break;
       case CANDL_RAW   : fprintf(file,"RAW")  ; break;
       case CANDL_WAR   : fprintf(file,"WAR")  ; break;
       case CANDL_WAW   : fprintf(file,"WAW")  ; break;
@@ -251,7 +251,7 @@ candl_violation_p candl_violation_malloc() {
   violation->dependence = NULL;
   violation->domain     = NULL;
   violation->next       = NULL;
-  violation->dimension  = CANDL_UNSET;
+  violation->dimension  = CANDL_UNDEFINED;
   violation->source_nb_output_dims_scattering = -1;
   violation->target_nb_output_dims_scattering = -1;
   violation->source_nb_local_dims_scattering = -1;

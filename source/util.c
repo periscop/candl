@@ -138,7 +138,7 @@ int candl_util_statement_commute(osl_statement_p statement1,
         access2->elt->nb_output_dims != access1->elt->nb_output_dims) {
       osl_statement_dump(stderr, statement1);
       osl_statement_dump(stderr, statement2);
-      CANDL_FAIL("These statements haven't the same access array or access is NULL");
+      CANDL_error("These statements haven't the same access array or access is NULL");
     }
     
     /* Check if the first dim (the Arr column) is the same */

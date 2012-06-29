@@ -1,10 +1,12 @@
+#!/bin/sh
+
 #
 #   /**-------------------------------------------------------------------**
 #    **                              CAnDL                                **
 #    **-------------------------------------------------------------------**
 #    **                           Makefile.am                             **
 #    **-------------------------------------------------------------------**
-#    **                 First version: june 28th 2012                     **
+#    **                 First version: june 29th 2012                     **
 #    **-------------------------------------------------------------------**/
 #
 #/*****************************************************************************
@@ -32,60 +34,4 @@
 # *                                                                           *
 # *****************************************************************************/
 
-############################################################################
-SUBDIRS 		=
-
-#############################################################################
-
-MAINTAINERCLEANFILES    = Makefile.in
-
-TESTS_ENVIRONMENT       = top_builddir=$(top_builddir) SRCDIR=$(srcdir)
-
-#############################################################################
-
-check_SCRIPTS		= check_unitary.sh check_fail.sh check_working.sh
-
-EXTRA_DIST              = checker.sh
-
-## Replace by program names when needed
-# check_PROGRAMS = ...
-TESTS			= $(check_SCRIPTS)
-
-UNITARY_TEST_FILES = \
-	$(top_srcdir)/tests/unitary/ax-do.c \
-	$(top_srcdir)/tests/unitary/can_reorder_loop.c \
-	$(top_srcdir)/tests/unitary/gemver.c \
-	$(top_srcdir)/tests/unitary/jacobi1d.c \
-	$(top_srcdir)/tests/unitary/loulou.c \
-	$(top_srcdir)/tests/unitary/lu.c \
-	$(top_srcdir)/tests/unitary/matmul.c \
-	$(top_srcdir)/tests/unitary/scalpriv.c \
-	$(top_srcdir)/tests/unitary/scalexp.c \
-	$(top_srcdir)/tests/unitary/simple.c \
-	$(top_srcdir)/tests/unitary/swim.c 
-
-TRANSFO_FAIL_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/must_fail/no_scalren.c
-
-TRANSFO_WORKING_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/working/can_reorder_loop.c \
-	$(top_srcdir)/tests/transformations/working/loulou.c \
-	$(top_srcdir)/tests/transformations/working/scalren.c
-
-UNITARY_TEST_FILES_REF = $(UNITARY_TEST_FILES:.c=.c.scop)
-TRANSFO_FAIL_TEST_FILES_REF = $(TRANSFO_FAIL_TEST_FILES:.c=.c.scop)
-TRANSFO_WORKING_TEST_FILES_REF = $(TRANSFO_WORKING_TEST_FILES:.c=.c.scop)
-
-EXTRA_DIST += \
-	$(UNITARY_TEST_FILES) \
-	$(TRANSFO_FAIL_TEST_FILES) \
-	$(TRANSFO_WORKING_TEST_FILES) \
-	$(check_SCRIPTS)
-
-CLEANFILES = ""
-
-TESTS_ENVIRONMENT += \
-	CHECKER="$(top_srcdir)/tests/checker.sh" \
-	UNITARY_TEST_FILES="$(UNITARY_TEST_FILES)" \
-  TRANSFO_FAIL_TEST_FILES="$(TRANSFO_FAIL_TEST_FILES)" \
-  TRANSFO_WORKING_TEST_FILES="$(TRANSFO_WORKING_TEST_FILES)"
+./$CHECKER "Transformations fail tests" "$TRANSFO_FAIL_TEST_FILES" 1

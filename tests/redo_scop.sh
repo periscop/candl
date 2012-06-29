@@ -32,60 +32,46 @@
 # *                                                                           *
 # *****************************************************************************/
 
-############################################################################
-SUBDIRS 		=
+# author Joel Poudroux
 
-#############################################################################
+# Will regenerate all the .scop and .depcandl of each test
+# If a scop was already generated, the file is unchanged
+# You can give the -a option to force to regenerate all the files
 
-MAINTAINERCLEANFILES    = Makefile.in
 
-TESTS_ENVIRONMENT       = top_builddir=$(top_builddir) SRCDIR=$(srcdir)
+find -name *.c | grep 'unitary\|transformations' | while read name
+do
+  orig_scop="$name.orig.scop"
+  graph="$name.graph"
+  clay_scop="$name.clay.scop"  # only for transformations tests
 
-#############################################################################
+  if [ ! -f "$orig_scop" ] || [ "$1" = "-a" ]; then
 
-check_SCRIPTS		= check_unitary.sh check_fail.sh check_working.sh
+    rm -f "$orig_scop"
+    rm -f "$graph"
 
-EXTRA_DIST              = checker.sh
+    echo "add $name"
 
-## Replace by program names when needed
-# check_PROGRAMS = ...
-TESTS			= $(check_SCRIPTS)
+    # read candl options
+    candloptions=`grep "candl options" "$name" | cut -d'|' -f2`
 
-UNITARY_TEST_FILES = \
-	$(top_srcdir)/tests/unitary/ax-do.c \
-	$(top_srcdir)/tests/unitary/can_reorder_loop.c \
-	$(top_srcdir)/tests/unitary/gemver.c \
-	$(top_srcdir)/tests/unitary/jacobi1d.c \
-	$(top_srcdir)/tests/unitary/loulou.c \
-	$(top_srcdir)/tests/unitary/lu.c \
-	$(top_srcdir)/tests/unitary/matmul.c \
-	$(top_srcdir)/tests/unitary/scalpriv.c \
-	$(top_srcdir)/tests/unitary/scalexp.c \
-	$(top_srcdir)/tests/unitary/simple.c \
-	$(top_srcdir)/tests/unitary/swim.c 
+    clan -castle 0 "$name" | grep -v "enerated by" >"$orig_scop"
 
-TRANSFO_FAIL_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/must_fail/no_scalren.c
+    # type of test
+    type=`echo "$name" | cut -d/ -f2`
+    case $type in
+       "unitary")
+          candl "$orig_scop" $candloptions | grep -v "enerated by" >"$graph"
+        ;;
 
-TRANSFO_WORKING_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/working/can_reorder_loop.c \
-	$(top_srcdir)/tests/transformations/working/loulou.c \
-	$(top_srcdir)/tests/transformations/working/scalren.c
+      "transformations")
+          rm -f "$clay_scop"
+          clay "$orig_scop" | grep -v "enerated by">"$clay_scop"
+          candl "$clay_scop" $candloptions -test "$orig_scop" | \
+              grep -v "enerated by" >"$graph"
+        ;;
+    esac
+  fi
 
-UNITARY_TEST_FILES_REF = $(UNITARY_TEST_FILES:.c=.c.scop)
-TRANSFO_FAIL_TEST_FILES_REF = $(TRANSFO_FAIL_TEST_FILES:.c=.c.scop)
-TRANSFO_WORKING_TEST_FILES_REF = $(TRANSFO_WORKING_TEST_FILES:.c=.c.scop)
+done
 
-EXTRA_DIST += \
-	$(UNITARY_TEST_FILES) \
-	$(TRANSFO_FAIL_TEST_FILES) \
-	$(TRANSFO_WORKING_TEST_FILES) \
-	$(check_SCRIPTS)
-
-CLEANFILES = ""
-
-TESTS_ENVIRONMENT += \
-	CHECKER="$(top_srcdir)/tests/checker.sh" \
-	UNITARY_TEST_FILES="$(UNITARY_TEST_FILES)" \
-  TRANSFO_FAIL_TEST_FILES="$(TRANSFO_FAIL_TEST_FILES)" \
-  TRANSFO_WORKING_TEST_FILES="$(TRANSFO_WORKING_TEST_FILES)"
