@@ -1,4 +1,0 @@
-digraph G {
-# Legality Violation Graph
-  S0 -> S2 [label=" WAW depth 0, ref 0->0, viol 1 "];
-}

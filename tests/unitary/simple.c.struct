@@ -1,0 +1,140 @@
+[33mORIGINAL SCOP:[00m
+
+<OpenScop>
+
+# =============================================== Global
+# Language
+C
+
+# Context
+CONTEXT
+0 2 0 0 0 0
+
+# Parameters are not provided
+0
+
+
+# Number of statements
+2
+
+# =============================================== Statement 1
+# Number of relations describing the statement:
+3
+
+# ----------------------------------------------  1.1 Domain
+DOMAIN
+0 2 0 0 0 0
+
+# ----------------------------------------------  1.2 Scattering
+SCATTERING
+1 3 1 0 0 0
+# e/i| c1 |  1  
+   0   -1    0    ## c1 == 0
+
+# ----------------------------------------------  1.3 Access
+WRITE
+1 3 1 0 0 0
+# e/i| Arr|  1  
+   0   -1    1    ## Arr == a
+
+# ----------------------------------------------  1.4 Body
+# Statement body is provided
+1
+<body>
+# Number of original iterators
+0
+# Statement body expression
+a=0;
+</body>
+
+# =============================================== Statement 2
+# Number of relations describing the statement:
+4
+
+# ----------------------------------------------  2.1 Domain
+DOMAIN
+0 2 0 0 0 0
+
+# ----------------------------------------------  2.2 Scattering
+SCATTERING
+1 3 1 0 0 0
+# e/i| c1 |  1  
+   0   -1    1    ## c1 == 1
+
+# ----------------------------------------------  2.3 Access
+WRITE
+1 3 1 0 0 0
+# e/i| Arr|  1  
+   0   -1    2    ## Arr == b
+
+READ
+1 3 1 0 0 0
+# e/i| Arr|  1  
+   0   -1    1    ## Arr == a
+
+# ----------------------------------------------  2.4 Body
+# Statement body is provided
+1
+<body>
+# Number of original iterators
+0
+# Statement body expression
+b=a;
+</body>
+
+# =============================================== Extensions
+<arrays>
+# Number of arrays
+2
+# Mapping array-identifiers/array-names
+1 a
+2 b
+</arrays>
+
+<coordinates>
+# File name
+./unitary/simple.c
+# Starting line
+1
+# Ending line
+4
+# Indentation
+2
+</coordinates>
+
+</OpenScop>
+
+
+[33mDEPENDENCES:[00m
+digraph G {
+# Data Dependence Graph
+  S0 -> S1 [label=" RAW depth 0, ref 0->1 "];
+}
+<candl>
+<dependence-polyhedra>
+# Number of dependences
+1
+# Description of dependence 1
+# type
+RAW #(flow)
+# From statement id
+0
+# To statement id
+1
+# Depth 
+0
+# Source access ref
+0
+# Target access ref
+1
+# Dependence domain
+# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
+0 1 0 1 0 0 0 0
+UNDEFINED
+3 4 1 1 0 0
+# e/i| c1 | i1 |  1  
+   0   -1    0    1    ## c1 == 1
+   0    0    1   -1    ## i1-1 == 0
+   0   -1    1    0    ## c1 == i1
+</dependence-polyhedra>
+</candl>

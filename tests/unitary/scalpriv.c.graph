@@ -1,6 +1,0 @@
-digraph G {
-# Data Dependence Graph
-  S0 -> S0 [label=" WAW depth 1, ref 0->0 "];
-  S0 -> S1 [label=" RAW_SCALPRIV (scalar-priv) depth 1, ref 0->1 "];
-  S1 -> S0 [label=" WAR depth 1, ref 1->0 "];
-}

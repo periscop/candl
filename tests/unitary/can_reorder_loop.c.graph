@@ -1,5 +1,0 @@
-digraph G {
-# Data Dependence Graph
-  S0 -> S2 [label=" RAW depth 0, ref 0->1 "];
-  S1 -> S2 [label=" RAW depth 1, ref 0->1 "];
-}

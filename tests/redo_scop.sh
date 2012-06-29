@@ -42,13 +42,14 @@
 find -name *.c | grep 'unitary\|transformations' | while read name
 do
   orig_scop="$name.orig.scop"
-  graph="$name.graph"
+  struct="$name.struct"
   clay_scop="$name.clay.scop"  # only for transformations tests
 
   if [ ! -f "$orig_scop" ] || [ "$1" = "-a" ]; then
 
     rm -f "$orig_scop"
-    rm -f "$graph"
+    rm -f "$struct"
+    rm -f "$clay_scop"
 
     echo "add $name"
 
@@ -61,14 +62,14 @@ do
     type=`echo "$name" | cut -d/ -f2`
     case $type in
        "unitary")
-          candl "$orig_scop" $candloptions | grep -v "enerated by" >"$graph"
+          candl "$orig_scop" $candloptions -struct | grep -v "enerated by" >"$struct"
         ;;
 
       "transformations")
           rm -f "$clay_scop"
           clay "$orig_scop" | grep -v "enerated by">"$clay_scop"
-          candl "$clay_scop" $candloptions -test "$orig_scop" | \
-              grep -v "enerated by" >"$graph"
+          candl "$clay_scop" $candloptions -test "$orig_scop" -struct | \
+              grep -v "enerated by" >"$struct"
         ;;
     esac
   fi

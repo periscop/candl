@@ -44,7 +44,7 @@ for name in $FILES; do
   echo "check $name \c"
 
   orig_scop="$name.orig.scop"
-  graph="$name.graph"
+  struct="$name.struct"
   clay_scop="$name.clay.scop"  # only for transformations tests
 
   # read candl options
@@ -52,21 +52,19 @@ for name in $FILES; do
 
   case $TRANSFO in
     0)
-      candl $candloptions "$orig_scop" | grep -v "enerated by" >/tmp/candl_graph
+      candl $candloptions "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
       ;;
     1)
-      candl $candloptions "$clay_scop" -test "$orig_scop" | grep -v "enerated by" >/tmp/candl_graph
+      candl $candloptions "$clay_scop" -test "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
       ;;
   esac
   
-  n=`diff /tmp/candl_graph "$graph" | wc -l`
+  n=`diff /tmp/candl_struct "$struct" | wc -l`
   if [ $n -ne 0 ]; then
-    echo "\n\033[31m[ FAIL ] \c"
-    cat /tmp/candl_graph
-    echo "\033[0m"
+    echo "\033[31m[ FAIL ]\033[0m"
   else
     echo "\033[32m[ OK ]\033[0m"
   fi
 
-  rm -f /tmp/candl_graph
+  rm -f /tmp/candl_struct
 done

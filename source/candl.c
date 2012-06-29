@@ -139,6 +139,7 @@ int main(int argc, char * argv[]) {
       osl_scop_print(output, scop);
       fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
       candl_dependence_pprint(output, orig_dependence);
+      candl_dependence_print(output, orig_dependence);
       fprintf(output, "\n\n\033[33mVIOLATIONS:\033[00m\n");
       candl_violation_pprint(output, violation);
     } else {
@@ -146,6 +147,7 @@ int main(int argc, char * argv[]) {
       osl_scop_print(output, orig_scop);
       fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
       candl_dependence_pprint(output, orig_dependence);
+      candl_dependence_print(output, orig_dependence);
     }
     
   } else if (options->outscop) {
