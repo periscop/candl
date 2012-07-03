@@ -34,19 +34,44 @@
  ******************************************************************************/
 
 /*
- * author Joel Poudroux
+ * author Joel Poudroux and Cedric Bastoul
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <osl/statement.h>
+#include <osl/relation.h>
+#include <osl/macros.h>
+#include <osl/extensions/dependence.h>
+#include <osl/relation_list.h>
 #include <candl/candl.h>
 #include <candl/util.h>
 #include <candl/usr.h>
-#include <clay/beta.h>
-#include <osl/macros.h>
-#include <osl/statement.h>
-#include <osl/relation.h>
-#include <osl/relation_list.h>
+
+
+
+/**
+ * candl_relation_get_line function:
+ * Because the lines in the scattering matrix may have not ordered, we have to
+ * search the corresponding line. It returns the first line where the value is
+ * different from zero in the `column'. `column' is between 0 and 
+ * nb_output_dims-1
+ * \param[in] relation
+ * \param[in] column        Line to search
+ * \return                  Return the real line
+ */
+int candl_relation_get_line(osl_relation_p relation, int column) {
+  if (column < 0 || column > relation->nb_output_dims)
+    return -1;
+  int i;
+  int precision = relation->precision;
+  for (i = 0 ; i < relation->nb_rows ; i++) {
+    if (!osl_int_zero(precision, relation->m[i], column+1)) {
+      break;
+    }
+  }
+  return (i == relation->nb_rows ? -1 : i );
+}
 
 
 
@@ -105,9 +130,9 @@ int candl_util_statement_commute(osl_statement_p statement1,
    * it is a reduction.
    */
   if ((statement1 == statement2) &&
-      ((type1 == CANDL_P_REDUCTION) ||
-       (type1 == CANDL_M_REDUCTION) ||
-       (type1 == CANDL_T_REDUCTION)))
+      ((type1 == OSL_DEPENDENCE_P_REDUCTION) ||
+       (type1 == OSL_DEPENDENCE_M_REDUCTION) ||
+       (type1 == OSL_DEPENDENCE_T_REDUCTION)))
   return 1;
   
   /* Two statement commute when they are a reduction of the same type (or if
@@ -115,11 +140,11 @@ int candl_util_statement_commute(osl_statement_p statement1,
    * The type may differ if it is either minus or plus-reduction. Furthermore,
    * they have to write onto the same array (and only one array).
    */
-  if ((type1 == CANDL_P_REDUCTION && type2 == CANDL_P_REDUCTION) ||
-      (type1 == CANDL_M_REDUCTION && type2 == CANDL_M_REDUCTION) ||
-      (type1 == CANDL_T_REDUCTION && type2 == CANDL_T_REDUCTION) ||
-      (type1 == CANDL_P_REDUCTION && type2 == CANDL_M_REDUCTION) ||
-      (type1 == CANDL_M_REDUCTION && type2 == CANDL_P_REDUCTION)) {
+  if ((type1 == OSL_DEPENDENCE_P_REDUCTION && type2 == OSL_DEPENDENCE_P_REDUCTION) ||
+      (type1 == OSL_DEPENDENCE_M_REDUCTION && type2 == OSL_DEPENDENCE_M_REDUCTION) ||
+      (type1 == OSL_DEPENDENCE_T_REDUCTION && type2 == OSL_DEPENDENCE_T_REDUCTION) ||
+      (type1 == OSL_DEPENDENCE_P_REDUCTION && type2 == OSL_DEPENDENCE_M_REDUCTION) ||
+      (type1 == OSL_DEPENDENCE_M_REDUCTION && type2 == OSL_DEPENDENCE_P_REDUCTION)) {
     /* Here we check that there is one, only one and the same array. */
     if (count_nb_access(statement1, OSL_TYPE_WRITE) > 1 ||
         count_nb_access(statement2, OSL_TYPE_WRITE) > 1)
@@ -142,8 +167,8 @@ int candl_util_statement_commute(osl_statement_p statement1,
     }
     
     /* Check if the first dim (the Arr column) is the same */
-    row_1 = clay_relation_get_line(access1->elt, 0);
-    row_2 = clay_relation_get_line(access2->elt, 0);
+    row_1 = candl_relation_get_line(access1->elt, 0);
+    row_2 = candl_relation_get_line(access2->elt, 0);
     if (!osl_int_eq(precision,
                     access1->elt->m[row_1], access1->elt->nb_columns-1,
                     access2->elt->m[row_2], access2->elt->nb_columns-1))

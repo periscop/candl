@@ -41,6 +41,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <candl/candl.h>
+#include <candl/dependence.h>
 #include <candl/usr.h>
 #include <candl/util.h>
 #include <candl/matrix.h>
@@ -51,7 +52,6 @@
 #include <osl/relation.h>
 #include <osl/names.h>
 #include <osl/util.h>
-#include <clay/beta.h>
 
 #include <assert.h>
 
@@ -70,20 +70,21 @@
  * This function return the corresponding osl_relation_p of
  * the ref_source
  */
-osl_relation_p candl_dependence_get_relation_ref_source_in_dep(candl_dependence_p tmp) {
-  if (tmp->cache_ref_source_ptr != NULL)
-    return tmp->cache_ref_source_ptr;
+osl_relation_p
+candl_dependence_get_relation_ref_source_in_dep(osl_dependence_p tmp) {
+  if (tmp->ref_source_access_ptr != NULL)
+    return tmp->ref_source_access_ptr;
   int count = 0;
   osl_relation_p elt = NULL;
   osl_relation_list_p access;
-  access = tmp->source->access;
+  access = tmp->stmt_source_ptr->access;
   for (; access != NULL ; access = access->next) {
     elt = access->elt;
     if (count == tmp->ref_source)
       break;
     count++;
   }
-  tmp->cache_ref_source_ptr = elt;
+  tmp->ref_source_access_ptr = elt;
   return elt;
 }
 
@@ -91,20 +92,21 @@ osl_relation_p candl_dependence_get_relation_ref_source_in_dep(candl_dependence_
  * candl_dependence_get_relation_ref_target_in_dep function:
  * same as candl_dependence_get_relation_ref_source_in_dep but for the target
  */
-osl_relation_p candl_dependence_get_relation_ref_target_in_dep(candl_dependence_p tmp) {
-  if (tmp->cache_ref_target_ptr != NULL)
-    return tmp->cache_ref_target_ptr;
+osl_relation_p
+candl_dependence_get_relation_ref_target_in_dep(osl_dependence_p tmp) {
+  if (tmp->ref_target_access_ptr != NULL)
+    return tmp->ref_target_access_ptr;
   int count = 0;
   osl_relation_list_p access;
   osl_relation_p elt = NULL;
-  access = tmp->target->access;
+  access = tmp->stmt_target_ptr->access;
   for (; access != NULL ; access = access->next) {
     elt = access->elt;
     if (count == tmp->ref_target)
       break;
     count++;
   }
-  tmp->cache_ref_target_ptr = elt;
+  tmp->ref_target_access_ptr = elt;
   return elt;
 }
 
@@ -115,7 +117,7 @@ osl_relation_p candl_dependence_get_relation_ref_target_in_dep(candl_dependence_
  * This function return the array indices referenced in the
  * dependence.
  */
-void candl_dependence_get_array_refs_in_dep(candl_dependence_p tmp,
+void candl_dependence_get_array_refs_in_dep(osl_dependence_p tmp,
                                             int* refs, int* reft) {
   if (! tmp)
     return;
@@ -126,191 +128,43 @@ void candl_dependence_get_array_refs_in_dep(candl_dependence_p tmp,
   
   src = candl_dependence_get_relation_ref_source_in_dep(tmp);
   targ = candl_dependence_get_relation_ref_target_in_dep(tmp);
-    
-  row = clay_relation_get_line(src, 0);
+  
+  row = candl_relation_get_line(src, 0);
   *refs = osl_int_get_si(precision,
                          src->m[row],
                          src->nb_columns-1);
 
-  row = clay_relation_get_line(targ, 0);
+  row = candl_relation_get_line(targ, 0);
   *reft = osl_int_get_si(precision,
                          targ->m[row],
                          targ->nb_columns-1);
 }
 
 
-/******************************************************************************
- *                          Structure display function                        *
- ******************************************************************************/
-
-
-/**
- * candl_dependence_idump function:
- * Displays a CandlDependence structure (dependence) into a file (file,
- * possibly stdout) in a way that trends to be understandable without falling
- * in a deep depression or, for the lucky ones, getting a headache... It
- * includes an indentation level (level) in order to work with others
- * idump functions.
- * - 18/09/2003: first version.
- */
-void candl_dependence_idump(FILE* file,
-                            candl_dependence_p dependence,
-                            int level) {
-  int j, first = 1;
-  osl_statement_p tmp;
-  candl_statement_usr_p usr;
-
-  if (dependence != NULL) { /* Go to the right level. */
-    for (j=0; j<level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "+-- CandlDependence\n");
-  } else {
-    for (j=0; j<level; j++)
-    fprintf(file, "|\t");
-    fprintf(file, "+-- NULL dependence\n");
-  }
-
-  while (dependence != NULL) {
-    if (!first) { /* Go to the right level. */
-      for (j=0; j<level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "|   CandlDependence\n");
-    } else {
-      first = 0;
-    }
-
-    /* A blank line. */
-    for (j=0; j<=level+1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    /* Go to the right level and print the type. */
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Type: ");
-    switch (dependence->type) {
-      case CANDL_UNDEFINED : fprintf(file, "UNSET\n");        break;
-      case CANDL_RAW   : fprintf(file, "RAW (flow)\n");   break;
-      case CANDL_WAR   : fprintf(file, "WAR (anti)\n");   break;
-      case CANDL_WAW   : fprintf(file, "WAW (output)\n"); break;
-      case CANDL_RAR   : fprintf(file, "RAR (input)\n");  break;
-      case CANDL_RAW_SCALPRIV   : fprintf(file, "RAW_SCALPRIV (scalar priv)\n");  break;
-      default : fprintf(file, "unknown\n"); break;
-    }
-
-    /* A blank line. */
-    for (j=0; j<=level+1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    /* Go to the right level and print the depth. */
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Depth: %d\n", dependence->depth);
-
-    /* A blank line. */
-    for (j=0; j<=level+1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-    
-    /* Ref source and target */
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Ref source: %d, Ref target: %d\n",
-            dependence->ref_source, dependence->ref_target);
-    
-    /* A blank line. */
-    for (j=0; j<=level+1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    /* Print the source statement. */
-    usr = dependence->source->usr;
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Statement label: %d\n", usr->label);
-    tmp = dependence->source->next;
-    dependence->source->next = NULL;
-    osl_statement_idump(file, dependence->source, level+1);
-    dependence->source->next = tmp;
-
-    /* Print the target statement. */
-    usr = dependence->target->usr;
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Statement label: %d\n", usr->label);
-    usr = dependence->target->usr;
-    tmp = dependence->target->next;
-    dependence->target->next = NULL;
-    osl_statement_idump(file, dependence->target, level+1);
-    dependence->target->next = tmp;
-
-    /* Print the dependence polyhedron. */
-    for (j=0; j<=level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "%d %d %d %d %d %d %d %d\n",
-            dependence->source_nb_output_dims_domain,
-            dependence->source_nb_output_dims_access,
-            dependence->target_nb_output_dims_domain,
-            dependence->target_nb_output_dims_access,
-            dependence->source_nb_local_dims_domain,
-            dependence->source_nb_local_dims_access,
-            dependence->target_nb_local_dims_domain,
-            dependence->target_nb_local_dims_access);
-    osl_relation_idump(file, dependence->domain, level+1);
-
-    dependence = dependence->next;
-
-    /* Next line. */
-    if (dependence != NULL) {
-      for (j=0; j<=level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "V\n");
-    }
-  }
-
-  /* The last line. */
-  for (j=0; j<=level; j++)
-    fprintf(file, "|\t");
-  fprintf(file, "\n");
-}
-
-
-/* candl_dependence_dump function:
- * This function prints the content of a CandlDependence structure (dependence)
- * into a file (file, possibly stdout).
- */
-void candl_dependence_dump(FILE * file, candl_dependence_p dependence) {
-  candl_dependence_idump(file, dependence, 0);
-}
-
-
-/* candl_dependence_print_graph function:
- * This function prints the content of a CandlDependence structure (dependence)
+/* osl_dependence_pprint function:
+ * This function prints the content of a osl_dependence_p structure (dependence)
  * into a file (file, possibly stdout) as a Graphviz input file.
  * See http://www.graphviz.org
  * - 08/12/2005: first version.
  */
-void candl_dependence_pprint(FILE * file, candl_dependence_p dependence) {
+void candl_dependence_pprint(FILE * file, osl_dependence_p dependence) {
   int i = 0;
-  candl_statement_usr_p s_usr;
-  candl_statement_usr_p t_usr;
   
   fprintf(file, "digraph G {\n");
 
   fprintf(file, "# Data Dependence Graph\n");
   fprintf(file, "# Generated by Candl "CANDL_RELEASE" "CANDL_VERSION" bits\n");
   while (dependence != NULL) {
-    s_usr = dependence->source->usr;
-    t_usr = dependence->target->usr;
-    fprintf(file, "  S%d -> S%d [label=\" ", s_usr->label, t_usr->label);
+    fprintf(file, "  S%d -> S%d [label=\" ", dependence->label_source,
+                                             dependence->label_target);
     switch (dependence->type) {
-      case CANDL_UNDEFINED : fprintf(file, "UNSET"); break;
-      case CANDL_RAW   : fprintf(file, "RAW") ; break;
-      case CANDL_WAR   : fprintf(file, "WAR") ; break;
-      case CANDL_WAW   : fprintf(file, "WAW") ; break;
-      case CANDL_RAR   : fprintf(file, "RAR") ; break;
-      case CANDL_RAW_SCALPRIV   : fprintf(file, "RAW_SCALPRIV (scalar-priv)") ; break;
+      case OSL_UNDEFINED : fprintf(file, "UNSET"); break;
+      case OSL_DEPENDENCE_RAW   : fprintf(file, "RAW") ; break;
+      case OSL_DEPENDENCE_WAR   : fprintf(file, "WAR") ; break;
+      case OSL_DEPENDENCE_WAW   : fprintf(file, "WAW") ; break;
+      case OSL_DEPENDENCE_RAR   : fprintf(file, "RAR") ; break;
+      case OSL_DEPENDENCE_RAW_SCALPRIV   :
+           fprintf(file, "RAW_SCALPRIV (scalar-priv)") ; break;
       default : fprintf(file, "unknown"); break;
     }
     fprintf(file, " depth %d, ref %d->%d \"];\n", dependence->depth,
@@ -333,129 +187,16 @@ void candl_dependence_pprint(FILE * file, candl_dependence_p dependence) {
  * dependence graph.
  * - 20/03/2006: first version.
  */
-void candl_dependence_view(candl_dependence_p dependence) {
+void candl_dependence_view(osl_dependence_p dep) {
   FILE * temp_output;
-
-  temp_output = fopen(CANDL_TEMP_OUTPUT, "w+");
-  candl_dependence_pprint(temp_output, dependence);
+  temp_output = fopen(CANDL_TEMP_OUTPUT,"w+");
+  candl_dependence_pprint(temp_output, dep);
   fclose(temp_output);
-  /* check the return to suppress the warning compilation */
+  /* check the return to remove the warning compilation */
   if(system("dot -Tps "CANDL_TEMP_OUTPUT" | gv - && rm -f "CANDL_TEMP_OUTPUT" &"))
     ;
 }
 
-
-/**
- * Print the dependence, formatted to fit the .scop representation.
- *
- */
-void candl_dependence_print(FILE *file, candl_dependence_p dependence) {
-  char *string;
-  candl_dependence_sprint(&string, dependence);
-  fprintf(file, "%s\n", string);
-  free(string);
-}
-
-
-/**
- * Returns a string containing the dependence, formatted to fit the
- * .scop representation.
- *
- */
-void candl_dependence_sprint(char **string, candl_dependence_p dependence) {
-  
-  candl_dependence_p tmp = dependence;
-  candl_statement_usr_p s_usr;
-  candl_statement_usr_p t_usr;
-  int nb_deps;
-  int precision;
-  int buffer_size = 2048;
-  char* buffer;
-  char buff[2048];
-  char* type;
-  char* pbuffer;
-  
-  CANDL_malloc(buffer, char*, buffer_size);
-  
-  sprintf(buffer, "<candl>\n<dependence-polyhedra>\n");
-  
-  for (tmp = dependence, nb_deps = 0; tmp; tmp = tmp->next, ++nb_deps)
-   ;
-  snprintf(buff, OSL_MAX_STRING, "# Number of dependences\n%d\n", nb_deps);
-  strcat(buffer, buff);
-  
-  if (nb_deps) {
-    precision = dependence->domain->precision;
-    
-    for (tmp = dependence, nb_deps = 1; tmp; tmp = tmp->next, ++nb_deps) {
-      
-      switch (tmp->type) {
-        case CANDL_UNDEFINED:
-          type = "UNSET";
-          break;
-        case CANDL_RAW:
-          type = "RAW #(flow)";
-          break;
-        case CANDL_WAR:
-          type = "WAR #(anti)";
-          break;
-        case CANDL_WAW:
-          type = "WAW #(output)";
-          break;
-        case CANDL_RAR:
-          type = "RAR #(input)";
-          break;
-        case CANDL_RAW_SCALPRIV:
-          type = "RAW_SCALPRIV #(scalar priv)";
-          break;
-        default:
-          exit(1);
-          break;
-      }
-
-      /* Output dependence information. */
-      s_usr = tmp->source->usr;
-      t_usr = tmp->target->usr;
-      snprintf(buff, OSL_MAX_STRING, "# Description of dependence %d\n"
-              "# type\n%s\n"
-              "# From statement id\n%d\n"
-              "# To statement id\n%d\n"
-              "# Depth \n%d\n"
-              "# Source access ref\n%d\n"
-              "# Target access ref\n%d\n"
-              "# Dependence domain\n"
-              "# src outp domain / src outp access /"
-              " targ outp domain / targ outp access / src ld domain /"
-              " src ld access / targ ld domain / targ ld access\n"
-              "%d %d %d %d %d %d %d %d\n",
-              nb_deps, type,
-              s_usr->label,
-              t_usr->label, tmp->depth,
-              tmp->ref_source,
-              tmp->ref_target,
-              tmp->source_nb_output_dims_domain,
-              tmp->source_nb_output_dims_access,
-              tmp->target_nb_output_dims_domain,
-              tmp->target_nb_output_dims_access,
-              tmp->source_nb_local_dims_domain,
-              tmp->source_nb_local_dims_access,
-              tmp->target_nb_local_dims_domain,
-              tmp->target_nb_local_dims_access);
-
-      osl_util_safe_strcat(&buffer, buff, &buffer_size);
-      
-      /* Output dependence domain. */
-      pbuffer = osl_relation_sprint(tmp->domain);
-      osl_util_safe_strcat(&buffer, pbuffer, &buffer_size);
-      free(pbuffer);
-    }
-  }
-  
-  osl_util_safe_strcat(&buffer, "</dependence-polyhedra>\n</candl>",
-                       &buffer_size);
-  
-  *string = buffer;
-}
 
 #ifdef CANDL_SUPPORTS_ISL
 
@@ -472,12 +213,12 @@ osl_relation_p isl_set_to_piplib_matrix(struct isl_ctx* ctx,
  * Useful for polyhedra that contain large coefficient values.
  *
  */
-candl_dependence_p candl_dependence_isl_simplify(candl_dependence_p dep,
+osl_dependence_p candl_dependence_isl_simplify(osl_dependence_p dep,
                                                  osl_scop_p scop) {
   if (dep == NULL || scop == NULL)
     return dep;
 
-  candl_dependence_p tmp;
+  osl_dependence_p tmp;
   osl_relation_p context = scop->context;
   int nparam = context->nb_parameters;
 
@@ -511,197 +252,69 @@ candl_dependence_p candl_dependence_isl_simplify(candl_dependence_p dep,
 #endif
 
 
-
-/**
- * Read one dependence from a string.
- *
+/* candl_dependence_init_fields:
+ * Set the various other fields of the dependence structure
  */
-candl_dependence_p candl_dependence_read_one_dep(osl_scop_p scop, 
-                                                 char **str) {
-  candl_dependence_p dep = candl_dependence_malloc();
+void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
+  
   osl_statement_p iter;
   candl_statement_usr_p usr;
-  char *buffer;
-  int id;
+  osl_relation_p array_s, array_t;
   
-  /* Dependence type */
-  buffer = osl_util_read_string(NULL, str);
-  if (! strcmp(buffer, "RAW"))
-    dep->type = CANDL_RAW;
-  else if (! strcmp(buffer, "RAR"))
-    dep->type = CANDL_RAR;
-  else if (! strcmp(buffer, "WAR"))
-    dep->type = CANDL_WAR;
-  else if (! strcmp(buffer, "WAW"))
-    dep->type = CANDL_WAW;
-  else if (! strcmp(buffer, "RAW_SCALPRIV"))
-    dep->type = CANDL_RAW_SCALPRIV;
-  free(buffer);
-
-  /* # From statement xxx */
-  id = osl_util_read_int(NULL, str);
+  /* source statement */
   iter = scop->statement;
   for (; iter != NULL ; iter = iter->next) {
     usr = iter->usr;
-    if (usr->label == id) {
-      dep->source = iter;
+    if (usr->label == dep->label_source) {
+      dep->stmt_source_ptr = iter;
       break;
     }
   }
-
-  /* # To statement xxx */
-  id = osl_util_read_int(NULL, str);
+  if (iter == NULL) {
+    fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_source);
+    exit(1);
+  }
+  
+  /* target statement */
   iter = scop->statement;
   for (; iter != NULL ; iter = iter->next) {
     usr = iter->usr;
-    if (usr->label == id) {
-      dep->target = iter;
+    if (usr->label == dep->label_target) {
+      dep->stmt_target_ptr = iter;
       break;
     }
   }
-
-  /* # Depth */
-  dep->depth = osl_util_read_int(NULL, str);
-
-  /* # Source access ref */  
-  dep->ref_source = osl_util_read_int(NULL, str);
-  
-  /* # Target access ref */
-  dep->ref_target = osl_util_read_int(NULL, str);
-  
-  /* # Dependence domain */
-  
-  /* # src outp domain / src outp access / .... */
-  dep->source_nb_output_dims_domain = osl_util_read_int(NULL, str);
-  dep->source_nb_output_dims_access = osl_util_read_int(NULL, str);
-  dep->target_nb_output_dims_domain = osl_util_read_int(NULL, str);
-  dep->target_nb_output_dims_access = osl_util_read_int(NULL, str);
-  dep->source_nb_local_dims_domain = osl_util_read_int(NULL, str);
-  dep->source_nb_local_dims_access = osl_util_read_int(NULL, str);
-  dep->target_nb_local_dims_domain = osl_util_read_int(NULL, str);
-  dep->target_nb_local_dims_access = osl_util_read_int(NULL, str);
-  
-  /* Read the osl_relation */
-  dep->domain = osl_relation_psread(str, scop->context->precision);
-  
-  return dep;
-}
-
-/**
- * Retrieve a CandlDependence list from the option tag in the scop.
- *
- */
-candl_dependence_p candl_dependence_read_from_scop(osl_scop_p scop,
-                                                   char *str) {
-  candl_dependence_p first = NULL;
-  candl_dependence_p currdep = NULL;
-
-  int i;
-  /* Get the number of dependences. */
-  int nbdeps = osl_util_read_int(NULL, &str);
-
-  /* For each of them, read 1 and shift of the read size. */
-  for (i = 0; i < nbdeps; i++) {
-    candl_dependence_p adep = candl_dependence_read_one_dep(scop, &str);
-    if (first == NULL) {
-      currdep = first = adep;
-    } else {
-      currdep->next = adep;
-      currdep = currdep->next;
-    }
+  if (iter == NULL) {
+    fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_target);
+    exit(1);
   }
-
-  return first;
-}
-
-
-/******************************************************************************
- *                         Memory deallocation function                       *
- ******************************************************************************/
-
-
-/* candl_dependence_free function:
- * This function frees the allocated memory for a CandlDependence structure.
- * - 18/09/2003: first version.
- */
-void candl_dependence_free(candl_dependence_p dependence) {
-  candl_dependence_p next;
-  while (dependence != NULL) {
-    next = dependence->next;
-    osl_relation_free(dependence->domain);
-    free(dependence);
-    dependence = next;
+  
+  array_s = candl_dependence_get_relation_ref_source_in_dep(dep); 
+  if (array_s == NULL) {
+    fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
+            dep->ref_source);
+    osl_statement_dump(stderr, dep->stmt_source_ptr);
+    exit(1);
   }
-}
-
-
-/******************************************************************************
- *                            Processing functions                            *
- ******************************************************************************/
-
-
-/**
- * candl_dependence_malloc function:
- * This function allocates the memory space for a CandlDependence structure and
- * sets its fields with default values. Then it returns a pointer to the
- * allocated space.
- * - 07/12/2005: first version.
- */
-candl_dependence_p candl_dependence_malloc() {
-  candl_dependence_p dependence;
-
-  /* Memory allocation for the CandlDependence structure. */
-  CANDL_malloc(dependence, candl_dependence_p, sizeof(candl_dependence_t));
-
-  /* We set the various fields with default values. */
-  dependence->source     = NULL;
-  dependence->target     = NULL;
-  dependence->depth      = CANDL_UNDEFINED;
-  dependence->type       = CANDL_UNDEFINED;
-  dependence->ref_source = CANDL_UNDEFINED;
-  dependence->ref_target = CANDL_UNDEFINED;
-  dependence->domain     = NULL;
-  dependence->next       = NULL;
-  dependence->usr	       = NULL;
-  dependence->source_nb_output_dims_domain = CANDL_UNDEFINED;
-  dependence->source_nb_output_dims_access = CANDL_UNDEFINED;
-  dependence->target_nb_output_dims_domain = CANDL_UNDEFINED;
-  dependence->target_nb_output_dims_access = CANDL_UNDEFINED;
-  dependence->source_nb_local_dims_domain  = CANDL_UNDEFINED;
-  dependence->source_nb_local_dims_access  = CANDL_UNDEFINED;
-  dependence->target_nb_local_dims_domain  = CANDL_UNDEFINED;
-  dependence->target_nb_local_dims_access  = CANDL_UNDEFINED;
-  dependence->cache_ref_source_ptr = NULL;
-  dependence->cache_ref_target_ptr = NULL;
-
-  return dependence;
-}
-
-
-/**
- * candl_dependence_add function:
- * This function adds a CandlDependence structure (dependence) at a given place
- * (now) of a NULL terminated list of CandlDependence structures. The beginning
- * of this list is (start). This function updates (now) to the end of the loop
- * list (loop), and updates (start) if the added element is the first one -that
- * is when (start) is NULL-.
- * - 18/09/2003: first version.
- */
-void candl_dependence_add(candl_dependence_p* start,
-                          candl_dependence_p* now,
-                          candl_dependence_p dependence) {
-  if (dependence != NULL) {
-    if (*start == NULL) {
-      *start = dependence;
-      *now = *start;
-    } else {
-      (*now)->next = dependence;
-      *now = (*now)->next;
-    }
-
-    while ((*now)->next != NULL)
-      *now = (*now)->next;
+  
+  array_t = candl_dependence_get_relation_ref_source_in_dep(dep);
+  if (array_t == NULL) {
+    fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
+            dep->ref_target);
+    osl_statement_dump(stderr, dep->stmt_target_ptr);
+    exit(1);
   }
+  
+  dep->source_nb_output_dims_domain = dep->stmt_source_ptr->domain->nb_output_dims;
+  dep->source_nb_output_dims_access = array_s->nb_output_dims;
+  
+  dep->target_nb_output_dims_domain = dep->stmt_target_ptr->domain->nb_output_dims;
+  dep->target_nb_output_dims_access = array_t->nb_output_dims;
+  
+  dep->source_nb_local_dims_domain  = dep->stmt_source_ptr->domain->nb_local_dims;
+  dep->source_nb_local_dims_access  = array_s->nb_local_dims;
+  dep->target_nb_local_dims_domain  = dep->stmt_target_ptr->domain->nb_local_dims;
+  dep->target_nb_local_dims_access  = array_t->nb_local_dims;
 }
 
 
@@ -867,11 +480,11 @@ int candl_dependence_gcd_test(osl_statement_p source,
  * - 23/02/2006: a stupid bug corrected in the subscript equality.
  * - 07/04/2007: fix the precedence condition to respect C. Bastoul PhD thesis
  */
-static candl_dependence_p candl_dependence_build_system(
+static osl_dependence_p candl_dependence_build_system(
                             osl_statement_p source, osl_statement_p target,
                             osl_relation_p array_s, osl_relation_p array_t,
                             int depth, int before) {
-  candl_dependence_p dependence;
+  osl_dependence_p dependence;
   osl_relation_p system;
   int i, j, k, c;
   int constraint = 0;
@@ -889,8 +502,12 @@ static candl_dependence_p candl_dependence_build_system(
   int min_depth = 0;
   
   /* Create a new dependence structure */
-  dependence = candl_dependence_malloc();
+  dependence = osl_dependence_malloc();
   
+  /* Compute the maximal common depth. */
+  min_depth = CANDL_min(array_s->nb_output_dims, array_t->nb_output_dims);
+  
+  /* Compute the system size */
   dependence->source_nb_output_dims_domain = source->domain->nb_output_dims;
   dependence->source_nb_output_dims_access = array_s->nb_output_dims;
   
@@ -901,13 +518,7 @@ static candl_dependence_p candl_dependence_build_system(
   dependence->source_nb_local_dims_access  = array_s->nb_local_dims;
   dependence->target_nb_local_dims_domain  = target->domain->nb_local_dims;
   dependence->target_nb_local_dims_access  = array_t->nb_local_dims;
-  
-  dependence->next = NULL;
-  
-  /* Compute the maximal common depth. */
-  min_depth = CANDL_min(array_s->nb_output_dims, array_t->nb_output_dims);
-  
-  /* Compute the system size */
+    
   nb_par         = source->domain->nb_parameters;
   nb_local_dims  = dependence->source_nb_local_dims_domain +
                    dependence->source_nb_local_dims_access +
@@ -1141,7 +752,7 @@ static candl_dependence_p candl_dependence_build_system(
  * - 18/09/2003: first version.
  * - 09/12/2005: few corrections and polishing.
  */
-candl_dependence_p candl_dependence_system(osl_statement_p source,
+osl_dependence_p candl_dependence_system(osl_statement_p source,
                                            osl_statement_p target,
                                            osl_relation_p context,
                                            osl_relation_p array_s,
@@ -1150,7 +761,7 @@ candl_dependence_p candl_dependence_system(osl_statement_p source,
                                            int type, int depth) {
   candl_statement_usr_p s_usr = source->usr;
   candl_statement_usr_p t_usr = target->usr;
-  candl_dependence_p dependence = NULL;
+  osl_dependence_p dependence = NULL;
 
   /* First, a trivial case: for two different statements at depth 0, there is
    * a dependence only if the source is textually before the target.
@@ -1165,22 +776,27 @@ candl_dependence_p candl_dependence_system(osl_statement_p source,
                                              depth,
                                              (s_usr->label >= 
                                               t_usr->label));
+
   /* We start by simple SIV/ZIV/GCD tests. */
   if (!candl_dependence_gcd_test(source, target, dependence->domain, depth)) {
-    candl_dependence_free(dependence);
+    osl_dependence_free(dependence);
     return NULL;
   }
 
   if (pip_has_rational_point(dependence->domain, context, 1)) {
     /* We set the various fields with corresponding values. */
-    dependence->type       = type;
-    dependence->depth      = depth;
-    dependence->source     = source;
-    dependence->target     = target;
     dependence->ref_source = ref_s;
-    dependence->ref_target = ref_t;
+    dependence->ref_target = ref_t;      
+    dependence->label_source = ((candl_statement_usr_p)source->usr)->label;
+    dependence->label_target = ((candl_statement_usr_p)target->usr)->label;
+    dependence->type  = type;
+    dependence->depth = depth;
+    dependence->stmt_source_ptr       = source;
+    dependence->stmt_target_ptr       = target;
+    dependence->ref_source_access_ptr = array_s;
+    dependence->ref_target_access_ptr = array_t;
   } else {
-    candl_dependence_free(dependence);
+    osl_dependence_free(dependence);
     dependence = NULL;
   }
 
@@ -1198,13 +814,13 @@ candl_dependence_p candl_dependence_system(osl_statement_p source,
  * - 07/12/2005: (debug) correction of depth bounds.
  * - 09/12/2005: We may take commutativity into consideration.
  */
-candl_dependence_p candl_dependence_between(osl_statement_p source,
+osl_dependence_p candl_dependence_between(osl_statement_p source,
                                             osl_statement_p target,
                                             osl_relation_p context,
                                             candl_options_p options) {
-  candl_dependence_p new;
-  candl_dependence_p dependence = NULL;
-  candl_dependence_p now;
+  osl_dependence_p new;
+  osl_dependence_p dependence = NULL;
+  osl_dependence_p now;
   osl_relation_list_p access_src, access_targ;
   osl_relation_p elt_src, elt_targ;
   candl_statement_usr_p s_usr = source->usr;
@@ -1248,7 +864,7 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
   
   for (; access_src != NULL; access_src = access_src->next, ref_s++) {
     elt_src = access_src->elt;
-    row_src = clay_relation_get_line(elt_src, 0);
+    row_src = candl_relation_get_line(elt_src, 0);
     
     switch(elt_src->type) {
     
@@ -1260,7 +876,7 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
         ref_t = 0;
         for (; access_targ != NULL; access_targ = access_targ->next, ref_t++) {
           elt_targ = access_targ->elt;
-          row_targ = clay_relation_get_line(elt_targ, 0);
+          row_targ = candl_relation_get_line(elt_targ, 0);
           
           /* Anti-dependences analysis. */
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
@@ -1272,8 +888,8 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
                                               ref_s, ref_t,
-                                              CANDL_WAR, i);
-                candl_dependence_add(&dependence, &now, new);
+                                              OSL_DEPENDENCE_WAR, i);
+                osl_dependence_add(&dependence, &now, new);
               }
             }
           }
@@ -1287,8 +903,8 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
                                               ref_s, ref_t,
-                                              CANDL_RAR, i);
-                candl_dependence_add(&dependence, &now, new);
+                                              OSL_DEPENDENCE_RAR, i);
+                osl_dependence_add(&dependence, &now, new);
               }
             }
           }
@@ -1302,7 +918,7 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
         ref_t = 0;
         for (; access_targ != NULL; access_targ = access_targ->next, ref_t++) {
           elt_targ = access_targ->elt;
-          row_targ = clay_relation_get_line(elt_targ, 0);
+          row_targ = candl_relation_get_line(elt_targ, 0);
           
           /* Anti-dependences analysis. */
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
@@ -1314,8 +930,8 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
                                               ref_s, ref_t,
-                                              CANDL_WAW, i);
-                candl_dependence_add(&dependence, &now, new);
+                                              OSL_DEPENDENCE_WAW, i);
+                osl_dependence_add(&dependence, &now, new);
               }
             }
           }
@@ -1329,8 +945,8 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
                                               ref_s, ref_t,
-                                              CANDL_RAW, i);
-                candl_dependence_add(&dependence, &now, new);
+                                              OSL_DEPENDENCE_RAW, i);
+                osl_dependence_add(&dependence, &now, new);
               }
             }
           }
@@ -1349,10 +965,10 @@ candl_dependence_p candl_dependence_between(osl_statement_p source,
  * according to some user options (options).
  * - 18/09/2003: first version.
  */
-candl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
-  candl_dependence_p dependence = NULL;
-  candl_dependence_p new = NULL;
-  candl_dependence_p now;
+osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
+  osl_dependence_p dependence = NULL;
+  osl_dependence_p new = NULL;
+  osl_dependence_p now;
   osl_statement_p stmt_i, stmt_j;
   osl_relation_p context = scop->context;
   
@@ -1364,18 +980,18 @@ candl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
     /* We add self dependence. */
     /* S->S */
     new = candl_dependence_between(stmt_i, stmt_i, context, options);
-    candl_dependence_add(&dependence, &now, new);
+    osl_dependence_add(&dependence, &now, new);
     
     stmt_j = stmt_i->next;
     for (; stmt_j != NULL; stmt_j = stmt_j ->next) {
       /* And dependences with other statements. */
       /* S1->S2 */
       new = candl_dependence_between(stmt_i, stmt_j, context, options);
-      candl_dependence_add(&dependence, &now, new);
+      osl_dependence_add(&dependence, &now, new);
 
       /* S2->S1 */
       new = candl_dependence_between(stmt_j, stmt_i, context, options);
-      candl_dependence_add(&dependence, &now, new);
+      osl_dependence_add(&dependence, &now, new);
     }
   }
   
@@ -1429,7 +1045,7 @@ int candl_dependence_var_is_scalar(osl_scop_p scop, int var_index) {
     access = statement->access;
     while (access != NULL) {
       elt = access->elt;
-      row = clay_relation_get_line(elt, 0);
+      row = candl_relation_get_line(elt, 0);
       if (osl_int_get_si(precision, elt->m[row], elt->nb_columns-1) ==
           var_index) {
         /* Ensure it is not an array. */
@@ -1475,7 +1091,7 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
     access = sl[i]->access;
     for (; access != NULL ; access = access->next) {
       elt = access->elt;
-      row = clay_relation_get_line(elt, 0);
+      row = candl_relation_get_line(elt, 0);
       tmp = osl_int_get_si(precision,
                            elt->m[row],
                            elt->nb_columns-1);
@@ -1586,7 +1202,7 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       if (elt->type == OSL_TYPE_READ) {
-        row = clay_relation_get_line(elt, 0);
+        row = candl_relation_get_line(elt, 0);
         if (osl_int_get_si(elt->precision, elt->m[row], elt->nb_columns-1) ==
             var_index) {
           ret = CANDL_VAR_IS_USED;
@@ -1601,7 +1217,7 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       if (elt->type != OSL_TYPE_READ) {
-        row = clay_relation_get_line(elt, 0);
+        row = candl_relation_get_line(elt, 0);
         if (osl_int_get_si(elt->precision, elt->m[row], elt->nb_columns-1) ==
             var_index) {
           if (ret == CANDL_VAR_IS_USED)
@@ -1763,7 +1379,7 @@ int* candl_dependence_extract_scalar_variables(osl_scop_p scop) {
     access = statement->access;
     while (access != NULL) {
       elt = access->elt;
-      row = clay_relation_get_line(elt, 0);
+      row = candl_relation_get_line(elt, 0);
       idx = osl_int_get_si(elt->precision,
                            elt->m[row],
                            elt->nb_columns-1);
@@ -1799,19 +1415,19 @@ int* candl_dependence_extract_scalar_variables(osl_scop_p scop) {
 
 
 /**
- * candl_dependence_prune_scalar_waw function:
+ * osl_dependence_prune_scalar_waw function:
  * This function removes all WAW dependences between the same scalar
  * (they are useless dependences).
  */
-void candl_dependence_prune_scalar_waw(osl_scop_p scop,
+void osl_dependence_prune_scalar_waw(osl_scop_p scop,
                                        candl_options_p options,
-                                       candl_dependence_p* deps) {
+                                       osl_dependence_p* deps) {
   int* scalars;
   int i;
   int refs, reft;
-  candl_dependence_p tmp;
-  candl_dependence_p next;
-  candl_dependence_p pred = NULL;
+  osl_dependence_p tmp;
+  osl_dependence_p next;
+  osl_dependence_p pred = NULL;
 
   if (options->verbose)
     fprintf (stderr, "[Candl] Scalar Analysis: Remove all WAW between the same"
@@ -1821,7 +1437,7 @@ void candl_dependence_prune_scalar_waw(osl_scop_p scop,
 
   for (tmp = *deps; tmp; ) {
     candl_dependence_get_array_refs_in_dep(tmp, &refs, &reft);
-    if (refs == reft && tmp->type == CANDL_WAW) {
+    if (refs == reft && tmp->type == OSL_DEPENDENCE_WAW) {
       for (i = 0; scalars[i] != -1 && scalars[i] != refs; ++i)
        ;
       if (scalars[i] != -1) {
@@ -1851,7 +1467,7 @@ void candl_dependence_prune_scalar_waw(osl_scop_p scop,
  */
 int candl_dependence_scalar_renaming(osl_scop_p scop,
                                      candl_options_p options,
-                                     candl_dependence_p* deps) {
+                                     osl_dependence_p* deps) {
   osl_statement_p *statement; /* not a chained list */
   osl_statement_p iter;
   osl_statement_p defs[1024];
@@ -1880,7 +1496,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
     access = iter->access;
     for (; access != NULL; access = access->next) {
       elt = access->elt;
-      row = clay_relation_get_line(elt, 0);
+      row = candl_relation_get_line(elt, 0);
       tmp = osl_int_get_si(precision,
                            elt->m[row],
                            elt->nb_columns-1);
@@ -2003,7 +1619,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
           access = iter->access;
           for (; access != NULL; access = access->next) {
             elt = access->elt;
-            row = clay_relation_get_line(elt, 0);
+            row = candl_relation_get_line(elt, 0);
             tmp = osl_int_get_si(precision,
                                  elt->m[row],
                                  elt->nb_columns-1);
@@ -2030,7 +1646,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
     options->scalar_renaming = 0;
     if (options->scalar_privatization)
       free(((candl_scop_usr_p)scop->usr)->scalars_privatizable);
-    candl_dependence_free(*deps);
+    osl_dependence_free(*deps);
     *deps = candl_dependence(scop, options);
     options->scalar_renaming = bopt;
   }
@@ -2049,11 +1665,11 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
  * for loop 'loop_index', false otherwise.
  */
 int candl_dependence_is_loop_carried(osl_scop_p scop,
-                                     candl_dependence_p dep,
+                                     osl_dependence_p dep,
                                      int loop_index) {
   osl_relation_p msrc = NULL, mtarg = NULL;
-  candl_statement_usr_p s_usr = dep->source->usr;
-  candl_statement_usr_p t_usr = dep->target->usr;
+  candl_statement_usr_p s_usr = dep->stmt_source_ptr->usr;
+  candl_statement_usr_p t_usr = dep->stmt_target_ptr->usr;
   int i, j;
   int k, kp, l;
   int row_k, row_kp;
@@ -2076,8 +1692,8 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   mtarg = candl_dependence_get_relation_ref_target_in_dep(dep);
   
   /* plus one for the Arr output dim */
-  int src_ref_iter = (clay_relation_get_line(msrc, i+1) != -1);
-  int dst_ref_iter = (clay_relation_get_line(mtarg,j+1) != -1);
+  int src_ref_iter = (candl_relation_get_line(msrc, i+1) != -1);
+  int dst_ref_iter = (candl_relation_get_line(mtarg,j+1) != -1);
 
   /* Ensure it is not a basic loop-independent dependence (pure
      equality of the access functions for the surrounding iterators +
@@ -2085,7 +1701,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
      and contain the current loop iterator. */
   int must_test = 0;
   k = 1; // start after the Arr column
-  row_k = clay_relation_get_line(msrc, k);
+  row_k = candl_relation_get_line(msrc, k);
   while (!must_test &&
          k < msrc->nb_output_dims &&
          osl_int_zero(precision, msrc->m[row_k], 0)) {
@@ -2094,7 +1710,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
     // to be tested.
     if (!osl_int_zero(precision, msrc->m[row_k], i)) {
       kp = 1;
-      row_kp = clay_relation_get_line(mtarg, kp);
+      row_kp = candl_relation_get_line(mtarg, kp);
 
       while (!must_test &&
              kp < mtarg->nb_output_dims &&
@@ -2140,11 +1756,11 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
               }
         }
         ++kp;
-        row_kp = clay_relation_get_line(mtarg, kp);
+        row_kp = candl_relation_get_line(mtarg, kp);
       }
     }
     ++k;
-    row_k = clay_relation_get_line(msrc, k);
+    row_k = candl_relation_get_line(msrc, k);
   }
   
   if (src_ref_iter && dst_ref_iter && !must_test)
@@ -2188,7 +1804,6 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   
   return has_pt;
 
-  // (not compatible with Openscop !).
   /* LNP: OLD VERSION */
   /* The above is more robust. */
   /*   /\* Final check. The dependence exists only because the loop */
@@ -2226,10 +1841,10 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
  */
 void candl_dependence_prune_with_privatization(osl_scop_p scop,
                                                candl_options_p options,
-                                               candl_dependence_p* deps) {
-  candl_dependence_p next;
-  candl_dependence_p tmp;
-  candl_dependence_p pred = NULL;
+                                               osl_dependence_p* deps) {
+  osl_dependence_p next;
+  osl_dependence_p tmp;
+  osl_dependence_p pred = NULL;
   candl_statement_usr_p s_usr;
   candl_statement_usr_p t_usr;
   candl_scop_usr_p scop_usr = scop->usr;
@@ -2257,8 +1872,8 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
   }
   
   for (tmp = *deps; tmp; ) {
-    s_usr = tmp->source->usr;
-    t_usr = tmp->target->usr;
+    s_usr = tmp->stmt_source_ptr->usr;
+    t_usr = tmp->stmt_target_ptr->usr;
     
     /* Check if the dependence is involving a privatizable scalar. */
     is_priv = 1;
@@ -2298,8 +1913,8 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
 
       /* Set the type of the dependence as special
          scalar-privatization one. */
-      if (tmp->type == CANDL_RAW)
-        tmp->type = CANDL_RAW_SCALPRIV;
+      if (tmp->type == OSL_DEPENDENCE_RAW)
+        tmp->type = OSL_DEPENDENCE_RAW_SCALPRIV;
       next = tmp->next;
       if (!candl_matrix_check_point(tmp->domain, NULL)) {
         /* It is, the dependence can be removed. */
@@ -2512,10 +2127,10 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
               access = statement[k]->access;
               for (; access != NULL; access = access->next) {
                 elt = access->elt;
-                row = clay_relation_get_line(elt, 0);
+                row = candl_relation_get_line(elt, 0);
                 if (scalars[i] ==
                     osl_int_get_si(precision, elt->m[row], elt->nb_columns-1)) {
-                  row = clay_relation_get_line(elt, offset+1);
+                  row = candl_relation_get_line(elt, offset+1);
                   osl_int_set_si(precision, elt->m[row], elt->nb_output_dims + j, 1);
                 }
               }
@@ -2575,25 +2190,6 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
   } // end iterate scalars
 
   return 0;
-}
-
-
-/**
- * candl_num_dependences function:
- * This function returns the number of dependences in the dependence
- * list
- * \param dependence The first dependence of the dependence list.
- **
- */
-int candl_num_dependences(candl_dependence_p candl_deps) {
-  candl_dependence_p candl_dep = candl_deps;
-
-  int num = 0;
-  while (candl_dep != NULL) {
-    num++;
-    candl_dep = candl_dep->next;
-  }
-  return num;
 }
 
 
@@ -2709,11 +2305,11 @@ static PipMatrix **quast_to_polyhedra(PipQuast *quast, int *num,
  * returns 1 otherwise
  */
 static 
-int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
+int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
   PipQuast *lexmax;
   PipOptions *pipOptions = pip_options_init();
-  candl_statement_usr_p s_usr = (*dep)->source->usr;
-  candl_statement_usr_p t_usr = (*dep)->target->usr;
+  candl_statement_usr_p s_usr = (*dep)->stmt_source_ptr->usr;
+  candl_statement_usr_p t_usr = (*dep)->stmt_target_ptr->usr;
   osl_relation_p new_domain;
   int i, j;
   int npar = scop->context->nb_parameters;
@@ -2742,8 +2338,8 @@ int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
   /* Build a context with equalities /inequalities only on the target
    * variables */
   osl_relation_p context = osl_relation_pmalloc(precision, 
-                                          (*dep)->domain->nb_rows,
-                                          (*dep)->target->domain->nb_columns);
+                                   (*dep)->domain->nb_rows,
+                                   (*dep)->stmt_target_ptr->domain->nb_columns);
 
   int nrows = 0;
   for (i = 0; i < (*dep)->domain->nb_rows; i++) {
@@ -2758,7 +2354,7 @@ int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
                      context->m[nrows], 0,
                      (*dep)->domain->m[i], 0);
       
-      for (j = 1; j < (*dep)->target->domain->nb_columns; j++)
+      for (j = 1; j < (*dep)->stmt_target_ptr->domain->nb_columns; j++)
         osl_int_assign(precision,
                        context->m[nrows], j,
                        (*dep)->domain->m[i], s_usr->depth+j);
@@ -2811,11 +2407,13 @@ int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
       /* More than 1 pipmatrix from the quast, we need to insert
          new dependences to have the union of domains. */
       if (it_mat < num - 1) {
-        candl_dependence_p newdep = candl_dependence_malloc();
-        newdep->source = (*dep)->source;
-        newdep->target = (*dep)->target;
+        osl_dependence_p newdep = osl_dependence_malloc();
+        newdep->stmt_source_ptr = (*dep)->stmt_source_ptr;
+        newdep->stmt_target_ptr = (*dep)->stmt_target_ptr;
         newdep->depth = (*dep)->depth;
         newdep->type = (*dep)->type;
+        newdep->label_source = (*dep)->label_source;
+        newdep->label_target = (*dep)->label_target;
         newdep->ref_source = (*dep)->ref_source;
         newdep->ref_target = (*dep)->ref_target;
         newdep->usr = (*dep)->usr;
@@ -2850,10 +2448,10 @@ int candl_dep_compute_lastwriter(candl_dependence_p *dep, osl_scop_p scop) {
  * modify the dependence polyhedra. Be careful of any references to the old
  * dependence polyhedra. They are freed and new ones allocated.
  */
-void candl_compute_last_writer(candl_dependence_p dep, osl_scop_p scop) {
+void candl_compute_last_writer(osl_dependence_p dep, osl_scop_p scop) {
   // int count=0;
   while (dep != NULL)    {
-    if (dep->type != CANDL_WAR)   {
+    if (dep->type != OSL_DEPENDENCE_WAR)   {
       // printf("Last writer for dep %d: %d %d\n", count++, dep->source->usr->depth, dep->target->usr->depth);
       // candl_matrix_print(stdout, dep->domain);
       candl_dep_compute_lastwriter(&dep, scop);

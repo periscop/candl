@@ -182,37 +182,6 @@ esac
 AM_CONDITIONAL(BUNDLED_SCOPLIB, test $with_scoplib = bundled)
 
 
-dnl /**************************************************************************
-dnl  *                   Where is the Clay Library?                           *
-dnl  **************************************************************************/
-
-AX_SUBMODULE(clay,system|build|bundled,system)
-
-AC_SUBST(CLAY_CPPFLAGS)
-AC_SUBST(CLAY_LDFLAGS)
-AC_SUBST(CLAY_LIBS)
-case "$with_clay" in
-bundled)
-	CLAY_CPPFLAGS="-I$srcdir/clay/include -Iclay/include"
-	CLAY_LIBS="$srcdir/clay/source/clay.la"
-	;;
-build)
-	CLAY_CPPFLAGS="-I$clay_srcdir/include -I$with_clay_builddir/include"
-	CLAY_LIBS="$with_clay_builddir/libclay.la"
-	;;
-system)
-	if test "x$with_clay_prefix" != "x"; then
-		CLAY_CPPFLAGS="-I$with_clay_prefix/include"
-	fi
-#	if test "x$with_clay_exec_prefix" != "x"; then
-#		CLAY_LDFLAGS="-L$with_clay_exec_prefix/lib"
-#	fi
-	CLAY_LIBS="$with_clay_prefix/lib/libclay.la -lclay"
-esac
-AM_CONDITIONAL(BUNDLED_CLAY, test $with_clay = bundled)
-
-
-
 #dnl GMP
 
 #dnl Some default values cause I'm not sure whether autoconf set them, while

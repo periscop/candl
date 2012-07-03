@@ -1,4 +1,6 @@
 
+- uncomment the link of the gmp library in configure.ac ?
+
 - unchecked -commute and -lastwriter options
 
 - compilation error with ISL :
@@ -18,3 +20,9 @@
 
 - change the type of the dependence/violation domain
   (at the end of candl_dependence_build_system and candl_matrix_violation)
+  
+- candl_usr_init
+  the statements must be sorted to compute the statement label
+  the problem is if the scop is reordered, the second transformed scop
+  must be "aligned" with it (the first statement corresponds to the first
+  statement of the second scop, but the scattering could be different)

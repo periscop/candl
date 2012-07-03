@@ -45,10 +45,10 @@
 
 # include <stdio.h>
 # include <osl/statement.h>
+# include <osl/extensions/dependence.h>
 # include <osl/relation.h>
 # include <osl/scop.h>
 # include <candl/options.h>
-# include <candl/dependence.h>
 
 
 
@@ -199,7 +199,7 @@ candl_ddv_print(FILE*, CandlDDV*);
  *
  */
 CandlDDV*
-candl_ddv_extract_in_loop(osl_scop_p, candl_dependence_p, int);
+candl_ddv_extract_in_loop(osl_scop_p, osl_dependence_p, int);
     
 /**
  * candl_loops_are_permutable: output 1 if the 2 loops are permutable.
@@ -207,7 +207,7 @@ candl_ddv_extract_in_loop(osl_scop_p, candl_dependence_p, int);
  *
  */
 int
-candl_loops_are_permutable(osl_scop_p, candl_dependence_p, int, int);
+candl_loops_are_permutable(osl_scop_p, osl_dependence_p, int, int);
     
 
 

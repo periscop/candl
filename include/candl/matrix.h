@@ -38,16 +38,16 @@
 # define CANDL_MATRIX_H
 
 # include <stdio.h>
+# include <osl/extensions/dependence.h>
 # include <osl/relation.h>
 # include <candl/violation.h>
-# include <candl/dependence.h>
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
-candl_violation_p candl_matrix_violation(candl_dependence_p, osl_relation_p,
+candl_violation_p candl_matrix_violation(osl_dependence_p, osl_relation_p,
                                       osl_relation_p, int, int);
 int		         candl_matrix_check_point(osl_relation_p , osl_relation_p);
 

@@ -37,8 +37,8 @@
 #include <stdio.h>
 #include <osl/scop.h>
 #include <osl/macros.h>
+#include <osl/extensions/dependence.h>
 #include <osl/util.h>
-#include <clay/beta.h>
 #include <candl/candl.h>
 #include <candl/dependence.h>
 #include <candl/violation.h>
@@ -51,42 +51,33 @@ int main(int argc, char * argv[]) {
   
   osl_scop_p scop = NULL;
   osl_scop_p orig_scop = NULL;
+  osl_dependence_p orig_dependence = NULL;
   candl_options_p options;
-  candl_dependence_p orig_dependence = NULL;
   candl_violation_p violation = NULL;
-  FILE *input, *output, *outcandl, *incandl, *input_test;
+  FILE *input, *output, *input_test;
+  int precision;
+  #if defined(LINEAR_VALUE_IS_INT)
+    precision = OSL_PRECISION_SP;
+  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    precision = OSL_PRECISION_DP;
+  #elif defined(LINEAR_VALUE_IS_MP)
+    precision = OSL_PRECISION_MP;
+  #endif
 
   /* Options and input/output file setting. */
-  candl_options_read(argc, argv, &input, &output, &outcandl, &incandl,
-                     &input_test, &options);
+  candl_options_read(argc, argv, &input, &output, &input_test, &options);
   
   /* Open the scop
    * If there is no original scop (given with the -test), the input file
    * is considered as the original scop
    */
   osl_interface_p registry = osl_interface_get_default_registry();
-  #if defined(LINEAR_VALUE_IS_INT)
-    if (input_test != NULL) {
-      scop = osl_scop_pread(input, registry, OSL_PRECISION_SP);
-      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_SP);
-    } else {
-      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_SP);
-    }
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
-    if (input_test != NULL) {
-      scop = osl_scop_pread(input, registry, OSL_PRECISION_DP);
-      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_DP);
-    } else {
-      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_DP);
-    }
-  #elif defined(LINEAR_VALUE_IS_MP)
-    if (input_test != NULL) {
-      scop = osl_scop_pread(input, registry, OSL_PRECISION_MP);
-      orig_scop = osl_scop_pread(input_test, registry, OSL_PRECISION_MP);
-    } else {
-      orig_scop = osl_scop_pread(input, registry, OSL_PRECISION_MP);
-    }
-  #endif
+  if (input_test != NULL) {
+    scop = osl_scop_pread(input, registry, precision);
+    orig_scop = osl_scop_pread(input_test, registry, precision);
+  } else {
+    orig_scop = osl_scop_pread(input, registry, precision);
+  }
   osl_interface_free(registry);
   
   if (orig_scop == NULL || (scop == NULL && input_test != NULL)) {
@@ -94,36 +85,30 @@ int main(int argc, char * argv[]) {
     exit(1);
   }
   
-  
+  /* Check if we can compare the two scop
+   * The function compare only domains and access arrays
+   */
   if (input_test != NULL && !candl_util_check_scop(orig_scop, scop))
     CANDL_error("The two scop can't be compared");
   
   /* Add more infos (depth, label, ...)
    * Not important for the transformed scop
+   * TODO : the statements must be sorted to compute the statement label
+   *        the problem is if the scop is reordered, the second transformed scop
+   *        must be aligned with it
    */
   candl_usr_init(orig_scop);
   
   /* Calculating dependences. */
-  if (incandl != NULL) {
-    /* Read dependences from the candl tag */
-    // TODO : make an osl extension
-    char *content = NULL;
-    int f_size;
-    char *tmp;
-    fseek(incandl, 0, SEEK_END);
-    f_size = ftell(incandl);
-    fseek(incandl, 0, SEEK_SET);
-    content = (char*) malloc(sizeof(char) * f_size);
-    if (fread(content, 1, f_size, incandl) > 0) {
-      tmp = osl_util_tag_content(content, "candl");
-      free(content);
-      content = osl_util_tag_content(tmp, "dependence-polyhedra");
-      free(tmp);
-      orig_dependence = candl_dependence_read_from_scop(orig_scop, content);
-    }
-    free(content);
+  orig_dependence = osl_generic_lookup(orig_scop->extension, OSL_URI_DEPENDENCE);
+  if (orig_dependence != NULL) {
+    CANDL_info("Dependences read from the optional tag");
   } else {
     orig_dependence = candl_dependence(orig_scop, options);
+    osl_generic_p data = osl_generic_shell(orig_dependence,
+                                           osl_dependence_interface());
+    data->next = orig_scop->extension;
+    orig_scop->extension = data;
   }
 
   /* Calculating legality violations. */
@@ -137,37 +122,29 @@ int main(int argc, char * argv[]) {
       osl_scop_print(output, orig_scop);
       fprintf(output, "\n\033[33mTRANSFORMED SCOP:\033[00m\n");
       osl_scop_print(output, scop);
-      fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
+      fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
       candl_dependence_pprint(output, orig_dependence);
-      candl_dependence_print(output, orig_dependence);
-      fprintf(output, "\n\n\033[33mVIOLATIONS:\033[00m\n");
+      fprintf(output, "\n\n\033[33mVIOLATIONS GRAPH:\033[00m\n");
       candl_violation_pprint(output, violation);
     } else {
       fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
       osl_scop_print(output, orig_scop);
-      fprintf(output, "\n\033[33mDEPENDENCES:\033[00m\n");
+      fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
       candl_dependence_pprint(output, orig_dependence);
-      candl_dependence_print(output, orig_dependence);
     }
-    
+  } else if (input_test != NULL) {
+     /* Printing violation graph */
+    candl_violation_pprint(output, violation);
+    if (options->view)
+      candl_violation_view(violation);
   } else if (options->outscop) {
-    /* Update the scop */
+    /* Export to the scop format */
     osl_scop_print(output, orig_scop);
-    if (outcandl != NULL)
-      candl_dependence_print(outcandl, orig_dependence);
   } else {
     /* Printing dependence graph if asked or if there is no transformation. */
-    if (input_test == NULL) {
-      candl_dependence_pprint(output, orig_dependence);
-      if (options->view)
-        candl_dependence_view(orig_dependence);
-    }
-    /* Printing violation graph */
-    else {
-      candl_violation_pprint(output, violation);
-      if (options->view)
-        candl_violation_view(violation);
-    }
+    candl_dependence_pprint(output, orig_dependence);
+    if (options->view)
+      candl_dependence_view(orig_dependence);
   }
 
   /* Being clean. */
@@ -177,20 +154,14 @@ int main(int argc, char * argv[]) {
     fclose(input_test);
   }
   
-  
-  candl_dependence_free(orig_dependence);
+  // the dependence is freed with the scop
+  //osl_dependence_free(orig_dependence); 
+  candl_options_free(options);
   candl_usr_cleanup(orig_scop);
   osl_scop_free(orig_scop);
-  candl_options_free(options);
-  pip_close();
   fclose(input);
   fclose(output);
+  pip_close();
   
-  if (outcandl != stdout)
-    fclose(outcandl);
-  
-  if (incandl)
-    fclose(incandl);
-
   return 0;
 }

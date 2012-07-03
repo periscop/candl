@@ -7,7 +7,5 @@ make maintainer-clean
             --with-scoplib=system \
             --with-scoplib-prefix=$HOME/usr \
             --with-osl=system \
-            --with-osl-prefix=$HOME/usr \
-            --with-clay=system \
-            --with-clay-prefix=$HOME/usr
+            --with-osl-prefix=$HOME/usr
 make -j 10

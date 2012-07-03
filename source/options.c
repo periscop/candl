@@ -168,10 +168,6 @@ void candl_options_help() {
     "For bug reporting or any suggestions, please send an email to the author\n"
     "<cedric.bastoul@inria.fr> or to the maintainer of Candl:\n"
     "<pouchet@cse.ohio-state.edu>.\n");
-    printf(
-    "\n\ntemporary:\n"
-    "  -outcandl <output>   Name of the output file for the candl tag\n"
-    "  -incandl  <input>    Name of the input file for the candl tag\n");
 }
 
 
@@ -248,16 +244,13 @@ void candl_options_set(int * option, int argc, char ** argv, int * number) {
  * April 19th 2003: now in options.c and support of the candl_options_t structure.
  */
 void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
-                        FILE **outcandl, FILE **incandl, FILE **input_test,
-                        candl_options_p* options) {
+                        FILE **input_test, candl_options_p* options) {
   int i, infos = 0, input_is_set = 0, testscop_is_set = 0;
 
   /* candl_options_t structure allocation and initialization. */
   *options = candl_options_malloc();
   /* The default output is the standard output. */
   *output = stdout;
-  *outcandl = stdout;
-  *incandl = NULL;
   *input_test = NULL;
 
   for (i = 1; i < argc; i++) {
@@ -315,35 +308,6 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
       if ((!strcmp(argv[i], "--version")) || (!strcmp(argv[i], "-v"))) {
         candl_options_version();
         infos = 1;
-      } else
-      if (!strcmp(argv[i], "-incandl")) {
-        if (i+1 >= argc) {
-          fprintf(stderr,
-                  "[Candl]ERROR: no output name for -incandl option.\n");
-          exit(1);
-        }
-        *incandl = fopen(argv[i+1], "r");
-        if (*incandl == NULL) {
-            fprintf(stderr,
-                    "[Candl]ERROR: %s file does not exist.\n", argv[i+1]);
-          exit(1);
-        }
-        i++;
-      } else
-      if (!strcmp(argv[i], "-outcandl")) {
-        i++;
-        if (i >= argc) {
-          fprintf(stderr,
-                  "[Candl]ERROR: no output name for -outcandl option.\n");
-          exit(1);
-        }
-        *outcandl = fopen(argv[i], "w");
-        if (*outcandl == NULL) {
-            fprintf(stderr,
-                    "[Candl]ERROR: can't create output file %s.\n",
-                    argv[i]);
-          exit(1);
-        }
       } else
       if (!strcmp(argv[i], "-o")) {
         i++;

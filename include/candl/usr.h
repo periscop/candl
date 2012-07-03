@@ -40,6 +40,7 @@
 #ifndef CANDL_USR_H
 #define CANDL_USR_H
 
+#include <osl/scop.h>
 
 struct candl_scop_usr {
   int size;

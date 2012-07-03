@@ -64,9 +64,9 @@
 static
 void find_paths_rec(int tgt_id, int cur_length, int max_length,
                     int final_id,
-                    candl_dependence_p* alldeps,
-                    candl_dependence_p* cur_path,
-                    candl_dependence_p*** paths_list) {
+                    osl_dependence_p* alldeps,
+                    osl_dependence_p* cur_path,
+                    osl_dependence_p*** paths_list) {
   int i;
 
   for (i = 0; alldeps[i]; ++i) {
@@ -97,13 +97,13 @@ void find_paths_rec(int tgt_id, int cur_length, int max_length,
             for (pos = 0; (*paths_list)[pos]; ++pos)
               ;
             if (pos + 1 % BUFF_SIZE == 0) {
-              *paths_list = (candl_dependence_p**)
-                  realloc(*paths_list, sizeof(candl_dependence_p*) *
+              *paths_list = (osl_dependence_p**)
+                  realloc(*paths_list, sizeof(osl_dependence_p*) *
                           (BUFF_SIZE + pos + 1));
               *paths_list[pos + 1] = NULL;
             }
-            (*paths_list)[pos] = (candl_dependence_p*)
-                malloc((max_length + 1) * sizeof(candl_dependence_p));
+            (*paths_list)[pos] = (osl_dependence_p*)
+                malloc((max_length + 1) * sizeof(osl_dependence_p));
             for (j = 0; j < max_length - 1; ++j)
               (*paths_list)[pos][j] = cur_path[j];
             (*paths_list)[pos][j++] = alldeps[i];
@@ -135,7 +135,7 @@ void find_paths_rec(int tgt_id, int cur_length, int max_length,
  * 'target->label'.
  */
 static
-candl_dependence_p** find_dep_paths(candl_dependence_p* ardeps,
+osl_dependence_p** find_dep_paths(osl_dependence_p* ardeps,
                                     osl_statement_p source,
                                     osl_statement_p target) {
   int i, nb_dep;
@@ -143,11 +143,11 @@ candl_dependence_p** find_dep_paths(candl_dependence_p* ardeps,
     ;
   if (nb_dep < 2)
     return NULL;
-  candl_dependence_p *cur_path =
-      (candl_dependence_p*) malloc(sizeof(candl_dependence_p) *
+  osl_dependence_p *cur_path =
+      (osl_dependence_p*) malloc(sizeof(osl_dependence_p) *
                                    (nb_dep + 1));
-  candl_dependence_p** paths_list =
-      (candl_dependence_p**)malloc(BUFF_SIZE * sizeof(candl_dependence_p*));
+  osl_dependence_p** paths_list =
+      (osl_dependence_p**)malloc(BUFF_SIZE * sizeof(osl_dependence_p*));
   for (i = 0; i < BUFF_SIZE; ++i)
     paths_list[i] = NULL;
   // Iterate on all possible paths length, from Sx to Sy, of length y-x.
@@ -193,7 +193,7 @@ int quast_are_equal (PipQuast* q1, PipQuast* q2, int size) {
  * corresponding to loop iterators).
  */
 static
-int is_covering(candl_dependence_p dep, candl_dependence_p* path) {
+int is_covering(osl_dependence_p dep, osl_dependence_p* path) {
   int i, path_length;
 
   for (path_length = 0; path[path_length]; ++path_length)
@@ -329,7 +329,7 @@ int is_covering(candl_dependence_p dep, candl_dependence_p* path) {
 }
 
 static
-int is_iter_unimodular(candl_dependence_p dep) {
+int is_iter_unimodular(osl_dependence_p dep) {
   // Check unimodular on the iterator part.
   int i, j;
   int n;
@@ -360,17 +360,17 @@ int is_iter_unimodular(candl_dependence_p dep) {
  * In-place modification of the list of dependence polyhedra.
  *
  */
-candl_dependence_p candl_dependence_prune_transitively_covered(
-                                      candl_dependence_p deps) {
+osl_dependence_p osl_dependence_prune_transitively_covered(
+                                      osl_dependence_p deps) {
   if (deps == NULL)
     return NULL;
   
-  candl_dependence_p tmp;
-  candl_dependence_p *ardeps;
+  osl_dependence_p tmp;
+  osl_dependence_p *ardeps;
   osl_relation_p srcmat;
   osl_relation_p *allarrays;
-  candl_dependence_p** path;
-  candl_dependence_p *curardeps;
+  osl_dependence_p** path;
+  osl_dependence_p *curardeps;
   candl_statement_usr_p s_usr, t_usr;
   int precision = deps->domain->precision;
   int nb_deps;
@@ -401,7 +401,7 @@ candl_dependence_p candl_dependence_prune_transitively_covered(
 
   // 2- Iterate on all arrays.
   for (i = 0 ; allarrays[i] != NULL ; ++i) {
-    ardeps = (candl_dependence_p*) malloc(sizeof(candl_dependence_p) *
+    ardeps = (osl_dependence_p*) malloc(sizeof(osl_dependence_p) *
                                           (nb_deps + 1));
     
     // a- Collect all dependences to this array.
@@ -472,7 +472,7 @@ candl_dependence_p candl_dependence_prune_transitively_covered(
           osl_statement_p target = ardeps[j]->target;
 
           // Subset of deps that can be on the path.
-          curardeps = (candl_dependence_p*) malloc(sizeof(candl_dependence_p) *
+          curardeps = (osl_dependence_p*) malloc(sizeof(osl_dependence_p) *
                                                    (nb_deps + 1));
           
           for (k = 0, l = 0; ardeps[k]; ++k) {

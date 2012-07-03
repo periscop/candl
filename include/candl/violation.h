@@ -38,7 +38,8 @@
 # define CANDL_VIOLATION_H
 
 # include <stdio.h>
-# include <candl/dependence.h>
+# include <candl/options.h>
+# include <osl/extensions/dependence.h>
 # include <osl/scop.h>
 # include <osl/relation.h>
 
@@ -91,7 +92,7 @@ extern "C"
 */
 
 struct candl_violation {
-  candl_dependence_p dependence; /**< Pointer to violated dependence. */
+  osl_dependence_p dependence;    /**< Pointer to violated dependence. */
   int dimension;                 /**< Violation dimension. */
   osl_relation_p domain;         /**< Violation polyhedron. */
   struct candl_violation *next;        /**< Pointer to next violation. */
@@ -126,7 +127,7 @@ void candl_violation_free(candl_violation_p);
 candl_violation_p candl_violation_malloc();
 void              candl_violation_add(candl_violation_p*, candl_violation_p*,
                                       candl_violation_p);
-candl_violation_p candl_violation(osl_scop_p, candl_dependence_p,
+candl_violation_p candl_violation(osl_scop_p, osl_dependence_p,
                                   osl_scop_p, candl_options_p);
 
 

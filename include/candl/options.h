@@ -88,8 +88,7 @@ void candl_options_free(candl_options_p);
 /******************************************************************************
  *                               Reading function                             *
  ******************************************************************************/
-void candl_options_read(int, char **, FILE **, FILE **, FILE**, FILE**, FILE**,
-                        candl_options_p*);
+void candl_options_read(int, char **, FILE **, FILE **, FILE**, candl_options_p*);
 
 
 /******************************************************************************

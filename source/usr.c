@@ -40,11 +40,11 @@
 #include <stdlib.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
+#include <osl/extensions/dependence.h>
 #include <osl/relation.h>
 #include <candl/macros.h>
 #include <candl/usr.h>
-#include <clay/beta.h>
-#include <clay/array.h>
+#include <candl/util.h>
 
 #define CANDL_USR_INDEX_MAX_LOOP_DEPTH 128
 
@@ -54,6 +54,13 @@
  * Init a candl_scop_usr and a candl_statement_usr structure
  */
 void candl_usr_init(osl_scop_p scop) {
+
+  /* TODO
+   * that statements must be sorted to compute the statement label
+   * the problem is if the scop is reordered, the second transformed scop
+   * must be aligned with it
+  */
+
   osl_statement_p iter;
   osl_relation_p scattering;
   candl_scop_usr_p scop_usr;
@@ -86,7 +93,7 @@ void candl_usr_init(osl_scop_p scop) {
     stmt_usr = (candl_statement_usr_p) malloc(sizeof(candl_statement_usr_t));
     stmt_usr->depth      = scattering->nb_output_dims/2;
     stmt_usr->label      = count;
-    stmt_usr->type       = CANDL_ASSIGNMENT;
+    stmt_usr->type       = OSL_DEPENDENCE_ASSIGNMENT;
     stmt_usr->usr_backup = iter->usr;
     stmt_usr->index      = (stmt_usr->depth ?
                             (int*) malloc(stmt_usr->depth * sizeof(int)) : 
@@ -94,7 +101,7 @@ void candl_usr_init(osl_scop_p scop) {
     
     /* Compute the value of the iterator indices. */
     for (j = 0; j < stmt_usr->depth; ++j) {
-      row = clay_relation_get_line(scattering, j*2);
+      row = candl_relation_get_line(scattering, j*2);
       val = osl_int_get_si(precision,
                            scattering->m[row],
                            scattering->nb_columns-1);

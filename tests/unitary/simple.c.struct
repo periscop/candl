@@ -83,6 +83,31 @@ b=a;
 </body>
 
 # =============================================== Extensions
+<dependence>
+# Number of dependences
+1
+# Description of dependence 1
+# type
+RAW #(flow)
+# From source statement id
+0
+# To target statement id
+1
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+1
+# Dependence domain
+UNDEFINED
+3 4 1 1 0 0
+# e/i| c1 | i1 |  1  
+   0   -1    0    1    ## c1 == 1
+   0    0    1   -1    ## i1-1 == 0
+   0   -1    1    0    ## c1 == i1
+</dependence>
+
 <arrays>
 # Number of arrays
 2
@@ -105,36 +130,8 @@ b=a;
 </OpenScop>
 
 
-[33mDEPENDENCES:[00m
+[33mDEPENDENCES GRAPH:[00m
 digraph G {
 # Data Dependence Graph
   S0 -> S1 [label=" RAW depth 0, ref 0->1 "];
 }
-<candl>
-<dependence-polyhedra>
-# Number of dependences
-1
-# Description of dependence 1
-# type
-RAW #(flow)
-# From statement id
-0
-# To statement id
-1
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-1
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-0 1 0 1 0 0 0 0
-UNDEFINED
-3 4 1 1 0 0
-# e/i| c1 | i1 |  1  
-   0   -1    0    1    ## c1 == 1
-   0    0    1   -1    ## i1-1 == 0
-   0   -1    1    0    ## c1 == i1
-</dependence-polyhedra>
-</candl>

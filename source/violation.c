@@ -39,13 +39,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <osl/relation.h>
+#include <osl/statement.h>
+#include <osl/scop.h>
+#include <osl/macros.h>
 #include <candl/candl.h>
+#include <candl/matrix.h>
 #include <candl/violation.h>
 #include <candl/piplib-wrapper.h>
 #include <candl/usr.h>
-#include <osl/scop.h>
-#include <osl/relation.h>
-#include <osl/statement.h>
 
 
 /******************************************************************************
@@ -65,7 +67,7 @@
 void candl_violation_idump(FILE *file, candl_violation_p violation, 
                                     int level) {
   int j, first=1;
-  candl_dependence_p next=NULL;
+  osl_dependence_p next=NULL;
 
   if (violation != NULL) { /* Go to the right level. */
     for(j=0; j<level; j++)
@@ -106,7 +108,7 @@ void candl_violation_idump(FILE *file, candl_violation_p violation,
       next = violation->dependence->next; /* To not print the whole list... */
       violation->dependence->next = NULL; /* I know it's not beautiful :-/ ! */
     }
-    candl_dependence_idump(file,violation->dependence,level+1);
+    osl_dependence_idump(file,violation->dependence,level+1);
     if (violation->dependence != NULL)
       violation->dependence->next = next;
 
@@ -147,7 +149,7 @@ void candl_violation_dump(FILE * file, candl_violation_p violation) {
  */
 void candl_violation_pprint(FILE * file, candl_violation_p violation) {
   int i=0;
-  candl_dependence_p dependence;
+  osl_dependence_p dependence;
   candl_statement_usr_p s_usr;
   candl_statement_usr_p t_usr;
 
@@ -160,17 +162,17 @@ void candl_violation_pprint(FILE * file, candl_violation_p violation) {
 
   while (violation != NULL) {
     dependence = violation->dependence;
-    s_usr = dependence->source->usr;
-    t_usr = dependence->target->usr;
+    s_usr = dependence->stmt_source_ptr->usr;
+    t_usr = dependence->stmt_target_ptr->usr;
 
     fprintf(file,"  S%d -> S%d [label=\" ", s_usr->label,
                                             t_usr->label);
     switch (dependence->type) {
-      case CANDL_UNDEFINED : fprintf(file,"UNSET"); break;
-      case CANDL_RAW   : fprintf(file,"RAW")  ; break;
-      case CANDL_WAR   : fprintf(file,"WAR")  ; break;
-      case CANDL_WAW   : fprintf(file,"WAW")  ; break;
-      case CANDL_RAR   : fprintf(file,"RAR")  ; break;
+      case OSL_UNDEFINED : fprintf(file,"UNSET"); break;
+      case OSL_DEPENDENCE_RAW   : fprintf(file,"RAW")  ; break;
+      case OSL_DEPENDENCE_WAR   : fprintf(file,"WAR")  ; break;
+      case OSL_DEPENDENCE_WAW   : fprintf(file,"WAW")  ; break;
+      case OSL_DEPENDENCE_RAR   : fprintf(file,"RAR")  ; break;
       default : fprintf(file,"unknown");
     }
     fprintf(file," depth %d, ref %d->%d, viol %d \"];\n",
@@ -251,7 +253,7 @@ candl_violation_p candl_violation_malloc() {
   violation->dependence = NULL;
   violation->domain     = NULL;
   violation->next       = NULL;
-  violation->dimension  = CANDL_UNDEFINED;
+  violation->dimension  = OSL_UNDEFINED;
   violation->source_nb_output_dims_scattering = -1;
   violation->target_nb_output_dims_scattering = -1;
   violation->source_nb_local_dims_scattering = -1;
@@ -267,7 +269,8 @@ candl_violation_p candl_violation_malloc() {
  * of this list is (start). This function updates (now) to the end of the loop
  * list (loop), and updates (start) if the added element is the first one -that
  * is when (start) is NULL-.
- * - 12/12/2005: first version (from candl_dependence_add).
+ * - 12/12/2005: first version (from candl_dependence_add, 
+ *                              currently osl_dependence_add).
  */
 void candl_violation_add(candl_violation_p* start,
                          candl_violation_p* now,
@@ -299,7 +302,7 @@ void candl_violation_add(candl_violation_p* start,
  * - 12/12/2005: first version.
  */
 candl_violation_p candl_violation(osl_scop_p orig_scop,
-                                  candl_dependence_p orig_dependence,
+                                  osl_dependence_p orig_dependence,
                                   osl_scop_p test_scop,
                                   candl_options_p options) {
   osl_statement_p source, target, iter;
@@ -333,8 +336,8 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   
   /* We check every edge of the dependence graph. */
   while (orig_dependence != NULL) {
-    source = orig_dependence->source;
-    target = orig_dependence->target;
+    source = orig_dependence->stmt_source_ptr;
+    target = orig_dependence->stmt_target_ptr;
     domain = orig_dependence->domain;
     s_usr  = source->usr;
     t_usr  = target->usr;

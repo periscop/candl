@@ -133,67 +133,23 @@ C[i][j]=C[i][j]+A[i][k]*B[k][j];
 </body>
 
 # =============================================== Extensions
-<scatnames>
-b0 i b1 j b2 k b3
-</scatnames>
-
-<arrays>
-# Number of arrays
-7
-# Mapping array-identifiers/array-names
-1 i
-2 n
-3 j
-4 C
-5 k
-6 A
-7 B
-</arrays>
-
-<coordinates>
-# File name
-./unitary/matmul.c
-# Starting line
-1
-# Ending line
-9
-# Indentation
-0
-</coordinates>
-
-</OpenScop>
-
-
-[33mDEPENDENCES:[00m
-digraph G {
-# Data Dependence Graph
-  S0 -> S1 [label=" WAW depth 2, ref 0->0 "];
-  S0 -> S1 [label=" RAW depth 2, ref 0->1 "];
-  S1 -> S1 [label=" WAW depth 3, ref 0->0 "];
-  S1 -> S1 [label=" RAW depth 3, ref 0->1 "];
-  S1 -> S1 [label=" WAR depth 3, ref 1->0 "];
-# Number of edges = 5
-}
-<candl>
-<dependence-polyhedra>
+<dependence>
 # Number of dependences
 5
 # Description of dependence 1
 # type
 WAW #(output)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 1
 # Depth 
 2
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 3 3 0 0 0 0
 UNDEFINED
 23 14 5 6 0 1
 # e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -223,19 +179,17 @@ UNDEFINED
 # Description of dependence 2
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 1
 # Depth 
 2
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 3 3 0 0 0 0
 UNDEFINED
 23 14 5 6 0 1
 # e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -265,19 +219,17 @@ UNDEFINED
 # Description of dependence 3
 # type
 WAW #(output)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 26 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -310,19 +262,17 @@ UNDEFINED
 # Description of dependence 4
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 26 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -355,19 +305,17 @@ UNDEFINED
 # Description of dependence 5
 # type
 WAR #(anti)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 26 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -397,5 +345,46 @@ UNDEFINED
    0   -1    0    0    0    0    0    1    0    0    0    0    0    0    0    ## c1 == i1
    0    0   -1    0    0    0    0    0    1    0    0    0    0    0    0    ## c2 == i2
    1    0    0   -1    0    0    0    0    0    1    0    0    0    0   -1    ## -c3+i3-1 >= 0
-</dependence-polyhedra>
-</candl>
+</dependence>
+
+<scatnames>
+b0 i b1 j b2 k b3
+</scatnames>
+
+<arrays>
+# Number of arrays
+7
+# Mapping array-identifiers/array-names
+1 i
+2 n
+3 j
+4 C
+5 k
+6 A
+7 B
+</arrays>
+
+<coordinates>
+# File name
+./unitary/matmul.c
+# Starting line
+1
+# Ending line
+9
+# Indentation
+0
+</coordinates>
+
+</OpenScop>
+
+
+[33mDEPENDENCES GRAPH:[00m
+digraph G {
+# Data Dependence Graph
+  S0 -> S1 [label=" WAW depth 2, ref 0->0 "];
+  S0 -> S1 [label=" RAW depth 2, ref 0->1 "];
+  S1 -> S1 [label=" WAW depth 3, ref 0->0 "];
+  S1 -> S1 [label=" RAW depth 3, ref 0->1 "];
+  S1 -> S1 [label=" WAR depth 3, ref 1->0 "];
+# Number of edges = 5
+}

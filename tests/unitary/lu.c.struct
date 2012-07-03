@@ -220,76 +220,23 @@ a[j][K]/=a[K][K];
 </body>
 
 # =============================================== Extensions
-<scatnames>
-b0 K b1 j b2 k b3
-</scatnames>
-
-<arrays>
-# Number of arrays
-5
-# Mapping array-identifiers/array-names
-1 K
-2 n
-3 j
-4 k
-5 a
-</arrays>
-
-<coordinates>
-# File name
-./unitary/lu.c
-# Starting line
-6
-# Ending line
-17
-# Indentation
-2
-</coordinates>
-
-</OpenScop>
-
-
-[33mDEPENDENCES:[00m
-digraph G {
-# Data Dependence Graph
-  S0 -> S0 [label=" WAR depth 3, ref 0->1 "];
-  S0 -> S0 [label=" RAW depth 3, ref 1->0 "];
-  S0 -> S0 [label=" WAW depth 3, ref 1->1 "];
-  S0 -> S0 [label=" RAW depth 1, ref 1->3 "];
-  S0 -> S1 [label=" RAW depth 1, ref 1->3 "];
-  S1 -> S0 [label=" RAW depth 1, ref 1->2 "];
-  S0 -> S2 [label=" RAW depth 1, ref 1->2 "];
-  S2 -> S0 [label=" RAW depth 1, ref 1->2 "];
-  S1 -> S1 [label=" WAR depth 3, ref 0->1 "];
-  S1 -> S1 [label=" RAW depth 3, ref 1->0 "];
-  S1 -> S1 [label=" WAW depth 3, ref 1->1 "];
-  S1 -> S1 [label=" RAW depth 1, ref 1->2 "];
-  S1 -> S2 [label=" WAR depth 2, ref 0->1 "];
-  S1 -> S2 [label=" RAW depth 2, ref 1->0 "];
-  S1 -> S2 [label=" WAW depth 2, ref 1->1 "];
-  S2 -> S1 [label=" RAW depth 1, ref 1->2 "];
-# Number of edges = 16
-}
-<candl>
-<dependence-polyhedra>
+<dependence>
 # Number of dependences
 16
 # Description of dependence 1
 # type
 WAR #(anti)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 0
 # Depth 
 3
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 28 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -324,19 +271,17 @@ UNDEFINED
 # Description of dependence 2
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 0
 # Depth 
 3
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 28 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -371,19 +316,17 @@ UNDEFINED
 # Description of dependence 3
 # type
 WAW #(output)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 0
 # Depth 
 3
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 28 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -418,19 +361,17 @@ UNDEFINED
 # Description of dependence 4
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 0
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 3
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 26 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -463,19 +404,17 @@ UNDEFINED
 # Description of dependence 5
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 1
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 3
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 27 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -509,19 +448,17 @@ UNDEFINED
 # Description of dependence 6
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 0
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 2
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 27 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -555,19 +492,17 @@ UNDEFINED
 # Description of dependence 7
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 0
-# To statement id
+# To target statement id
 2
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 2
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 2 3 0 0 0 0
 UNDEFINED
 24 14 6 5 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5 | P1 |  1  
@@ -598,19 +533,17 @@ UNDEFINED
 # Description of dependence 8
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 2
-# To statement id
+# To target statement id
 0
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 2
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 3 3 0 0 0 0
 UNDEFINED
 24 14 5 6 0 1
 # e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -641,19 +574,17 @@ UNDEFINED
 # Description of dependence 9
 # type
 WAR #(anti)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 30 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -690,19 +621,17 @@ UNDEFINED
 # Description of dependence 10
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 30 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -739,19 +668,17 @@ UNDEFINED
 # Description of dependence 11
 # type
 WAW #(output)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 3
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 30 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -788,19 +715,17 @@ UNDEFINED
 # Description of dependence 12
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 1
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 2
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 3 3 0 0 0 0
 UNDEFINED
 28 15 6 6 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -835,19 +760,17 @@ UNDEFINED
 # Description of dependence 13
 # type
 WAR #(anti)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 2
 # Depth 
 2
-# Source access ref
+# From source access ref
 0
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 2 3 0 0 0 0
 UNDEFINED
 26 14 6 5 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5 | P1 |  1  
@@ -880,19 +803,17 @@ UNDEFINED
 # Description of dependence 14
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 2
 # Depth 
 2
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 0
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 2 3 0 0 0 0
 UNDEFINED
 26 14 6 5 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5 | P1 |  1  
@@ -925,19 +846,17 @@ UNDEFINED
 # Description of dependence 15
 # type
 WAW #(output)
-# From statement id
+# From source statement id
 1
-# To statement id
+# To target statement id
 2
 # Depth 
 2
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 1
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-3 3 2 3 0 0 0 0
 UNDEFINED
 26 14 6 5 0 1
 # e/i| c1   c2   c3   c4   c5   c6 | i1   i2   i3   i4   i5 | P1 |  1  
@@ -970,19 +889,17 @@ UNDEFINED
 # Description of dependence 16
 # type
 RAW #(flow)
-# From statement id
+# From source statement id
 2
-# To statement id
+# To target statement id
 1
 # Depth 
 1
-# Source access ref
+# From source access ref
 1
-# Target access ref
+# To target access ref
 2
 # Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 3 3 0 0 0 0
 UNDEFINED
 25 14 5 6 0 1
 # e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5   i6 | P1 |  1  
@@ -1011,5 +928,55 @@ UNDEFINED
    0    0    0    0   -1    0    0    0    0    0    1    0    0    0    ## c4 == i5
    0    0    0    0    0   -1    0    0    0    0    0    1    0    0    ## c5 == i6
    1   -1    0    0    0    0    1    0    0    0    0    0    0   -1    ## -c1+i1-1 >= 0
-</dependence-polyhedra>
-</candl>
+</dependence>
+
+<scatnames>
+b0 K b1 j b2 k b3
+</scatnames>
+
+<arrays>
+# Number of arrays
+5
+# Mapping array-identifiers/array-names
+1 K
+2 n
+3 j
+4 k
+5 a
+</arrays>
+
+<coordinates>
+# File name
+./unitary/lu.c
+# Starting line
+6
+# Ending line
+17
+# Indentation
+2
+</coordinates>
+
+</OpenScop>
+
+
+[33mDEPENDENCES GRAPH:[00m
+digraph G {
+# Data Dependence Graph
+  S0 -> S0 [label=" WAR depth 3, ref 0->1 "];
+  S0 -> S0 [label=" RAW depth 3, ref 1->0 "];
+  S0 -> S0 [label=" WAW depth 3, ref 1->1 "];
+  S0 -> S0 [label=" RAW depth 1, ref 1->3 "];
+  S0 -> S1 [label=" RAW depth 1, ref 1->3 "];
+  S1 -> S0 [label=" RAW depth 1, ref 1->2 "];
+  S0 -> S2 [label=" RAW depth 1, ref 1->2 "];
+  S2 -> S0 [label=" RAW depth 1, ref 1->2 "];
+  S1 -> S1 [label=" WAR depth 3, ref 0->1 "];
+  S1 -> S1 [label=" RAW depth 3, ref 1->0 "];
+  S1 -> S1 [label=" WAW depth 3, ref 1->1 "];
+  S1 -> S1 [label=" RAW depth 1, ref 1->2 "];
+  S1 -> S2 [label=" WAR depth 2, ref 0->1 "];
+  S1 -> S2 [label=" RAW depth 2, ref 1->0 "];
+  S1 -> S2 [label=" WAW depth 2, ref 1->1 "];
+  S2 -> S1 [label=" RAW depth 1, ref 1->2 "];
+# Number of edges = 16
+}

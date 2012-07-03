@@ -280,6 +280,450 @@ w[i]=w[i]+alpha*A[i][j]*x[j];
 </body>
 
 # =============================================== Extensions
+<dependence>
+# Number of dependences
+13
+# Description of dependence 1
+# type
+RAW #(flow)
+# From source statement id
+0
+# To target statement id
+1
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+3
+# Dependence domain
+UNDEFINED
+19 13 5 5 0 1
+# e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0    0   -1    0    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    0    1    0    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0    0   -1    0    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    0    0    4    ## c3 == 4
+   0    1    0    0   -1    0    0    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    1    0    0   -1    0    0    0    0    0    0    0    ## c2-c5 == 0
+   0    0    0    0    0    0    0    0    1    0    0    0   -4    ## i3-4 == 0
+   0    0    0    0    0    0   -1    0    0    1    0    0    0    ## -i1+i4 == 0
+   0    0    0    0    0    0    0   -1    0    0    1    0    0    ## -i2+i5 == 0
+   0    0    0   -1    0    0    0    0    1    0    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    0    1    0    0    0    ## c4 == i4
+   0    0    0    0    0   -1    0    0    0    0    1    0    0    ## c5 == i5
+# Description of dependence 2
+# type
+RAW #(flow)
+# From source statement id
+0
+# To target statement id
+3
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+3
+# Dependence domain
+UNDEFINED
+19 13 5 5 0 1
+# e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0    0   -1    0    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    0    1    0    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0    0   -1    0    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    0    0    4    ## c3 == 4
+   0    1    0    0   -1    0    0    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    1    0    0   -1    0    0    0    0    0    0    0    ## c2-c5 == 0
+   0    0    0    0    0    0    0    0    1    0    0    0   -4    ## i3-4 == 0
+   0    0    0    0    0    0   -1    0    0    1    0    0    0    ## -i1+i4 == 0
+   0    0    0    0    0    0    0   -1    0    0    1    0    0    ## -i2+i5 == 0
+   0    0    0   -1    0    0    0    0    1    0    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    0    1    0    0    0    ## c4 == i4
+   0    0    0    0    0   -1    0    0    0    0    1    0    0    ## c5 == i5
+# Description of dependence 3
+# type
+WAW #(output)
+# From source statement id
+1
+# To target statement id
+1
+# Depth 
+2
+# From source access ref
+0
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+# Description of dependence 4
+# type
+RAW #(flow)
+# From source statement id
+1
+# To target statement id
+1
+# Depth 
+2
+# From source access ref
+0
+# To target access ref
+1
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+# Description of dependence 5
+# type
+WAR #(anti)
+# From source statement id
+1
+# To target statement id
+1
+# Depth 
+2
+# From source access ref
+1
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+# Description of dependence 6
+# type
+WAW #(output)
+# From source statement id
+1
+# To target statement id
+2
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+14 10 4 3 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
+   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
+   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
+   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
+# Description of dependence 7
+# type
+RAW #(flow)
+# From source statement id
+1
+# To target statement id
+2
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+1
+# Dependence domain
+UNDEFINED
+14 10 4 3 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
+   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
+   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
+   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
+# Description of dependence 8
+# type
+WAR #(anti)
+# From source statement id
+1
+# To target statement id
+2
+# Depth 
+0
+# From source access ref
+1
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+14 10 4 3 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
+   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
+   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
+   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
+# Description of dependence 9
+# type
+RAW #(flow)
+# From source statement id
+1
+# To target statement id
+3
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+4
+# Dependence domain
+UNDEFINED
+16 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
+   0    0    0    0    0    0   -1    0    1    0    0    ## -i2+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+# Description of dependence 10
+# type
+RAW #(flow)
+# From source statement id
+2
+# To target statement id
+3
+# Depth 
+0
+# From source access ref
+0
+# To target access ref
+4
+# Dependence domain
+UNDEFINED
+14 10 3 4 0 1
+# e/i| c1   c2   c3 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0   -1    0    0    0    0    0    0    9    ## c2 == 9
+   0    1    0   -1    0    0    0    0    0    0    ## c1-c3 == 0
+   0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
+   0    0    0    0    0   -1    0    1    0    0    ## -i2+i4 == 0
+   0    0   -1    0    0    0    1    0    0    0    ## c2 == i3
+   0    0    0   -1    0    0    0    1    0    0    ## c3 == i4
+# Description of dependence 11
+# type
+WAW #(output)
+# From source statement id
+3
+# To target statement id
+3
+# Depth 
+2
+# From source access ref
+0
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+# Description of dependence 12
+# type
+RAW #(flow)
+# From source statement id
+3
+# To target statement id
+3
+# Depth 
+2
+# From source access ref
+0
+# To target access ref
+1
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+# Description of dependence 13
+# type
+WAR #(anti)
+# From source statement id
+3
+# To target statement id
+3
+# Depth 
+2
+# From source access ref
+1
+# To target access ref
+0
+# Dependence domain
+UNDEFINED
+18 11 4 4 0 1
+# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
+   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
+   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
+   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
+   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
+   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
+   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
+   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
+   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
+   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
+   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
+   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
+   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
+   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
+   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
+   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
+   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
+</dependence>
+
 <scatnames>
 b0 i b1 j b2
 </scatnames>
@@ -318,7 +762,7 @@ b0 i b1 j b2
 </OpenScop>
 
 
-[33mDEPENDENCES:[00m
+[33mDEPENDENCES GRAPH:[00m
 digraph G {
 # Data Dependence Graph
   S0 -> S1 [label=" RAW depth 0, ref 0->3 "];
@@ -336,474 +780,3 @@ digraph G {
   S3 -> S3 [label=" WAR depth 2, ref 1->0 "];
 # Number of edges = 13
 }
-<candl>
-<dependence-polyhedra>
-# Number of dependences
-13
-# Description of dependence 1
-# type
-RAW #(flow)
-# From statement id
-0
-# To statement id
-1
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-3
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 2 3 0 0 0 0
-UNDEFINED
-19 13 5 5 0 1
-# e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0    0   -1    0    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    0    1    0    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0    0   -1    0    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    0    0    4    ## c3 == 4
-   0    1    0    0   -1    0    0    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    1    0    0   -1    0    0    0    0    0    0    0    ## c2-c5 == 0
-   0    0    0    0    0    0    0    0    1    0    0    0   -4    ## i3-4 == 0
-   0    0    0    0    0    0   -1    0    0    1    0    0    0    ## -i1+i4 == 0
-   0    0    0    0    0    0    0   -1    0    0    1    0    0    ## -i2+i5 == 0
-   0    0    0   -1    0    0    0    0    1    0    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    0    1    0    0    0    ## c4 == i4
-   0    0    0    0    0   -1    0    0    0    0    1    0    0    ## c5 == i5
-# Description of dependence 2
-# type
-RAW #(flow)
-# From statement id
-0
-# To statement id
-3
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-3
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 3 2 3 0 0 0 0
-UNDEFINED
-19 13 5 5 0 1
-# e/i| c1   c2   c3   c4   c5 | i1   i2   i3   i4   i5 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0    0   -1    0    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    0    1    0    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0    0   -1    0    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    0    0    4    ## c3 == 4
-   0    1    0    0   -1    0    0    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    1    0    0   -1    0    0    0    0    0    0    0    ## c2-c5 == 0
-   0    0    0    0    0    0    0    0    1    0    0    0   -4    ## i3-4 == 0
-   0    0    0    0    0    0   -1    0    0    1    0    0    0    ## -i1+i4 == 0
-   0    0    0    0    0    0    0   -1    0    0    1    0    0    ## -i2+i5 == 0
-   0    0    0   -1    0    0    0    0    1    0    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    0    1    0    0    0    ## c4 == i4
-   0    0    0    0    0   -1    0    0    0    0    1    0    0    ## c5 == i5
-# Description of dependence 3
-# type
-WAW #(output)
-# From statement id
-1
-# To statement id
-1
-# Depth 
-2
-# Source access ref
-0
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-# Description of dependence 4
-# type
-RAW #(flow)
-# From statement id
-1
-# To statement id
-1
-# Depth 
-2
-# Source access ref
-0
-# Target access ref
-1
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-# Description of dependence 5
-# type
-WAR #(anti)
-# From statement id
-1
-# To statement id
-1
-# Depth 
-2
-# Source access ref
-1
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-# Description of dependence 6
-# type
-WAW #(output)
-# From statement id
-1
-# To statement id
-2
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 1 2 0 0 0 0
-UNDEFINED
-14 10 4 3 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
-   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
-   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
-   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
-# Description of dependence 7
-# type
-RAW #(flow)
-# From statement id
-1
-# To statement id
-2
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-1
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 1 2 0 0 0 0
-UNDEFINED
-14 10 4 3 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
-   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
-   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
-   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
-# Description of dependence 8
-# type
-WAR #(anti)
-# From statement id
-1
-# To statement id
-2
-# Depth 
-0
-# Source access ref
-1
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 1 2 0 0 0 0
-UNDEFINED
-14 10 4 3 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    1    0    0   -9    ## i2-9 == 0
-   0    0    0    0    0   -1    0    1    0    0    ## -i1+i3 == 0
-   0    0    0   -1    0    0    1    0    0    0    ## c3 == i2
-   0    0    0    0   -1    0    0    1    0    0    ## c4 == i3
-# Description of dependence 9
-# type
-RAW #(flow)
-# From statement id
-1
-# To statement id
-3
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-4
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-16 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0    9    ## c3 == 9
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
-   0    0    0    0    0    0   -1    0    1    0    0    ## -i2+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-# Description of dependence 10
-# type
-RAW #(flow)
-# From statement id
-2
-# To statement id
-3
-# Depth 
-0
-# Source access ref
-0
-# Target access ref
-4
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-1 2 2 2 0 0 0 0
-UNDEFINED
-14 10 3 4 0 1
-# e/i| c1   c2   c3 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0   -1    0    0    0    0    0    0    9    ## c2 == 9
-   0    1    0   -1    0    0    0    0    0    0    ## c1-c3 == 0
-   0    0    0    0    0    0    1    0    0   -9    ## i3-9 == 0
-   0    0    0    0    0   -1    0    1    0    0    ## -i2+i4 == 0
-   0    0   -1    0    0    0    1    0    0    0    ## c2 == i3
-   0    0    0   -1    0    0    0    1    0    0    ## c3 == i4
-# Description of dependence 11
-# type
-WAW #(output)
-# From statement id
-3
-# To statement id
-3
-# Depth 
-2
-# Source access ref
-0
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-# Description of dependence 12
-# type
-RAW #(flow)
-# From statement id
-3
-# To statement id
-3
-# Depth 
-2
-# Source access ref
-0
-# Target access ref
-1
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-# Description of dependence 13
-# type
-WAR #(anti)
-# From statement id
-3
-# To statement id
-3
-# Depth 
-2
-# Source access ref
-1
-# Target access ref
-0
-# Dependence domain
-# src outp domain / src outp access / targ outp domain / targ outp access / src ld domain / src ld access / targ ld domain / targ ld access
-2 2 2 2 0 0 0 0
-UNDEFINED
-18 11 4 4 0 1
-# e/i| c1   c2   c3   c4 | i1   i2   i3   i4 | P1 |  1  
-   1    1    0    0    0    0    0    0    0    0    0    ## c1 >= 0
-   1   -1    0    0    0    0    0    0    0    1   -1    ## -c1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    1    0    0    0    0    0    0    0    0    ## c2 >= 0
-   1    0   -1    0    0    0    0    0    0    1   -1    ## -c2+P1-1 >= 0
-   1    0    0    0    0    1    0    0    0    0    0    ## i1 >= 0
-   1    0    0    0    0   -1    0    0    0    1   -1    ## -i1+P1-1 >= 0
-   1    0    0    0    0    0    0    0    0    1   -1    ## P1-1 >= 0
-   1    0    0    0    0    0    1    0    0    0    0    ## i2 >= 0
-   1    0    0    0    0    0   -1    0    0    1   -1    ## -i2+P1-1 >= 0
-   0    0    0   -1    0    0    0    0    0    0   13    ## c3 == 13
-   0    1    0    0   -1    0    0    0    0    0    0    ## c1-c4 == 0
-   0    0    0    0    0    0    0    1    0    0  -13    ## i3-13 == 0
-   0    0    0    0    0   -1    0    0    1    0    0    ## -i1+i4 == 0
-   0    0    0   -1    0    0    0    1    0    0    0    ## c3 == i3
-   0    0    0    0   -1    0    0    0    1    0    0    ## c4 == i4
-   0   -1    0    0    0    1    0    0    0    0    0    ## c1 == i1
-   1    0   -1    0    0    0    1    0    0    0   -1    ## -c2+i2-1 >= 0
-</dependence-polyhedra>
-</candl>

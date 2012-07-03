@@ -71,9 +71,9 @@ AM_CFLAGS = $(CFLAGS_WARN)
 
 EXTRA_DIST		= COPYING.LESSER AUTHORS
 
-libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ @CLAY_LIBS@ $(OSL_LA)
-libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@ @CLAY_CPPFLAGS@ -g
-libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDFLAGS@ @CLAY_LDFLAGS@
+libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ $(OSL_LA)
+libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@  -g
+libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDFLAGS@ 
 libcandl_la_SOURCES =        \
 	source/dependence.c        \
 	source/ddv.c               \
@@ -88,9 +88,9 @@ libcandl_la_SOURCES =        \
 
 #############################################################################
 
-LDADD              = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ @CLAY_LIBS@ libcandl.la
-candl_CPPFLAGS     = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@ @CLAY_CPPFLAGS@ -g -Wall
-candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDLAGS@ @CLAY_LDFLAGS@ # TO BE REMOVED
+LDADD              = @OSL_LIBS@ @PIPLIB_LIBS@ @SCOPLIB_LIBS@ libcandl.la
+candl_CPPFLAGS     = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ @SCOPLIB_CPPFLAGS@ -g -Wall
+candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDLAGS@ # TO BE REMOVED
 candl_DEPENDENCIES = libcandl.la
 candl_SOURCES      = source/candl.c
 

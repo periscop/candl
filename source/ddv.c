@@ -44,6 +44,7 @@
 #include <osl/statement.h>
 #include <osl/scop.h>
 #include <candl/candl.h>
+#include <candl/ddv.h>
 #include <candl/usr.h>
 #include <candl/piplib-wrapper.h>
 
@@ -318,9 +319,9 @@ candl_ddv_constant_val(osl_relation_p system, int* val, int nb_par) {
  */
 static
 CandlDDV*
-candl_ddv_create_from_dep(candl_dependence_p dep, int loop_id, int ddv_size) {
+candl_ddv_create_from_dep(osl_dependence_p dep, int loop_id, int ddv_size) {
   osl_relation_p mat = dep->domain;
-  osl_statement_p src = dep->source;
+  osl_statement_p src = dep->stmt_source_ptr;
   candl_statement_usr_p usr = src->usr;
   CandlDDV* dv = candl_ddv_alloc(ddv_size);
   int precision = src->domain->precision;
@@ -425,17 +426,17 @@ candl_ddv_create_from_dep(candl_dependence_p dep, int loop_id, int ddv_size) {
  *
  */
 CandlDDV*
-candl_ddv_extract_in_loop(osl_scop_p scop, candl_dependence_p deps,
+candl_ddv_extract_in_loop(osl_scop_p scop, osl_dependence_p deps,
                           int loop_id) {
-  candl_dependence_p tmp;
+  osl_dependence_p tmp;
   candl_statement_usr_p src_usr, dst_usr;
   CandlDDV* head = NULL;
   CandlDDV* last = NULL;
   int i;
 
   for (tmp = deps; tmp; tmp = tmp->next) {
-    osl_statement_p src = tmp->source;
-    osl_statement_p dst = tmp->target;
+    osl_statement_p src = tmp->stmt_source_ptr;
+    osl_statement_p dst = tmp->stmt_target_ptr;
     src_usr = src->usr;
     dst_usr = dst->usr;
 
@@ -470,7 +471,7 @@ candl_ddv_extract_in_loop(osl_scop_p scop, candl_dependence_p deps,
  *
  */
 int
-candl_loops_are_permutable(osl_scop_p scop, candl_dependence_p deps,
+candl_loops_are_permutable(osl_scop_p scop, osl_dependence_p deps,
                            int loop_id1, int loop_id2) {
   CandlDDV* l1 = candl_ddv_extract_in_loop(scop, deps, loop_id1);
   CandlDDV* l2 = candl_ddv_extract_in_loop(scop, deps, loop_id2);
