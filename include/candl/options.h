@@ -63,6 +63,9 @@ struct candl_options {
   int lastwriter; /**< 1 to compute last writer */
   int verbose; /**< 1 to enable verbose output. */
   int outscop; /**< 1 to print the scop with dependences. */
+  int autocorrect; /**< 1 to correct violations. fullcheck is set to 1 and 
+                     * the -test is required.
+                    */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */
   int structure; /**< 1 to print internal dependence structure. */

@@ -1,4 +1,5 @@
 
+
    /**------ ( ----------------------------------------------------------**
     **       )\                      CAnDL                               **
     **----- /  ) --------------------------------------------------------**
@@ -43,17 +44,17 @@
 #include <osl/extensions/dependence.h>
 #include <osl/relation.h>
 #include <candl/macros.h>
-#include <candl/usr.h>
+#include <candl/statement.h>
 #include <candl/util.h>
 
-#define CANDL_USR_INDEX_MAX_LOOP_DEPTH 128
+#define CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH 128
 
 
 /**
- * candl_usr_init function:
- * Init a candl_scop_usr and a candl_statement_usr structure
+ * candl_statement_usr_init_all function:
+ * Init each candl_statement_usr structure of statements
  */
-void candl_usr_init(osl_scop_p scop) {
+void candl_statement_usr_init_all(osl_scop_p scop) {
 
   /* TODO
    * that statements must be sorted to compute the statement label
@@ -63,7 +64,6 @@ void candl_usr_init(osl_scop_p scop) {
 
   osl_statement_p iter;
   osl_relation_p scattering;
-  candl_scop_usr_p scop_usr;
   candl_statement_usr_p stmt_usr;
   int i, j, k;
   int row;
@@ -73,18 +73,12 @@ void candl_usr_init(osl_scop_p scop) {
   /* Initialize structures used in iterator indices computation. */
   int val;
   int max = 0;
-  int cur_index[CANDL_USR_INDEX_MAX_LOOP_DEPTH];
-  int last[CANDL_USR_INDEX_MAX_LOOP_DEPTH];
-  for (i = 0; i < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++i) {
+  int cur_index[CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH];
+  int last[CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH];
+  for (i = 0; i < CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH; ++i) {
     cur_index[i] = i;
     last[i] = 0;
   }
-  
-  /* Init the scop_usr structure */
-  scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
-  scop_usr->scalars_privatizable = NULL;
-  scop_usr->usr_backup           = scop->usr;
-  scop->usr = scop_usr;
   
   /* Add useful information in the usr field of each statements */
   for (iter = scop->statement ; iter != NULL ; iter = iter->next) {
@@ -99,7 +93,9 @@ void candl_usr_init(osl_scop_p scop) {
                             (int*) malloc(stmt_usr->depth * sizeof(int)) : 
                             NULL);
     
-    /* Compute the value of the iterator indices. */
+    /* Compute the value of the iterator indices.
+     * extracted from the last candl
+     */
     for (j = 0; j < stmt_usr->depth; ++j) {
       row = candl_relation_get_line(scattering, j*2);
       val = osl_int_get_si(precision,
@@ -107,9 +103,9 @@ void candl_usr_init(osl_scop_p scop) {
                            scattering->nb_columns-1);
       if (last[j] < val) {
         last[j] = val;
-        for (k = j + 1; k < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++k)
+        for (k = j + 1; k < CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH; ++k)
           last[k] = 0;
-        for (k = j; k < CANDL_USR_INDEX_MAX_LOOP_DEPTH; ++k)
+        for (k = j; k < CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH; ++k)
           cur_index[k] = max + (k - j) + 1;
         break;
       }
@@ -128,26 +124,13 @@ void candl_usr_init(osl_scop_p scop) {
 /**
  * candl_usr_free function:
  */
-void candl_usr_cleanup(osl_scop_p scop) {
-  osl_statement_p statement = scop->statement;
+void candl_statement_usr_cleanup(osl_statement_p statement) {
   candl_statement_usr_p stmt_usr;
-  candl_scop_usr_p scop_usr;
-  while (statement != NULL) {
-    stmt_usr = statement->usr;
-    if (stmt_usr) {
-      if (stmt_usr->index)
-        free(stmt_usr->index);
-      statement->usr = stmt_usr->usr_backup;
-      free(stmt_usr);
-    }
-    statement = statement->next;
-  }
-  scop_usr = scop->usr;
-  if (scop_usr) {
-    if (scop_usr->scalars_privatizable)
-      free(scop_usr->scalars_privatizable);
-    scop->usr = scop_usr->usr_backup;
-    free(scop_usr);
+  stmt_usr = statement->usr;
+  if (stmt_usr) {
+    if (stmt_usr->index)
+      free(stmt_usr->index);
+    statement->usr = stmt_usr->usr_backup;
+    free(stmt_usr);
   }
 }
-

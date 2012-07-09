@@ -68,6 +68,11 @@
            fprintf(stderr,"[Candl] Info: "msg" (%s).\n", __func__);        \
          } while (0)
 
+# define CANDL_warning(msg)                                                \
+         do {                                                              \
+           fprintf(stderr,"[Candl] Warning: "msg" (%s).\n", __func__);     \
+         } while (0)
+
 # define CANDL_error(msg)                                                  \
          do {                                                              \
            fprintf(stderr,"[Candl] Error: "msg" (%s).\n", __func__);       \

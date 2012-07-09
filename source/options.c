@@ -108,6 +108,7 @@ candl_options_p candl_options_malloc(void) {
   options->lastwriter = 0; /* Compute the last writer for RAW and WAW dependences */
   options->verbose = 0; /* Don't be verbose. */
   options->outscop = 0; /* Don't print the scop. */
+  options->autocorrect = 0; /* Don't correct violations. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
   options->structure = 0; /* Don't print internal dependence structure. */
@@ -139,8 +140,9 @@ void candl_options_help() {
   printf(
     "  -commute   <boolean> Consider commutativity (1) or not (0)\n"
     "                       (default setting: 0).\n"
-    "  -fullcheck <boolean> Compute all legality violation (1) or only one (0)\n"
-    "                       (default setting: 0).\n"
+    "  -fullcheck <boolean> Compute all legality violation (1) or just the\n"
+    "                       first (0)\n"
+    "                       (default setting: 0, or 1 if autocorrect is set).\n"
     "  -scalren   <boolean> Ask to enable scalar renaming (1) or not (0)\n"
     "                       (default setting: 0).\n"
     "  -scalpriv  <boolean> Ask to enable scalar privatization (1) or not (0)\n"
@@ -153,6 +155,9 @@ void candl_options_help() {
   printf(
     "\nGeneral options:\n"
     "  -test     <origscop> Test violations with the original scop.\n"
+    //"  -autocorrect <boolean> Correct violations with a shifting (1) or not(0)\n"
+    "                       -test must be set\n"
+    "                       (default setting: 0).\n"
     "  -outscop             Output a .scop formatted file as the output.\n"
     "  -o        <output>   Name of the output file; 'stdout' is a special\n"
     "                       value: when used, output is standard output\n"
@@ -284,6 +289,9 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
       } else
       if (!strcmp(argv[i], "-lastwriter")) {
         candl_options_set(&(*options)->lastwriter, argc, argv, &i);
+      }  else
+      if (!strcmp(argv[i], "-autocorrect")) {
+        candl_options_set(&(*options)->autocorrect, argc, argv, &i);
       } else
       if (!strcmp(argv[i], "-view")) {
         (*options)->view = 1;
@@ -372,20 +380,26 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
           }
         }
       } else {
-        fprintf(stderr, "[Candl]ERROR: multiple input files.\n");
-        exit(1);
+        CANDL_error("multiple input files.\n");
       }
     }
   }
+
+  if ((*options)->autocorrect) {
+    (*options)->fullcheck = 1;
+    if (!*input_test)
+      CANDL_error("no test file (-h for help).\n");
+  }
+
   if (!input_is_set) {
     if (!infos)
-      fprintf(stderr, "[Candl]ERROR: no input file (-h for help).\n");
+      CANDL_error("no input file (-h for help).\n");
     exit(1);
   }
-  if (input_test && !strcmp(argv[input_is_set], argv[testscop_is_set])) {
+
+  if (*input_test && !strcmp(argv[input_is_set], argv[testscop_is_set])) {
     if (!infos)
-      fprintf(stderr,
-      "[Candl]ERROR: the input file and the test scop can't be the same file.\n");
+      CANDL_error("the input file and the test scop can't be the same file.\n");
     exit(1);
   }
   

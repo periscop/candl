@@ -2194,110 +2194,6 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
 
 
 /*
- * Convert a PIP quast to a union of polyhedra (Pip matrices)
- *
- * num: number of Pip matrices returned
- *
- **/
-static PipMatrix **quast_to_polyhedra(PipQuast *quast, int *num,
-                                       int nvar, int npar) {
-  int num1, num2;
-  PipMatrix** ep;
-  PipMatrix** tp;
-  PipMatrix** qp;
-  int i, j;
-  if (quast == NULL) {
-    *num = 0;
-    return NULL;
-  }
-
-  if (quast->condition != NULL) {
-    tp = quast_to_polyhedra(quast->next_then, &num1, nvar, npar);
-    ep = quast_to_polyhedra(quast->next_else, &num2, nvar, npar);
-
-    /* Each of the matrices in the then tree needs to be augmented with
-     * the condition */
-    for (i = 0; i < num1; i++) {
-      int nrows = tp[i]->NbRows;
-      CANDL_set_si(tp[i]->p[nrows][0], 1);
-      for (j = 1; j < 1 + nvar; j++)
-        CANDL_set_si(tp[i]->p[nrows][j], 0);
-      for (j = 0; j < npar + 1; j++)
-        CANDL_assign(tp[i]->p[nrows][1+nvar+j],
-                     quast->condition->the_vector[j]);
-      (tp[i]->NbRows)++;
-    }
-
-    for (i = 0; i < num2; i++) {
-      int nrows = ep[i]->NbRows;
-      /* Inequality */
-      CANDL_set_si(ep[i]->p[nrows][0], 1);
-      for (j = 1; j < 1 + nvar; j++)
-        CANDL_set_si(ep[i]->p[nrows][j], 0);
-      for (j = 0; j < npar + 1; j++)
-        CANDL_set_si(ep[i]->p[nrows][1+nvar+j],
-                     -CANDL_get_si(quast->condition->the_vector[j]));
-      (ep[i]->NbRows)++;
-    }
-
-    qp = (PipMatrix **) malloc((num1 + num2) * sizeof(PipMatrix*));
-    for (i = 0; i < num1; ++i)
-      qp[i] = tp[i];
-    for (i = 0; i < num2; ++i)
-      qp[i + num1] = ep[i];
-
-    *num = num1 + num2;
-
-    return qp;
-
-  }
-  else {
-    /* quast condition is NULL */
-    PipMatrix *lwmatrix = pip_matrix_alloc(nvar+npar+1, nvar+npar+2);
-
-    PipList *vecList = quast->list;
-
-    int count=0;
-    while (vecList != NULL) {
-      /* Equality */
-      CANDL_set_si(lwmatrix->p[count][0], 0);
-      for (j=0; j<nvar; j++)
-        if (j == count)
-          CANDL_set_si(lwmatrix->p[count][j+1], 1);
-        else
-          CANDL_set_si(lwmatrix->p[count][j+1], 0);
-
-      for (j=0; j<npar; j++)
-        CANDL_set_si(lwmatrix->p[count][j+1+nvar],
-                     -CANDL_get_si(vecList->vector->the_vector[j]));
-      /* Constant portion */
-      if (quast->newparm != NULL)
-        /* Don't handle newparm for now */
-        CANDL_set_si(lwmatrix->p[count][npar+1+nvar],
-                     -CANDL_get_si(vecList->vector->the_vector[npar+1]));
-      else
-        CANDL_set_si(lwmatrix->p[count][npar+1+nvar],
-                     -CANDL_get_si(vecList->vector->the_vector[npar]));
-
-      count++;
-
-      vecList = vecList->next;
-    }
-    lwmatrix->NbRows = count;
-
-    if (count > 0)
-      *num = 1;
-    else
-      *num = 0;
-
-    PipMatrix** ret = (PipMatrix**) malloc(sizeof(PipMatrix*));
-    ret[0] = lwmatrix;
-    return ret;
-  }
-}
-
-
-/*
  * Compute last writer for a given dependence; does not make sense if the
  * supplied dependence is not a RAW or WAW dependence
  *
@@ -2340,10 +2236,12 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
   osl_relation_p context = osl_relation_pmalloc(precision, 
                                    (*dep)->domain->nb_rows,
                                    (*dep)->stmt_target_ptr->domain->nb_columns);
-
   int nrows = 0;
   for (i = 0; i < (*dep)->domain->nb_rows; i++) {
     for (j = 1; j < s_usr->depth+1; j++) {
+
+      // FIXME : new domain structure for dependence
+
       if (!osl_int_zero(precision, (*dep)->domain->m[i], j))
         break;
     }
@@ -2362,7 +2260,6 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
       nrows++;
     }
   }
-  context->nb_rows = nrows;
 
   /* Parameteric lexmax */
   lexmax = pip_solve_osl((*dep)->domain, context, -1, pipOptions);
@@ -2370,25 +2267,26 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
   pip_options_free(pipOptions);
 
   if (lexmax == NULL) {
-    printf("WARNING: last writer failed (mostly invalid dependence): %s\n",
-           "bailing out safely without modification");
-    osl_relation_print(stdout, (*dep)->domain);
-    osl_relation_print(stdout, context);
+    CANDL_warning("last writer failed (mostly invalid dependence): bailing out"
+                  "safely without modification");
+    osl_relation_print(stderr, context);
+    osl_relation_print(stderr, (*dep)->domain);
     return 1;
   }
 
   int num;
-  PipMatrix **qp = quast_to_polyhedra(lexmax, &num, s_usr->depth,
-                                      t_usr->depth + npar);
+  osl_relation_p qp = pip_quast_to_polyhedra(lexmax, s_usr->depth,
+                                             t_usr->depth + npar);
 
   /* Update the dependence domains */
   if (num > 0) {
-    int it_mat;
+    osl_relation_p iter;
     osl_relation_p original_domain = (*dep)->domain;
-    for (it_mat = 0; it_mat < num; ++it_mat) {
+    for (iter = qp ; iter != NULL ; iter = iter->next) {
+
       new_domain = osl_relation_pmalloc(precision,
                                     original_domain->nb_rows +
-                                    qp[it_mat]->NbRows,
+                                    qp->nb_rows,
                                     original_domain->nb_columns);
 
       for (i = 0; i < original_domain->nb_rows; i++)
@@ -2397,16 +2295,16 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
                          new_domain->m[i], j,
                          original_domain->m[i], j);
 
-      for (i = 0; i < qp[it_mat]->NbRows; i++)
+      for (i = 0; i < qp->nb_rows; i++)
         for (j = 0; j < original_domain->nb_columns; j++)
           osl_int_assign(precision,
                          new_domain->m[i+original_domain->nb_rows], j,
-                         qp[it_mat]->p[i], j);
+                         qp->m[i], j);
 
       (*dep)->domain = new_domain;
       /* More than 1 pipmatrix from the quast, we need to insert
          new dependences to have the union of domains. */
-      if (it_mat < num - 1) {
+      if (qp->next != NULL) {
         osl_dependence_p newdep = osl_dependence_malloc();
         newdep->stmt_source_ptr = (*dep)->stmt_source_ptr;
         newdep->stmt_target_ptr = (*dep)->stmt_target_ptr;
@@ -2432,12 +2330,11 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
     }
 
     osl_relation_free(original_domain);
-    for (i = 0; i < num; ++i)
-      pip_matrix_free(qp[i]);
+    osl_relation_free(qp);
   }
 
-  if (qp) free(qp);
   pip_quast_free(lexmax);
+  osl_relation_free(qp);
   osl_relation_free(context);
 
   return 0;

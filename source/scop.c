@@ -1,8 +1,9 @@
 
+
    /**------ ( ----------------------------------------------------------**
     **       )\                      CAnDL                               **
     **----- /  ) --------------------------------------------------------**
-    **     ( * (                   usr.h                                 **
+    **     ( * (                   scop.c                                **
     **----  \#/  --------------------------------------------------------**
     **    .-"#'-.        First version: june 7th 2012                    **
     **--- |"-.-"| -------------------------------------------------------**
@@ -34,38 +35,52 @@
  ******************************************************************************/
 
 /*
- * author Joel Poudroux
+ * author Joel Poudroux 
  */
 
-#ifndef CANDL_USR_H
-#define CANDL_USR_H
-
+#include <stdlib.h>
 #include <osl/scop.h>
+#include <osl/statement.h>
+#include <osl/extensions/dependence.h>
+#include <osl/relation.h>
+#include <candl/macros.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
+#include <candl/util.h>
 
-struct candl_scop_usr {
-  int size;
-  int *scalars_privatizable;
-  void *usr_backup; /**< If there is already a usr field, it will be saved */
-};
+/**
+ * candl_scop_usr_init function:
+ * Init a candl_scop_usr structure
+ */
+void candl_scop_usr_init(osl_scop_p scop) {
 
-typedef struct candl_scop_usr  candl_scop_usr_t;
-typedef struct candl_scop_usr* candl_scop_usr_p;
-
-
-struct candl_statement_usr {
-  int label; /**< Statement label = 'n'th statement */
-  int depth;
-  int type;
-  int *index; /**< Loops label name */
-  void *usr_backup; /**< If there is already a usr field, it will be saved */
-};
-
-typedef struct candl_statement_usr  candl_statement_usr_t;
-typedef struct candl_statement_usr* candl_statement_usr_p;
+  candl_scop_usr_p scop_usr;
+  
+  /* Init the scop_usr structure */
+  scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
+  scop_usr->scalars_privatizable = NULL;
+  scop_usr->usr_backup           = scop->usr;
+  scop->usr = scop_usr;
+  
+  candl_statement_usr_init_all(scop);
+}
 
 
-void candl_usr_init(osl_scop_p);
-void candl_usr_cleanup(osl_scop_p);
-
-
-#endif
+/**
+ * candl_scop_usr_cleanup function:
+ */
+void candl_scop_usr_cleanup(osl_scop_p scop) {
+  osl_statement_p statement = scop->statement;
+  candl_scop_usr_p scop_usr;
+  while (statement != NULL) {
+    candl_statement_usr_cleanup(statement);
+    statement = statement->next;
+  }
+  scop_usr = scop->usr;
+  if (scop_usr) {
+    if (scop_usr->scalars_privatizable)
+      free(scop_usr->scalars_privatizable);
+    scop->usr = scop_usr->usr_backup;
+    free(scop_usr);
+  }
+}

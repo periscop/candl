@@ -37,13 +37,13 @@
 #include <stdio.h>
 #include <osl/scop.h>
 #include <osl/macros.h>
-#include <osl/extensions/dependence.h>
 #include <osl/util.h>
+#include <osl/extensions/dependence.h>
 #include <candl/candl.h>
 #include <candl/dependence.h>
 #include <candl/violation.h>
 #include <candl/options.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
 #include <candl/util.h>
 
 
@@ -97,7 +97,7 @@ int main(int argc, char * argv[]) {
    *        the problem is if the scop is reordered, the second transformed scop
    *        must be aligned with it
    */
-  candl_usr_init(orig_scop);
+  candl_scop_usr_init(orig_scop);
   
   /* Calculating dependences. */
   orig_dependence = osl_generic_lookup(orig_scop->extension, OSL_URI_DEPENDENCE);
@@ -112,8 +112,9 @@ int main(int argc, char * argv[]) {
   }
 
   /* Calculating legality violations. */
-  if (input_test != NULL)
+  if (input_test != NULL) {
     violation = candl_violation(orig_scop, orig_dependence, scop, options);
+  }
 
   /* Printing data structures if asked. */
   if (options->structure) {
@@ -157,7 +158,7 @@ int main(int argc, char * argv[]) {
   // the dependence is freed with the scop
   //osl_dependence_free(orig_dependence); 
   candl_options_free(options);
-  candl_usr_cleanup(orig_scop);
+  candl_scop_usr_cleanup(orig_scop);
   osl_scop_free(orig_scop);
   fclose(input);
   fclose(output);

@@ -361,7 +361,6 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
        * if yes there is actually a dependence violation and we
        * will add this one to the list.
        */
-      new = candl_violation_malloc();
       new = candl_matrix_violation(orig_dependence, t_source,
                                    t_target, dimension,
                                    nb_par);
@@ -390,8 +389,11 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
     }
     orig_dependence = orig_dependence->next;
   }
+
+  free(stmts);
   
   pip_options_free(pip_options);
+
   return violation;
 }
 

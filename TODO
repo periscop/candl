@@ -1,7 +1,10 @@
 
 - uncomment the link of the gmp library in configure.ac ?
 
-- unchecked -commute and -lastwriter options
+- unchecked -commute 
+
+- lastwriter not finish
+  see the FIXME in the function candl_dep_compute_lastwriter
 
 - compilation error with ISL :
   To test it, in isl-wrapper change #ifdef CANDL_SUPPORTS_ISL to
@@ -24,5 +27,15 @@
 - candl_usr_init
   the statements must be sorted to compute the statement label
   the problem is if the scop is reordered, the second transformed scop
-  must be "aligned" with it (the first statement corresponds to the first
+  must be "aligned" with it (the first statement need to corresponds to the first
   statement of the second scop, but the scattering could be different)
+
+  Functions of clay, which could return a non ordered scop :
+  (they create new statements)
+  iss, unroll, peel
+
+- in pip_has_rational_point:
+  -> FIXME (dependence.c:2243)
+
+- autocorrect not implemented yet 
+

@@ -54,7 +54,8 @@ lib_LTLIBRARIES = libcandl.la
 pkginclude_HEADERS 	=            \
 	include/candl/candl.h          \
 	include/candl/dependence.h     \
-	include/candl/usr.h            \
+	include/candl/scop.h           \
+	include/candl/statement.h      \
 	include/candl/util.h           \
 	include/candl/ddv.h            \
 	include/candl/matrix.h         \
@@ -77,7 +78,8 @@ libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ @SCOPLIB_LDFLAGS@
 libcandl_la_SOURCES =        \
 	source/dependence.c        \
 	source/ddv.c               \
-	source/usr.c               \
+	source/scop.c              \
+	source/statement.c         \
 	source/util.c              \
 	source/isl-wrapper.c       \
 	source/matrix.c            \
