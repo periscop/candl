@@ -152,36 +152,6 @@ esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
 
-dnl /**************************************************************************
-dnl  *                   Where is the SCoPLib Library?                        *
-dnl  **************************************************************************/
-
-AX_SUBMODULE(scoplib,system|build|bundled,system)
-
-AC_SUBST(SCOPLIB_CPPFLAGS)
-AC_SUBST(SCOPLIB_LDFLAGS)
-AC_SUBST(SCOPLIB_LIBS)
-case "$with_scoplib" in
-bundled)
-	SCOPLIB_CPPFLAGS="-I$srcdir/scoplib/include -Iscoplib/include"
-	SCOPLIB_LIBS="$srcdir/scoplib/source/scoplib.la"
-	;;
-build)
-	SCOPLIB_CPPFLAGS="-I$scoplib_srcdir/include -I$with_scoplib_builddir/include"
-	SCOPLIB_LIBS="$with_scoplib_builddir/libscoplib.la"
-	;;
-system)
-	if test "x$with_scoplib_prefix" != "x"; then
-		SCOPLIB_CPPFLAGS="-I$with_scoplib_prefix/include"
-	fi
-#	if test "x$with_scoplib_exec_prefix" != "x"; then
-#		SCOPLIB_LDFLAGS="-L$with_scoplib_exec_prefix/lib"
-#	fi
-	SCOPLIB_LIBS="$with_scoplib_prefix/lib/libscoplib.la -lscoplib"
-esac
-AM_CONDITIONAL(BUNDLED_SCOPLIB, test $with_scoplib = bundled)
-
-
 #dnl GMP
 
 #dnl Some default values cause I'm not sure whether autoconf set them, while
@@ -312,7 +282,6 @@ dnl  **************************************************************************/
 
 dnl Substitutions to do.
 AC_SUBST(BITS)
-AC_SUBST(DEFINE_HAS_SCOPLIB_LIB)
 AC_SUBST(DEFINE_HAS_ISL_LIB)
 AC_SUBST(ac_aux_dir)
 AC_SUBST(abs_top_srcdir)
