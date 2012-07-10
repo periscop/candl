@@ -54,7 +54,7 @@ AM_INIT_AUTOMAKE([foreign])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl default version
-BITS="64"
+BITS="MP"
 CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG
 
 
@@ -152,126 +152,125 @@ esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
 
-#dnl GMP
+dnl GMP
 
-#dnl Some default values cause I'm not sure whether autoconf set them, while
-#dnl documentation says it does...
-#gmp_package="yes"
-#gmp_include_package="yes"
-#gmp_library_package="yes"
+dnl Some default values cause I'm not sure whether autoconf set them, while
+dnl documentation says it does...
+gmp_package="yes"
+gmp_include_package="yes"
+gmp_library_package="yes"
 
-#NEED_MP="no"
+NEED_MP="no"
 
-#dnl --with-gmp=gmp-path
-#AC_ARG_WITH(gmp,
-#        [  --with-gmp=DIR          DIR where the gmp package is installed],
-#	[ echo "Package gmp : $withval" &&
-#	  gmp_package=$withval &&
-#          GMP_INC=$gmp_package/include &&
-#          GMP_LIB=$gmp_package/lib &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-#          NEED_MP="yes"])
+dnl --with-gmp=gmp-path
+AC_ARG_WITH(gmp,
+        [  --with-gmp=DIR          DIR where the gmp package is installed],
+	[ echo "Package gmp : $withval" &&
+	  gmp_package=$withval &&
+          GMP_INC=$gmp_package/include &&
+          GMP_LIB=$gmp_package/lib &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          NEED_MP="yes"])
 
-#AC_ARG_WITH(gmp-include,
-#        [  --with-gmp-include=DIR  DIR where gmp.h is installed],
-#	[ echo "Package gmp-include : $withval" &&
-#	  gmp_include_package=$withval &&
-#          GMP_INC=$gmp_include_package &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-#	  NEED_MP="yes"])
+AC_ARG_WITH(gmp-include,
+        [  --with-gmp-include=DIR  DIR where gmp.h is installed],
+	[ echo "Package gmp-include : $withval" &&
+	  gmp_include_package=$withval &&
+          GMP_INC=$gmp_include_package &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+	  NEED_MP="yes"])
 
-#AC_ARG_WITH(gmp-library,
-#        [  --with-gmp-library=DIR  DIR where the gmp library is installed],
-#	[ echo "Package gmp-library : $withval" &&
-#	  gmp_library_package=$withval &&
-#          GMP_LIB=$gmp_library_package &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-#	  NEED_MP="yes"])
+AC_ARG_WITH(gmp-library,
+        [  --with-gmp-library=DIR  DIR where the gmp library is installed],
+	[ echo "Package gmp-library : $withval" &&
+	  gmp_library_package=$withval &&
+          GMP_LIB=$gmp_library_package &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+	  NEED_MP="yes"])
 
-#AC_ARG_ENABLE(int-version,
-#	[  --enable-int-version    'int' (32 bits) version is built],
-#	[ echo "Package int : $enableval" &&
-#	  BITS="32" &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_LONG])
+AC_ARG_ENABLE(int-version,
+	[  --enable-int-version    'int' (32 bits) version is built],
+	[ echo "Package int : $enableval" &&
+	  BITS="32" &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_LONG])
 
-#AC_ARG_ENABLE(llint-version,
-#	[  --enable-llint-version  'long long int' (64 bits) version is built],
-#	[ echo "Package long long int : $enableval" &&
-#	  BITS="64" &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG])
+AC_ARG_ENABLE(llint-version,
+	[  --enable-llint-version  'long long int' (64 bits) version is built],
+	[ echo "Package long long int : $enableval" &&
+	  BITS="64" &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG])
 
-#AC_ARG_ENABLE(mp-version,
-#	[  --enable-mp-version     'MP' (multiple precision) version is built],
-#	[ echo "Package mp : $enableval" &&
-#	  BITS="MP" &&
-#          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-#          NEED_MP="yes"])
+AC_ARG_ENABLE(mp-version,
+	[  --enable-mp-version     'MP' (multiple precision) version is built],
+	[ echo "Package mp : $enableval" &&
+	  BITS="MP" &&
+          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          NEED_MP="yes"])
 
-#AC_ARG_ENABLE(piplib-hybrid,
-#	[  --enable-piplib-hybrid   Link with piplib-hybrid],
-#	[ echo "Piplib-hybrid support : $enableval" &&
-#          if test "x$enableval" = "xyes"; then 
-#            CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
-#          fi])
-
-
-#dnl /**************************************************************************
-#dnl  *                            Where is GMP?                               *
-#dnl  **************************************************************************/
+AC_ARG_ENABLE(piplib-hybrid,
+	[  --enable-piplib-hybrid   Link with piplib-hybrid],
+	[ echo "Piplib-hybrid support : $enableval" &&
+          if test "x$enableval" = "xyes"; then 
+            CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
+          fi])
 
 
-#dnl Checking for gmp
-#AC_MSG_CHECKING(whether gmp works)
-#if test "$gmp_package" = "no"; then
-#  echo "GMP package not defined"
-#  AC_MSG_RESULT(no)
-#  TO_BUILD_MP=""
-#else
-#  if test "$NEED_MP" = "no"; then
-#    echo "Mode normal GMP"
-#    TO_BUILD="$TO_BUILD MP"
-#    AC_CHECK_HEADER(gmp.h,
-#                    [AC_SEARCH_LIBS([__gmpz_init], [gmp],
-#		                  [LIBS="$LIBS -lgmp"],
-#				  [echo "Can't find gmp library." &&
-#				   echo "MP version will not be built." &&
-#				   TO_BUILD_MP=""])],
-#		    [echo "Can't find gmp headers." &&
-#		     echo "MP version will not be built." &&
-#		     TO_BUILD_MP=""])
-#  else
-#    dnl Default given by --with-X is "yes", --without-X is "no". We also
-#    dnl initialized manually all gmp_package* variables to "yes" (thus they are
-#    dnl supposed to be "yes" except if the user set them himself).
+dnl /**************************************************************************
+dnl  *                            Where is GMP?                               *
+dnl  **************************************************************************/
 
-#    if test "$gmp_package" != "yes" ; then
-#      echo "(GMP path has been set by user)"
-#      GMP_DIR=$gmp_package
-#      dnl Useful for AC_CHECK_X to find what we want.
-#      CPPFLAGS="-I$GMP_DIR/include $CPPFLAGS"
-#      LDFLAGS="-L$GMP_DIR/lib $LDFLAGS"
-#    fi
 
-#    if test "$gmp_include_package" != "yes" ; then
-#      CPPFLAGS="-I$GMP_INC $CPPFLAGS"
-#    fi
+dnl Checking for gmp
+AC_MSG_CHECKING(whether gmp works)
+if test "$gmp_package" = "no"; then
+  echo "GMP package not defined"
+  AC_MSG_RESULT(no)
+  TO_BUILD_MP=""
+else
+  if test "$NEED_MP" = "no"; then
+    echo "Mode normal GMP"
+    TO_BUILD="$TO_BUILD MP"
+    AC_CHECK_HEADER(gmp.h,
+                    [AC_SEARCH_LIBS([__gmpz_init], [gmp],
+		                  [LIBS="$LIBS -lgmp"],
+				  [echo "Can't find gmp library." &&
+				   echo "MP version will not be built." &&
+				   TO_BUILD_MP=""])],
+		    [echo "Can't find gmp headers." &&
+		     echo "MP version will not be built." &&
+		     TO_BUILD_MP=""])
+  else
+    dnl Default given by --with-X is "yes", --without-X is "no". We also
+    dnl initialized manually all gmp_package* variables to "yes" (thus they are
+    dnl supposed to be "yes" except if the user set them himself).
+    if test "$gmp_package" != "yes" ; then
+      echo "(GMP path has been set by user)"
+      GMP_DIR=$gmp_package
+      dnl Useful for AC_CHECK_X to find what we want.
+      CPPFLAGS="-I$GMP_DIR/include $CPPFLAGS"
+      LDFLAGS="-L$GMP_DIR/lib $LDFLAGS"
+    fi
 
-#    if test "$gmp_library_package" != "yes" ; then
-#      LDFLAGS="-L$GMP_LIB $LDFLAGS"
-#    fi
+    if test "$gmp_include_package" != "yes" ; then
+      CPPFLAGS="-I$GMP_INC $CPPFLAGS"
+    fi
 
-#    AC_CHECK_HEADER(gmp.h,
-#                    [],
-#                    [AC_MSG_ERROR(Can't find gmp headers.)])
-#    AC_SEARCH_LIBS([__gmpz_init], [gmp],
-#                 [LIBS="$LIBS -lgmp"],
-#                 [AC_MSG_ERROR(Can't find gmp library.)])
+    if test "$gmp_library_package" != "yes" ; then
+      LDFLAGS="-L$GMP_LIB $LDFLAGS"
+    fi
 
-#    AC_MSG_RESULT(yes)
-#  fi
-#fi
+    AC_CHECK_HEADER(gmp.h,
+                    [],
+                    [AC_MSG_ERROR(Can't find gmp headers.)])
+    AC_SEARCH_LIBS([__gmpz_init], [gmp],
+                 [LIBS="$LIBS -lgmp"],
+                 [AC_MSG_ERROR(Can't find gmp library.)])
 
-#CANDL_ARG_LIBS_DEPENDENCIES
+    AC_MSG_RESULT(yes)
+  fi
+fi
+
+CANDL_ARG_LIBS_DEPENDENCIES
 
 
 

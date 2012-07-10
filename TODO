@@ -23,6 +23,7 @@
 
 - change the type of the dependence/violation domain
   (at the end of candl_dependence_build_system and candl_matrix_violation)
+  today it's : OSL_UNDEFINED
   
 - candl_usr_init
   the statements must be sorted to compute the statement label
@@ -39,3 +40,5 @@
 
 - autocorrect not implemented yet 
 
+- compilation warning with gmp :
+  /usr/bin/ld: warning: libgmp.so.3, needed by /home/jpoudroux/usr/lib/libosl.so, may conflict with libgmp.so.10
