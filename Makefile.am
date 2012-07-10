@@ -56,6 +56,7 @@ pkginclude_HEADERS 	=            \
 	include/candl/dependence.h     \
 	include/candl/scop.h           \
 	include/candl/statement.h      \
+	include/candl/macros.h         \
 	include/candl/util.h           \
 	include/candl/ddv.h            \
 	include/candl/matrix.h         \
