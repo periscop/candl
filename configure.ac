@@ -55,7 +55,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl default version
 BITS="MP"
-CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG
+CPPFLAGS=-DLINEAR_VALUE_IS_MP
 
 
 dnl /**************************************************************************
@@ -103,21 +103,21 @@ AC_SUBST(OSL_LDFLAGS)
 AC_SUBST(OSL_LIBS)
 case "$with_osl" in
 bundled)
-	OSL_CPPFLAGS="-I$srcdir/osl/include -Iosl/include"
-	OSL_LIBS="$srcdir/osl/source/libosl.la"
-	;;
+  OSL_CPPFLAGS="-I$srcdir/osl/include -Iosl/include"
+  OSL_LIBS="$srcdir/osl/source/libosl.la"
+  ;;
 build)
-	OSL_CPPFLAGS="-I$osl_srcdir/include -I$with_osl_builddir/include"
-	OSL_LIBS="$with_osl_builddir/libosl.la"
-	;;
+  OSL_CPPFLAGS="-I$osl_srcdir/include -I$with_osl_builddir/include"
+  OSL_LIBS="$with_osl_builddir/libosl.la"
+  ;;
 system)
-	if test "x$with_osl_prefix" != "x"; then
-		OSL_CPPFLAGS="-I$with_osl_prefix/include"
-	fi
-#	if test "x$with_osl_exec_prefix" != "x"; then
-#		OSL_LDFLAGS="-L$with_osl_exec_prefix/lib"
-#	fi
-	OSL_LIBS="$with_osl_prefix/lib/libosl.la -losl"
+  if test "x$with_osl_prefix" != "x"; then
+    OSL_CPPFLAGS="-I$with_osl_prefix/include"
+  fi
+  if test "x$with_osl_exec_prefix" != "x"; then
+    OSL_LDFLAGS="-L$with_osl_exec_prefix/lib"
+  fi
+  OSL_LIBS="$with_osl_prefix/lib/libosl.la -losl"
 esac
 AM_CONDITIONAL(BUNDLED_OSL, test $with_osl = bundled)
 
@@ -133,21 +133,21 @@ AC_SUBST(PIPLIB_LDFLAGS)
 AC_SUBST(PIPLIB_LIBS)
 case "$with_piplib" in
 bundled)
-	PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
-	PIPLIB_LIBS="$srcdir/piplib/source/libpiplib$BITS.la"
-	;;
+  PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
+  PIPLIB_LIBS="$srcdir/piplib/source/libpiplib$BITS.la"
+  ;;
 build)
-	PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
-	PIPLIB_LIBS="$with_piplib_builddir/libpiplib$BITS.la"
-	;;
+  PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
+  PIPLIB_LIBS="$with_piplib_builddir/libpiplib$BITS.la"
+  ;;
 system)
-	if test "x$with_piplib_prefix" != "x"; then
-		PIPLIB_CPPFLAGS="-I$with_piplib_prefix/include"
-	fi
-#	if test "x$with_piplib_exec_prefix" != "x"; then
-#		PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
-#	fi
-	PIPLIB_LIBS="$with_piplib_prefix/lib/libpiplib$BITS.la -lpiplib$BITS"
+  if test "x$with_piplib_prefix" != "x"; then
+    PIPLIB_CPPFLAGS="-I$with_piplib_prefix/include"
+  fi
+  if test "x$with_piplib_exec_prefix" != "x"; then
+    PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
+  fi
+  PIPLIB_LIBS="$with_piplib_prefix/lib/libpiplib$BITS.la -lpiplib$BITS"
 esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
@@ -165,8 +165,8 @@ NEED_MP="no"
 dnl --with-gmp=gmp-path
 AC_ARG_WITH(gmp,
         [  --with-gmp=DIR          DIR where the gmp package is installed],
-	[ echo "Package gmp : $withval" &&
-	  gmp_package=$withval &&
+  [ echo "Package gmp : $withval" &&
+    gmp_package=$withval &&
           GMP_INC=$gmp_package/include &&
           GMP_LIB=$gmp_package/lib &&
           CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
@@ -174,42 +174,42 @@ AC_ARG_WITH(gmp,
 
 AC_ARG_WITH(gmp-include,
         [  --with-gmp-include=DIR  DIR where gmp.h is installed],
-	[ echo "Package gmp-include : $withval" &&
-	  gmp_include_package=$withval &&
+  [ echo "Package gmp-include : $withval" &&
+    gmp_include_package=$withval &&
           GMP_INC=$gmp_include_package &&
           CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-	  NEED_MP="yes"])
+    NEED_MP="yes"])
 
 AC_ARG_WITH(gmp-library,
         [  --with-gmp-library=DIR  DIR where the gmp library is installed],
-	[ echo "Package gmp-library : $withval" &&
-	  gmp_library_package=$withval &&
+  [ echo "Package gmp-library : $withval" &&
+    gmp_library_package=$withval &&
           GMP_LIB=$gmp_library_package &&
           CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
-	  NEED_MP="yes"])
+    NEED_MP="yes"])
 
 AC_ARG_ENABLE(int-version,
-	[  --enable-int-version    'int' (32 bits) version is built],
-	[ echo "Package int : $enableval" &&
-	  BITS="32" &&
+  [  --enable-int-version    'int' (32 bits) version is built],
+  [ echo "Package int : $enableval" &&
+    BITS="32" &&
           CPPFLAGS=-DLINEAR_VALUE_IS_LONG])
 
 AC_ARG_ENABLE(llint-version,
-	[  --enable-llint-version  'long long int' (64 bits) version is built],
-	[ echo "Package long long int : $enableval" &&
-	  BITS="64" &&
+  [  --enable-llint-version  'long long int' (64 bits) version is built],
+  [ echo "Package long long int : $enableval" &&
+    BITS="64" &&
           CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG])
 
 AC_ARG_ENABLE(mp-version,
-	[  --enable-mp-version     'MP' (multiple precision) version is built],
-	[ echo "Package mp : $enableval" &&
-	  BITS="MP" &&
+  [  --enable-mp-version     'MP' (multiple precision) version is built],
+  [ echo "Package mp : $enableval" &&
+    BITS="MP" &&
           CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
           NEED_MP="yes"])
 
 AC_ARG_ENABLE(piplib-hybrid,
-	[  --enable-piplib-hybrid   Link with piplib-hybrid],
-	[ echo "Piplib-hybrid support : $enableval" &&
+  [  --enable-piplib-hybrid   Link with piplib-hybrid],
+  [ echo "Piplib-hybrid support : $enableval" &&
           if test "x$enableval" = "xyes"; then 
             CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
           fi])
@@ -232,13 +232,13 @@ else
     TO_BUILD="$TO_BUILD MP"
     AC_CHECK_HEADER(gmp.h,
                     [AC_SEARCH_LIBS([__gmpz_init], [gmp],
-		                  [LIBS="$LIBS -lgmp"],
-				  [echo "Can't find gmp library." &&
-				   echo "MP version will not be built." &&
-				   TO_BUILD_MP=""])],
-		    [echo "Can't find gmp headers." &&
-		     echo "MP version will not be built." &&
-		     TO_BUILD_MP=""])
+                      [LIBS="$LIBS -lgmp"],
+          [echo "Can't find gmp library." &&
+           echo "MP version will not be built." &&
+           TO_BUILD_MP=""])],
+        [echo "Can't find gmp headers." &&
+         echo "MP version will not be built." &&
+         TO_BUILD_MP=""])
   else
     dnl Default given by --with-X is "yes", --without-X is "no". We also
     dnl initialized manually all gmp_package* variables to "yes" (thus they are
@@ -270,10 +270,6 @@ else
   fi
 fi
 
-CANDL_ARG_LIBS_DEPENDENCIES
-
-
-
 dnl /**************************************************************************
 dnl  *                            Substitutions                               *
 dnl  **************************************************************************/
@@ -288,17 +284,22 @@ AC_SUBST(abs_top_srcdir)
 
 dnl Configure Makefiles.
 AC_CONFIG_FILES([
-	Makefile
-	doc/Makefile
-	doc/Doxyfile
-	include/candl/macros.h
-	tests/Makefile
-	],
-	[test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])
+  Makefile
+  doc/Makefile
+  doc/Doxyfile
+  include/candl/macros.h
+  tests/Makefile
+  ],
+  [test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])
 
-if test $with_osl = bundled; then
-	AC_CONFIG_SUBDIRS(osl)
+#if test $with_osl = bundled; then
+#  AC_CONFIG_SUBDIRS(osl)
+#fi
+if test $with_piplib = system; then
+  AC_CONFIG_SUBDIRS(piplib)
 fi
+
+
 
 AC_OUTPUT
 
@@ -308,3 +309,4 @@ echo "              *-----------------------------------------------*/"
 echo "It appears that your system is OK to start Candl compilation. You need"
 echo "now to type \"make\". Lastly type \"make install\" to install Candl on"
 echo "your system (log as root if necessary)."
+

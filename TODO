@@ -42,3 +42,20 @@
 
 - compilation warning with gmp :
   /usr/bin/ld: warning: libgmp.so.3, needed by /home/jpoudroux/usr/lib/libosl.so, may conflict with libgmp.so.10
+
+- autoreconf error in the piplib module
+  -> piplib must be installed in /
+  
+  or execute these commands :
+  $ cd piplib
+  $ echo "AM_PROG_CC_C_O" >>configure.in
+  $ touch NEWS AUTHORS ChangeLog
+  $ cd ..
+  $ ./redo.sh
+
+  If you want to set piplib as "bundled", uncomment these lines in the
+  configure.in :
+  295: if test $with_osl = bundled; then
+  296:   AC_CONFIG_SUBDIRS(osl)
+  297: fi
+
