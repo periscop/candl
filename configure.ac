@@ -292,11 +292,11 @@ AC_CONFIG_FILES([
   ],
   [test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])
 
-#if test $with_osl = bundled; then
-#  AC_CONFIG_SUBDIRS(osl)
+#if test $with_piplib = system; then
+#  AC_CONFIG_SUBDIRS(piplib)
 #fi
-if test $with_piplib = system; then
-  AC_CONFIG_SUBDIRS(piplib)
+if test $with_osl = bundled; then
+  AC_CONFIG_SUBDIRS(osl)
 fi
 
 

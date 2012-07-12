@@ -1,9 +1,7 @@
 
-- uncomment the link of the gmp library in configure.ac ?
-
 - unchecked -commute 
 
-- lastwriter not finish
+- lastwriter not finished
   see the FIXME in the function candl_dep_compute_lastwriter
 
 - compilation error with ISL :
@@ -54,8 +52,8 @@
   $ ./redo.sh
 
   If you want to set piplib as "bundled", uncomment these lines in the
-  configure.in :
-  295: if test $with_osl = bundled; then
-  296:   AC_CONFIG_SUBDIRS(osl)
+  configure.ac :
+  295: if test $with_piplib = bundled; then
+  296:   AC_CONFIG_SUBDIRS(piplib)
   297: fi
 
