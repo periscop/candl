@@ -46,7 +46,8 @@
 #include <osl/relation_list.h>
 #include <candl/candl.h>
 #include <candl/util.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
 
 
 

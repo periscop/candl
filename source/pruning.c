@@ -44,7 +44,8 @@
 #include <osl/statement.h>
 #include <osl/relation.h>
 #include <candl/candl.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
 #include <candl/dependence.h>
 
 #include <assert.h>

@@ -45,7 +45,8 @@
 #include <osl/scop.h>
 #include <candl/candl.h>
 #include <candl/ddv.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
 #include <candl/piplib-wrapper.h>
 
 #include <assert.h>

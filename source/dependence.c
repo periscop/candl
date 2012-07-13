@@ -42,7 +42,8 @@
 #include <string.h>
 #include <candl/candl.h>
 #include <candl/dependence.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
 #include <candl/util.h>
 #include <candl/matrix.h>
 #include <candl/piplib-wrapper.h>

@@ -47,7 +47,8 @@
 #include <candl/matrix.h>
 #include <candl/violation.h>
 #include <candl/piplib-wrapper.h>
-#include <candl/usr.h>
+#include <candl/scop.h>
+#include <candl/statement.h>
 
 
 /******************************************************************************
