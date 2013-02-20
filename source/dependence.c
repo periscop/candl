@@ -541,7 +541,7 @@ static osl_dependence_p candl_dependence_build_system(
   /* Compute some indexes */
   ind_source_local_domain = 1 + nb_output_dims + nb_input_dims;
   ind_source_local_access = ind_source_local_domain + dependence->source_nb_local_dims_domain;
-  ind_target_local_domain = ind_source_local_access + dependence->target_nb_local_dims_access;
+  ind_target_local_domain = ind_source_local_access + dependence->source_nb_local_dims_access;
   ind_target_local_access = ind_target_local_domain + dependence->target_nb_local_dims_domain;
   ind_params              = ind_target_local_access + dependence->target_nb_local_dims_access;
   
