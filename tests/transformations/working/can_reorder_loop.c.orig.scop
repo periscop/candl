@@ -143,17 +143,6 @@ b0 i b1
 3 b
 </arrays>
 
-<coordinates>
-# File name
-./transformations/working/can_reorder_loop.c
-# Starting line
-1
-# Ending line
-10
-# Indentation
-0
-</coordinates>
-
 <clay>
   reorder([1], [1,0]);
 </clay>

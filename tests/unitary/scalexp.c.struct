@@ -355,17 +355,6 @@ b0 i b1
 5 b
 </arrays>
 
-<coordinates>
-# File name
-./unitary/scalexp.c
-# Starting line
-3
-# Ending line
-12
-# Indentation
-0
-</coordinates>
-
 </OpenScop>
 
 

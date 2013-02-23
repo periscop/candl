@@ -117,41 +117,41 @@ candl_violation_p candl_matrix_violation(osl_dependence_p dependence,
   for (i = 0 ; i < dependence->domain->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   dependence->domain->m[i], 0);
+                   &system->m[constraint][0],
+                   dependence->domain->m[i][0]);
     /* output dims */
     k = 1;
     j = 1;
     for (c = dependence->domain->nb_output_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     dependence->domain->m[i], j);
+                     &system->m[constraint][k],
+                     dependence->domain->m[i][j]);
     /* input dims */
     k += source->nb_output_dims;
     for (c = dependence->domain->nb_input_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     dependence->domain->m[i], j);
+                     &system->m[constraint][k],
+                     dependence->domain->m[i][j]);
     /* source local dims */
     k += target->nb_output_dims;
     for (c = dependence->source_nb_local_dims_domain +
              dependence->source_nb_local_dims_access ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     dependence->domain->m[i], j);
+                     &system->m[constraint][k],
+                     dependence->domain->m[i][j]);
     /* target local dims */
     k += source->nb_local_dims;
     for (c = dependence->target_nb_local_dims_domain +
              dependence->target_nb_local_dims_access ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     dependence->domain->m[i], j);
+                     &system->m[constraint][k],
+                     dependence->domain->m[i][j]);
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     dependence->domain->m[i], j);
+                     &system->m[constraint][k],
+                     dependence->domain->m[i][j]);
     constraint++;
   }
   
@@ -159,33 +159,33 @@ candl_violation_p candl_matrix_violation(osl_dependence_p dependence,
   for (i = 0 ; i < source->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   source->m[i], 0);
+                   &system->m[constraint][0],
+                   source->m[i][0]);
     /* output dims */
     k = ind_source_output_scatt;
     j = 1;
     for (c = source->nb_output_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->m[i], j);
+                     &system->m[constraint][k],
+                     source->m[i][j]);
     /* input dims (linked with the output dims of domain) */
     k = 1;
     for (c = source->nb_input_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->m[i], j);
+                     &system->m[constraint][k],
+                     source->m[i][j]);
     /* local dims */
     k = ind_source_local_scatt;
     for (c = source->nb_local_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->m[i], j);
+                     &system->m[constraint][k],
+                     source->m[i][j]);
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->m[i], j);
+                     &system->m[constraint][k],
+                     source->m[i][j]);
     constraint++;
   }
 
@@ -193,48 +193,48 @@ candl_violation_p candl_matrix_violation(osl_dependence_p dependence,
   for (i = 0 ; i < target->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   target->m[i], 0);
+                   &system->m[constraint][0],
+                   target->m[i][0]);
     /* output dims */
     k = ind_target_output_scatt;
     j = 1;
     for (c = target->nb_output_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->m[i], j);
+                     &system->m[constraint][k],
+                     target->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k],
+                     system->m[constraint][k]);
     }
     /* input dims (linked with the output dims of domain) */
     k = 1 + nb_output_dims;
     for (c = target->nb_input_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->m[i], j);
+                     &system->m[constraint][k],
+                     target->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k],
+                     system->m[constraint][k]);
     }
     /* local dims */
     k = ind_target_local_scatt;
     for (c = target->nb_local_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->m[i], j);
+                     &system->m[constraint][k],
+                     target->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k],
+                     system->m[constraint][k]);
     }
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->m[i], j);
+                     &system->m[constraint][k],
+                     target->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k],
+                     system->m[constraint][k]);
     }
     constraint++;
   }
@@ -244,22 +244,22 @@ candl_violation_p candl_matrix_violation(osl_dependence_p dependence,
   j = ind_target_output_scatt;
   for (i = 1; i < dimension; i++, k++, j++) {
     /* source */
-    osl_int_set_si(precision, system->m[constraint], k, 1);
+    osl_int_set_si(precision, &system->m[constraint][k], 1);
     /* target */
-    osl_int_set_si(precision, system->m[constraint], j, -1);
+    osl_int_set_si(precision, &system->m[constraint][j], -1);
     constraint++;
   }
 
   /* 4. We set the target < source constraint. */
-  osl_int_set_si(precision, system->m[constraint], 0, 1);
+  osl_int_set_si(precision, &system->m[constraint][0], 1);
   /* source */
-  osl_int_set_si(precision, system->m[constraint], k, 1);
+  osl_int_set_si(precision, &system->m[constraint][k], 1);
   /* target */
-  osl_int_set_si(precision, system->m[constraint], j, -1);
+  osl_int_set_si(precision, &system->m[constraint][j], -1);
   /* We subtract 1 to the scalar to achieve >0 constraint. */
   osl_int_decrement(precision,
-                    system->m[constraint], nb_columns - 1,
-                    system->m[constraint], nb_columns - 1);
+                    &system->m[constraint][nb_columns - 1],
+                    system->m[constraint][nb_columns - 1]);
   
   system->nb_output_dims = nb_output_dims;
   system->nb_input_dims = nb_input_dims;

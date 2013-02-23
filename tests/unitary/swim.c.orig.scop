@@ -3427,16 +3427,5 @@ b0 t b1 i b2 j b3
 30 ALPHA
 </arrays>
 
-<coordinates>
-# File name
-./unitary/swim.c
-# Starting line
-34
-# Ending line
-143
-# Indentation
-4
-</coordinates>
-
 </OpenScop>
 

@@ -135,16 +135,5 @@ b0 i b1 j b2
 6 b
 </arrays>
 
-<coordinates>
-# File name
-./transformations/working/loulou.c
-# Starting line
-5
-# Ending line
-17
-# Indentation
-2
-</coordinates>
-
 </OpenScop>
 

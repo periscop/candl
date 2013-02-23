@@ -131,14 +131,10 @@ void candl_dependence_get_array_refs_in_dep(osl_dependence_p tmp,
   targ = candl_dependence_get_relation_ref_target_in_dep(tmp);
   
   row = candl_relation_get_line(src, 0);
-  *refs = osl_int_get_si(precision,
-                         src->m[row],
-                         src->nb_columns-1);
+  *refs = osl_int_get_si(precision, src->m[row][src->nb_columns - 1]);
 
   row = candl_relation_get_line(targ, 0);
-  *reft = osl_int_get_si(precision,
-                         targ->m[row],
-                         targ->nb_columns-1);
+  *reft = osl_int_get_si(precision, targ->m[row][targ->nb_columns - 1]);
 }
 
 
@@ -400,14 +396,14 @@ int candl_dependence_gcd_test(osl_statement_p source,
   /* Inspect the array access function equalities. */
   for (id = source->domain->nb_rows + target->domain->nb_rows;
        id < system->nb_rows && 
-       osl_int_zero(precision, system->m[id], 0);
+       osl_int_zero(precision, system->m[id][0]);
        ++id) {
     /* Inspect which parts of the access function equality are null,
        positive or negative. */
     null_iter = null_param = null_cst = pos_iter = neg_iter = 0;
     
     for (i = 1; i < s_usr->depth + t_usr->depth + 1 &&
-         osl_int_zero(precision, system->m[id], i); ++i)
+         osl_int_zero(precision, system->m[id][i]); ++i)
      ;
      
     if (i == s_usr->depth + t_usr->depth + 1)
@@ -415,17 +411,17 @@ int candl_dependence_gcd_test(osl_statement_p source,
     else
       for (pos_iter = 1, neg_iter = 1;
            i < s_usr->depth + t_usr->depth + 1; ++i) {
-        if (osl_int_neg(precision, system->m[id], i))
+        if (osl_int_neg(precision, system->m[id][i]))
           pos_iter = 0;
-        else if (osl_int_pos(precision, system->m[id], i))
+        else if (osl_int_pos(precision, system->m[id][i]))
           neg_iter = 0;
       }
     for (; i < system->nb_columns - 1 && 
-         osl_int_zero(precision, system->m[id], i) == 0; ++i)
+         osl_int_zero(precision, system->m[id][i]) == 0; ++i)
      ;
     if (i == system->nb_columns - 1)
       null_param = 1;
-    null_cst = osl_int_zero(precision, system->m[id], system->nb_columns - 1);
+    null_cst = osl_int_zero(precision, system->m[id][system->nb_columns - 1]);
 
     /* Some useful ZIV/SIV/MIV tests. */
     if (null_iter && null_param && !null_cst)
@@ -445,13 +441,12 @@ int candl_dependence_gcd_test(osl_statement_p source,
     /* 	return 0; */
 
     /* Compute GCD test for the array access equality. */
-    for (i = 1, gcd = osl_int_get_si(precision, system->m[id], i);
+    for (i = 1, gcd = osl_int_get_si(precision, system->m[id][i]);
          i < s_usr->depth + t_usr->depth; ++i)
-      gcd = candl_dependence_gcd(gcd, osl_int_get_si(precision,
-                                                     system->m[id],
-                                                     i + 1));
+      gcd = candl_dependence_gcd(gcd,
+        osl_int_get_si(precision, system->m[id][i + 1]));
 
-    value = osl_int_get_si(precision, system->m[id], system->nb_columns - 1);
+    value = osl_int_get_si(precision, system->m[id][system->nb_columns - 1]);
     value = value < 0 ? -value : value;
     if ((gcd == 0 && value != 0) || value % gcd)
       return 0;
@@ -549,27 +544,23 @@ static osl_dependence_p candl_dependence_build_system(
   for (i = 0 ; i < source->domain->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   source->domain->m[i], 0);
+                   &system->m[constraint][0], source->domain->m[i][0]);
     /* output dims */
     k = 1;
     j = 1;
     for (c = source->domain->nb_output_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->domain->m[i], j);
+                     &system->m[constraint][k], source->domain->m[i][j]);
     /* local dims (no input in domain, so j is the same) */
     k = ind_source_local_domain;
     for (c = source->domain->nb_local_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->domain->m[i], j);
+                     &system->m[constraint][k], source->domain->m[i][j]);
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     source->domain->m[i], j);
+                     &system->m[constraint][k], source->domain->m[i][j]);
     constraint++;
   }
   
@@ -577,27 +568,23 @@ static osl_dependence_p candl_dependence_build_system(
   for (i = 0 ; i < target->domain->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   target->domain->m[i], 0);
+                   &system->m[constraint][0], target->domain->m[i][0]);
     /* output dims */
     k = 1 + nb_output_dims;
     j = 1;
     for (c = target->domain->nb_output_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->domain->m[i], j);
+                     &system->m[constraint][k], target->domain->m[i][j]);
     /* local dims (no input in domain, so j is the same) */
     k = ind_target_local_domain;
     for (c = target->domain->nb_local_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->domain->m[i], j);
+                     &system->m[constraint][k], target->domain->m[i][j]);
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     target->domain->m[i], j);
+                     &system->m[constraint][k], target->domain->m[i][j]);
     constraint++;
   }
   
@@ -605,33 +592,28 @@ static osl_dependence_p candl_dependence_build_system(
   for (i = 0 ; i < array_s->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   array_s->m[i], 0);
+                   &system->m[constraint][0], array_s->m[i][0]);
     /* output dims */
     k = 1 + source->domain->nb_output_dims;
     j = 1;
     for (c = array_s->nb_output_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_s->m[i], j);
+                     &system->m[constraint][k], array_s->m[i][j]);
     /* link input dims access to the output dims domain */
     k = 1;
     for (c = array_s->nb_input_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_s->m[i], j);
+                     &system->m[constraint][k], array_s->m[i][j]);
     /* local dims */
     k = ind_source_local_access;
     for (c = array_s->nb_local_dims ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_s->m[i], j);
+                     &system->m[constraint][k], array_s->m[i][j]);
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++)
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_s->m[i], j);
+                     &system->m[constraint][k], array_s->m[i][j]);
     
     constraint++;
   }
@@ -640,48 +622,39 @@ static osl_dependence_p candl_dependence_build_system(
   for (i = 0 ; i < array_t->nb_rows ; i++) {
     /* eq/in */
     osl_int_assign(precision,
-                   system->m[constraint], 0,
-                   array_t->m[i], 0);
+                   &system->m[constraint][0], array_t->m[i][0]);
     /* output dims */
     k = 1 + nb_output_dims + target->domain->nb_output_dims;
     j = 1;
     for (c = array_t->nb_output_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_t->m[i], j);
+                     &system->m[constraint][k], array_t->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k], system->m[constraint][k]);
     }
     /* link input dims access to the output dims domain */
     k = 1 + nb_output_dims;
     for (c = array_t->nb_input_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_t->m[i], j);
+                     &system->m[constraint][k], array_t->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k], system->m[constraint][k]);
     }
     /* local dims */
     k = ind_target_local_access;
     for (c = array_t->nb_local_dims ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_t->m[i], j);
+                     &system->m[constraint][k], array_t->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k], system->m[constraint][k]);
     }
     /* params + const */
     k = ind_params;
     for (c = nb_par+1 ; c > 0 ; c--, k++, j++) {
       osl_int_assign(precision,
-                     system->m[constraint], k,
-                     array_t->m[i], j);
+                     &system->m[constraint][k], array_t->m[i][j]);
       osl_int_oppose(precision,
-                     system->m[constraint], k,
-                     system->m[constraint], k);
+                     &system->m[constraint][k], system->m[constraint][k]);
     }
     constraint++;
   }
@@ -692,8 +665,8 @@ static osl_dependence_p candl_dependence_build_system(
   k = 1 + source->domain->nb_output_dims;
   j = 1 + nb_output_dims + target->domain->nb_output_dims;
   for (i = 0 ; i < min_depth ; i++, k++, j++) {
-    osl_int_set_si(precision, system->m[constraint], k, -1);
-    osl_int_set_si(precision, system->m[constraint], j, 1);
+    osl_int_set_si(precision, &system->m[constraint][k], -1);
+    osl_int_set_si(precision, &system->m[constraint][j], 1);
     constraint++;
   }
   
@@ -709,14 +682,14 @@ static osl_dependence_p candl_dependence_build_system(
   j = 1 + nb_output_dims;
   for (i = 0; i < depth; i++, k++, j++) {
     /* i = i' for all dimension less than depth. */
-    osl_int_set_si(precision, system->m[constraint], k, -1);
-    osl_int_set_si(precision, system->m[constraint], j, 1);
+    osl_int_set_si(precision, &system->m[constraint][k], -1);
+    osl_int_set_si(precision, &system->m[constraint][j], 1);
     if (i == depth - 1) {
       /* i <= i' at dimension depth if source is textually before target. */
-      osl_int_set_si(precision, system->m[constraint], 0, 1);
+      osl_int_set_si(precision, &system->m[constraint][0], 1);
       /* If source is textually after target, this is obviously i < i'. */
       if (before || depth < min_dim) // sub 1 for the Arr dim
-        osl_int_set_si(precision, system->m[constraint], nb_columns - 1, -1);
+        osl_int_set_si(precision, &system->m[constraint][nb_columns - 1], -1);
     }
 
     constraint++;
@@ -883,8 +856,8 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
             if (options->war && 
                 osl_int_eq(precision,
-                           elt_src->m[row_src],   elt_src->nb_columns-1,
-                           elt_targ->m[row_targ], elt_targ->nb_columns-1)) {
+                           elt_src->m[row_src][elt_src->nb_columns - 1],
+                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -898,8 +871,8 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           else { /* target READ */
             if (options->rar && 
                 osl_int_eq(precision,
-                           elt_src->m[row_src],   elt_src->nb_columns-1,
-                           elt_targ->m[row_targ], elt_targ->nb_columns-1)) {
+                           elt_src->m[row_src][elt_src->nb_columns - 1],
+                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -925,8 +898,8 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
             if (options->waw && 
                 osl_int_eq(precision,
-                           elt_src->m[row_src],   elt_src->nb_columns-1,
-                           elt_targ->m[row_targ], elt_targ->nb_columns-1)) {
+                           elt_src->m[row_src][elt_src->nb_columns - 1],
+                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -940,8 +913,8 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           else { /* target READ */
             if (options->raw && 
                 osl_int_eq(precision,
-                           elt_src->m[row_src],   elt_src->nb_columns-1,
-                           elt_targ->m[row_targ], elt_targ->nb_columns-1)) {
+                           elt_src->m[row_src][elt_src->nb_columns - 1],
+                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -1047,16 +1020,16 @@ int candl_dependence_var_is_scalar(osl_scop_p scop, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       row = candl_relation_get_line(elt, 0);
-      if (osl_int_get_si(precision, elt->m[row], elt->nb_columns-1) ==
+      if (osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]) ==
           var_index) {
         /* Ensure it is not an array. */
         if (elt->nb_output_dims > 1)
           return 0;
         /* Ensure the access function is '0'. */
-        if (!osl_int_zero(precision, elt->m[row], 0))
+        if (!osl_int_zero(precision, elt->m[row][0]))
           return 0;
         for (i = 2; i < elt->nb_columns-2; ++i) /* jmp the 'Arr' */
-          if (!osl_int_zero(precision, elt->m[row], i))
+          if (!osl_int_zero(precision, elt->m[row][i]))
             return 0;
       }
       access = access->next;
@@ -1093,14 +1066,12 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
     for (; access != NULL ; access = access->next) {
       elt = access->elt;
       row = candl_relation_get_line(elt, 0);
-      tmp = osl_int_get_si(precision,
-                           elt->m[row],
-                           elt->nb_columns-1);
+      tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
       if (tmp == scalar_idx) {
         row = elt->nb_rows;
         osl_relation_insert_blank_row(elt, row);
         osl_relation_insert_blank_column(elt, 1 + elt->nb_output_dims);
-        osl_int_set_si(precision, elt->m[row], 1 + elt->nb_output_dims, -1);
+        osl_int_set_si(precision, &elt->m[row][1 + elt->nb_output_dims], -1);
         elt->nb_output_dims++;
       }
     }
@@ -1204,7 +1175,7 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
       elt = access->elt;
       if (elt->type == OSL_TYPE_READ) {
         row = candl_relation_get_line(elt, 0);
-        if (osl_int_get_si(elt->precision, elt->m[row], elt->nb_columns-1) ==
+        if (osl_int_get_si(elt->precision, elt->m[row][elt->nb_columns - 1]) ==
             var_index) {
           ret = CANDL_VAR_IS_USED;
           break;
@@ -1219,7 +1190,7 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
       elt = access->elt;
       if (elt->type != OSL_TYPE_READ) {
         row = candl_relation_get_line(elt, 0);
-        if (osl_int_get_si(elt->precision, elt->m[row], elt->nb_columns-1) ==
+        if (osl_int_get_si(elt->precision, elt->m[row][elt->nb_columns - 1]) ==
             var_index) {
           if (ret == CANDL_VAR_IS_USED)
             ret = CANDL_VAR_IS_DEF_USED;
@@ -1282,7 +1253,10 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
   int i, j;
   int precision = s2->domain->precision;
   Entier lb;
+  osl_int_t osl_lb;
+
   CANDL_init(lb);
+  osl_int_init(precision, &osl_lb);
   
   if (s1_usr->depth < max) max = s1_usr->depth;
   if (s2_usr->depth < max) max = s2_usr->depth;
@@ -1295,26 +1269,30 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
   for (i = 0; i < s2->domain->nb_rows; ++i) {
     for (j = 0; j < s2->domain->nb_columns; ++j)
       osl_int_assign(precision,
-                     matrix->m[i], j,
-                     s2->domain->m[i], j);
+                     &matrix->m[i][j], s2->domain->m[i][j]);
   }
   
   /* Make useless dimensions equal to 1. */
   for (j = 0; j < s2_usr->depth - max; ++j) {
     candl_dependence_compute_lb(s2->domain, &lb, j + 1 + max);
+    #ifdef LINEAR_VALUE_IS_INT
+    osl_lb.sp = lb;
+    #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    osl_lb.dp = lb;
+    #elif defined(LINEAR_VALUE_IS_MP)
+    mpz_set(*((mpz_t*)osl_lb.mp), lb);
+    #endif
     osl_int_assign(precision,
-                   matrix->m[i], matrix->nb_columns-1,
-                   (void*) &lb, 0);
+                   &matrix->m[i][matrix->nb_columns - 1], osl_lb);
     osl_int_set_si(precision,
-                   matrix->m[i++], j+1+max,
-                   -1);
+                   &matrix->m[i++][j+1+max], -1);
   }
   
   /* Iterate on all constraints of s1, and check them. */
   for (i = 0; i < s1->domain->nb_rows; ++i) {
     /* Skip constraints defining other iterators. */
     for (j = max + 1; j <= s1_usr->depth; ++j) {
-      if (!osl_int_zero(precision, s1->domain->m[i], j))
+      if (!osl_int_zero(precision, s1->domain->m[i][j]))
         break;
     }
     if (j <= s1_usr->depth)
@@ -1322,37 +1300,36 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
     /* Invert the constraint, and add it to matrix. */
     for (j = 0; j <= max; ++j) {
       osl_int_assign(precision,
-                     matrix->m[matrix->nb_rows-1], j,
-                     s1->domain->m[i], j);
+                     &matrix->m[matrix->nb_rows - 1][j],
+                     s1->domain->m[i][j]);
       osl_int_oppose(precision,
-                     matrix->m[matrix->nb_rows-1], j,
-                     matrix->m[matrix->nb_rows-1], j);
+                     &matrix->m[matrix->nb_rows - 1][j],
+                     matrix->m[matrix->nb_rows - 1][j]);
     }
     for (j = s1_usr->depth + 1; j < s1->domain->nb_columns; ++j) {
       osl_int_assign(precision,
-                     matrix->m[matrix->nb_rows-1],
-                     j - s1_usr->depth + s2_usr->depth,
-                     s1->domain->m[i], j);
+        &matrix->m[matrix->nb_rows - 1][j - s1_usr->depth + s2_usr->depth],
+        s1->domain->m[i][j]);
       osl_int_oppose(precision,
-                     matrix->m[matrix->nb_rows-1],
-                     j - s1_usr->depth + s2_usr->depth,
-                     matrix->m[matrix->nb_rows-1],
-                     j - s1_usr->depth + s2_usr->depth);
+        &matrix->m[matrix->nb_rows - 1][j - s1_usr->depth + s2_usr->depth],
+        matrix->m[matrix->nb_rows - 1][j - s1_usr->depth + s2_usr->depth]);
     }
     /* Make the inequality strict. */
     osl_int_decrement(precision,
-                      matrix->m[matrix->nb_rows-1], matrix->nb_columns-1,
-                      matrix->m[matrix->nb_rows-1], matrix->nb_columns-1);
+                      &matrix->m[matrix->nb_rows - 1][matrix->nb_columns - 1],
+                      matrix->m[matrix->nb_rows - 1][matrix->nb_columns - 1]);
 
     if (candl_matrix_check_point(matrix, context)) {
       /* There is a point. dom(s1) - dom(s2) > 0. */
       CANDL_clear(lb);
+      osl_int_clear(precision, &osl_lb);
       osl_relation_free(matrix);
       return 0;
     }
   }
 
   CANDL_clear(lb);
+  osl_int_clear(precision, &osl_lb);
   osl_relation_free(matrix);
 
   return 1;
@@ -1382,8 +1359,7 @@ int* candl_dependence_extract_scalar_variables(osl_scop_p scop) {
       elt = access->elt;
       row = candl_relation_get_line(elt, 0);
       idx = osl_int_get_si(elt->precision,
-                           elt->m[row],
-                           elt->nb_columns-1);
+                           elt->m[row][elt->nb_columns - 1]);
       
       for (i = 0; i < count_s && scalars[i] != idx; ++i)
        ;
@@ -1498,9 +1474,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
     for (; access != NULL; access = access->next) {
       elt = access->elt;
       row = candl_relation_get_line(elt, 0);
-      tmp = osl_int_get_si(precision,
-                           elt->m[row],
-                           elt->nb_columns-1);
+      tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
       if (tmp >= newvar)
         newvar = tmp + 1;
     }
@@ -1621,17 +1595,14 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
           for (; access != NULL; access = access->next) {
             elt = access->elt;
             row = candl_relation_get_line(elt, 0);
-            tmp = osl_int_get_si(precision,
-                                 elt->m[row],
-                                 elt->nb_columns-1);
+            tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
             if (tmp == scalars[i]) {
               if (options->verbose)
                 fprintf (stderr, "[Candl] Scalar analysis: Renamed "
                          "variable %d to %d at statement S%d\n",
                          scalars[i], newvar + parts[j], j);
               osl_int_set_si(precision,
-                             elt->m[row],
-                             elt->nb_columns-1,
+                             &elt->m[row][elt->nb_columns - 1],
                              newvar + parts[j]);
             }
           }
@@ -1705,31 +1676,30 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   row_k = candl_relation_get_line(msrc, k);
   while (!must_test &&
          k < msrc->nb_output_dims &&
-         osl_int_zero(precision, msrc->m[row_k], 0)) {
+         osl_int_zero(precision, msrc->m[row_k][0])) {
 
     // Ensure the reference do reference the current loop iterator
     // to be tested.
-    if (!osl_int_zero(precision, msrc->m[row_k], i)) {
+    if (!osl_int_zero(precision, msrc->m[row_k][i])) {
       kp = 1;
       row_kp = candl_relation_get_line(mtarg, kp);
 
       while (!must_test &&
              kp < mtarg->nb_output_dims &&
-             osl_int_zero(precision, mtarg->m[row_kp], 0)) {
+             osl_int_zero(precision, mtarg->m[row_kp][0])) {
 
-        if (!osl_int_zero(precision, mtarg->m[row_kp], j)) {
+        if (!osl_int_zero(precision, mtarg->m[row_kp][j])) {
           // Ensure the access functions are equal for the
           // surrounding loop iterators, and no inner iterator
           // is referenced.
           if (!osl_int_eq(precision,
-                          msrc->m[row_k], 0,
-                          mtarg->m[row_kp], 0)) {
+                          msrc->m[row_k][0], mtarg->m[row_kp][0])) {
             must_test = 1;
           } else {
             for (l = 1; l <= i; ++l)
               if (!osl_int_eq(precision,
-                              msrc->m[row_k], msrc->nb_output_dims + l,
-                              mtarg->m[row_kp], mtarg->nb_output_dims + l)) {
+                              msrc->m[row_k][msrc->nb_output_dims + l],
+                              mtarg->m[row_kp][mtarg->nb_output_dims + l])) {
                 must_test = 1;
                 break;
               }
@@ -1737,21 +1707,21 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
           int m = l;
           if (!must_test)
             for (; l <= s_usr->depth+1; ++l)
-              if (!osl_int_zero(precision, msrc->m[row_k], msrc->nb_output_dims + l)) {
+              if (!osl_int_zero(precision, msrc->m[row_k][msrc->nb_output_dims + l])) {
                 must_test = 1;
                 break;
               }
           if (!must_test)
             for (; m <= t_usr->depth+1; ++m)
-              if (!osl_int_zero(precision, mtarg->m[row_kp], mtarg->nb_output_dims + m)) {
+              if (!osl_int_zero(precision, mtarg->m[row_kp][mtarg->nb_output_dims + m])) {
                 must_test = 1;
                 break;
               }
           if (!must_test)
             for (; l < msrc->nb_columns-1; ++l, ++m)
             if (!osl_int_eq(precision,
-                            msrc->m[row_k], msrc->nb_output_dims + l,
-                            mtarg->m[row_kp], mtarg->nb_output_dims + m)) {
+                            msrc->m[row_k][msrc->nb_output_dims + l],
+                            mtarg->m[row_kp][mtarg->nb_output_dims + m])) {
                 must_test = 1;
                 break;
               }
@@ -1780,26 +1750,25 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   for (pos = 0; pos < mat->nb_rows; ++pos)
     for (j = 0; j < mat->nb_columns; ++j)
       osl_int_assign(precision,
-                     testsyst->m[pos], j,
-                     mat->m[pos], j);
+                     &testsyst->m[pos][j], mat->m[pos][j]);
   for (j = 0; j < i; ++j) {
-    osl_int_set_si(precision, testsyst->m[pos+j+1], 0, 0);
-    osl_int_set_si(precision, testsyst->m[pos+j+1], 1+j, -1);
-    osl_int_set_si(precision, testsyst->m[pos+j+1], 1+j+mat->nb_output_dims, 1);
+    osl_int_set_si(precision, &testsyst->m[pos+j+1][0], 0);
+    osl_int_set_si(precision, &testsyst->m[pos+j+1][1+j], -1);
+    osl_int_set_si(precision, &testsyst->m[pos+j+1][1+j+mat->nb_output_dims], 1);
   }
 
   int has_pt = 0;
   // Test for '>'.
-  osl_int_set_si(precision,testsyst->m[pos], 0, 1);
-  osl_int_set_si(precision,testsyst->m[pos], testsyst->nb_columns-1, -1);
-  osl_int_set_si(precision,testsyst->m[pos], 1+i, 1);
-  osl_int_set_si(precision,testsyst->m[pos], 1+i+mat->nb_output_dims, -1);
+  osl_int_set_si(precision, &testsyst->m[pos][0], 1);
+  osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], -1);
+  osl_int_set_si(precision, &testsyst->m[pos][1+i], 1);
+  osl_int_set_si(precision, &testsyst->m[pos][1+i+mat->nb_output_dims], -1);
   
   has_pt = pip_has_rational_point(testsyst, NULL, 1);
   if (!has_pt) {
     // Test for '<'.
-    osl_int_set_si(precision, testsyst->m[pos], 1+i, -1);
-    osl_int_set_si(precision, testsyst->m[pos], 1+i+mat->nb_output_dims, 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1+i], -1);
+    osl_int_set_si(precision, &testsyst->m[pos][1+i+mat->nb_output_dims], 1);
     has_pt = pip_has_rational_point(testsyst, NULL, 1);
   }
   
@@ -1905,11 +1874,10 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
       row = tmp->domain->nb_rows;
       osl_relation_insert_blank_row(tmp->domain, row);
       osl_int_set_si(precision,
-                     tmp->domain->m[row], 1 + loop_pos_priv,
+                     &tmp->domain->m[row][1 + loop_pos_priv],
                      1);
       osl_int_set_si(precision,
-                     tmp->domain->m[row], 1 + loop_pos_priv + 
-                     s_usr->depth,
+                     &tmp->domain->m[row][1 + loop_pos_priv + s_usr->depth],
                      -1);
 
       /* Set the type of the dependence as special
@@ -2130,9 +2098,9 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
                 elt = access->elt;
                 row = candl_relation_get_line(elt, 0);
                 if (scalars[i] ==
-                    osl_int_get_si(precision, elt->m[row], elt->nb_columns-1)) {
+                    osl_int_get_si(precision, elt->m[row][elt->nb_columns-1])) {
                   row = candl_relation_get_line(elt, offset+1);
-                  osl_int_set_si(precision, elt->m[row], elt->nb_output_dims + j, 1);
+                  osl_int_set_si(precision, &elt->m[row][elt->nb_output_dims + j], 1);
                 }
               }
               was_priv = 1;
@@ -2243,20 +2211,19 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
 
       // FIXME : new domain structure for dependence
 
-      if (!osl_int_zero(precision, (*dep)->domain->m[i], j))
+      if (!osl_int_zero(precision, (*dep)->domain->m[i][j]))
         break;
     }
     
     if (j == t_usr->depth+1) {
       /* Include this in the context */
       osl_int_assign(precision,
-                     context->m[nrows], 0,
-                     (*dep)->domain->m[i], 0);
+                     &context->m[nrows][0], (*dep)->domain->m[i][0]);
       
       for (j = 1; j < (*dep)->stmt_target_ptr->domain->nb_columns; j++)
         osl_int_assign(precision,
-                       context->m[nrows], j,
-                       (*dep)->domain->m[i], s_usr->depth+j);
+                       &context->m[nrows][j],
+                       (*dep)->domain->m[i][s_usr->depth+j]);
 
       nrows++;
     }
@@ -2293,14 +2260,14 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
       for (i = 0; i < original_domain->nb_rows; i++)
         for (j = 0; j < original_domain->nb_columns; j++)
           osl_int_assign(precision,
-                         new_domain->m[i], j,
-                         original_domain->m[i], j);
+                         &new_domain->m[i][j],
+                         original_domain->m[i][j]);
 
       for (i = 0; i < qp->nb_rows; i++)
         for (j = 0; j < original_domain->nb_columns; j++)
           osl_int_assign(precision,
-                         new_domain->m[i+original_domain->nb_rows], j,
-                         qp->m[i], j);
+                         &new_domain->m[i+original_domain->nb_rows][j],
+                         qp->m[i][j]);
 
       (*dep)->domain = new_domain;
       /* More than 1 pipmatrix from the quast, we need to insert

@@ -340,7 +340,7 @@ int is_iter_unimodular(osl_dependence_p dep) {
   matrix = dep->source->domain;
   for (i = 0 ; i < matrix->nb_rows ; i++)
     for (j = 1 ; j <= matrix->nb_output_dims ; j++) {
-      n = osl_int_get_si(precision, matrix->m[i], j);
+      n = osl_int_get_si(precision, matrix->m[i][j]);
       if (n < -1 || n > 1)
         return 0;
     }
@@ -348,7 +348,7 @@ int is_iter_unimodular(osl_dependence_p dep) {
   matrix = dep->target->domain;
   for (i = 0 ; i < matrix->nb_rows ; i++)
     for (j = 1 ; j <= matrix->nb_output_dims ; j++) {
-      n = osl_int_get_si(precision, matrix->m[i], j);
+      n = osl_int_get_si(precision, matrix->m[i][j]);
       if (n < -1 || n > 1)
         return 0;
     }

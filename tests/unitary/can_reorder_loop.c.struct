@@ -202,17 +202,6 @@ b0 i b1
 3 b
 </arrays>
 
-<coordinates>
-# File name
-./unitary/can_reorder_loop.c
-# Starting line
-1
-# Ending line
-7
-# Indentation
-0
-</coordinates>
-
 </OpenScop>
 
 

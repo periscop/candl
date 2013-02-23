@@ -514,17 +514,6 @@ b0 t b1 i b2
 7 j
 </arrays>
 
-<coordinates>
-# File name
-./unitary/jacobi1d.c
-# Starting line
-1
-# Ending line
-8
-# Indentation
-0
-</coordinates>
-
 </OpenScop>
 
 

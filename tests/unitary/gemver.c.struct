@@ -748,17 +748,6 @@ b0 i b1 j b2
 14 alpha
 </arrays>
 
-<coordinates>
-# File name
-./unitary/gemver.c
-# Starting line
-9
-# Ending line
-25
-# Indentation
-2
-</coordinates>
-
 </OpenScop>
 
 

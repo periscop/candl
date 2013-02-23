@@ -234,16 +234,5 @@ b0 K b1 j b2 k b3
 5 a
 </arrays>
 
-<coordinates>
-# File name
-./unitary/lu.c
-# Starting line
-6
-# Ending line
-17
-# Indentation
-2
-</coordinates>
-
 </OpenScop>
 

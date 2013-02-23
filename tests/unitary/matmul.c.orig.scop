@@ -149,16 +149,5 @@ b0 i b1 j b2 k b3
 7 B
 </arrays>
 
-<coordinates>
-# File name
-./unitary/matmul.c
-# Starting line
-1
-# Ending line
-9
-# Indentation
-0
-</coordinates>
-
 </OpenScop>
 

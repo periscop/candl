@@ -53,39 +53,33 @@
  * This function is used to keep the compatibility with Piplib
  */
 PipMatrix* pip_relation2matrix(osl_relation_p in) {
+  int i, j, precision;
+  PipMatrix *out;
+
   if (in == NULL)
     return NULL;
-    
-  #if defined(LINEAR_VALUE_IS_INT)
-    if (OSL_PRECISION_SP != in->precision)
-      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
+
+  #ifdef LINEAR_VALUE_IS_INT
+    precision = OSL_PRECISION_SP;
   #elif defined(LINEAR_VALUE_IS_LONGLONG)
-    if (OSL_PRECISION_DP != in->precision)
-      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
+    precision = OSL_PRECISION_DP;
   #elif defined(LINEAR_VALUE_IS_MP)
-    if (OSL_PRECISION_MP != in->precision)
-      CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
+    precision = OSL_PRECISION_MP;
   #endif
-  
-  PipMatrix *out;
-  int i, j;
-  
+
+  if (precision != in->precision)
+    CANDL_error("Precision not compatible with piplib ! (pip_relation2matrix)");
+
   out = pip_matrix_alloc(in->nb_rows, in->nb_columns);
   
   for (i = 0 ; i < in->nb_rows ; i++) {
     for (j = 0 ; j < in->nb_columns ; j++) {
       #if defined(LINEAR_VALUE_IS_INT)
-        osl_int_assign(OSL_PRECISION_SP,
-                       out->p[i], j,
-                       in->m[i], j);
+        CANDL_assign(out->p[i][j], in->m[i][j].sp);
       #elif defined(LINEAR_VALUE_IS_LONGLONG)
-        osl_int_assign(OSL_PRECISION_DP,
-                       out->p[i], j,
-                       in->m[i], j);
+        CANDL_assign(out->p[i][j], in->m[i][j].dp);
       #elif defined(LINEAR_VALUE_IS_MP)
-        osl_int_assign(OSL_PRECISION_MP,
-                       out->p[i], j,
-                       in->m[i], j);
+        CANDL_assign(out->p[i][j], *((mpz_t*)in->m[i][j].mp));
       #endif
     }
   }
@@ -99,10 +93,12 @@ PipMatrix* pip_relation2matrix(osl_relation_p in) {
  * This function is used to keep the compatibility with Piplib
  */
 osl_relation_p pip_matrix2relation(PipMatrix* in) {
+  int i, j, precision;
+  osl_relation_p out;
+  osl_int_t temp;
+  
   if (in == NULL)
     return NULL;
-  
-  int precision;
   
   #if defined(LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
@@ -112,29 +108,23 @@ osl_relation_p pip_matrix2relation(PipMatrix* in) {
     precision = OSL_PRECISION_MP;
   #endif
   
-  osl_relation_p out;
-  int i, j;
-  
   out = osl_relation_pmalloc(precision, in->NbRows, in->NbColumns);
-  
+  osl_int_init(precision, &temp);
+
   for (i = 0 ; i < in->NbRows ; i++) {
     for (j = 0 ; j < in->NbColumns ; j++) {
-      #if defined(LINEAR_VALUE_IS_INT)
-        osl_int_assign(OSL_PRECISION_SP,
-                       out->m[i], j,
-                       in->p[i], j);
+      #ifdef LINEAR_VALUE_IS_INT
+        temp.sp = in->p[i][j];
       #elif defined(LINEAR_VALUE_IS_LONGLONG)
-        osl_int_assign(OSL_PRECISION_DP,
-                       out->m[i], j,
-                       in->p[i], j);
+        temp.dp = in->p[i][j];
       #elif defined(LINEAR_VALUE_IS_MP)
-        osl_int_assign(OSL_PRECISION_MP,
-                       out->m[i], j,
-                       in->p[i], j);
+        mpz_set(*((mpz_t*)temp.mp), in->p[i][j]);
       #endif
+      osl_int_assign(precision, &out->m[i][j], temp);
     }
   }
   
+  osl_int_clear(precision, &temp);
   return out;
 }
 
@@ -244,11 +234,11 @@ osl_relation_p pip_quast_no_solution_to_polyhedra(PipQuast *quast, int nvar,
      * the condition */
     for (iter = tp ; iter != NULL ; iter = iter->next) {
       int nrows = iter->nb_rows;
-      osl_int_set_si(precision, iter->m[nrows], 0, 1);
+      osl_int_set_si(precision, &iter->m[nrows][0], 1);
       for (j = 1; j < 1 + nvar; j++)
-        osl_int_set_si(precision, iter->m[nrows], j, 0);
+        osl_int_set_si(precision, &iter->m[nrows][j], 0);
       for (j = 0; j < npar + 1; j++)
-        osl_int_set_si(precision, iter->m[nrows], 1+nvar+j,
+        osl_int_set_si(precision, &iter->m[nrows][1 + nvar + j],
                         CANDL_get_si(quast->condition->the_vector[j]));
       (iter->nb_rows)++;
     }
@@ -256,15 +246,15 @@ osl_relation_p pip_quast_no_solution_to_polyhedra(PipQuast *quast, int nvar,
     for (iter = ep; iter != NULL ; iter = iter->next) {
       int nrows = iter->nb_rows;
       /* Inequality */
-      osl_int_set_si(precision, iter->m[nrows], 0, 1);
+      osl_int_set_si(precision, &iter->m[nrows][0], 1);
       for (j = 1; j < 1 + nvar; j++)
-        osl_int_set_si(precision, iter->m[nrows], j, 0);
+        osl_int_set_si(precision, &iter->m[nrows][j], 0);
       for (j = 0; j < npar + 1; j++)
-        osl_int_set_si(precision, iter->m[nrows], 1+nvar+j,
+        osl_int_set_si(precision, &iter->m[nrows][1 + nvar + j],
                      -CANDL_get_si(quast->condition->the_vector[j]));
       osl_int_decrement(precision, 
-                        iter->m[nrows], iter->nb_columns-1,
-                        iter->m[nrows], iter->nb_columns-1);
+                        &iter->m[nrows][iter->nb_columns - 1],
+                        iter->m[nrows][iter->nb_columns - 1]);
       (iter->nb_rows)++;
     }
 
@@ -327,11 +317,11 @@ osl_relation_p pip_quast_to_polyhedra(PipQuast *quast, int nvar, int npar) {
      * the condition */
     for (iter = tp ; iter != NULL ; iter = iter->next) {
       int nrows = iter->nb_rows;
-      osl_int_set_si(precision, iter->m[nrows], 0, 1);
+      osl_int_set_si(precision, &iter->m[nrows][0], 1);
       for (j = 1; j < 1 + nvar; j++)
-        osl_int_set_si(precision, iter->m[nrows], j, 0);
+        osl_int_set_si(precision, &iter->m[nrows][j], 0);
       for (j = 0; j < npar + 1; j++)
-        osl_int_set_si(precision, iter->m[nrows], 1+nvar+j,
+        osl_int_set_si(precision, &iter->m[nrows][1 + nvar + j],
                         CANDL_get_si(quast->condition->the_vector[j]));
       (iter->nb_rows)++;
     }
@@ -343,15 +333,15 @@ osl_relation_p pip_quast_to_polyhedra(PipQuast *quast, int nvar, int npar) {
     for (iter = ep; iter != NULL ; iter = iter->next) {
       int nrows = iter->nb_rows;
       /* Inequality */
-      osl_int_set_si(precision, iter->m[nrows], 0, 5);
+      osl_int_set_si(precision, &iter->m[nrows][0], 5);
       for (j = 1; j < 1 + nvar; j++)
-        osl_int_set_si(precision, iter->m[nrows], j, 0);
+        osl_int_set_si(precision, &iter->m[nrows][j], 0);
       for (j = 0; j < npar + 1; j++)
-        osl_int_set_si(precision, iter->m[nrows], 1+nvar+j,
+        osl_int_set_si(precision, &iter->m[nrows][1 + nvar + j],
                      -CANDL_get_si(quast->condition->the_vector[j]));
       osl_int_decrement(precision, 
-                        iter->m[nrows], iter->nb_columns-1,
-                        iter->m[nrows], iter->nb_columns-1);
+                        &iter->m[nrows][iter->nb_columns - 1],
+                        iter->m[nrows][iter->nb_columns - 1]);
       (iter->nb_rows)++;
     }
 
@@ -376,23 +366,23 @@ osl_relation_p pip_quast_to_polyhedra(PipQuast *quast, int nvar, int npar) {
     int count=0;
     while (vecList != NULL) {
       /* Equality */
-      osl_int_set_si(precision, lwmatrix->m[count], 0, 0);
+      osl_int_set_si(precision, &lwmatrix->m[count][0], 0);
       for (j=0; j < nvar; j++)
         if (j == count)
-          osl_int_set_si(precision, lwmatrix->m[count], j+1, 1);
+          osl_int_set_si(precision, &lwmatrix->m[count][j + 1], 1);
         else
-          osl_int_set_si(precision, lwmatrix->m[count], j+1, 0);
+          osl_int_set_si(precision, &lwmatrix->m[count][j + 1], 0);
 
       for (j=0; j < npar; j++)
-        osl_int_set_si(precision, lwmatrix->m[count], j+1+nvar,
+        osl_int_set_si(precision, &lwmatrix->m[count][j + 1 + nvar],
                        -CANDL_get_si(vecList->vector->the_vector[j]));
       /* Constant portion */
       if (quast->newparm != NULL)
         /* Don't handle newparm for now */
-        osl_int_set_si(precision, lwmatrix->m[count], npar+1+nvar,
+        osl_int_set_si(precision, &lwmatrix->m[count][npar + 1 + nvar],
                        -CANDL_get_si(vecList->vector->the_vector[npar+1]));
       else
-        osl_int_set_si(precision, lwmatrix->m[count], npar+1+nvar,
+        osl_int_set_si(precision, &lwmatrix->m[count][npar + 1 + nvar],
                        -CANDL_get_si(vecList->vector->the_vector[npar]));
 
       count++;

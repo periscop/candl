@@ -99,8 +99,7 @@ void candl_statement_usr_init_all(osl_scop_p scop) {
     for (j = 0; j < stmt_usr->depth; ++j) {
       row = candl_relation_get_line(scattering, j*2);
       val = osl_int_get_si(precision,
-                           scattering->m[row],
-                           scattering->nb_columns-1);
+                           scattering->m[row][scattering->nb_columns - 1]);
       if (last[j] < val) {
         last[j] = val;
         for (k = j + 1; k < CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH; ++k)

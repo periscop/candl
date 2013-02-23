@@ -444,17 +444,6 @@ b0 i b1
 5 b
 </arrays>
 
-<coordinates>
-# File name
-./transformations/must_fail/no_scalren.c
-# Starting line
-1
-# Ending line
-13
-# Indentation
-0
-</coordinates>
-
 <clay>
 reorder([], [1,0]);
 </clay>
@@ -662,17 +651,6 @@ b0 i b1
 4 a
 5 b
 </arrays>
-
-<coordinates>
-# File name
-./transformations/must_fail/no_scalren.c
-# Starting line
-1
-# Ending line
-13
-# Indentation
-0
-</coordinates>
 
 </OpenScop>
 

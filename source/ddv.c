@@ -281,12 +281,12 @@ candl_ddv_constant_val(osl_relation_p system, int* val, int nb_par) {
         // FIXME : check if precision is correct to use piplib
         
         for (j = 0; j < nb_par; ++j)
-          if (!osl_int_zero(precision, vect->the_vector, j)) {
+          if (!CANDL_zero_p(vect->the_vector[j])) {
             is_constant_val = 0;
             break;
           }
         if (is_constant_val) {
-          cst = osl_int_get_si(precision, vect->the_vector, vect->nb_elements-1);
+          cst = CANDL_get_si(vect->the_vector[vect->nb_elements-1]);
           if (first) {
             first = 0;
             cst_base = cst;
@@ -339,53 +339,49 @@ candl_ddv_create_from_dep(osl_dependence_p dep, int loop_id, int ddv_size) {
                                                  mat->nb_rows + 1,
                                                  mat->nb_columns + 1);
   for (pos = 0; pos < mat->nb_rows; ++pos) {
-    osl_int_assign(precision,
-                   testsyst->m[pos], 0,
-                   mat->m[pos], 0);
+    osl_int_assign(precision, &testsyst->m[pos][0], mat->m[pos][0]);
     for (j = 1; j < mat->nb_columns; ++j)
-      osl_int_assign(precision, 
-                     testsyst->m[pos], j + 1,
-                     mat->m[pos], j);
+      osl_int_assign(precision, &testsyst->m[pos][j + 1],mat->m[pos][j]);
   }
   
   int has_eq, has_pos, has_neg, has_cst;
   int scal1, scal2;
   for (i = 1; i <= ddv_size; ++i) {
     // Test for '='.
-    osl_int_set_si(precision, testsyst->m[pos], 0, 0);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i, 1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, -1);
-    osl_int_set_si(precision, testsyst->m[pos], testsyst->nb_columns-1, 0);
+    osl_int_set_si(precision, &testsyst->m[pos][0], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], -1);
+    osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], 0);
     has_eq = pip_has_rational_point(testsyst, NULL, 1);
 
     // Test for '>'.
-    osl_int_set_si(precision, testsyst->m[pos], 0, 1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i, 1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, -1);
-    osl_int_set_si(precision, testsyst->m[pos], testsyst->nb_columns-1, -1);
+    osl_int_set_si(precision, &testsyst->m[pos][0], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], -1);
+    osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], -1);
     has_pos = pip_has_rational_point(testsyst, NULL, 1);
 
     // Test for '<'.
-    osl_int_set_si(precision, testsyst->m[pos], 0, 1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i, -1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, 1);
-    osl_int_set_si(precision, testsyst->m[pos], testsyst->nb_columns-1, -1);
+    osl_int_set_si(precision, &testsyst->m[pos][0], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i], -1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], -1);
     has_neg = pip_has_rational_point(testsyst, NULL, 1);
 
     // Test for constant distance.
     // min(x_R^i - x_S^i)
     // max(x_R^i - x_S^i) = - min(- x_R^i + x_S^i)
-    osl_int_set_si(precision, testsyst->m[pos], 0, 0);
-    osl_int_set_si(precision, testsyst->m[pos], 1, 1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i, -1);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, 1);
-    osl_int_set_si(precision, testsyst->m[pos], testsyst->nb_columns-1, 0);
+    osl_int_set_si(precision, &testsyst->m[pos][0], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][1], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i], -1);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], 1);
+    osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], 0);
     has_cst = candl_ddv_constant_val(testsyst, &scal1, nb_par);
 
     if (has_cst) {
-      osl_int_set_si(precision, testsyst->m[pos], 1 + i, 1);
-      osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, -1);
-      osl_int_set_si(precision, testsyst->m[pos], 1, 1);
+      osl_int_set_si(precision, &testsyst->m[pos][1 + i], 1);
+      osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], -1);
+      osl_int_set_si(precision, &testsyst->m[pos][1], 1);
       has_cst = candl_ddv_constant_val(testsyst, &scal2, nb_par);
       scal2 *= -1;
       if (has_cst)
@@ -408,11 +404,11 @@ candl_ddv_create_from_dep(osl_dependence_p dep, int loop_id, int ddv_size) {
     }
 
     // Reset the constraint.
-    osl_int_set_si(precision, testsyst->m[pos], 0, 0);
-    osl_int_set_si(precision, testsyst->m[pos], 1, 0);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i, 0);
-    osl_int_set_si(precision, testsyst->m[pos], 1 + i + usr->depth, 0);
-    osl_int_set_si(precision, testsyst->m[pos], testsyst->nb_columns-1, 0);
+    osl_int_set_si(precision, &testsyst->m[pos][0], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][1], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][1 + i + usr->depth], 0);
+    osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], 0);
   }
 
   return dv;

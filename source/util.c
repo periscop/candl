@@ -67,7 +67,7 @@ int candl_relation_get_line(osl_relation_p relation, int column) {
   int i;
   int precision = relation->precision;
   for (i = 0 ; i < relation->nb_rows ; i++) {
-    if (!osl_int_zero(precision, relation->m[i], column+1)) {
+    if (!osl_int_zero(precision, relation->m[i][column + 1])) {
       break;
     }
   }
@@ -171,8 +171,8 @@ int candl_util_statement_commute(osl_statement_p statement1,
     row_1 = candl_relation_get_line(access1->elt, 0);
     row_2 = candl_relation_get_line(access2->elt, 0);
     if (!osl_int_eq(precision,
-                    access1->elt->m[row_1], access1->elt->nb_columns-1,
-                    access2->elt->m[row_2], access2->elt->nb_columns-1))
+                    access1->elt->m[row_1][access1->elt->nb_columns - 1],
+                    access2->elt->m[row_2][access2->elt->nb_columns - 1]))
       return 0;
   
     return 1;

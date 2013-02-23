@@ -115,16 +115,5 @@ b0 i b1
 4 b
 </arrays>
 
-<coordinates>
-# File name
-./unitary/scalpriv.c
-# Starting line
-3
-# Ending line
-8
-# Indentation
-0
-</coordinates>
-
 </OpenScop>
 
