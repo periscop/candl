@@ -2,7 +2,7 @@
 make maintainer-clean
 #./get_submodules.sh
 ./autogen.sh
-./configure --prefix=$HOME/usr \
+./configure  \
             --with-osl=system \
             --with-osl-prefix=$HOME/usr \
             --with-piplib=system \
