@@ -95,7 +95,7 @@ libcandl_la_SOURCES =        \
 
 #############################################################################
 
-LDADD              = @OSL_LIBS@ @PIPLIB_LIBS@ libcandl.la
+LDADD              = @CANDL_LIBS@ @OSL_LIBS@ @PIPLIB_LIBS@
 candl_CPPFLAGS     = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -g -Wall
 candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ # TO BE REMOVED
 candl_DEPENDENCIES = libcandl.la

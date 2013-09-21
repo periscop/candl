@@ -299,6 +299,15 @@ if test $with_osl = bundled; then
   AC_CONFIG_SUBDIRS(osl)
 fi
 
+dnl forcing candl to use local libcandl.la
+dnl if --prefix is not specified
+if test $prefix = NONE; then
+   CANDL_LIBS="$srcdir/libcandl.la -lcandl"
+else
+   CANDL_LIBS="$prefix/lib/libcandl.la -lcandl"
+fi
+AC_SUBST(CANDL_LIBS)
+
 
 
 AC_OUTPUT
