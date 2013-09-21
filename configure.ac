@@ -122,35 +122,6 @@ esac
 AM_CONDITIONAL(BUNDLED_OSL, test $with_osl = bundled)
 
 
-dnl /**************************************************************************
-dnl  *                   Where is the PipLib Library?                         *
-dnl  **************************************************************************/
-
-AX_SUBMODULE(piplib,system|build|bundled,system)
-
-AC_SUBST(PIPLIB_CPPFLAGS)
-AC_SUBST(PIPLIB_LDFLAGS)
-AC_SUBST(PIPLIB_LIBS)
-case "$with_piplib" in
-bundled)
-  PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
-  PIPLIB_LIBS="$srcdir/piplib/source/libpiplib$BITS.la"
-  ;;
-build)
-  PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
-  PIPLIB_LIBS="$with_piplib_builddir/libpiplib$BITS.la"
-  ;;
-system)
-  if test "x$with_piplib_prefix" != "x"; then
-    PIPLIB_CPPFLAGS="-I$with_piplib_prefix/include"
-  fi
-  if test "x$with_piplib_exec_prefix" != "x"; then
-    PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
-  fi
-  PIPLIB_LIBS="$with_piplib_prefix/lib/libpiplib$BITS.la -lpiplib$BITS"
-esac
-AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
-
 
 dnl GMP
 
@@ -213,6 +184,37 @@ AC_ARG_ENABLE(piplib-hybrid,
           if test "x$enableval" = "xyes"; then 
             CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
           fi])
+
+
+dnl /**************************************************************************
+dnl  *                   Where is the PipLib Library?                         *
+dnl  **************************************************************************/
+
+AX_SUBMODULE(piplib,system|build|bundled,system)
+
+AC_SUBST(PIPLIB_CPPFLAGS)
+AC_SUBST(PIPLIB_LDFLAGS)
+AC_SUBST(PIPLIB_LIBS)
+case "$with_piplib" in
+bundled)
+  PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
+  PIPLIB_LIBS="$srcdir/piplib/source/libpiplib$BITS.la"
+  ;;
+build)
+  PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
+  PIPLIB_LIBS="$with_piplib_builddir/libpiplib$BITS.la"
+  ;;
+system)
+  if test "x$with_piplib_prefix" != "x"; then
+    PIPLIB_CPPFLAGS="-I$with_piplib_prefix/include"
+  fi
+  if test "x$with_piplib_exec_prefix" != "x"; then
+    PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
+  fi
+  PIPLIB_LIBS="$with_piplib_prefix/lib/libpiplib$BITS.la -lpiplib$BITS"
+esac
+AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
+
 
 
 dnl /**************************************************************************
