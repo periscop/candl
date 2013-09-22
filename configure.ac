@@ -104,7 +104,7 @@ AC_SUBST(OSL_LIBS)
 case "$with_osl" in
 bundled)
   OSL_CPPFLAGS="-I$srcdir/osl/include -Iosl/include"
-  OSL_LIBS="$srcdir/osl/source/libosl.la"
+  OSL_LIBS="$srcdir/osl/libosl.la"
   ;;
 build)
   OSL_CPPFLAGS="-I$osl_srcdir/include -I$with_osl_builddir/include"
@@ -198,7 +198,7 @@ AC_SUBST(PIPLIB_LIBS)
 case "$with_piplib" in
 bundled)
   PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
-  PIPLIB_LIBS="$srcdir/piplib/source/libpiplib$BITS.la"
+  PIPLIB_LIBS="$srcdir/piplib/libpiplib$BITS.la"
   ;;
 build)
   PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"

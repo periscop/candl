@@ -37,11 +37,11 @@
 
 if BUNDLED_OSL
   MAYBE_OSL = osl
-  OSL_LA = $(top_builddir)/osl/source/libosl.la
+  OSL_LA = $(top_builddir)/osl/libosl.la
 endif
 if BUNDLED_PIPLIB
   MAYBE_PIPLIB = piplib
-  PIPLIB_LA = $(top_builddir)/piplib/source/libpiplib$(BITS).la
+  PIPLIB_LA = $(top_builddir)/piplib/libpiplib$(BITS).la
 endif
 
 SUBDIRS         = $(MAYBE_OSL) $(MAYBE_PIPLIB) doc tests
