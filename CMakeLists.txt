@@ -147,6 +147,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	add_executable(candl_exe "source/candl.c")
 	set_target_properties(candl_exe PROPERTIES OUTPUT_NAME "candl")
 	target_link_libraries(candl_exe candl_static ${OSL_LIBRARY})
+	if (gmp_LIB)
+		target_link_libraries(candl_exe candl_static ${gmp_LIB})
+	endif()
 
 	# candl test
 	find_program(bash_exe bash)
