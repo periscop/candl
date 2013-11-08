@@ -104,11 +104,7 @@ int main(int argc, char * argv[]) {
   if (orig_dependence != NULL) {
     CANDL_info("Dependences read from the optional tag");
   } else {
-    orig_dependence = candl_dependence(orig_scop, options);
-    osl_generic_p data = osl_generic_shell(orig_dependence,
-                                           osl_dependence_interface());
-    data->next = orig_scop->extension;
-    orig_scop->extension = data;
+    candl_dependence_add_extension(orig_scop, options);
   }
 
   /* Calculating legality violations. */

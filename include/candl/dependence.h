@@ -70,26 +70,27 @@ osl_dependence_p candl_dependence_isl_simplify(osl_dependence_p,
 /*+***************************************************************************
  *                          Structure display function                       *
  *****************************************************************************/
-void            candl_dependence_pprint(FILE *, osl_dependence_p);
-void            candl_dependence_view(osl_dependence_p);
+void             candl_dependence_pprint(FILE *, osl_dependence_p);
+void             candl_dependence_view(osl_dependence_p);
 
 
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
-int                  candl_dependence_gcd_test(osl_statement_p,
-						                                   osl_statement_p,
-						                                   osl_relation_p, int);
-int			             candl_dependence_check(osl_scop_p,
-					                                  osl_dependence_p,
-					                                  candl_options_p);
-osl_dependence_p     candl_dependence(osl_scop_p, candl_options_p);
+int              candl_dependence_gcd_test(osl_statement_p,
+                                           osl_statement_p,
+                                           osl_relation_p, int);
+int              candl_dependence_check(osl_scop_p,
+                                        osl_dependence_p,
+                                        candl_options_p);
+osl_dependence_p candl_dependence(osl_scop_p, candl_options_p);
+void             candl_dependence_add_extension(osl_scop_p, candl_options_p);
 
 
 /*+***************************************************************************
  *                    Memory allocation/deallocation function                *
  *****************************************************************************/
-void                 candl_dependence_init_fields(osl_scop_p, osl_dependence_p);
+void             candl_dependence_init_fields(osl_scop_p, osl_dependence_p);
 
 
 /******************************************************************************
@@ -121,7 +122,7 @@ osl_relation_p   candl_dependence_get_relation_ref_target_in_dep(osl_dependence_
 int              candl_num_dependences(osl_dependence_p);
 void             candl_compute_last_writer(osl_dependence_p, osl_scop_p);
 osl_dependence_p candl_dependence_prune_transitively_covered(osl_dependence_p);
-    
+
 # if defined(__cplusplus)
   }
 # endif

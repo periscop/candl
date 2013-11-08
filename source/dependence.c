@@ -940,6 +940,8 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
  * - 18/09/2003: first version.
  */
 osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
+  if (scop == NULL) { return NULL; }
+  
   osl_dependence_p dependence = NULL;
   osl_dependence_p new = NULL;
   osl_dependence_p now;
@@ -994,6 +996,26 @@ osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
   #endif
 
   return dependence;
+}
+
+/**
+ * candl_dependence_add_extension function:
+ * this function builds the dependence graph of a scop
+ * according to some user options (options).
+ * The dependence graph is added in the extension of the scop.
+ * 
+ * @param[in,out] scop    A osl scop
+ * @param[in]     options Candl options
+ */
+void candl_dependence_add_extension(osl_scop_p scop, candl_options_p options) {
+  osl_dependence_p dependence = NULL;
+  dependence = candl_dependence(scop, options);
+  if (dependence != NULL) {
+    osl_generic_p data = osl_generic_shell(dependence,
+                                           osl_dependence_interface());
+    data->next = scop->extension;
+    scop->extension = data;
+  }
 }
 
 
