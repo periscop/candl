@@ -50,19 +50,25 @@
 
 /**
  * candl_scop_usr_init function:
- * Init a candl_scop_usr structure
+ * initialize a candl_scop_usr structure
+ *
+ * May, 2013 extended to each scop in the list,
  */
 void candl_scop_usr_init(osl_scop_p scop) {
 
-  candl_scop_usr_p scop_usr;
-  
-  /* Init the scop_usr structure */
-  scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
-  scop_usr->scalars_privatizable = NULL;
-  scop_usr->usr_backup           = scop->usr;
-  scop->usr = scop_usr;
-  
-  candl_statement_usr_init_all(scop);
+  while (scop) {
+    candl_scop_usr_p scop_usr;
+    
+    /* Init the scop_usr structure */
+    scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
+    scop_usr->scalars_privatizable = NULL;
+    scop_usr->usr_backup           = scop->usr;
+    scop->usr = scop_usr;
+    
+    candl_statement_usr_init_all(scop);
+
+    scop = scop->next;
+  }
 }
 
 
@@ -70,17 +76,22 @@ void candl_scop_usr_init(osl_scop_p scop) {
  * candl_scop_usr_cleanup function:
  */
 void candl_scop_usr_cleanup(osl_scop_p scop) {
-  osl_statement_p statement = scop->statement;
-  candl_scop_usr_p scop_usr;
-  while (statement != NULL) {
-    candl_statement_usr_cleanup(statement);
-    statement = statement->next;
-  }
-  scop_usr = scop->usr;
-  if (scop_usr) {
-    if (scop_usr->scalars_privatizable)
-      free(scop_usr->scalars_privatizable);
-    scop->usr = scop_usr->usr_backup;
-    free(scop_usr);
+
+  while (scop) {
+    osl_statement_p statement = scop->statement;
+    candl_scop_usr_p scop_usr;
+    while (statement != NULL) {
+      candl_statement_usr_cleanup(statement);
+      statement = statement->next;
+    }
+    scop_usr = scop->usr;
+    if (scop_usr) {
+      if (scop_usr->scalars_privatizable)
+        free(scop_usr->scalars_privatizable);
+      scop->usr = scop_usr->usr_backup;
+      free(scop_usr);
+    }
+   
+    scop = scop->next;
   }
 }

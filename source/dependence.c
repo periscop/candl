@@ -998,26 +998,38 @@ osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
   return dependence;
 }
 
+
+
 /**
  * candl_dependence_add_extension function:
- * this function builds the dependence graph of a scop
+ * this function builds the dependence graph for a scop list
  * according to some user options (options).
- * The dependence graph is added in the extension of the scop.
+ * For each scop the dependence graph is added in the extension of the scop.
+ * Any old dependence graph in the extension is deleted.
  * 
  * @param[in,out] scop    A osl scop
  * @param[in]     options Candl options
  */
 void candl_dependence_add_extension(osl_scop_p scop, candl_options_p options) {
-  osl_dependence_p dependence = NULL;
-  dependence = candl_dependence(scop, options);
-  if (dependence != NULL) {
-    osl_generic_p data = osl_generic_shell(dependence,
-                                           osl_dependence_interface());
+
+  while (scop) {
+    /* Calculating dependences. */
+    osl_dependence_p dep = osl_generic_lookup(scop->extension, 
+                                            OSL_URI_DEPENDENCE);
+    if (dep != NULL) {
+      osl_generic_remove(&scop->extension, OSL_URI_DEPENDENCE);
+      CANDL_info("Deleting old dependences found in the options tag.");
+    }
+
+    dep = candl_dependence(scop, options);
+
+    osl_generic_p data = osl_generic_shell(dep, osl_dependence_interface());
     data->next = scop->extension;
     scop->extension = data;
+    
+    scop = scop->next;
   }
 }
-
 
 /******************************************************************************
  *                          Scalar analysis functions                         *

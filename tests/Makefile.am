@@ -59,6 +59,7 @@ UNITARY_TEST_FILES = \
 	$(top_srcdir)/tests/unitary/loulou.c \
 	$(top_srcdir)/tests/unitary/lu.c \
 	$(top_srcdir)/tests/unitary/matmul.c \
+	$(top_srcdir)/tests/unitary/multiscop3.c \
 	$(top_srcdir)/tests/unitary/scalpriv.c \
 	$(top_srcdir)/tests/unitary/scalexp.c \
 	$(top_srcdir)/tests/unitary/simple.c \

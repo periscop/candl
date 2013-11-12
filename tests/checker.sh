@@ -38,6 +38,8 @@ STRING=$1
 FILES=$2
 TRANSFO=$3
 
+set -x verbose  #echo on
+
 echo "$STRING"
 
 for name in $FILES; do
@@ -52,10 +54,10 @@ for name in $FILES; do
 
   case $TRANSFO in
     0)
-      candl $candloptions "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
+      ../candl $candloptions "$orig_scop" -struct | grep -v "enerated by" > /tmp/candl_struct
       ;;
     1)
-      candl $candloptions "$clay_scop" -test "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
+      ../candl $candloptions "$clay_scop" -test "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
       ;;
   esac
   

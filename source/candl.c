@@ -51,9 +51,10 @@ int main(int argc, char * argv[]) {
   
   osl_scop_p scop = NULL;
   osl_scop_p orig_scop = NULL;
-  osl_dependence_p orig_dependence = NULL;
+  osl_dependence_p dep = NULL;
+  int num_scops, i=0;
   candl_options_p options;
-  candl_violation_p violation = NULL;
+  candl_violation_p *violations = NULL;
   FILE *input, *output, *input_test;
   int precision;
   #if defined(LINEAR_VALUE_IS_INT)
@@ -88,8 +89,8 @@ int main(int argc, char * argv[]) {
   /* Check if we can compare the two scop
    * The function compare only domains and access arrays
    */
-  if (input_test != NULL && !candl_util_check_scop(orig_scop, scop))
-    CANDL_error("The two scop can't be compared");
+  if (input_test != NULL && !candl_util_check_scop_list(orig_scop, scop))
+    CANDL_error("The two scop lists can't be compared");
   
   /* Add more infos (depth, label, ...)
    * Not important for the transformed scop
@@ -100,53 +101,81 @@ int main(int argc, char * argv[]) {
   candl_scop_usr_init(orig_scop);
   
   /* Calculating dependences. */
-  orig_dependence = osl_generic_lookup(orig_scop->extension, OSL_URI_DEPENDENCE);
-  if (orig_dependence != NULL) {
-    CANDL_info("Dependences read from the optional tag");
-  } else {
-    candl_dependence_add_extension(orig_scop, options);
-  }
+  candl_dependence_add_extension(orig_scop, options);
 
+  osl_scop_p s1 = orig_scop;
+  while (s1) {num_scops++; s1 = s1->next;}
+
+  s1 = orig_scop;
+  osl_scop_p s2 = scop;
   /* Calculating legality violations. */
   if (input_test != NULL) {
-    violation = candl_violation(orig_scop, orig_dependence, scop, options);
+    CANDL_malloc(violations, candl_violation_p, num_scops);
+
+    for (i=0; i< num_scops; i++, s1 = s1->next, s2 = s2->next) {
+      dep = osl_generic_lookup(s1->extension, 
+                                            OSL_URI_DEPENDENCE);
+      violations[i] = candl_violation(s1, dep, s2, options);
+    }
   }
 
   /* Printing data structures if asked. */
   if (options->structure) {
+
     if (input_test != NULL) {
-      fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
-      osl_scop_print(output, orig_scop);
-      fprintf(output, "\n\033[33mTRANSFORMED SCOP:\033[00m\n");
-      osl_scop_print(output, scop);
-      fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
-      candl_dependence_pprint(output, orig_dependence);
-      fprintf(output, "\n\n\033[33mVIOLATIONS GRAPH:\033[00m\n");
-      candl_violation_pprint(output, violation);
+      s1=orig_scop; s2=scop;
+      for (i=0; i< num_scops; i++, s1=s1->next, s2=s2->next) {
+        fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
+        osl_scop_print(output, s1);
+        fprintf(output, "\n\033[33mTRANSFORMED SCOP:\033[00m\n");
+        osl_scop_print(output, s2);
+
+        dep = osl_generic_lookup(s1->extension, OSL_URI_DEPENDENCE);
+        fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
+        candl_dependence_pprint(output, dep);
+        fprintf(output, "\n\n\033[33mVIOLATIONS GRAPH:\033[00m\n");
+        candl_violation_pprint(output, violations[i]);
+      }
     } else {
-      fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
-      osl_scop_print(output, orig_scop);
-      fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
-      candl_dependence_pprint(output, orig_dependence);
+      s1=orig_scop;
+      for (i=0; i< num_scops; i++, s1=s1->next) {
+        fprintf(output, "\033[33mORIGINAL SCOP:\033[00m\n");
+        osl_scop_print(output, s1);
+
+        dep = osl_generic_lookup(s1->extension, OSL_URI_DEPENDENCE);
+        fprintf(output, "\n\033[33mDEPENDENCES GRAPH:\033[00m\n");
+        candl_dependence_pprint(output, dep);
+      }
     }
+
   } else if (input_test != NULL) {
      /* Printing violation graph */
-    candl_violation_pprint(output, violation);
-    if (options->view)
-      candl_violation_view(violation);
+    for (i=0; i< num_scops; i++) {
+      candl_violation_pprint(output, violations[i]);
+      if (options->view)
+        candl_violation_view(violations[i]);
+    }
   } else if (options->outscop) {
     /* Export to the scop format */
-    osl_scop_print(output, orig_scop);
+    s1=orig_scop;
+    osl_scop_print(output, s1); //prints list
   } else {
     /* Printing dependence graph if asked or if there is no transformation. */
-    candl_dependence_pprint(output, orig_dependence);
-    if (options->view)
-      candl_dependence_view(orig_dependence);
+    s1=orig_scop;
+    for(i=0; i< num_scops; i++, s1=s1->next){
+      dep = osl_generic_lookup(s1->extension, OSL_URI_DEPENDENCE);
+      fprintf(output, "\033[33mSCOP #%d:\033[00m\n", i+1);
+      candl_dependence_pprint(output, dep);
+      fprintf(output, "\n");
+      if (options->view)
+        candl_dependence_view(dep);
+    }
   }
 
   /* Being clean. */
   if (input_test != NULL) {
-    candl_violation_free(violation);
+    for (i=0; i< num_scops; i++)
+      candl_violation_free(violations[i]);
     osl_scop_free(scop);
     fclose(input_test);
   }

@@ -78,6 +78,10 @@ int candl_relation_get_line(osl_relation_p relation, int column) {
 
 /* Check if two scop can be compared (same number of statements and
  * same access array/domain in the same order)
+ *
+ * \param[in] s1  first scop to compare
+ * \param[in] s2  second scop to compare
+ * \return        1 if two scops equal, 0 otherwise
  */
 int candl_util_check_scop(osl_scop_p s1, osl_scop_p s2) {
   
@@ -96,6 +100,31 @@ int candl_util_check_scop(osl_scop_p s1, osl_scop_p s2) {
   return 1;
 }
 
+/* Extends the candl_util_check_scop() functionality to a list of scops
+ * Compares each scop in s1 to the corresponding element in list s2
+ * same access array/domain in the same order)
+ *
+ * \param[in] s1  first scop List to compare
+ * \param[in] s2  second scop List to compare
+ * \return    1 if two scops lists equal, 0 otherwise
+ */
+int candl_util_check_scop_list(osl_scop_p s1, osl_scop_p s2) {
+
+  while ((s1!=NULL) && (s2!=NULL)) {
+    if(!candl_util_check_scop(s1, s2))
+      return 0;
+
+    s1 = s1->next; 
+    s2 = s2->next;
+  }
+
+  /* Different number of scops */
+  if ((s1 == NULL || s2 == NULL) && s1 != s2)
+    return 0;
+
+  /*scop lists can be compared*/
+  return 1;
+}
 
 /* Return the number access array which have the type `type'
  */
