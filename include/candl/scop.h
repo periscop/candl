@@ -42,6 +42,11 @@
 
 #include <osl/scop.h>
 
+# if defined(__cplusplus)
+extern "C"
+  {
+# endif
+
 struct candl_scop_usr {
   int size;
   int *scalars_privatizable;
@@ -54,5 +59,8 @@ typedef struct candl_scop_usr* candl_scop_usr_p;
 void candl_scop_usr_init(osl_scop_p);
 void candl_scop_usr_cleanup(osl_scop_p);
 
+# if defined(__cplusplus)
+  }
+# endif
 
 #endif

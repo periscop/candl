@@ -44,9 +44,18 @@
 #include <osl/relation.h>
 #include <osl/statement.h>
 
+# if defined(__cplusplus)
+extern "C"
+  {
+# endif
+
 int candl_relation_get_line(osl_relation_p, int);
 int candl_util_statement_commute(osl_statement_p, osl_statement_p);
 int candl_util_check_scop(osl_scop_p, osl_scop_p);
 int candl_util_check_scop_list(osl_scop_p s1, osl_scop_p s2);
+
+# if defined(__cplusplus)
+  }
+# endif
 
 #endif

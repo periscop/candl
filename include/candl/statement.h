@@ -43,6 +43,11 @@
 #include <osl/scop.h>
 #include <osl/statement.h>
 
+# if defined(__cplusplus)
+extern "C"
+  {
+# endif
+
 struct candl_statement_usr {
   int label; /**< Statement label = 'n'th statement */
   int depth;
@@ -57,6 +62,10 @@ typedef struct candl_statement_usr* candl_statement_usr_p;
 
 void candl_statement_usr_init_all(osl_scop_p);
 void candl_statement_usr_cleanup(osl_statement_p);
+
+# if defined(__cplusplus)
+  }
+# endif
 
 
 #endif
