@@ -149,7 +149,7 @@ int candl_util_statement_commute(osl_statement_p statement1,
   candl_statement_usr_p usr1, usr2;
   int type1, type2;
   int precision = statement1->domain->precision;
-  int row_1, row_2;
+  int id1, id2;
   
   usr1  = statement1->usr;
   usr2  = statement2->usr;
@@ -197,11 +197,9 @@ int candl_util_statement_commute(osl_statement_p statement1,
     }
     
     /* Check if the first dim (the Arr column) is the same */
-    row_1 = candl_relation_get_line(access1->elt, 0);
-    row_2 = candl_relation_get_line(access2->elt, 0);
-    if (!osl_int_eq(precision,
-                    access1->elt->m[row_1][access1->elt->nb_columns - 1],
-                    access2->elt->m[row_2][access2->elt->nb_columns - 1]))
+    id1 = osl_relation_get_array_id(access1->elt);
+    id2 = osl_relation_get_array_id(access2->elt);
+    if (id1 != id2)
       return 0;
   
     return 1;
