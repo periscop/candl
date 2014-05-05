@@ -57,11 +57,11 @@ int main(int argc, char * argv[]) {
   candl_violation_p *violations = NULL;
   FILE *input, *output, *input_test;
   int precision;
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(PIPLIB_INT_SP)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(PIPLIB_INT_DP)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(PIPLIB_INT_GMP)
     precision = OSL_PRECISION_MP;
   #endif
 

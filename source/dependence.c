@@ -47,6 +47,7 @@
 #include <candl/util.h>
 #include <candl/matrix.h>
 #include <candl/piplib-wrapper.h>
+#include <candl/macros.h>
 #include <osl/macros.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
@@ -1243,10 +1244,10 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
 
 /**
  * candl_dependence_compute_lb function:
- * This function assigns to the Entier 'lb' the lexmin of variable
+ * This function assigns to the piplib_int_t 'lb' the lexmin of variable
  * 'col'-1 in the polyhedron 'm'.
  */
-static void candl_dependence_compute_lb(osl_relation_p m, Entier* lb, int col) {
+static void candl_dependence_compute_lb(osl_relation_p m, piplib_int_t* lb, int col) {
   PipOptions* options;
   PipQuast* solution;
   PipList* l;
@@ -1286,7 +1287,7 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
   int max = level;
   int i, j;
   int precision = s2->domain->precision;
-  Entier lb;
+  piplib_int_t lb;
   osl_int_t osl_lb;
 
   CANDL_init(lb);
@@ -1309,12 +1310,12 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
   /* Make useless dimensions equal to 1. */
   for (j = 0; j < s2_usr->depth - max; ++j) {
     candl_dependence_compute_lb(s2->domain, &lb, j + 1 + max);
-    #ifdef LINEAR_VALUE_IS_INT
+    #ifdef PIPLIB_INT_SP
     osl_lb.sp = lb;
-    #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    #elif defined(PIPLIB_INT_DP)
     osl_lb.dp = lb;
-    #elif defined(LINEAR_VALUE_IS_MP)
-    mpz_set(*((mpz_t*)osl_lb.mp), lb);
+    #elif defined(PIPLIB_INT_GMP)
+    mpz_set(*osl_lb.mp, lb);
     #endif
     osl_int_assign(precision,
                    &matrix->m[i][matrix->nb_columns - 1], osl_lb);
@@ -1823,7 +1824,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   /*     for (jj = 0; jj < dep->domain->NbColumns; ++jj) */
   /*       CANDL_assign(m->p[ii][jj], dep->domain->p[ii][jj]); */
   /*   /\* Compute real lb of loops. *\/ */
-  /*   Entier lb; CANDL_init(lb); */
+  /*   piplib_int_t lb; CANDL_init(lb); */
   /*   candl_dependence_compute_lb (m, &lb, i + 1); */
   /*   CANDL_assign(m->p[m->NbRows - 2][m->NbColumns - 1], lb); */
   /*   candl_dependence_compute_lb (m, &lb, dep->source->depth + 1 + j); */
@@ -2214,11 +2215,11 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
   int npar = scop->context->nb_parameters;
   int precision;
   
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(PIPLIB_INT_SP)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(PIPLIB_INT_DP)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(PIPLIB_INT_GMP)
     precision = OSL_PRECISION_MP;
   #endif
   

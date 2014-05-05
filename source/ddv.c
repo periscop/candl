@@ -281,7 +281,7 @@ candl_ddv_constant_val(osl_relation_p system, int* val, int nb_par) {
         // FIXME : check if precision is correct to use piplib
         
         for (j = 0; j < nb_par; ++j)
-          if (!CANDL_zero_p(vect->the_vector[j])) {
+          if (!CANDL_zero(vect->the_vector[j])) {
             is_constant_val = 0;
             break;
           }
