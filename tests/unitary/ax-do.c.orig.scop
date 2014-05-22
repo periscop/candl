@@ -1,3 +1,4 @@
+[Clan] Info: parsing file #1 (./unitary/ax-do.c)
 
 <OpenScop>
 
@@ -45,8 +46,8 @@ WRITE
    0   -1    0    0    0    3    ## Arr == c
    0    0   -1    1    0    0    ## [1] == i
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -54,7 +55,7 @@ WRITE
 # List of original iterators
 i
 # Statement body expression
-c[i]=0;
+c[i] = 0 ;
 </body>
 
 # =============================================== Statement 2
@@ -107,8 +108,8 @@ READ
    0   -1    0    0    0    0    6    ## Arr == b
    0    0   -1    0    1    0    0    ## [1] == j
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -116,7 +117,7 @@ READ
 # List of original iterators
 i j
 # Statement body expression
-c[i]+=a[i][j]*b[j];
+c[i] += a[i][j] * b[j] ;
 </body>
 
 # =============================================== Extensions
@@ -135,6 +136,17 @@ b0 i b1 j b2
 5 a
 6 b
 </arrays>
+
+<coordinates>
+# File name
+./unitary/ax-do.c
+# Starting line and column
+5 0
+# Ending line and column
+12 0
+# Indentation
+2
+</coordinates>
 
 </OpenScop>
 

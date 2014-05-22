@@ -1,3 +1,4 @@
+[Clan] Info: parsing file #1 (./unitary/loulou.c)
 
 <OpenScop>
 
@@ -50,8 +51,8 @@ READ
 # e/i| Arr|  i |  n    m |  1  
    0   -1    0    0    0    1    ## Arr == i
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -59,7 +60,7 @@ READ
 # List of original iterators
 i
 # Statement body expression
-a[i]=i;
+a[i] = i ;
 </body>
 
 # =============================================== Statement 2
@@ -106,8 +107,8 @@ READ
    0   -1    0    0    0    0    0    3    ## Arr == a
    0    0   -1    1    0    0    0    0    ## [1] == i
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -115,7 +116,7 @@ READ
 # List of original iterators
 i j
 # Statement body expression
-b[j]=b[j]+a[i];
+b[j] = b[j] + a[i] ;
 </body>
 
 # =============================================== Extensions
@@ -134,6 +135,17 @@ b0 i b1 j b2
 5 m
 6 b
 </arrays>
+
+<coordinates>
+# File name
+./unitary/loulou.c
+# Starting line and column
+6 0
+# Ending line and column
+12 0
+# Indentation
+2
+</coordinates>
 
 </OpenScop>
 

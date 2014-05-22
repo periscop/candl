@@ -77,8 +77,8 @@ READ
    0    0   -1    0    0    0    1    0    0    ## [1] == k
    0    0    0   -1    0    1    0    0    0    ## [2] == j
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -86,7 +86,7 @@ READ
 # List of original iterators
 K j k
 # Statement body expression
-a[K][j]-=a[K][k]*a[k][j];
+a[K][j] -= a[K][k] * a[k][j];
 </body>
 
 # =============================================== Statement 2
@@ -148,8 +148,8 @@ READ
    0    0   -1    0    0    0    1    0    0    ## [1] == k
    0    0    0   -1    1    0    0    0    0    ## [2] == K
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -157,7 +157,7 @@ READ
 # List of original iterators
 K j k
 # Statement body expression
-a[j][K]-=a[j][k]*a[k][K];
+a[j][K] -= a[j][k] * a[k][K];
 </body>
 
 # =============================================== Statement 3
@@ -207,8 +207,8 @@ READ
    0    0   -1    0    1    0    0    0    ## [1] == K
    0    0    0   -1    1    0    0    0    ## [2] == K
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -216,7 +216,7 @@ READ
 # List of original iterators
 K j
 # Statement body expression
-a[j][K]/=a[K][K];
+a[j][K] /= a[K][K];
 </body>
 
 # =============================================== Extensions
@@ -944,6 +944,17 @@ b0 K b1 j b2 k b3
 4 k
 5 a
 </arrays>
+
+<coordinates>
+# File name
+./unitary/lu.c
+# Starting line and column
+7 0
+# Ending line and column
+17 0
+# Indentation
+2
+</coordinates>
 
 </OpenScop>
 

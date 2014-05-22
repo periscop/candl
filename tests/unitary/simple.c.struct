@@ -37,14 +37,14 @@ WRITE
 # e/i| Arr|  1  
    0   -1    1    ## Arr == a
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
 0
 # Statement body expression
-a=0;
+a = 0;
 </body>
 
 # =============================================== Statement 2
@@ -72,14 +72,14 @@ READ
 # e/i| Arr|  1  
    0   -1    1    ## Arr == a
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
 0
 # Statement body expression
-b=a;
+b = a;
 </body>
 
 # =============================================== Extensions
@@ -115,6 +115,17 @@ UNDEFINED
 1 a
 2 b
 </arrays>
+
+<coordinates>
+# File name
+./unitary/simple.c
+# Starting line and column
+2 0
+# Ending line and column
+4 0
+# Indentation
+2
+</coordinates>
 
 </OpenScop>
 
