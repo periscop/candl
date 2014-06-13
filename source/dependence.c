@@ -131,11 +131,9 @@ void candl_dependence_get_array_refs_in_dep(osl_dependence_p tmp,
   src = candl_dependence_get_relation_ref_source_in_dep(tmp);
   targ = candl_dependence_get_relation_ref_target_in_dep(tmp);
   
-  row = candl_relation_get_line(src, 0);
-  *refs = osl_int_get_si(precision, src->m[row][src->nb_columns - 1]);
+  *refs = osl_relation_get_array_id(src);
 
-  row = candl_relation_get_line(targ, 0);
-  *reft = osl_int_get_si(precision, targ->m[row][targ->nb_columns - 1]);
+  *reft = osl_relation_get_array_id(targ);
 }
 
 
@@ -802,7 +800,7 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
   candl_statement_usr_p t_usr = target->usr;
   int i, min_depth, max_depth;
   int precision = source->scattering->precision;
-  int row_src, row_targ;
+  int src_id, targ_id;
   int ref_s, ref_t;
   
   /* If the statements commute and the user asks to use this information to
@@ -839,7 +837,7 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
   
   for (; access_src != NULL; access_src = access_src->next, ref_s++) {
     elt_src = access_src->elt;
-    row_src = candl_relation_get_line(elt_src, 0);
+    src_id = osl_relation_get_array_id(elt_src);
     
     switch(elt_src->type) {
     
@@ -851,14 +849,11 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
         ref_t = 0;
         for (; access_targ != NULL; access_targ = access_targ->next, ref_t++) {
           elt_targ = access_targ->elt;
-          row_targ = candl_relation_get_line(elt_targ, 0);
+          targ_id  = osl_relation_get_array_id(elt_targ);
           
           /* Anti-dependences analysis. */
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
-            if (options->war && 
-                osl_int_eq(precision,
-                           elt_src->m[row_src][elt_src->nb_columns - 1],
-                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
+            if (options->war && src_id == targ_id) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -870,10 +865,7 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           }
           /* Input-dependences analysis. */
           else { /* target READ */
-            if (options->rar && 
-                osl_int_eq(precision,
-                           elt_src->m[row_src][elt_src->nb_columns - 1],
-                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
+            if (options->rar && src_id == targ_id) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -893,14 +885,11 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
         ref_t = 0;
         for (; access_targ != NULL; access_targ = access_targ->next, ref_t++) {
           elt_targ = access_targ->elt;
-          row_targ = candl_relation_get_line(elt_targ, 0);
+          targ_id = osl_relation_get_array_id(elt_targ);
           
           /* Anti-dependences analysis. */
           if (elt_targ->type != OSL_TYPE_READ) { /* target WRITE | MAY_WRITE */
-            if (options->waw && 
-                osl_int_eq(precision,
-                           elt_src->m[row_src][elt_src->nb_columns - 1],
-                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
+            if (options->waw && src_id == targ_id) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -912,10 +901,7 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
           }
           /* Input-dependences analysis. */
           else { /* target READ */
-            if (options->raw && 
-                osl_int_eq(precision,
-                           elt_src->m[row_src][elt_src->nb_columns - 1],
-                           elt_targ->m[row_targ][elt_targ->nb_columns - 1])) {
+            if (options->raw && src_id == targ_id) {
               for (i = min_depth; i <= max_depth; i++) {
                 new = candl_dependence_system(source, target, context,
                                               elt_src, elt_targ,
@@ -1047,16 +1033,16 @@ int candl_dependence_var_is_scalar(osl_scop_p scop, int var_index) {
   osl_relation_p elt;
   int precision = scop->context->precision;
   int i;
-  int row;
+  int id, row;
 
   statement = scop->statement;
   while (statement != NULL) {
     access = statement->access;
     while (access != NULL) {
       elt = access->elt;
+      id = osl_relation_get_array_id(elt);
       row = candl_relation_get_line(elt, 0);
-      if (osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]) ==
-          var_index) {
+      if (id == var_index) {
         /* Ensure it is not an array. */
         if (elt->nb_output_dims > 1)
           return 0;
@@ -1087,8 +1073,7 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
                                            int scalar_idx) {
   osl_relation_list_p access;
   osl_relation_p elt;
-  int tmp;
-  int row;
+  int id, row;
   int precision = sl[0]->scattering->precision;
   int i;
 
@@ -1100,9 +1085,9 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
     access = sl[i]->access;
     for (; access != NULL ; access = access->next) {
       elt = access->elt;
+      id = osl_relation_get_array_id(elt);
       row = candl_relation_get_line(elt, 0);
-      tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
-      if (tmp == scalar_idx) {
+      if (id == scalar_idx) {
         row = elt->nb_rows;
         osl_relation_insert_blank_row(elt, row);
         osl_relation_insert_blank_column(elt, 1 + elt->nb_output_dims);
@@ -1200,7 +1185,7 @@ osl_statement_p* candl_dependence_refvar_chain(osl_scop_p scop,
 int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
   osl_relation_list_p access;
   osl_relation_p elt;
-  int row;
+  int id;
   int ret = CANDL_VAR_UNDEF;
   
   if (s) {
@@ -1209,9 +1194,8 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       if (elt->type == OSL_TYPE_READ) {
-        row = candl_relation_get_line(elt, 0);
-        if (osl_int_get_si(elt->precision, elt->m[row][elt->nb_columns - 1]) ==
-            var_index) {
+        id = osl_relation_get_array_id(elt);
+        if (id == var_index) {
           ret = CANDL_VAR_IS_USED;
           break;
         }
@@ -1224,9 +1208,8 @@ int candl_dependence_var_is_ref(osl_statement_p s, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       if (elt->type != OSL_TYPE_READ) {
-        row = candl_relation_get_line(elt, 0);
-        if (osl_int_get_si(elt->precision, elt->m[row][elt->nb_columns - 1]) ==
-            var_index) {
+        id = osl_relation_get_array_id(elt);
+        if (id == var_index) {
           if (ret == CANDL_VAR_IS_USED)
             ret = CANDL_VAR_IS_DEF_USED;
           else
@@ -1383,7 +1366,6 @@ int* candl_dependence_extract_scalar_variables(osl_scop_p scop) {
   int scalars[1024]; /* FIXME: implement a real buffer. */
   int checked[1024];
   int i, idx;
-  int row;
   int count_s = 0, count_c = 0;
   
   /* Detect all scalar variables. */
@@ -1392,9 +1374,7 @@ int* candl_dependence_extract_scalar_variables(osl_scop_p scop) {
     access = statement->access;
     while (access != NULL) {
       elt = access->elt;
-      row = candl_relation_get_line(elt, 0);
-      idx = osl_int_get_si(elt->precision,
-                           elt->m[row][elt->nb_columns - 1]);
+      idx = osl_relation_get_array_id(elt);
       
       for (i = 0; i < count_s && scalars[i] != idx; ++i)
        ;
@@ -1508,8 +1488,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
     access = iter->access;
     for (; access != NULL; access = access->next) {
       elt = access->elt;
-      row = candl_relation_get_line(elt, 0);
-      tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
+      tmp = osl_relation_get_array_id(elt);
       if (tmp >= newvar)
         newvar = tmp + 1;
     }
@@ -1630,7 +1609,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
           for (; access != NULL; access = access->next) {
             elt = access->elt;
             row = candl_relation_get_line(elt, 0);
-            tmp = osl_int_get_si(precision, elt->m[row][elt->nb_columns - 1]);
+            tmp = osl_relation_get_array_id(elt);
             if (tmp == scalars[i]) {
               if (options->verbose)
                 fprintf (stderr, "[Candl] Scalar analysis: Renamed "
@@ -1997,7 +1976,7 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
   int max, is_priv, offset, was_priv;
   int nb_priv = 0;
   int priv_buff_size = 64;
-  int row;
+  int id, row;
 
   /* Initialize the list of privatizable scalars to empty. */
   if (options->scalar_privatization) {
@@ -2131,9 +2110,8 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
               access = statement[k]->access;
               for (; access != NULL; access = access->next) {
                 elt = access->elt;
-                row = candl_relation_get_line(elt, 0);
-                if (scalars[i] ==
-                    osl_int_get_si(precision, elt->m[row][elt->nb_columns-1])) {
+                id = osl_relation_get_array_id(elt);
+                if (scalars[i] == id) {
                   row = candl_relation_get_line(elt, offset+1);
                   osl_int_set_si(precision, &elt->m[row][elt->nb_output_dims + j], 1);
                 }
