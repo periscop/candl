@@ -70,3 +70,4 @@ for name in $FILES; do
 
   rm -f /tmp/candl_struct
 done
+exit $n
