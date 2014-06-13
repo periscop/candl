@@ -1,3 +1,4 @@
+[Clan] Info: parsing file #1 (./transformations/must_fail/no_scalren.c)
 
 <OpenScop>
 
@@ -44,8 +45,8 @@ WRITE
 # e/i| Arr|  i |  N |  1  
    0   -1    0    0    3    ## Arr == t
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -53,7 +54,7 @@ WRITE
 # List of original iterators
 i
 # Statement body expression
-t=0;
+t = 0;
 </body>
 
 # =============================================== Statement 2
@@ -88,8 +89,8 @@ READ
 # e/i| Arr|  i |  N |  1  
    0   -1    0    0    3    ## Arr == t
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -97,7 +98,7 @@ READ
 # List of original iterators
 i
 # Statement body expression
-a[i]=t;
+a[i] = t;
 </body>
 
 # =============================================== Statement 3
@@ -126,8 +127,8 @@ WRITE
 # e/i| Arr|  i |  N |  1  
    0   -1    0    0    3    ## Arr == t
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -135,7 +136,7 @@ WRITE
 # List of original iterators
 i
 # Statement body expression
-t=0;
+t = 0;
 </body>
 
 # =============================================== Statement 4
@@ -170,8 +171,8 @@ READ
 # e/i| Arr|  i |  N |  1  
    0   -1    0    0    3    ## Arr == t
 
-# ----------------------------------------------  4.4 Body
-# Statement body is provided
+# ----------------------------------------------  4.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -179,7 +180,7 @@ READ
 # List of original iterators
 i
 # Statement body expression
-b[i]=t;
+b[i] = t;
 </body>
 
 # =============================================== Extensions
@@ -197,6 +198,17 @@ b0 i b1
 4 a
 5 b
 </arrays>
+
+<coordinates>
+# File name
+./transformations/must_fail/no_scalren.c
+# Starting line and column
+2 0
+# Ending line and column
+13 0
+# Indentation
+0
+</coordinates>
 
 <clay>
 reorder([], [1,0]);

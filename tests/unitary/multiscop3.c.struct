@@ -45,8 +45,8 @@ WRITE
 # e/i| Arr| i1 | n1 |  1  
    0   -1    0    0    3    ## Arr == a1
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -105,7 +105,7 @@ b0 i1 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 2 0
 # Ending line and column
@@ -156,8 +156,8 @@ WRITE
 # e/i| Arr| n2 |  1  
    0   -1    0    1    ## Arr == a2
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -192,8 +192,8 @@ WRITE
 # e/i| Arr| i2 | n2 |  1  
    0   -1    0    0    1    ## Arr == a2
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -275,7 +275,7 @@ b0 i2 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 9 0
 # Ending line and column
@@ -326,8 +326,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -362,8 +362,8 @@ WRITE
 # e/i| Arr| i3 | n3 |  1  
    0   -1    0    0    1    ## Arr == a3
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -394,8 +394,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -518,7 +518,7 @@ b0 i3 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 18 0
 # Ending line and column
@@ -576,8 +576,8 @@ WRITE
 # e/i| Arr| n2 |  1  
    0   -1    0    1    ## Arr == a2
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -612,8 +612,8 @@ WRITE
 # e/i| Arr| i2 | n2 |  1  
    0   -1    0    0    1    ## Arr == a2
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -695,7 +695,7 @@ b0 i2 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 9 0
 # Ending line and column
@@ -746,8 +746,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -782,8 +782,8 @@ WRITE
 # e/i| Arr| i3 | n3 |  1  
    0   -1    0    0    1    ## Arr == a3
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -814,8 +814,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -938,7 +938,7 @@ b0 i3 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 18 0
 # Ending line and column
@@ -997,8 +997,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -1033,8 +1033,8 @@ WRITE
 # e/i| Arr| i3 | n3 |  1  
    0   -1    0    0    1    ## Arr == a3
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -1065,8 +1065,8 @@ WRITE
 # e/i| Arr| n3 |  1  
    0   -1    0    1    ## Arr == a3
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -1189,7 +1189,7 @@ b0 i3 b1
 
 <coordinates>
 # File name
-tests/unitary/multiscop3.c
+./unitary/multiscop3.c
 # Starting line and column
 18 0
 # Ending line and column

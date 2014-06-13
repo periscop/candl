@@ -1,6 +1,6 @@
 [submodule "osl"]
 	path = osl
-	url = git://repo.or.cz/openscop.git
+	url = https://github.com/periscop/openscop.git
 [submodule "piplib"]
 	path = piplib
-	url = git://repo.or.cz/piplib.git
+	url = https://github.com/periscop/piplib.git
