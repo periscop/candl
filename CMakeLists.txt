@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PACKAGE_VERSION "0.6.2")
 set(RELEASE "${PACKAGE_VERSION}")
-set(BITS "32")
+set(BITS "_dp")
 set(DEFINE_HAS_ISL_LIB "")
 set(top_srcdir "${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -62,16 +62,17 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # GMP & piplib
 	message(STATUS "---")
-	find_library(gmp_LIB gmp)
+# 	find_library(gmp_LIB gmp) # WARNING GMP desactived
 	if (gmp_LIB)
+		add_definitions("-DOSL_GMP_IS_HERE")
 		message (STATUS "Library gmp found =) ${gmp_LIB}")
-		set(BITS "MP")
-		# piplibMP
-		find_package(piplibMP REQUIRED)
+		set(BITS "_gmp")
+		# piplib_gmp
+		find_package(piplib_gmp REQUIRED)
 	else()
 		message(STATUS "Library gmp not found :(")
-		# piplib64
-		find_package(piplib64 REQUIRED)
+		# piplib_dp
+		find_package(piplib_dp REQUIRED)
 	endif()
 
 # Include directories (to use #include <> instead of #include "")
@@ -115,9 +116,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	)
 	target_link_libraries(candl ${OSL_LIBRARY})
 	if (gmp_LIB)
-		target_link_libraries(candl ${PIPLIBMP_LIBRARY})
+		target_link_libraries(candl ${PIPLIB_GMP_LIBRARY})
 	else()
-		target_link_libraries(candl ${PIPLIB64_LIBRARY})
+		target_link_libraries(candl ${PIPLIB_DP_LIBRARY})
 	endif()
 	get_property(candl_lib_location TARGET candl PROPERTY LOCATION)
 	message(STATUS "Add candl library (shared) ${candl_lib_location}")
@@ -130,9 +131,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	)
 	set_target_properties(candl_static PROPERTIES OUTPUT_NAME candl)
 	if (gmp_LIB)
-		target_link_libraries(candl_static ${PIPLIBMP_LIBRARY})
+		target_link_libraries(candl_static ${PIPLIB_GMP_LIBRARY})
 	else()
-		target_link_libraries(candl_static ${PIPLIB64_LIBRARY})
+		target_link_libraries(candl_static ${PIPLIB_DP_LIBRARY})
 	endif()
 	target_link_libraries(candl_static ${OSL_LIBRARY})
 	get_property(candl_static_lib_location TARGET candl_static PROPERTY LOCATION)
@@ -159,6 +160,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 		enable_testing()
 		
+		set(test_dir "${CMAKE_CURRENT_BINARY_DIR}/test_dir")
+		file(MAKE_DIRECTORY "${test_dir}") 
+		
 		file(
 			GLOB_RECURSE
 			tests_unitary
@@ -168,8 +172,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		foreach(test ${tests_unitary})
 			message(STATUS "Add Unitary test ${test}")
 			add_test(
-				"tests_unitary_${test}"
-				"${bash_exe}"
+				NAME "tests_unitary_${test}"
+				WORKING_DIRECTORY "${test_dir}"
+				COMMAND "${bash_exe}"
 				"${CMAKE_CURRENT_SOURCE_DIR}/tests/checker.sh"
 				"${test}"
 				"${test}"
@@ -186,8 +191,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		foreach(test ${tests_transformations_must_fail})
 			message(STATUS "Add Transformation must fail test ${test}")
 			add_test(
-				"tests_transformations_must_fail_${test}"
-				"${bash_exe}"
+				NAME "tests_transformations_must_fail_${test}"
+				WORKING_DIRECTORY "${test_dir}"
+				COMMAND "${bash_exe}"
 				"${CMAKE_CURRENT_SOURCE_DIR}/tests/checker.sh"
 				"${test}"
 				"${test}"
@@ -204,8 +210,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		foreach(test ${tests_transformations_working})
 			message(STATUS "Add Transformation working test ${test}")
 			add_test(
-				"tests_transformations_working_${test}"
-				"${bash_exe}"
+				NAME "tests_transformations_working_${test}"
+				WORKING_DIRECTORY "${test_dir}"
+				COMMAND "${bash_exe}"
 				"${CMAKE_CURRENT_SOURCE_DIR}/tests/checker.sh"
 				"${test}"
 				"${test}"
