@@ -1,3 +1,4 @@
+[Clan] Info: parsing file #1 (./unitary/matmul.c)
 
 <OpenScop>
 
@@ -50,8 +51,8 @@ WRITE
    0    0   -1    0    1    0    0    0    ## [1] == i
    0    0    0   -1    0    1    0    0    ## [2] == j
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -59,7 +60,7 @@ WRITE
 # List of original iterators
 i j
 # Statement body expression
-C[i][j]=0;
+C[i][j] = 0;
 </body>
 
 # =============================================== Statement 2
@@ -119,8 +120,8 @@ READ
    0    0   -1    0    0    0    1    0    0    ## [1] == k
    0    0    0   -1    0    1    0    0    0    ## [2] == j
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -128,7 +129,7 @@ READ
 # List of original iterators
 i j k
 # Statement body expression
-C[i][j]=C[i][j]+A[i][k]*B[k][j];
+C[i][j] = C[i][j] + A[i][k] * B[k][j];
 </body>
 
 # =============================================== Extensions
@@ -148,6 +149,17 @@ b0 i b1 j b2 k b3
 6 A
 7 B
 </arrays>
+
+<coordinates>
+# File name
+./unitary/matmul.c
+# Starting line and column
+2 0
+# Ending line and column
+9 0
+# Indentation
+0
+</coordinates>
 
 </OpenScop>
 

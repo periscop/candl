@@ -69,8 +69,8 @@ READ
    0   -1    0    0    0    0    0    6    ## Arr == a
    0    0   -1    0    1    0    0    1    ## [1] == i+1
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -78,7 +78,7 @@ READ
 # List of original iterators
 t i
 # Statement body expression
-b[i]=0.33333*(a[i-1]+a[i]+a[i+1]);
+b[i] = 0.33333 * (a[i-1] + a[i] + a[i+1]);
 </body>
 
 # =============================================== Statement 2
@@ -119,8 +119,8 @@ READ
    0   -1    0    0    0    0    0    5    ## Arr == b
    0    0   -1    0    1    0    0    0    ## [1] == j
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -128,7 +128,7 @@ READ
 # List of original iterators
 t j
 # Statement body expression
-a[j]=b[j];
+a[j] = b[j];
 </body>
 
 # =============================================== Extensions
@@ -513,6 +513,17 @@ b0 t b1 i b2
 6 a
 7 j
 </arrays>
+
+<coordinates>
+# File name
+./unitary/jacobi1d.c
+# Starting line and column
+2 0
+# Ending line and column
+8 0
+# Indentation
+0
+</coordinates>
 
 </OpenScop>
 

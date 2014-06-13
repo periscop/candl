@@ -82,8 +82,8 @@ READ
    0   -1    0    0    0    0    8    ## Arr == v2
    0    0   -1    0    1    0    0    ## [1] == j
 
-# ----------------------------------------------  1.4 Body
-# Statement body is provided
+# ----------------------------------------------  1.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -91,7 +91,7 @@ READ
 # List of original iterators
 i j
 # Statement body expression
-A[i][j]=A[i][j]+u1[i]*v1[j]+u2[i]*v2[j];
+A[i][j] = A[i][j] + u1[i]*v1[j] + u2[i]*v2[j];
 </body>
 
 # =============================================== Statement 2
@@ -149,8 +149,8 @@ READ
    0   -1    0    0    0    0   11    ## Arr == y
    0    0   -1    0    1    0    0    ## [1] == j
 
-# ----------------------------------------------  2.4 Body
-# Statement body is provided
+# ----------------------------------------------  2.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -158,7 +158,7 @@ READ
 # List of original iterators
 i j
 # Statement body expression
-x[i]=x[i]+beta*A[i][j]*y[j];
+x[i] = x[i] + beta* A[i][j]*y[j];
 </body>
 
 # =============================================== Statement 3
@@ -200,8 +200,8 @@ READ
    0   -1    0    0    0   12    ## Arr == z
    0    0   -1    1    0    0    ## [1] == i
 
-# ----------------------------------------------  3.4 Body
-# Statement body is provided
+# ----------------------------------------------  3.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -209,7 +209,7 @@ READ
 # List of original iterators
 i
 # Statement body expression
-x[i]=x[i]+z[i];
+x[i] = x[i] + z[i];
 </body>
 
 # =============================================== Statement 4
@@ -267,8 +267,8 @@ READ
    0   -1    0    0    0    0    9    ## Arr == x
    0    0   -1    0    1    0    0    ## [1] == j
 
-# ----------------------------------------------  4.4 Body
-# Statement body is provided
+# ----------------------------------------------  4.4 Statement Extensions
+# Number of Statement Extensions
 1
 <body>
 # Number of original iterators
@@ -276,7 +276,7 @@ READ
 # List of original iterators
 i j
 # Statement body expression
-w[i]=w[i]+alpha*A[i][j]*x[j];
+w[i] = w[i] + alpha* A[i][j]*x[j];
 </body>
 
 # =============================================== Extensions
@@ -747,6 +747,17 @@ b0 i b1 j b2
 13 w
 14 alpha
 </arrays>
+
+<coordinates>
+# File name
+./unitary/gemver.c
+# Starting line and column
+10 0
+# Ending line and column
+25 0
+# Indentation
+2
+</coordinates>
 
 </OpenScop>
 
