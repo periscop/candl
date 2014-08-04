@@ -29,4 +29,4 @@
 # *                                                                           *
 # *****************************************************************************/
 
-./$CHECKER "Transformations working tests" "$TRANSFO_WORKING_TEST_FILES" 1
+$CHECKER "Working Transformations" "$TRANSFO_WORKING_TEST_FILES" 1 "${1:-candl}"

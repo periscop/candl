@@ -34,40 +34,80 @@
 # *                                                                           *
 # *****************************************************************************/
 
-STRING=$1
-FILES=$2
-TRANSFO=$3
+TEST_NAME="$1"    ## Name of the group of files to test
 
-set -x verbose  #echo on
+TEST_FILES="$2"   ## List of test file prefixes and individual options
 
-echo "$STRING"
+TEST_TRANSFO="$3" ## Booelan set to 1 if the test is about checking a
+                  ## transformation, 0 if it is a dependence analysis
 
-for name in $FILES; do
-  echo "check $name \c"
+TEST_TYPE="$4"    ## - "candl" to simply test candl (default)
+                  ## - "valgrind" to test the valgrind output
 
-  orig_scop="$name.orig.scop"
-  struct="$name.struct"
-  clay_scop="$name.clay.scop"  # only for transformations tests
+# Uncomment the following line to print the test script
+#set -x verbose  #echo on
+
+candl=$top_builddir/candl$EXEEXT
+
+echo "             /*-----------------------------------------------*"
+echo "              *     Testing Candl: $TEST_NAME"
+echo "              *-----------------------------------------------*/"
+
+for name in $TEST_FILES; do
+
+  orig_scop="$name.c.orig.scop"
+  struct="$name.c.struct"
+  clay_scop="$name.c.clay.scop"  # only for transformations tests
 
   # read candl options
-  candloptions=`grep "candl options" "$name" | cut -d'|' -f2`
-
-  case $TRANSFO in
-    0)
-      ../candl $candloptions "$orig_scop" -struct | grep -v "enerated by" > /tmp/candl_struct
-      ;;
-    1)
-      ../candl $candloptions "$clay_scop" -test "$orig_scop" -struct | grep -v "enerated by" >/tmp/candl_struct
-      ;;
-  esac
+  options=`grep "candl options" "$name.c" | cut -d'|' -f2`
   
-  n=`diff /tmp/candl_struct "$struct" | wc -l`
-  if [ $n -ne 0 ]; then
+  if [ "$TEST_TYPE" = "candl" ]; then
+    echo "check $name \c"
+    case $TEST_TRANSFO in
+      0)
+        $candl $options "$orig_scop" -struct | grep -v "enerated by" > candl_temp
+        ;;
+      1)
+        $candl $options "$clay_scop" -test "$orig_scop" -struct | grep -v "enerated by" > candl_temp
+        ;;
+    esac
+  
+    result=`diff candl_temp "$struct" | wc -l`
+  else
+    echo "valcheck $name \c"
+    case $TEST_TRANSFO in
+      0)
+        libtool --mode=execute valgrind --error-exitcode=1 \
+                $candl $options "$orig_scop" -struct > /dev/null 2> candl_temp;
+        ;;
+      1)
+        libtool --mode=execute valgrind --error-exitcode=1 \
+                $candl $options "$clay_scop" -test "$orig_scop" -struct > /dev/null 2> candl_temp;
+        ;;
+    esac
+  
+    errors=$?;
+    leaks=`grep "in use at exit" candl_temp | cut -f 2 -d ':'`
+    if [ "$errors" = "1" ]; then
+      echo -e "\033[31mMemory error detected... \033[0m";
+      cat candl_temp;
+      result="1";
+    elif [ "$leaks" != " 0 bytes in 0 blocks" ]; then
+      echo -e "\033[31mMemory leak detected... \033[0m";
+      cat candl_temp;
+      result="1";
+    else
+      result="0";
+    fi;
+  fi
+
+  if [ $result -ne 0 ]; then
     echo "\033[31m[ FAIL ]\033[0m"
   else
     echo "\033[32m[ OK ]\033[0m"
   fi
 
-  rm -f /tmp/candl_struct
+  rm -f candl_temp
 done
 exit $n

@@ -33,4 +33,4 @@
 # *                                                                           *
 # *****************************************************************************/
 
-./$CHECKER "Unitary tests" "$UNITARY_TEST_FILES" 0
+$CHECKER "Unitary Tests" "$UNITARY_TEST_FILES" 0 "${1:-candl}"

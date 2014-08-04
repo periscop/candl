@@ -34,4 +34,4 @@
 # *                                                                           *
 # *****************************************************************************/
 
-./$CHECKER "Transformations fail tests" "$TRANSFO_FAIL_TEST_FILES" 1
+$CHECKER "Failing Transformations" "$TRANSFO_FAIL_TEST_FILES" 1 "${1:-candl}"

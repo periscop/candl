@@ -39,54 +39,65 @@ SUBDIRS 		=
 
 MAINTAINERCLEANFILES    = Makefile.in
 
-TESTS_ENVIRONMENT       = top_builddir=$(top_builddir) SRCDIR=$(srcdir)
-
 #############################################################################
 
-check_SCRIPTS		= check_unitary.sh check_fail.sh check_working.sh
+UNITARY_TEST_FILES = \
+	unitary/ax-do \
+	unitary/can_reorder_loop \
+	unitary/gemver \
+	unitary/jacobi1d \
+	unitary/loulou \
+	unitary/lu \
+	unitary/matmul \
+	unitary/multiscop3 \
+	unitary/scalpriv \
+	unitary/scalexp \
+	unitary/simple \
+	unitary/swim 
 
-EXTRA_DIST              = checker.sh
+TRANSFO_FAIL_TEST_FILES = \
+	transformations/must_fail/no_scalren
+
+TRANSFO_WORKING_TEST_FILES = \
+	transformations/working/can_reorder_loop \
+	transformations/working/loulou \
+	transformations/working/scalren
+
+TESTS_ENVIRONMENT = \
+	top_builddir=$(top_builddir) \
+	srcdir=$(srcdir) \
+	EXEEXT=$(EXEEXT) \
+	CHECKER="$(top_srcdir)/tests/checker.sh" \
+	COMPILE="$(COMPILE)" \
+	LINK="$(LINK)" \
+	UNITARY_TEST_FILES="$(UNITARY_TEST_FILES)" \
+	TRANSFO_FAIL_TEST_FILES="$(TRANSFO_FAIL_TEST_FILES)" \
+	TRANSFO_WORKING_TEST_FILES="$(TRANSFO_WORKING_TEST_FILES)"
+
+valcheck:
+	$(TESTS_ENVIRONMENT) $(srcdir)/check_unitary.sh valgrind ; \
+	$(TESTS_ENVIRONMENT) $(srcdir)/check_working.sh valgrind ; \
+	$(TESTS_ENVIRONMENT) $(srcdir)/check_fail.sh valgrind
+
+check_SCRIPTS = \
+	check_unitary.sh \
+	check_fail.sh \
+	check_working.sh
 
 ## Replace by program names when needed
 # check_PROGRAMS = ...
-TESTS			= $(check_SCRIPTS)
 
-UNITARY_TEST_FILES = \
-	$(top_srcdir)/tests/unitary/ax-do.c \
-	$(top_srcdir)/tests/unitary/can_reorder_loop.c \
-	$(top_srcdir)/tests/unitary/gemver.c \
-	$(top_srcdir)/tests/unitary/jacobi1d.c \
-	$(top_srcdir)/tests/unitary/loulou.c \
-	$(top_srcdir)/tests/unitary/lu.c \
-	$(top_srcdir)/tests/unitary/matmul.c \
-	$(top_srcdir)/tests/unitary/multiscop3.c \
-	$(top_srcdir)/tests/unitary/scalpriv.c \
-	$(top_srcdir)/tests/unitary/scalexp.c \
-	$(top_srcdir)/tests/unitary/simple.c \
-	$(top_srcdir)/tests/unitary/swim.c 
+TESTS = $(check_SCRIPTS)
 
-TRANSFO_FAIL_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/must_fail/no_scalren.c
-
-TRANSFO_WORKING_TEST_FILES = \
-	$(top_srcdir)/tests/transformations/working/can_reorder_loop.c \
-	$(top_srcdir)/tests/transformations/working/loulou.c \
-	$(top_srcdir)/tests/transformations/working/scalren.c
-
-UNITARY_TEST_FILES_REF = $(UNITARY_TEST_FILES:.c=.c.scop)
-TRANSFO_FAIL_TEST_FILES_REF = $(TRANSFO_FAIL_TEST_FILES:.c=.c.scop)
-TRANSFO_WORKING_TEST_FILES_REF = $(TRANSFO_WORKING_TEST_FILES:.c=.c.scop)
-
-EXTRA_DIST += \
-	$(UNITARY_TEST_FILES) \
-	$(TRANSFO_FAIL_TEST_FILES) \
-	$(TRANSFO_WORKING_TEST_FILES) \
-	$(check_SCRIPTS)
-
-CLEANFILES = ""
-
-TESTS_ENVIRONMENT += \
-	CHECKER="$(top_srcdir)/tests/checker.sh" \
-	UNITARY_TEST_FILES="$(UNITARY_TEST_FILES)" \
-  TRANSFO_FAIL_TEST_FILES="$(TRANSFO_FAIL_TEST_FILES)" \
-  TRANSFO_WORKING_TEST_FILES="$(TRANSFO_WORKING_TEST_FILES)"
+EXTRA_DIST = \
+	$(check_SCRIPTS) \
+	$(srcdir)/checker.sh \
+	$(UNITARY_TEST_FILES:%=%.c) \
+	$(UNITARY_TEST_FILES:%=%.c.struct) \
+	$(UNITARY_TEST_FILES:%=%.c.orig.scop) \
+	$(TRANSFO_FAIL_TEST_FILES:%=%.c) \
+	$(TRANSFO_FAIL_TEST_FILES:%=%.c.struct) \
+	$(TRANSFO_FAIL_TEST_FILES:%=%.c.orig.scop) \
+	$(TRANSFO_WORKING_TEST_FILES:%=%.c) \
+	$(TRANSFO_WORKING_TEST_FILES:%=%.c.struct) \
+	$(TRANSFO_WORKING_TEST_FILES:%=%.c.orig.scop)
