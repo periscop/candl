@@ -309,7 +309,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
                                   candl_options_p options) {
   osl_statement_p source, target, iter;
   osl_statement_p *stmts;
-  osl_relation_p system, domain, t_source, t_target;
+  osl_relation_p t_source, t_target;
   candl_statement_usr_p s_usr, t_usr;
   candl_violation_p violation = NULL, now, new;
   PipOptions *pip_options;
@@ -340,7 +340,6 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   while (orig_dependence != NULL) {
     source = orig_dependence->stmt_source_ptr;
     target = orig_dependence->stmt_target_ptr;
-    domain = orig_dependence->domain;
     s_usr  = source->usr;
     t_usr  = target->usr;
 
@@ -356,7 +355,6 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
     /* We check each dimension for legality. */
     for (dimension = 1; dimension <= max_dimension; dimension++) {
       violated = 0;
-      system = NULL;
 
       /* We build the constraint system corresponding to that
        * violation then check if there is an integral point inside,

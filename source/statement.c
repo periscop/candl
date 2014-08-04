@@ -45,6 +45,7 @@
 #include <osl/relation.h>
 #include <candl/macros.h>
 #include <candl/statement.h>
+#include <candl/util.h>
 
 #define CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH 128
 

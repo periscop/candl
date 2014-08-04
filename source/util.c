@@ -147,7 +147,6 @@ int candl_util_statement_commute(osl_statement_p statement1,
                                  osl_statement_p statement2) {
   candl_statement_usr_p usr1, usr2;
   int type1, type2;
-  int precision = statement1->domain->precision;
   int id1, id2;
   
   usr1  = statement1->usr;

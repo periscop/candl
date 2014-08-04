@@ -122,8 +122,6 @@ void candl_dependence_get_array_refs_in_dep(osl_dependence_p tmp,
     return;
 
   osl_relation_p src, targ;
-  int row;
-  int precision = tmp->domain->precision;
   
   src = candl_dependence_get_relation_ref_source_in_dep(tmp);
   targ = candl_dependence_get_relation_ref_target_in_dep(tmp);
@@ -796,7 +794,6 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
   candl_statement_usr_p s_usr = source->usr;
   candl_statement_usr_p t_usr = target->usr;
   int i, min_depth, max_depth;
-  int precision = source->scattering->precision;
   int src_id, targ_id;
   int ref_s, ref_t;
   
@@ -1114,7 +1111,6 @@ osl_statement_p* candl_dependence_refvar_chain(osl_scop_p scop,
 
   osl_statement_p* res; /* not a chained list, but an array of statement */
   osl_statement_p statement;
-  osl_relation_p scattering, scattering_dom;
   candl_statement_usr_p dom_usr;
   candl_statement_usr_p stmt_usr;
   int i;
@@ -1136,7 +1132,6 @@ osl_statement_p* candl_dependence_refvar_chain(osl_scop_p scop,
     return NULL;
   
   CANDL_malloc(res, osl_statement_p*, sizeof(osl_statement_p) * buffer_size);
-  scattering_dom = dom->scattering;
   
   for (; statement != NULL; statement = statement->next) {
     stmt_usr = statement->usr;
@@ -1146,7 +1141,6 @@ osl_statement_p* candl_dependence_refvar_chain(osl_scop_p scop,
       continue;
       
     /* Ensure it has 'level' common loop(s) with the dominator. */
-    scattering = statement->scattering;
     for (i = 0; i < level && 
          stmt_usr->index[i] == dom_usr->index[i];
          ++i)
@@ -2252,12 +2246,11 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
     return 1;
   }
 
-  int num;
   osl_relation_p qp = pip_quast_to_polyhedra(lexmax, s_usr->depth,
                                              t_usr->depth + npar);
 
   /* Update the dependence domains */
-  if (num > 0) {
+  if (osl_relation_nb_components(qp) > 0) {
     osl_relation_p iter;
     osl_relation_p original_domain = (*dep)->domain;
     for (iter = qp ; iter != NULL ; iter = iter->next) {
