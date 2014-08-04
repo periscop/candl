@@ -55,7 +55,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl default version
 BITS="MP"
-CPPFLAGS=-DLINEAR_VALUE_IS_MP
+CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP
 
 
 dnl /**************************************************************************
@@ -140,7 +140,7 @@ AC_ARG_WITH(gmp,
     gmp_package=$withval &&
           GMP_INC=$gmp_package/include &&
           GMP_LIB=$gmp_package/lib &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
           NEED_MP="yes"])
 
 AC_ARG_WITH(gmp-include,
@@ -148,7 +148,7 @@ AC_ARG_WITH(gmp-include,
   [ echo "Package gmp-include : $withval" &&
     gmp_include_package=$withval &&
           GMP_INC=$gmp_include_package &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
     NEED_MP="yes"])
 
 AC_ARG_WITH(gmp-library,
@@ -156,26 +156,26 @@ AC_ARG_WITH(gmp-library,
   [ echo "Package gmp-library : $withval" &&
     gmp_library_package=$withval &&
           GMP_LIB=$gmp_library_package &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
     NEED_MP="yes"])
 
 AC_ARG_ENABLE(int-version,
   [  --enable-int-version    'int' (32 bits) version is built],
   [ echo "Package int : $enableval" &&
     BITS="32" &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_LONG])
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_LONG])
 
 AC_ARG_ENABLE(llint-version,
   [  --enable-llint-version  'long long int' (64 bits) version is built],
   [ echo "Package long long int : $enableval" &&
     BITS="64" &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_LONGLONG])
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_LONGLONG])
 
 AC_ARG_ENABLE(mp-version,
   [  --enable-mp-version     'MP' (multiple precision) version is built],
   [ echo "Package mp : $enableval" &&
     BITS="MP" &&
-          CPPFLAGS=-DLINEAR_VALUE_IS_MP &&
+          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
           NEED_MP="yes"])
 
 AC_ARG_ENABLE(piplib-hybrid,
@@ -290,6 +290,7 @@ AC_CONFIG_FILES([
   doc/Makefile
   doc/Doxyfile
   include/candl/macros.h
+  include/candl/piplib.h
   tests/Makefile
   ],
   [test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])

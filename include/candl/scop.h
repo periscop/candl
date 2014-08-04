@@ -38,14 +38,14 @@
  */
 
 #ifndef CANDL_SCOP_H
-#define CANDL_SCOP_H
-
-#include <osl/scop.h>
+# define CANDL_SCOP_H
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
+
+struct osl_scop;
 
 struct candl_scop_usr {
   int size;
@@ -56,8 +56,8 @@ struct candl_scop_usr {
 typedef struct candl_scop_usr  candl_scop_usr_t;
 typedef struct candl_scop_usr* candl_scop_usr_p;
 
-void candl_scop_usr_init(osl_scop_p);
-void candl_scop_usr_cleanup(osl_scop_p);
+void candl_scop_usr_init(struct osl_scop*);
+void candl_scop_usr_cleanup(struct osl_scop*);
 
 # if defined(__cplusplus)
   }

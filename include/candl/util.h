@@ -40,19 +40,19 @@
 #ifndef CANDL_UTIL_H
 #define CANDL_UTIL_H
 
-#include <osl/scop.h>
-#include <osl/relation.h>
-#include <osl/statement.h>
-
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
-int candl_relation_get_line(osl_relation_p, int);
-int candl_util_statement_commute(osl_statement_p, osl_statement_p);
-int candl_util_check_scop(osl_scop_p, osl_scop_p);
-int candl_util_check_scop_list(osl_scop_p s1, osl_scop_p s2);
+struct osl_scop;
+struct osl_relation;
+struct osl_statement;
+
+int candl_util_relation_get_line(struct osl_relation*, int);
+int candl_util_statement_commute(struct osl_statement*, struct osl_statement*);
+int candl_util_check_scop(struct osl_scop*, struct osl_scop*);
+int candl_util_check_scop_list(struct osl_scop*, struct osl_scop*);
 
 # if defined(__cplusplus)
   }

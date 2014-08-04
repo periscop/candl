@@ -39,15 +39,15 @@
 
 # include <stdio.h>
 # include <candl/options.h>
-# include <osl/extensions/dependence.h>
-# include <osl/scop.h>
-# include <osl/relation.h>
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
+struct osl_scop;
+struct osl_dependence;
+struct osl_relation;
 
 /**
  * CandlViolation structure:
@@ -90,10 +90,10 @@ extern "C"
 */
 
 struct candl_violation {
-  osl_dependence_p dependence;    /**< Pointer to violated dependence. */
-  int dimension;                 /**< Violation dimension. */
-  osl_relation_p domain;         /**< Violation polyhedron. */
-  struct candl_violation *next;        /**< Pointer to next violation. */
+  struct osl_dependence* dependence;    /**< Pointer to violated dependence. */
+  int dimension;                        /**< Violation dimension. */
+  struct osl_relation* domain;          /**< Violation polyhedron. */
+  struct candl_violation* next;         /**< Pointer to next violation. */
   
   int source_nb_output_dims_scattering; // (1)
   int target_nb_output_dims_scattering; // (2)
@@ -103,31 +103,27 @@ struct candl_violation {
 typedef struct candl_violation  candl_violation_t;
 typedef struct candl_violation* candl_violation_p;
 
-
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-void candl_violation_idump(FILE *, candl_violation_p, int);
-void candl_violation_dump(FILE *, candl_violation_p);
-void candl_violation_pprint(FILE *, candl_violation_p);
-void candl_violation_view(candl_violation_p);
-
+void              candl_violation_idump(FILE*, candl_violation_p, int);
+void              candl_violation_dump(FILE*, candl_violation_p);
+void              candl_violation_pprint(FILE*, candl_violation_p);
+void              candl_violation_view(candl_violation_p);
 
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
-void candl_violation_free(candl_violation_p);
-
+void              candl_violation_free(candl_violation_p);
 
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
 candl_violation_p candl_violation_malloc();
 void              candl_violation_add(candl_violation_p*, candl_violation_p*,
-                                      candl_violation_p);
-candl_violation_p candl_violation(osl_scop_p, osl_dependence_p,
-                                  osl_scop_p, candl_options_p);
-
+                                  candl_violation_p);
+candl_violation_p candl_violation(struct osl_scop*, struct osl_dependence*,
+                                  struct osl_scop*, candl_options_p);
 
 # if defined(__cplusplus)
   }

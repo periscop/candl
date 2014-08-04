@@ -42,10 +42,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <candl/candl.h>
-#include <osl/relation.h>
 #include <osl/macros.h> /* Need OSL_PRECISION for compatibility with piplib */
-#include <candl/matrix.h>
-#include <candl/piplib-wrapper.h>
+#include <osl/relation.h>
+#include <candl/macros.h>
+#include <candl/piplib.h>
 
 
 /**
@@ -59,11 +59,11 @@ PipMatrix* pip_relation2matrix(osl_relation_p in) {
   if (in == NULL)
     return NULL;
 
-  #ifdef LINEAR_VALUE_IS_INT
+  #ifdef CANDL_LINEAR_VALUE_IS_INT
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
 
@@ -74,11 +74,11 @@ PipMatrix* pip_relation2matrix(osl_relation_p in) {
   
   for (i = 0 ; i < in->nb_rows ; i++) {
     for (j = 0 ; j < in->nb_columns ; j++) {
-      #if defined(LINEAR_VALUE_IS_INT)
+      #if defined(CANDL_LINEAR_VALUE_IS_INT)
         CANDL_assign(out->p[i][j], in->m[i][j].sp);
-      #elif defined(LINEAR_VALUE_IS_LONGLONG)
+      #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
         CANDL_assign(out->p[i][j], in->m[i][j].dp);
-      #elif defined(LINEAR_VALUE_IS_MP)
+      #elif defined(CANDL_LINEAR_VALUE_IS_MP)
         CANDL_assign(out->p[i][j], *((mpz_t*)in->m[i][j].mp));
       #endif
     }
@@ -100,11 +100,11 @@ osl_relation_p pip_matrix2relation(PipMatrix* in) {
   if (in == NULL)
     return NULL;
   
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(CANDL_LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
   
@@ -113,11 +113,11 @@ osl_relation_p pip_matrix2relation(PipMatrix* in) {
 
   for (i = 0 ; i < in->NbRows ; i++) {
     for (j = 0 ; j < in->NbColumns ; j++) {
-      #ifdef LINEAR_VALUE_IS_INT
+      #ifdef CANDL_LINEAR_VALUE_IS_INT
         temp.sp = in->p[i][j];
-      #elif defined(LINEAR_VALUE_IS_LONGLONG)
+      #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
         temp.dp = in->p[i][j];
-      #elif defined(LINEAR_VALUE_IS_MP)
+      #elif defined(CANDL_LINEAR_VALUE_IS_MP)
         mpz_set(*((mpz_t*)temp.mp), in->p[i][j]);
       #endif
       osl_int_assign(precision, &out->m[i][j], temp);
@@ -218,11 +218,11 @@ osl_relation_p pip_quast_no_solution_to_polyhedra(PipQuast *quast, int nvar,
   if (quast == NULL)
     return NULL;
 
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(CANDL_LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
 
@@ -301,11 +301,11 @@ osl_relation_p pip_quast_to_polyhedra(PipQuast *quast, int nvar, int npar) {
   if (quast == NULL)
     return NULL;
 
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(CANDL_LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
 
@@ -395,5 +395,3 @@ osl_relation_p pip_quast_to_polyhedra(PipQuast *quast, int nvar, int npar) {
     return lwmatrix;
   }
 }
-
-

@@ -40,13 +40,14 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include <candl/candl.h>
+#include <osl/macros.h>
+#include <osl/relation.h>
+#include <osl/extensions/dependence.h>
+#include <candl/macros.h>
 #include <candl/matrix.h>
 #include <candl/violation.h>
-#include <candl/dependence.h>
+#include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
-#include <osl/macros.h>
-
 
 
 /**

@@ -32,7 +32,6 @@
 # *                                                                           *
 # *****************************************************************************/
 
-
 #############################################################################
 
 if BUNDLED_OSL
@@ -55,7 +54,7 @@ lib_LTLIBRARIES = libcandl.la
 
 #############################################################################
 
-pkginclude_HEADERS 	=            \
+pkginclude_HEADERS =                   \
 	include/candl/candl.h          \
 	include/candl/dependence.h     \
 	include/candl/scop.h           \
@@ -65,8 +64,8 @@ pkginclude_HEADERS 	=            \
 	include/candl/ddv.h            \
 	include/candl/matrix.h         \
 	include/candl/options.h        \
+	include/candl/piplib.h         \
 	include/candl/piplib-wrapper.h \
-	include/candl/pruning.h        \
 	include/candl/violation.h
 
 DEFAULT_INCLUDES = -I.
@@ -75,22 +74,22 @@ AM_CFLAGS = $(CFLAGS_WARN)
 
 #############################################################################
 
-EXTRA_DIST		= COPYING.LESSER AUTHORS
+EXTRA_DIST = COPYING.LESSER AUTHORS
 
 libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ $(OSL_LA) $(PIPLIB_LA)
 libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -g
 libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ 
-libcandl_la_SOURCES =        \
-	source/dependence.c        \
-	source/ddv.c               \
-	source/scop.c              \
-	source/statement.c         \
-	source/util.c              \
-	source/isl-wrapper.c       \
-	source/matrix.c            \
-	source/options.c           \
-	source/piplib-wrapper.c    \
-	source/pruning.c           \
+libcandl_la_SOURCES  =          \
+	source/dependence.c     \
+	source/ddv.c            \
+	source/scop.c           \
+	source/statement.c      \
+	source/util.c           \
+	source/isl-wrapper.c    \
+	source/matrix.c         \
+	source/options.c        \
+	source/piplib-wrapper.c \
+	source/pruning.c        \
 	source/violation.c
 
 #############################################################################
@@ -101,13 +100,12 @@ candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ # TO BE REMOVED
 candl_DEPENDENCIES = libcandl.la
 candl_SOURCES      = source/candl.c
 
-
 #############################################################################
 
-MAINTAINERCLEANFILES 	=			\
-	Makefile.in				\
-	aclocal.m4				\
-	configure				\
+MAINTAINERCLEANFILES = \
+	Makefile.in    \
+	aclocal.m4     \
+	configure      \
 	$(AUX_DIST)
 
 #############################################################################

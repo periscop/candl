@@ -38,11 +38,8 @@
  *  THIS FILE HAS BEEN AUTOMATICALLY GENERATED FROM macros.h.in BY configure  *
  ******************************************************************************/
 
-
 #ifndef CANDL_MACROS_H
 # define CANDL_MACROS_H
-
-# include <piplib/piplib@BITS@.h>
 
 # define CANDL_EQUAL 1
 # define CANDL_POSIT 2
@@ -95,9 +92,9 @@
 /******************************************************************************
  *                                   FORMAT                                   *
  ******************************************************************************/
-#if defined(LINEAR_VALUE_IS_LONGLONG)
+#if defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
 #define CANDL_FMT "%4lld "
-#elif defined(LINEAR_VALUE_IS_LONG)
+#elif defined(CANDL_LINEAR_VALUE_IS_LONG)
 #define CANDL_FMT "%4ld "
 #else  /* GNUMP */
 #define CANDL_FMT "%4s"
@@ -106,7 +103,7 @@
 /******************************************************************************
  *                             CANDL GMP MACROS                               *
  ******************************************************************************/
-#ifdef LINEAR_VALUE_IS_MP
+#ifdef CANDL_LINEAR_VALUE_IS_MP
 /* Basic Macros */
 #define CANDL_init(val)                (mpz_init((val)))
 #define CANDL_assign(v1,v2)            (mpz_set((v1),(v2)))

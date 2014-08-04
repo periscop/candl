@@ -39,12 +39,13 @@
 #include <osl/macros.h>
 #include <osl/util.h>
 #include <osl/extensions/dependence.h>
-#include <candl/candl.h>
+#include <candl/macros.h>
 #include <candl/dependence.h>
 #include <candl/violation.h>
 #include <candl/options.h>
 #include <candl/scop.h>
 #include <candl/util.h>
+#include <candl/piplib.h>
 
 
 int main(int argc, char * argv[]) {
@@ -57,11 +58,11 @@ int main(int argc, char * argv[]) {
   candl_violation_p *violations = NULL;
   FILE *input, *output, *input_test;
   int precision;
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(CANDL_LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
 

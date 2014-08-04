@@ -36,8 +36,15 @@
 #ifndef CANDL_H
 #define CANDL_H
 
-//#define CANDL_COMPILE_PRUNNING_C
-
+# include <candl/ddv.h>
+# include <candl/dependence.h>
 # include <candl/macros.h>
+# include <candl/matrix.h>
+# include <candl/options.h>
+# include <candl/piplib-wrapper.h>
+# include <candl/scop.h>
+# include <candl/statement.h>
+# include <candl/util.h>
+# include <candl/violation.h>
 
 #endif

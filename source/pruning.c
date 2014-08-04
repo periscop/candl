@@ -40,15 +40,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <osl/scop.h>
+#include <assert.h>
 #include <osl/statement.h>
 #include <osl/relation.h>
-#include <candl/candl.h>
-#include <candl/scop.h>
 #include <candl/statement.h>
 #include <candl/dependence.h>
-
-#include <assert.h>
 
 
 #if defined(CANDL_COMPILE_PRUNNING_C)

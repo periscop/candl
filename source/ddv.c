@@ -41,16 +41,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <osl/statement.h>
 #include <osl/scop.h>
-#include <candl/candl.h>
+#include <osl/extensions/dependence.h>
+#include <candl/macros.h>
 #include <candl/ddv.h>
-#include <candl/scop.h>
 #include <candl/statement.h>
+#include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
-
-#include <assert.h>
-
 
 #ifndef min
 # define min(x,y) (x < y ? x : y)
@@ -58,6 +57,7 @@
 #ifndef max
 # define max(x,y) (x > y ? x : y)
 #endif
+
 
 /******************************************************************************
  *                         Memory deallocation function                       *

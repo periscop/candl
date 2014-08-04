@@ -45,7 +45,6 @@
 #include <osl/relation.h>
 #include <candl/macros.h>
 #include <candl/statement.h>
-#include <candl/util.h>
 
 #define CANDL_STATEMENT_USR_INDEX_MAX_LOOP_DEPTH 128
 
@@ -97,7 +96,7 @@ void candl_statement_usr_init_all(osl_scop_p scop) {
      * extracted from the last candl
      */
     for (j = 0; j < stmt_usr->depth; ++j) {
-      row = candl_relation_get_line(scattering, j*2);
+      row = candl_util_relation_get_line(scattering, j*2);
       val = osl_int_get_si(precision,
                            scattering->m[row][scattering->nb_columns - 1]);
       if (last[j] < val) {

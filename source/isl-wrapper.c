@@ -41,9 +41,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <candl/candl.h>
 #include <osl/relation.h>
-#include <candl/piplib-wrapper.h>
 
 #ifdef CANDL_SUPPORTS_ISL
 
@@ -55,7 +53,6 @@
 #include <isl/dim.h>
 #include <isl/seq.h>
 #include <isl/ctx.h>
-
 
 
 /// WARNING: This is hard-coding that ISL uses GMP.
@@ -136,7 +133,6 @@ int count_cst(__isl_take isl_constraint *c, void *user) {
 
   return 0;
 }
-
 
 
 static

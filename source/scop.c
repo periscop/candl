@@ -41,12 +41,8 @@
 #include <stdlib.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
-#include <osl/extensions/dependence.h>
-#include <osl/relation.h>
-#include <candl/macros.h>
 #include <candl/scop.h>
 #include <candl/statement.h>
-#include <candl/util.h>
 
 /**
  * candl_scop_usr_init function:

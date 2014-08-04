@@ -37,7 +37,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <candl/candl.h>
+#include <candl/macros.h>
 #include <candl/options.h>
 
 

@@ -44,15 +44,14 @@
 #include <osl/macros.h>
 #include <osl/extensions/dependence.h>
 #include <osl/relation_list.h>
-#include <candl/candl.h>
+#include <osl/scop.h>
+#include <candl/macros.h>
 #include <candl/util.h>
-#include <candl/scop.h>
 #include <candl/statement.h>
 
 
-
 /**
- * candl_relation_get_line function:
+ * candl_util_relation_get_line function:
  * Because the lines in the scattering matrix may have not ordered, we have to
  * search the corresponding line. It returns the first line where the value is
  * different from zero in the `column'. `column' is between 0 and 
@@ -61,7 +60,7 @@
  * \param[in] column        Line to search
  * \return                  Return the real line
  */
-int candl_relation_get_line(osl_relation_p relation, int column) {
+int candl_util_relation_get_line(osl_relation_p relation, int column) {
   if (column < 0 || column > relation->nb_output_dims)
     return -1;
   int i;
@@ -207,4 +206,3 @@ int candl_util_statement_commute(osl_statement_p statement1,
   
   return 0;
 }
-

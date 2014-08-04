@@ -33,7 +33,6 @@
  *                                                                            *
  ******************************************************************************/
 
-
 #ifndef CANDL_OPTIONS_H
 # define CANDL_OPTIONS_H
 
@@ -43,7 +42,6 @@
 extern "C"
   {
 # endif
-
 
 /**
  * candl_options structure:
@@ -75,30 +73,25 @@ struct candl_options {
 typedef struct candl_options  candl_options_t;
 typedef struct candl_options* candl_options_p;
 
-
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
 void candl_options_print(FILE *, candl_options_p);
-
 
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
 void candl_options_free(candl_options_p);
 
-
 /******************************************************************************
  *                               Reading function                             *
  ******************************************************************************/
 void candl_options_read(int, char **, FILE **, FILE **, FILE**, candl_options_p*);
 
-
 /******************************************************************************
  *                            Processing functions                            *
  ******************************************************************************/
 candl_options_p candl_options_malloc(void);
-
 
 #if defined(__cplusplus)
   }

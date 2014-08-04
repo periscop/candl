@@ -38,26 +38,18 @@
  * \author Louis-Noel Pouchet
  */
 
-
 #ifndef CANDL_DDV_H
 # define CANDL_DDV_H
 
-
 # include <stdio.h>
-# include <osl/statement.h>
-# include <osl/extensions/dependence.h>
-# include <osl/relation.h>
-# include <osl/scop.h>
-# include <candl/options.h>
-
-
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
-
+struct osl_scop;
+struct osl_dependence;
 
 /******************************************************************************
  *                        Dependence Distance structures                      *
@@ -112,9 +104,6 @@ extern "C"
 
     typedef struct candl_ddv CandlDDV;
 
-
-
-
 /******************************************************************************
  *                         Memory deallocation function                       *
  ******************************************************************************/
@@ -127,7 +116,6 @@ extern "C"
 CandlDDV*
 candl_ddv_malloc();
 
-
 /**
  * candl_ddv_alloc: Allocate a ddv for a loop of depth 'size'.
  *
@@ -136,7 +124,6 @@ candl_ddv_malloc();
 CandlDDV*
 candl_ddv_alloc(int);
 
-
 /**
  * candl_ddv_free: Free a ddv.
  *
@@ -144,7 +131,6 @@ candl_ddv_alloc(int);
  */
 void
 candl_ddv_free(CandlDDV*);
-
 
 /**
  * candl_ddv_set_type_at: Set the type of a ddv component. Type is one of
@@ -173,11 +159,9 @@ candl_ddv_set_value_at(CandlDDV*, int, int);
 void
 candl_ddv_set_deptype(CandlDDV*, int);
 
-
 /******************************************************************************
  *                          Structure display function                        *
  ******************************************************************************/
-
 
 /**
  * candl_ddv_print: print a ddv.
@@ -185,7 +169,6 @@ candl_ddv_set_deptype(CandlDDV*, int);
  */
 void
 candl_ddv_print(FILE*, CandlDDV*);
-
 
 /******************************************************************************
  *                            Processing functions                            *
@@ -199,7 +182,7 @@ candl_ddv_print(FILE*, CandlDDV*);
  *
  */
 CandlDDV*
-candl_ddv_extract_in_loop(osl_scop_p, osl_dependence_p, int);
+candl_ddv_extract_in_loop(struct osl_scop*, struct osl_dependence*, int);
     
 /**
  * candl_loops_are_permutable: output 1 if the 2 loops are permutable.
@@ -207,9 +190,7 @@ candl_ddv_extract_in_loop(osl_scop_p, osl_dependence_p, int);
  *
  */
 int
-candl_loops_are_permutable(osl_scop_p, osl_dependence_p, int, int);
-    
-
+candl_loops_are_permutable(struct osl_scop*, struct osl_dependence*, int, int);
 
 # if defined(__cplusplus)
   }

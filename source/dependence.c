@@ -40,21 +40,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <candl/candl.h>
+#include <assert.h>
+#include <candl/macros.h>
 #include <candl/dependence.h>
 #include <candl/scop.h>
 #include <candl/statement.h>
 #include <candl/util.h>
 #include <candl/matrix.h>
+#include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
 #include <osl/macros.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
 #include <osl/relation.h>
-#include <osl/names.h>
-#include <osl/util.h>
-
-#include <assert.h>
+#include <osl/extensions/dependence.h>
 
 #ifdef CANDL_SUPPORTS_ISL
 # undef Q // Thank you polylib...
@@ -63,7 +62,6 @@
 # include <isl/ctx.h>
 # include <isl/set.h>
 #endif
-
 
 
 /**
@@ -1040,7 +1038,7 @@ int candl_dependence_var_is_scalar(osl_scop_p scop, int var_index) {
     while (access != NULL) {
       elt = access->elt;
       id = osl_relation_get_array_id(elt);
-      row = candl_relation_get_line(elt, 0);
+      row = candl_util_relation_get_line(elt, 0);
       if (id == var_index) {
         /* Ensure it is not an array. */
         if (elt->nb_output_dims > 1)
@@ -1085,7 +1083,7 @@ static void candl_dependence_expand_scalar(osl_statement_p* sl,
     for (; access != NULL ; access = access->next) {
       elt = access->elt;
       id = osl_relation_get_array_id(elt);
-      row = candl_relation_get_line(elt, 0);
+      row = candl_util_relation_get_line(elt, 0);
       if (id == scalar_idx) {
         row = elt->nb_rows;
         osl_relation_insert_blank_row(elt, row);
@@ -1292,11 +1290,11 @@ int candl_dependence_check_domain_is_included(osl_statement_p s1,
   /* Make useless dimensions equal to 1. */
   for (j = 0; j < s2_usr->depth - max; ++j) {
     candl_dependence_compute_lb(s2->domain, &lb, j + 1 + max);
-    #ifdef LINEAR_VALUE_IS_INT
+    #ifdef CANDL_LINEAR_VALUE_IS_INT
     osl_lb.sp = lb;
-    #elif defined(LINEAR_VALUE_IS_LONGLONG)
+    #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     osl_lb.dp = lb;
-    #elif defined(LINEAR_VALUE_IS_MP)
+    #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     mpz_set(*((mpz_t*)osl_lb.mp), lb);
     #endif
     osl_int_assign(precision,
@@ -1607,7 +1605,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
           access = iter->access;
           for (; access != NULL; access = access->next) {
             elt = access->elt;
-            row = candl_relation_get_line(elt, 0);
+            row = candl_util_relation_get_line(elt, 0);
             tmp = osl_relation_get_array_id(elt);
             if (tmp == scalars[i]) {
               if (options->verbose)
@@ -1677,8 +1675,8 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   mtarg = candl_dependence_get_relation_ref_target_in_dep(dep);
   
   /* plus one for the Arr output dim */
-  int src_ref_iter = (candl_relation_get_line(msrc, i+1) != -1);
-  int dst_ref_iter = (candl_relation_get_line(mtarg,j+1) != -1);
+  int src_ref_iter = (candl_util_relation_get_line(msrc, i+1) != -1);
+  int dst_ref_iter = (candl_util_relation_get_line(mtarg,j+1) != -1);
 
   /* Ensure it is not a basic loop-independent dependence (pure
      equality of the access functions for the surrounding iterators +
@@ -1686,7 +1684,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
      and contain the current loop iterator. */
   int must_test = 0;
   k = 1; // start after the Arr column
-  row_k = candl_relation_get_line(msrc, k);
+  row_k = candl_util_relation_get_line(msrc, k);
   while (!must_test &&
          k < msrc->nb_output_dims &&
          osl_int_zero(precision, msrc->m[row_k][0])) {
@@ -1695,7 +1693,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
     // to be tested.
     if (!osl_int_zero(precision, msrc->m[row_k][i])) {
       kp = 1;
-      row_kp = candl_relation_get_line(mtarg, kp);
+      row_kp = candl_util_relation_get_line(mtarg, kp);
 
       while (!must_test &&
              kp < mtarg->nb_output_dims &&
@@ -1740,11 +1738,11 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
               }
         }
         ++kp;
-        row_kp = candl_relation_get_line(mtarg, kp);
+        row_kp = candl_util_relation_get_line(mtarg, kp);
       }
     }
     ++k;
-    row_k = candl_relation_get_line(msrc, k);
+    row_k = candl_util_relation_get_line(msrc, k);
   }
   
   if (src_ref_iter && dst_ref_iter && !must_test)
@@ -2111,7 +2109,7 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
                 elt = access->elt;
                 id = osl_relation_get_array_id(elt);
                 if (scalars[i] == id) {
-                  row = candl_relation_get_line(elt, offset+1);
+                  row = candl_util_relation_get_line(elt, offset+1);
                   osl_int_set_si(precision, &elt->m[row][elt->nb_output_dims + j], 1);
                 }
               }
@@ -2192,11 +2190,11 @@ int candl_dep_compute_lastwriter(osl_dependence_p *dep, osl_scop_p scop) {
   int npar = scop->context->nb_parameters;
   int precision;
   
-  #if defined(LINEAR_VALUE_IS_INT)
+  #if defined(CANDL_LINEAR_VALUE_IS_INT)
     precision = OSL_PRECISION_SP;
-  #elif defined(LINEAR_VALUE_IS_LONGLONG)
+  #elif defined(CANDL_LINEAR_VALUE_IS_LONGLONG)
     precision = OSL_PRECISION_DP;
-  #elif defined(LINEAR_VALUE_IS_MP)
+  #elif defined(CANDL_LINEAR_VALUE_IS_MP)
     precision = OSL_PRECISION_MP;
   #endif
   

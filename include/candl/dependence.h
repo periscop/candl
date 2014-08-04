@@ -33,95 +33,98 @@
  *                                                                            *
  ******************************************************************************/
 
-
 #ifndef CANDL_DEPENDENCE_H
 # define CANDL_DEPENDENCE_H
 
-
 # include <stdio.h>
-# include <osl/scop.h>
-# include <osl/statement.h>
-# include <osl/relation.h>
-# include <osl/extensions/dependence.h>
-# include <candl/matrix.h>
 # include <candl/options.h>
 
-
-# define CANDL_ARRAY_BUFF_SIZE	 2048
-# define CANDL_VAR_UNDEF		     1
-# define CANDL_VAR_IS_DEF		     2
-# define CANDL_VAR_IS_USED		   3
-# define CANDL_VAR_IS_DEF_USED	 4
-
+# define CANDL_ARRAY_BUFF_SIZE 2048
+# define CANDL_VAR_UNDEF       1
+# define CANDL_VAR_IS_DEF      2
+# define CANDL_VAR_IS_USED     3
+# define CANDL_VAR_IS_DEF_USED 4
 
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
 
-
+struct osl_relation;
+struct osl_statement;
+struct osl_scop;
+struct osl_dependence;
 
 #ifdef CANDL_SUPPORTS_ISL
-osl_dependence_p candl_dependence_isl_simplify(osl_dependence_p,
-                                                 osl_scop_p);
+struct osl_dependence* candl_dependence_isl_simplify(struct osl_dependence*,
+                                        struct osl_scop*);
 # endif
-
 
 /*+***************************************************************************
  *                          Structure display function                       *
  *****************************************************************************/
-void             candl_dependence_pprint(FILE *, osl_dependence_p);
-void             candl_dependence_view(osl_dependence_p);
-
+void                   candl_dependence_pprint(FILE*, struct osl_dependence*);
+void                   candl_dependence_view(struct osl_dependence*);
 
 /******************************************************************************
  *                             Processing functions                           *
  ******************************************************************************/
-int              candl_dependence_gcd_test(osl_statement_p,
-                                           osl_statement_p,
-                                           osl_relation_p, int);
-int              candl_dependence_check(osl_scop_p,
-                                        osl_dependence_p,
+int                    candl_dependence_gcd_test(struct osl_statement*,
+                                        struct osl_statement*,
+                                        struct osl_relation*, int);
+int                    candl_dependence_check(struct osl_scop*,
+                                        struct osl_dependence*,
                                         candl_options_p);
-osl_dependence_p candl_dependence(osl_scop_p, candl_options_p);
-void             candl_dependence_add_extension(osl_scop_p, candl_options_p);
-
+struct osl_dependence* candl_dependence(struct osl_scop*, candl_options_p);
+void                   candl_dependence_add_extension(struct osl_scop*,
+                                        candl_options_p);
 
 /*+***************************************************************************
  *                    Memory allocation/deallocation function                *
  *****************************************************************************/
-void             candl_dependence_init_fields(osl_scop_p, osl_dependence_p);
-
+void                   candl_dependence_init_fields(struct osl_scop*,
+                                        struct osl_dependence*);
 
 /******************************************************************************
  *                          Scalar analysis functions                         *
  ******************************************************************************/
-int              candl_dependence_var_is_scalar (osl_scop_p, int);
-osl_statement_p* candl_dependence_refvar_chain(osl_scop_p, osl_statement_p,
-                                               int, int);
-int              candl_dependence_var_is_ref(osl_statement_p, int);
-int              candl_dependence_check_domain_is_included(osl_statement_p,
-                                     osl_statement_p, osl_relation_p, int);
-int              candl_dependence_scalar_is_privatizable_at(osl_scop_p,
-                                                            int, int);
-int              candl_dependence_is_loop_carried(osl_scop_p, osl_dependence_p,
-                                                  int);
-void             candl_dependence_prune_scalar_waw(osl_scop_p, candl_options_p,
-                                                   osl_dependence_p*);
-void             candl_dependence_prune_with_privatization(osl_scop_p,
-                                     candl_options_p, osl_dependence_p*);
-int              candl_dependence_scalar_renaming(osl_scop_p, candl_options_p,
-                                                  osl_dependence_p*);
-int              candl_dependence_analyze_scalars(osl_scop_p, candl_options_p);
+int                    candl_dependence_var_is_scalar(struct osl_scop*, int);
+struct osl_statement** candl_dependence_refvar_chain(struct osl_scop*,
+                                        struct osl_statement*, int, int);
+int                    candl_dependence_var_is_ref(struct osl_statement*, int);
+int                    candl_dependence_check_domain_is_included(
+                                        struct osl_statement*,
+                                        struct osl_statement*,
+                                        struct osl_relation*, int);
+int                    candl_dependence_scalar_is_privatizable_at(
+                                        struct osl_scop*, int, int);
+int                    candl_dependence_is_loop_carried(struct osl_scop*,
+                                        struct osl_dependence*, int);
+void                   candl_dependence_prune_scalar_waw(struct osl_scop*,
+                                        candl_options_p,
+                                        struct osl_dependence**);
+void                   candl_dependence_prune_with_privatization(
+                                        struct osl_scop*,
+                                        candl_options_p,
+                                        struct osl_dependence**);
+int                    candl_dependence_scalar_renaming(struct osl_scop*,
+                                        candl_options_p,
+                                        struct osl_dependence**);
+int                    candl_dependence_analyze_scalars(struct osl_scop*,
+                                        candl_options_p);
 
 /******************************************************************************
  *                          Miscellaneous functions                           *
  ******************************************************************************/
-osl_relation_p   candl_dependence_get_relation_ref_source_in_dep(osl_dependence_p);
-osl_relation_p   candl_dependence_get_relation_ref_target_in_dep(osl_dependence_p);
-int              candl_num_dependences(osl_dependence_p);
-void             candl_compute_last_writer(osl_dependence_p, osl_scop_p);
-osl_dependence_p candl_dependence_prune_transitively_covered(osl_dependence_p);
+struct osl_relation*   candl_dependence_get_relation_ref_source_in_dep(
+                                        struct osl_dependence*);
+struct osl_relation*   candl_dependence_get_relation_ref_target_in_dep(
+                                        struct osl_dependence*);
+int                    candl_num_dependences(struct osl_dependence*);
+void                   candl_compute_last_writer(struct osl_dependence*,
+                                        struct osl_scop*);
+struct osl_dependence* candl_dependence_prune_transitively_covered(
+                                        struct osl_dependence*);
 
 # if defined(__cplusplus)
   }

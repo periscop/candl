@@ -39,16 +39,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <osl/macros.h>
 #include <osl/relation.h>
 #include <osl/statement.h>
 #include <osl/scop.h>
-#include <osl/macros.h>
-#include <candl/candl.h>
+#include <osl/extensions/dependence.h>
+#include <candl/macros.h>
 #include <candl/matrix.h>
-#include <candl/violation.h>
+#include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
-#include <candl/scop.h>
 #include <candl/statement.h>
+#include <candl/violation.h>
 
 
 /******************************************************************************

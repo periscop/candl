@@ -40,13 +40,13 @@
 #ifndef CANDL_STATEMENT_H
 #define CANDL_STATEMENT_H
 
-#include <osl/scop.h>
-#include <osl/statement.h>
-
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
+
+struct osl_scop;
+struct osl_statement;
 
 struct candl_statement_usr {
   int label; /**< Statement label = 'n'th statement */
@@ -59,9 +59,8 @@ struct candl_statement_usr {
 typedef struct candl_statement_usr  candl_statement_usr_t;
 typedef struct candl_statement_usr* candl_statement_usr_p;
 
-
-void candl_statement_usr_init_all(osl_scop_p);
-void candl_statement_usr_cleanup(osl_statement_p);
+void candl_statement_usr_init_all(struct osl_scop*);
+void candl_statement_usr_cleanup(struct osl_statement*);
 
 # if defined(__cplusplus)
   }
