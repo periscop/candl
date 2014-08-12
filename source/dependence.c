@@ -1777,6 +1777,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
     has_pt = pip_has_rational_point(testsyst, NULL, 1);
   }
   
+  osl_relation_free(testsyst);
   return has_pt;
 
   /* LNP: OLD VERSION */
@@ -1952,7 +1953,7 @@ int candl_dependence_scalar_is_privatizable_at(osl_scop_p scop,
  */
 int candl_dependence_analyze_scalars(osl_scop_p scop,
                                      candl_options_p options) {
-  int* scalars;
+  int* scalars = NULL;
   osl_statement_p* statement; /* not a chained list, but an array of */
   osl_statement_p* fullchain; /* statement to not realloc the usr field */
   osl_statement_p s;
@@ -2162,6 +2163,7 @@ int candl_dependence_analyze_scalars(osl_scop_p scop,
     
   } // end iterate scalars
 
+  free(scalars);
   return 0;
 }
 

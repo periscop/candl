@@ -112,7 +112,8 @@ void candl_statement_usr_init_all(osl_scop_p scop) {
     for (j = 0; j < stmt_usr->depth; ++j)
       stmt_usr->index[j] = cur_index[j];
 
-    max = max < cur_index[j - 1] ? cur_index[j - 1] : max;
+    if (j>0)
+      max = max < cur_index[j - 1] ? cur_index[j - 1] : max;
     
     iter->usr = stmt_usr;
     count++;

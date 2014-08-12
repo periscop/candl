@@ -57,6 +57,7 @@ void candl_scop_usr_init(osl_scop_p scop) {
     
     /* Init the scop_usr structure */
     scop_usr = (candl_scop_usr_p) malloc(sizeof(candl_scop_usr_t));
+    scop_usr->size = 0;
     scop_usr->scalars_privatizable = NULL;
     scop_usr->usr_backup           = scop->usr;
     scop->usr = scop_usr;

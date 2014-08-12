@@ -308,7 +308,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
                                   osl_scop_p test_scop,
                                   candl_options_p options) {
   osl_statement_p source, target, iter;
-  osl_statement_p *stmts;
+  osl_statement_p *stmts = NULL;
   osl_relation_p t_source, t_target;
   candl_statement_usr_p s_usr, t_usr;
   candl_violation_p violation = NULL, now, new;
@@ -381,6 +381,8 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
 
         if (!options->fullcheck) {
           pip_options_free(pip_options);
+          if(stmts)
+            free(stmts);
           return violation;
         }
       } else if (new) {

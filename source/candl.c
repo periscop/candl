@@ -111,7 +111,8 @@ int main(int argc, char * argv[]) {
   osl_scop_p s2 = scop;
   /* Calculating legality violations. */
   if (input_test != NULL) {
-    CANDL_malloc(violations, candl_violation_p*, num_scops);
+    CANDL_malloc(violations, candl_violation_p*,
+                 num_scops*sizeof(candl_violation_p));
 
     for (i=0; i< num_scops; i++, s1 = s1->next, s2 = s2->next) {
       dep = osl_generic_lookup(s1->extension, 
@@ -177,6 +178,7 @@ int main(int argc, char * argv[]) {
   if (input_test != NULL) {
     for (i=0; i< num_scops; i++)
       candl_violation_free(violations[i]);
+    free(violations);
     osl_scop_free(scop);
     fclose(input_test);
   }
