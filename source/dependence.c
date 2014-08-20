@@ -54,6 +54,7 @@
 #include <osl/statement.h>
 #include <osl/relation.h>
 #include <osl/extensions/dependence.h>
+#include <osl/extensions/arrays.h>
 
 #ifdef CANDL_SUPPORTS_ISL
 # undef Q // Thank you polylib...
@@ -1458,6 +1459,8 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
   osl_statement_p last_def;
   osl_statement_p *current; /* not a chained list */
   osl_relation_p elt;
+  osl_arrays_p arrays;
+  char rename[CANDL_MAX_STRING];
   osl_relation_list_p access;
   candl_statement_usr_p usr;
   candl_statement_usr_p last_usr;
@@ -1469,6 +1472,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
   int precision = scop->context->precision;
   int row;
   int tmp, has_changed = 0;
+  int rename_id;
   int newvar = 0;
 
   if (options->verbose)
@@ -1609,6 +1613,11 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
               osl_int_set_si(precision,
                              &elt->m[row][elt->nb_columns - 1],
                              newvar + parts[j]);
+              arrays = osl_generic_lookup(scop->extension, OSL_URI_ARRAYS); 
+              rename_id = osl_arrays_get_index_from_id(arrays, scalars[i]);
+              strcpy(rename, arrays->names[rename_id]);
+              osl_arrays_add(arrays, newvar + parts[j],
+                  strcat(rename, "_renamed"));
             }
           }
         }
