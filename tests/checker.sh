@@ -48,6 +48,7 @@ TEST_TYPE="$4"    ## - "candl" to simply test candl (default)
 #set -x verbose  #echo on
 
 candl=$top_builddir/candl$EXEEXT
+failed=0
 
 echo "             /*-----------------------------------------------*"
 echo "              *     Testing Candl: $TEST_NAME"
@@ -104,10 +105,11 @@ for name in $TEST_FILES; do
 
   if [ $result -ne 0 ]; then
     echo "\033[31m[ FAIL ]\033[0m"
+    failed=1
   else
     echo "\033[32m[ OK ]\033[0m"
   fi
 
   rm -f candl_temp
 done
-exit $n
+exit $failed
