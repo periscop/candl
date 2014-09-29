@@ -195,14 +195,28 @@ AX_SUBMODULE(piplib,system|build|bundled,system)
 AC_SUBST(PIPLIB_CPPFLAGS)
 AC_SUBST(PIPLIB_LDFLAGS)
 AC_SUBST(PIPLIB_LIBS)
+
+PIPLIB_LA="piplib_undefined"
+case "$BITS" in
+32)
+  PIPLIB_LA="piplib_sp"
+  ;;
+64)
+  PIPLIB_LA="piplib_dp"
+  ;;
+MP)
+  PIPLIB_LA="piplib_gmp"
+  ;;
+esac
+
 case "$with_piplib" in
 bundled)
   PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
-  PIPLIB_LIBS="$srcdir/piplib/libpiplib$BITS.la"
+  PIPLIB_LIBS="$srcdir/piplib/lib$PIPLIB_LA.la"
   ;;
 build)
   PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
-  PIPLIB_LIBS="$with_piplib_builddir/libpiplib$BITS.la"
+  PIPLIB_LIBS="$with_piplib_builddir/lib$PIPLIB_LA.la"
   ;;
 system)
   if test "x$with_piplib_prefix" != "x"; then
@@ -211,7 +225,7 @@ system)
   if test "x$with_piplib_exec_prefix" != "x"; then
     PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
   fi
-  PIPLIB_LIBS="$with_piplib_prefix/lib/libpiplib$BITS.la -lpiplib$BITS"
+  PIPLIB_LIBS="$with_piplib_prefix/lib/lib$PIPLIB_LA.la -l$PIPLIB_LA"
 esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
@@ -295,9 +309,9 @@ AC_CONFIG_FILES([
   ],
   [test -z "$CONFIG_HEADERS" || echo timestamp > source/stamp-h.in])
 
-#if test $with_piplib = system; then
-#  AC_CONFIG_SUBDIRS(piplib)
-#fi
+if test $with_piplib = bundled; then
+  AC_CONFIG_SUBDIRS(piplib)
+fi
 if test $with_osl = bundled; then
   AC_CONFIG_SUBDIRS(osl)
 fi

@@ -41,6 +41,15 @@ endif
 if BUNDLED_PIPLIB
   MAYBE_PIPLIB = piplib
   PIPLIB_LA = $(top_builddir)/piplib/libpiplib$(BITS).la
+  ifeq ($(BITS),32)
+    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_sp.la
+  endif
+  ifeq ($(BITS),64)
+    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_dp.la
+  endif
+  ifeq ($(BITS),MP)
+    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_gmp.la
+  endif
 endif
 
 SUBDIRS         = $(MAYBE_OSL) $(MAYBE_PIPLIB) doc tests

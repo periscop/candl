@@ -46,22 +46,18 @@ extern "C"
   {
 # endif
 
-struct osl_relation;
-struct pipmatrix;
-struct pipquast;
-struct pipoptions;
-struct piplist;
+#include <osl/osl.h>
+#include "piplib.h"
 
-struct pipmatrix*    pip_relation2matrix(struct osl_relation*);
-struct osl_relation* pip_matrix2relation(struct pipmatrix*);
-int                  pip_has_rational_point(struct osl_relation*,
-                         struct osl_relation*, int);
-struct pipquast*     pip_solve_osl(struct osl_relation*, struct osl_relation*,
-                         int, struct pipoptions*);
-int                  piplist_are_equal(struct piplist*, struct piplist*, int);
-struct osl_relation* pip_quast_to_polyhedra(struct pipquast*, int, int);
-struct osl_relation* pip_quast_no_solution_to_polyhedra(struct pipquast*,
-                         int, int);
+
+PipMatrix*      pip_relation2matrix(osl_relation_t*);
+osl_relation_t* pip_matrix2relation(PipMatrix*);
+int             pip_has_rational_point(osl_relation_t*, osl_relation_t*, int);
+PipQuast*       pip_solve_osl(osl_relation_t*, osl_relation_t*,
+                              int, PipOptions*);
+int             piplist_are_equal(PipList*, PipList*, int);
+osl_relation_t* pip_quast_to_polyhedra(PipQuast*, int, int);
+osl_relation_t* pip_quast_no_solution_to_polyhedra(PipQuast*, int, int);
 
 # if defined(__cplusplus)
   }
