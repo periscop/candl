@@ -66,18 +66,21 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	if (gmp_LIB)
 		message (STATUS "Library gmp found =) ${gmp_LIB}")
 		set(BITS "MP")
-		# piplibMP
-		find_package(piplibMP REQUIRED)
+		add_definitions("-DCANDL_LINEAR_VALUE_IS_MP")
+		# piplib_gmp
+		find_package(piplib_gmp REQUIRED)
 	else()
 		message(STATUS "Library gmp not found :(")
-		# piplib64
-		find_package(piplib64 REQUIRED)
+		add_definitions("-DCANDL_LINEAR_VALUE_IS_LONG_LONG")
+		# piplib_dp
+		find_package(piplib_dp REQUIRED)
 	endif()
 
 # Include directories (to use #include <> instead of #include "")
 
 	# include/candl/macros.h
 	configure_file("include/candl/macros.h.in" "include/candl/macros.h")
+	configure_file("include/candl/piplib.h.in" "include/candl/piplib.h")
 	include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 	# candl
 	include_directories("./include")
@@ -115,12 +118,11 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	)
 	target_link_libraries(candl ${OSL_LIBRARY})
 	if (gmp_LIB)
-		target_link_libraries(candl ${PIPLIBMP_LIBRARY})
+		target_link_libraries(candl ${PIPLIB_GMP_LIBRARY})
 	else()
-		target_link_libraries(candl ${PIPLIB64_LIBRARY})
+		target_link_libraries(candl ${PIPLIB_DP_LIBRARY})
 	endif()
-	get_property(candl_lib_location TARGET candl PROPERTY LOCATION)
-	message(STATUS "Add candl library (shared) ${candl_lib_location}")
+	message(STATUS "Add candl library (shared)")
 
 	# Static
 	add_library(
@@ -130,13 +132,12 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	)
 	set_target_properties(candl_static PROPERTIES OUTPUT_NAME candl)
 	if (gmp_LIB)
-		target_link_libraries(candl_static ${PIPLIBMP_LIBRARY})
+		target_link_libraries(candl_static ${PIPLIB_GMP_LIBRARY})
 	else()
-		target_link_libraries(candl_static ${PIPLIB64_LIBRARY})
+		target_link_libraries(candl_static ${PIPLIB_DP_LIBRARY})
 	endif()
 	target_link_libraries(candl_static ${OSL_LIBRARY})
-	get_property(candl_static_lib_location TARGET candl_static PROPERTY LOCATION)
-	message(STATUS "Add candl library (static) ${candl_static_lib_location}")
+	message(STATUS "Add candl library (static)")
 
 
 # Executables & tests
@@ -166,15 +167,17 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		)
 
 		foreach(test ${tests_unitary})
+			string(REPLACE ".c" "" test "${test}")
 			message(STATUS "Add Unitary test ${test}")
 			add_test(
 				"tests_unitary_${test}"
-				"${bash_exe}"
+				#"${bash_exe}"
 				"${CMAKE_CURRENT_SOURCE_DIR}/tests/checker.sh"
 				"${test}"
 				"${test}"
 				"0"
 			)
+			set_tests_properties("tests_unitary_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
 
 		file(
@@ -184,6 +187,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		)
 
 		foreach(test ${tests_transformations_must_fail})
+			string(REPLACE ".c" "" test "${test}")
 			message(STATUS "Add Transformation must fail test ${test}")
 			add_test(
 				"tests_transformations_must_fail_${test}"
@@ -193,6 +197,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 				"${test}"
 				"1"
 			)
+			set_tests_properties("tests_transformations_must_fail_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
 
 		file(
@@ -202,6 +207,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 		)
 
 		foreach(test ${tests_transformations_working})
+			string(REPLACE ".c" "" test "${test}")
 			message(STATUS "Add Transformation working test ${test}")
 			add_test(
 				"tests_transformations_working_${test}"
@@ -211,6 +217,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 				"${test}"
 				"1"
 			)
+			set_tests_properties("tests_transformations_working_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
 
 	endif()

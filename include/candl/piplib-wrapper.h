@@ -47,7 +47,7 @@ extern "C"
 # endif
 
 #include <osl/osl.h>
-#include "piplib.h"
+#include <candl/piplib.h>
 
 
 PipMatrix*      pip_relation2matrix(osl_relation_t*);
