@@ -52,8 +52,9 @@ if BUNDLED_PIPLIB
   endif
 endif
 
-SUBDIRS         = $(MAYBE_OSL) $(MAYBE_PIPLIB) doc tests
-DIST_SUBDIRS    = $(MAYBE_OSL) $(MAYBE_PIPLIB) doc tests
+AUTOMAKE_OPTIONS = subdir-objects
+SUBDIRS         = $(MAYBE_OSL) $(MAYBE_PIPLIB) . doc tests
+DIST_SUBDIRS    = $(MAYBE_OSL) $(MAYBE_PIPLIB) . doc tests
 ACLOCAL_AMFLAGS = -I m4
 
 #############################################################################
@@ -77,13 +78,13 @@ pkginclude_HEADERS =                   \
 	include/candl/piplib-wrapper.h \
 	include/candl/violation.h
 
-DEFAULT_INCLUDES = -I.
-INCLUDES = -I$(top_builddir)/include -I$(top_srcdir)/include
+DEFAULT_CPPFLAGS = -I.
+AM_CPPFLAGS = -I$(top_builddir)/include -I$(top_srcdir)/include
 AM_CFLAGS = $(CFLAGS_WARN)
 
 #############################################################################
 
-EXTRA_DIST = COPYING.LESSER AUTHORS
+EXTRA_DIST = COPYING.LESSER AUTHORS candl-config.cmake
 
 libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ $(OSL_LA) $(PIPLIB_LA)
 libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -g
@@ -118,6 +119,12 @@ MAINTAINERCLEANFILES = \
 	$(AUX_DIST)
 
 #############################################################################
+install-data-local:
+	@test -z "$(DESTDIR)$(libdir)/$(PACKAGE_NAME)" || $(mkdir_p) "$(DESTDIR)$(libdir)/$(PACKAGE_NAME)"
+	$(INSTALL_DATA) "$(top_srcdir)/candl-config.cmake" "$(DESTDIR)$(libdir)/$(PACKAGE_NAME)/"
+
+uninstall-local:
+	rm -f "$(DESTDIR)$(libdir)/$(PACKAGE_NAME)/candl-config.cmake"
 
 dist-hook:
 	(cd $(distdir) && mkdir -p $(ac_aux_dir))
