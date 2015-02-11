@@ -43,7 +43,7 @@ SCATTERING
 WRITE
 1 5 1 1 0 1
 # e/i| Arr|  i |  N |  1  
-   0   -1    0    0    6    ## Arr == (null)
+   0   -1    0    0    6    ## Arr == t_renamed
 
 # ----------------------------------------------  1.4 Statement Extensions
 # Number of Statement Extensions
@@ -87,7 +87,7 @@ WRITE
 READ
 1 5 1 1 0 1
 # e/i| Arr|  i |  N |  1  
-   0   -1    0    0    6    ## Arr == (null)
+   0   -1    0    0    6    ## Arr == t_renamed
 
 # ----------------------------------------------  2.4 Statement Extensions
 # Number of Statement Extensions
@@ -125,7 +125,7 @@ SCATTERING
 WRITE
 1 5 1 1 0 1
 # e/i| Arr|  i |  N |  1  
-   0   -1    0    0    7    ## Arr == (null)
+   0   -1    0    0    7    ## Arr == t_renamed
 
 # ----------------------------------------------  3.4 Statement Extensions
 # Number of Statement Extensions
@@ -169,7 +169,7 @@ WRITE
 READ
 1 5 1 1 0 1
 # e/i| Arr|  i |  N |  1  
-   0   -1    0    0    7    ## Arr == (null)
+   0   -1    0    0    7    ## Arr == t_renamed
 
 # ----------------------------------------------  4.4 Statement Extensions
 # Number of Statement Extensions
@@ -357,13 +357,17 @@ b0 i b1
 
 <arrays>
 # Number of arrays
-5
+9
 # Mapping array-identifiers/array-names
 1 i
 2 N
 3 t
 4 a
 5 b
+6 t_renamed
+6 t_renamed
+7 t_renamed
+7 t_renamed
 </arrays>
 
 <coordinates>
