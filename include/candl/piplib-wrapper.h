@@ -55,6 +55,7 @@ osl_relation_t* pip_matrix2relation(PipMatrix*);
 int             pip_has_rational_point(osl_relation_t*, osl_relation_t*, int);
 PipQuast*       pip_solve_osl(osl_relation_t*, osl_relation_t*,
                               int, PipOptions*);
+int quast_are_equal (PipQuast*, PipQuast*, int);
 int             piplist_are_equal(PipList*, PipList*, int);
 osl_relation_t* pip_quast_to_polyhedra(PipQuast*, int, int);
 osl_relation_t* pip_quast_no_solution_to_polyhedra(PipQuast*, int, int);

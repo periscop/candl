@@ -170,6 +170,7 @@ PipQuast* pip_solve_osl(osl_relation_p inequnk, osl_relation_p ineqpar,
 
 /**
  * Return true if the 'size' first elements of 'l1' and 'l2' are equal.
+ * if size is negative, go through all elements (but stop at the firsts equal).
  */
 int piplist_are_equal(PipList* l1, PipList* l2, int size) {
   if (l1 == NULL && l2 == NULL)
@@ -182,7 +183,7 @@ int piplist_are_equal(PipList* l1, PipList* l2, int size) {
     return 0;
 
   int count = 0;
-  for (; l1 && l2 && count < size; l1 = l1->next, l2 = l2->next, ++count) {
+  while(l1 && l2 && ((size < 0) || (count < size))) {
     if (l1->vector == NULL && l2->vector == NULL)
       return 1;
     if (l1->vector == NULL || l2->vector == NULL)
@@ -196,9 +197,37 @@ int piplist_are_equal(PipList* l1, PipList* l2, int size) {
           ! CANDL_eq(l1->vector->the_deno[j],
                      l2->vector->the_deno[j]))
         return 0;
+    l1 = l1->next;
+    l2 = l2->next;
+    count++;
   }
 
   return 1;
+}
+
+/**
+ * Return true if the 'size' first variables in a quast are strictly
+ * equal.
+ * if 'size' is negative, ALL the variables in a quast need to be strictly equal.
+ */
+int quast_are_equal (PipQuast* q1, PipQuast* q2, int size) {
+  if (q1 == NULL && q2 == NULL)
+    return 1;
+  if (q1 == NULL || q2 == NULL)
+    return 0;
+
+  // Inspect conditions.
+  if (q1->condition != NULL && q2->condition != NULL) {
+    PipList c1; c1.next = NULL; c1.vector = q1->condition;
+    PipList c2; c2.next = NULL; c2.vector = q2->condition;
+    if (! piplist_are_equal(&c1, &c2, size))
+      return 0;
+    return quast_are_equal(q1->next_then, q2->next_then, size) &&
+        quast_are_equal(q1->next_else, q2->next_else, size);
+  }
+  if (q1->condition != NULL || q2->condition != NULL)
+    return 0;
+  return piplist_are_equal(q1->list, q2->list, size);
 }
 
 

@@ -159,31 +159,6 @@ osl_dependence_p** find_dep_paths(osl_dependence_p* ardeps,
 
 
 /**
- * Return true if the 'size' first variables in a quast are strictly
- * equal.
- */
-static
-int quast_are_equal (PipQuast* q1, PipQuast* q2, int size) {
-  if (q1 == NULL && q2 == NULL)
-    return 1;
-  if (q1 == NULL || q2 == NULL)
-    return 0;
-
-  // Inspect conditions.
-  if (q1->condition != NULL && q2->condition != NULL) {
-    PipList c1; c1.next = NULL; c1.vector = q1->condition;
-    PipList c2; c2.next = NULL; c2.vector = q2->condition;
-    if (! piplist_are_equal(&c1, &c2, size))
-      return 0;
-    return quast_are_equal(q1->next_then, q2->next_then, size) &&
-        quast_are_equal(q1->next_else, q2->next_else, size);
-  }
-  if (q1->condition != NULL || q2->condition != NULL)
-    return 0;
-  return piplist_are_equal(q1->list, q2->list, size);
-}
-
-/**
  * Return true if 'dep' is fully covered by the transitive dependences
  * in 'path'. This is a conservative functions (works only on
  * unimodular access functions + iteration domains for the sub-matrix
