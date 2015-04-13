@@ -1647,10 +1647,20 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
 
 /**
  * @brief candl_dependence_is_loop_independent function:
- * This function returns true if the dependence 'dep' is a loop-independent dependence.
+ * This function returns true if the dependence 'dep' is
+ * a loop-independent dependence.
  *
- * For that, it add constraints to the system dep->domain : these constrains add equality
- * for each corresponding iterator dimensions (eg i==i', j==j', k==j' ...).
+ * 
+ * For that, it add constraints to the system dep->domain :
+ * these constrains add equality for each corresponding iterator dimensions
+ * (eg i==i', j==j', k==j' ...), because a dependence is loop independent if
+ * all the source iterator are equal to the target iterator.
+ *
+ * Technically, it's the same as calling candl_dependence_is_loop_carried
+ * for every iterator dimensions, and "&&" the results, but that would
+ * call pip_solve each time. So in candl_dependence_is_loop_independent , we directly add
+ * all the constraint is_loop_carried would have added, and call piplib only one time.
+ *
  *
  * @param[in] dep The osl_dependence for which this function will compute if it
  * is loop-independent or not.
@@ -1753,7 +1763,13 @@ int candl_dependence_is_loop_carried(osl_dependence_p dep,
 
   /* Final check. For loop i, the dependence is loop carried if there exists
      x_i^R != x_i^S in the dependence polyhedron, with
-     x_{1..i-1}^R = x_{1..i-1}^S
+     x_{1..i-1}^R = x_{1..i-1}^S.
+
+     i.e. : all iterator except the i^th have to be equal, so we add "=" constraint on the
+     dependence matrix for each iterator except i.
+     For the i^th iterator, they should be different, so we first add a ">" constraint
+     (in fact it's a ">=", but with a "-1", so it's the same as >), and if it fails, we
+     try instead a "<" constraint.
    */
   int pos;
   osl_relation_p mat = dep->domain;
