@@ -63,7 +63,7 @@
  * \return                  Return the real line
  */
 int candl_util_relation_get_line(osl_relation_p relation, int column) {
-  if ((column < 0) || (column >= (relation->nb_columns-1))
+  if ((column < 0) || (column >= (relation->nb_columns-1)))
     return -1;
   int i;
   int precision = relation->precision;
