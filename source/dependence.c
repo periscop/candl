@@ -1730,7 +1730,6 @@ int candl_dependence_is_loop_independent(osl_dependence_p dep)
  */
 int candl_dependence_is_loop_carried(osl_dependence_p dep,
                                      int loop_index) {
-  osl_relation_p msrc = NULL, mtarg = NULL;
   candl_statement_usr_p s_usr = dep->stmt_source_ptr->usr;
   candl_statement_usr_p t_usr = dep->stmt_target_ptr->usr;
   int i = 0, j = 0, k = 0;
@@ -1746,21 +1745,9 @@ int candl_dependence_is_loop_carried(osl_dependence_p dep,
   if (j != i)
     return 0;
   
-  msrc = candl_dependence_get_relation_ref_source_in_dep(dep);
-  mtarg = candl_dependence_get_relation_ref_target_in_dep(dep);
-  precision = msrc->precision;
+  precision = candl_dependence_get_relation_ref_source_in_dep(dep)->precision;
   
   
-  /* plus one for the Arr output dim */
-  int src_ref_iter = (candl_util_relation_get_line(msrc, msrc->nb_output_dims + i) != -1);
-  int dst_ref_iter = (candl_util_relation_get_line(mtarg, mtarg->nb_output_dims + i) != -1);
-
-
-  //if the src and target access relations doesn't even use the iterator of the loop index,
-  //the dependence cannot be loop carried for this loop index.
-  if (!src_ref_iter || !dst_ref_iter)
-    return 0;
-
   /* Final check. For loop i, the dependence is loop carried if there exists
      x_i^R != x_i^S in the dependence polyhedron, with
      x_{1..i-1}^R = x_{1..i-1}^S.
