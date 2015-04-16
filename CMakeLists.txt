@@ -176,6 +176,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 				"${test}"
 				"${test}"
 				"0"
+				"candl"
 			)
 			set_tests_properties("tests_unitary_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
@@ -196,6 +197,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 				"${test}"
 				"${test}"
 				"1"
+				"candl"
 			)
 			set_tests_properties("tests_transformations_must_fail_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
@@ -216,6 +218,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 				"${test}"
 				"${test}"
 				"1"
+				"candl"
 			)
 			set_tests_properties("tests_transformations_working_${test}" PROPERTIES ENVIRONMENT "top_builddir=${CMAKE_CURRENT_BINARY_DIR}")
 		endforeach()
