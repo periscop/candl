@@ -69,6 +69,7 @@ pkginclude_HEADERS =                   \
 	include/candl/dependence.h     \
 	include/candl/scop.h           \
 	include/candl/statement.h      \
+	include/candl/label_mapping.h  \
 	include/candl/macros.h         \
 	include/candl/util.h           \
 	include/candl/ddv.h            \
@@ -96,6 +97,7 @@ libcandl_la_SOURCES  =          \
 	source/statement.c      \
 	source/util.c           \
 	source/isl-wrapper.c    \
+	source/label_mapping.c  \
 	source/matrix.c         \
 	source/options.c        \
 	source/piplib-wrapper.c \

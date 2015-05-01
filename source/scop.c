@@ -39,10 +39,15 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <osl/scop.h>
 #include <osl/statement.h>
+#include <osl/extensions/dependence.h>
+#include <osl/extensions/arrays.h>
 #include <candl/scop.h>
 #include <candl/statement.h>
+#include <candl/label_mapping.h>
+#include <candl/macros.h>
 
 /**
  * candl_scop_usr_init function:
@@ -92,3 +97,174 @@ void candl_scop_usr_cleanup(osl_scop_p scop) {
     scop = scop->next;
   }
 }
+
+osl_scop_p candl_scop_remove_unions(osl_scop_p scop) {
+  osl_statement_p statement, new_statement, scop_statement_ptr;
+  osl_statement_p stmt_iter;
+  osl_scop_p new_scop, scop_ptr = NULL, result = NULL;
+  candl_label_mapping_p label_mapping;
+  candl_statement_usr_p stmt_usr;
+  int counter = 0;
+
+  statement = scop->statement;
+  scop_statement_ptr = NULL;
+  new_scop = osl_scop_malloc();
+
+  for ( ; statement != NULL; statement = statement->next) {
+    new_statement = osl_statement_remove_unions(statement);
+    for (stmt_iter = new_statement; stmt_iter != NULL;
+         stmt_iter = stmt_iter->next, counter++) {
+      stmt_usr = (candl_statement_usr_p) statement->usr;
+      label_mapping = candl_label_mapping_malloc();
+      label_mapping->original = stmt_usr->label;
+      label_mapping->mapped = counter;
+      stmt_iter->usr = label_mapping;
+    }
+    if (!scop_statement_ptr) {
+      scop_statement_ptr = new_statement;
+      new_scop->statement = scop_statement_ptr;
+    } else {
+      scop_statement_ptr->next = new_statement;
+      scop_statement_ptr = scop_statement_ptr->next;
+    }
+    while (scop_statement_ptr && scop_statement_ptr->next != NULL)
+      scop_statement_ptr = scop_statement_ptr->next;
+  }
+
+  new_scop->context = osl_relation_clone(scop->context);
+  new_scop->extension = osl_generic_clone(scop->extension);
+  if (scop->language != NULL) {
+    new_scop->language = (char *) malloc(strlen(scop->language) + 1);
+    new_scop->language = strcpy(new_scop->language, scop->language);
+  }
+  new_scop->parameters = osl_generic_clone(scop->parameters);
+  new_scop->registry = osl_interface_clone(scop->registry);
+  new_scop->version = scop->version;
+  if (!result) {
+    result = new_scop;
+    scop_ptr = new_scop;
+  } else {
+    scop_ptr->next = new_scop;
+    scop_ptr = scop_ptr->next;
+  }
+
+  return result;
+}
+
+void candl_scop_copy_access(osl_scop_p scop,
+                            osl_scop_p nounion_scop,
+                            candl_label_mapping_p mapping) {
+  candl_label_mapping_p m;
+  osl_statement_p statement, statement_nounion;
+  osl_arrays_p arrays;
+  osl_generic_p generic;
+  osl_generic_p generic_arrays;
+
+  for (statement = scop->statement; statement != NULL;
+       statement = statement->next) {
+    if (statement->access)
+      osl_relation_list_free(statement->access);
+    statement->access = NULL;
+  }
+  for (m = mapping; m != NULL; m = m->next) {
+    statement = candl_statement_find_label(scop->statement, m->original);
+    statement_nounion = candl_statement_find_label(nounion_scop->statement,
+                                                   m->mapped);
+    if (!statement->access) {
+      statement->access = osl_relation_list_clone(statement_nounion->access);
+    } else {
+#ifndef NDEBUG
+      if (!osl_relation_list_equal(statement->access,
+                                   statement_nounion->access)) {
+        CANDL_error("Could not merge deunified statements back after "
+                    "scalar operation.  Not all parts of the statement "
+                    "got identical acess relations.");
+      }
+#endif
+    }
+  }
+
+  arrays = (osl_arrays_p) osl_generic_lookup(nounion_scop->extension,
+                                             OSL_URI_ARRAYS);
+  if (!arrays)
+    return;
+  arrays = osl_arrays_clone(arrays);
+  generic_arrays = osl_generic_shell(arrays, osl_arrays_interface());
+  generic_arrays->next = NULL;
+
+  if (!scop->extension) {
+    osl_generic_add(&scop->extension, generic_arrays);
+  } else if (scop->extension->next == NULL) {
+    if (osl_generic_has_URI(scop->extension, OSL_URI_ARRAYS)) {
+      scop->extension->next = NULL;
+      osl_generic_free(scop->extension);
+      scop->extension = generic_arrays;
+    } else {
+      osl_generic_add(&scop->extension, generic_arrays);
+    }
+  } else {
+    for (generic = scop->extension; generic->next != NULL;
+         generic = generic->next) {
+      if (osl_generic_has_URI(generic->next, OSL_URI_ARRAYS)) {
+        break;
+      }
+    }
+
+    if (generic->next != NULL) {
+      generic_arrays->next = generic->next->next;
+      generic->next->next = NULL;
+      osl_generic_free(generic->next);
+      generic->next = generic_arrays;
+    } else {
+      osl_generic_add(&scop->extension, generic_arrays);
+    }
+  }
+}
+
+void candl_scop_add_dependence_extension(osl_scop_p scop,
+                                         osl_dependence_p dependence) {
+  if (!dependence)
+    return;
+
+  osl_dependence_p dep = osl_generic_lookup(scop->extension, 
+                                          OSL_URI_DEPENDENCE);
+  if (dep != NULL) {
+    osl_generic_remove(&scop->extension, OSL_URI_DEPENDENCE);
+    CANDL_info("Deleting old dependences found in the dependence extension.");
+  }
+  // The commented code is a proper version of addition below it, but the old
+  // version is kept for consistency with test bench, sensitive to reordering
+  // of extensions.
+#if 0
+  osl_generic_add(&scop->extension,
+                  osl_generic_shell(dependence, osl_dependence_interface()));
+#endif
+  if (scop->extension == NULL) {
+    scop->extension = osl_generic_shell(dependence, osl_dependence_interface());
+  } else {
+    osl_generic_p generic =
+      osl_generic_shell(dependence, osl_dependence_interface());
+    generic->next = scop->extension;
+    scop->extension = generic;
+  }
+}
+
+candl_label_mapping_p candl_scop_label_mapping(osl_scop_p scop) {
+  candl_label_mapping_p mapping = NULL;
+  osl_statement_p statement = scop->statement;
+
+  //candl_statement_usr_init_all(scop);
+  for ( ; statement != NULL; statement = statement->next) {
+    candl_statement_usr_p stmt_usr = (candl_statement_usr_p) statement->usr;
+    candl_label_mapping_p label_mapping = 
+      (candl_label_mapping_p) stmt_usr->usr_backup;
+    stmt_usr->usr_backup = NULL;
+    label_mapping->mapped = stmt_usr->label;
+    label_mapping->next = NULL;
+    candl_label_mapping_add(&mapping, label_mapping);
+  }
+
+  return mapping;
+}
+
+

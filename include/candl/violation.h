@@ -122,8 +122,11 @@ void              candl_violation_free(candl_violation_p);
 candl_violation_p candl_violation_malloc();
 void              candl_violation_add(candl_violation_p*, candl_violation_p*,
                                   candl_violation_p);
-candl_violation_p candl_violation(struct osl_scop*, struct osl_dependence*,
+void              candl_violation_append(candl_violation_p*, candl_violation_p);
+candl_violation_p candl_violation_single(struct osl_scop*, struct osl_dependence*,
                                   struct osl_scop*, candl_options_p);
+candl_violation_p candl_violation(struct osl_scop*, struct osl_scop*,
+                                  struct osl_dependence**, candl_options_p);
 
 # if defined(__cplusplus)
   }
