@@ -42,6 +42,11 @@
 #include <candl/scop.h>
 #include <candl/statement.h>
 
+/**
+ * \brief Create a new element of the label mapping between
+ * CANDL_LABEL_UNDEFINED elements.
+ * \return The newly created mapping.
+ */
 candl_label_mapping_p candl_label_mapping_malloc() {
   candl_label_mapping_p mapping;
   CANDL_malloc(mapping, candl_label_mapping_p, sizeof(candl_label_mapping_t));
@@ -51,6 +56,11 @@ candl_label_mapping_p candl_label_mapping_malloc() {
   return mapping;
 }
 
+/**
+ * \brief Free this element of the mapping and all the following list elements
+ * if any.
+ * \param Pointer to the list element to free.
+ */
 void candl_label_mapping_free(candl_label_mapping_p mapping) {
   candl_label_mapping_p ptr;
   while (mapping != NULL) {
@@ -60,6 +70,13 @@ void candl_label_mapping_free(candl_label_mapping_p mapping) {
   }
 }
 
+/**
+ * \brief Add a mapping element to the end of the list.  If the head of the list
+ * is null (meaning empty list) it will be rewritten with the element.  All
+ * sucessors of the element being inserted are maintained in the list.
+ * \param [in,out] mapping  A pointer, possibly null, to the head of the list.
+ * \param [in]     instance An element to append to the list.
+ */
 void candl_label_mapping_add(candl_label_mapping_p * mapping,
                              candl_label_mapping_p instance) {
   candl_label_mapping_p ptr;
@@ -72,6 +89,14 @@ void candl_label_mapping_add(candl_label_mapping_p * mapping,
   }
 }
 
+/**
+ * \brief Add a new mapping between two provided values to the end of the list.
+ * If the head of the list is null (meaning empty list) it will be rewritten
+ * with the element.
+ * \param [in,out] mapping  A pointer, possibly null, to the head of the list.
+ * \param [in]     original Source in the mapping element.
+ * \param [in]     mapped   Target in the mapping element.
+ */
 void candl_label_mapping_add_map(candl_label_mapping_p * mapping,
                                  int original, int mapped) {
   candl_label_mapping_p instance;
@@ -83,6 +108,14 @@ void candl_label_mapping_add_map(candl_label_mapping_p * mapping,
   candl_label_mapping_add(mapping, instance);
 }
 
+/**
+ * \brief Finds the first original value in the mapping that corresponds to the
+ * provided mapped value.
+ * \param [in] mapping  Head of the mapping list.
+ * \param [in] mapped   Value to find correspondance for.
+ * \return              The first values in the list that is mapped to the
+ * provided value, CANDL_LABEL_UNDEFINED if there is no such value.
+ */
 int candl_label_mapping_find_original(candl_label_mapping_p mapping,
                                       int mapped) {
   for ( ; mapping != NULL; mapping = mapping->next) {
@@ -92,6 +125,11 @@ int candl_label_mapping_find_original(candl_label_mapping_p mapping,
   return CANDL_LABEL_UNDEFINED;
 }
 
+/**
+ * \brief Print the mapping list to the given file.
+ * \param [in] f  Destination of the output.
+ * \param mapping Head of the mapping list.
+ */
 void candl_label_mapping_print(FILE *f, candl_label_mapping_p mapping) {
   for ( ; mapping != NULL; mapping = mapping->next) {
     fprintf(f, "%d -> %d\n", mapping->original, mapping->mapped);

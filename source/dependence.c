@@ -34,7 +34,7 @@
  ******************************************************************************/
 /**
  * \file dependence.c
- * \author Cedric Bastoul and Louis-Noel Pouchet
+ * \author Cedric Bastoul and Louis-Noel Pouchet and Oleksandr Zinenko
  */
 
 #include <stdlib.h>
@@ -919,7 +919,7 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
 /**
  * \brief build the dependence graph of a scop.
  * The scop must be initialized with proper usr fields via
- * ::candl_scop_usr_init funciton.
+ * ::candl_scop_usr_init function.
  * \warning This function ignores unions of relations.
  * \param [in,out] scop     The scop to analyze.
  * \param [in]     options  Analysis options.
@@ -2315,6 +2315,16 @@ void candl_compute_last_writer(osl_dependence_p dep, osl_scop_p scop) {
   }
 }
 
+/**
+ * \brief Change the statement labels and pointer in the dependence list to
+ * those given by the mapping treating union_scop as the scop for which the
+ * dependence is computed.
+ * \param [in,out] dependence  Head of the dependence list.
+ * \param [in] union_scop      Intended scop for the dependence inialized for
+ *                             use with Candl.
+ * \param [in] mapping     One-to-many mapping of the scop statement labels to
+ *                         the labels currently used in the dependence list.
+ */
 void candl_dependence_remap(osl_dependence_p dependence,
                             osl_scop_p union_scop,
                             candl_label_mapping_p mapping) {
@@ -2350,7 +2360,7 @@ void candl_dependence_remap(osl_dependence_p dependence,
 /**
  * \brief build the dependence graph of a scop.
  * Contrary to the ::candl_dependence_single, scops should not have the usr data
- * structure initialized in advannce.
+ * structure initialized in advance.
  * \param [in,out] scop     The scop to analyze.
  * \param [in]     options  Analysis options.
  * \returns                 A linked list of dependences, \c NULL if empty.

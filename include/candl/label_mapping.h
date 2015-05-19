@@ -36,6 +36,16 @@
 
 #define CANDL_LABEL_UNDEFINED (-1)
 
+/**
+ * \brief Holds a mapping between two integer identifiers.  This structure
+ * represents an element in the linked list of elements connected together
+ * through the #next field.  Depending on the processing function, it can be
+ * treated as the head of the list or a standalone element.  Refer to the
+ * function documentation for more details.
+ *
+ * The structure is agnostic to the arity of the mapping and allows repetitive
+ * values for both original and mapped values.
+ */
 struct candl_label_mapping {
   int original;
   int mapped;

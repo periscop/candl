@@ -98,6 +98,17 @@ void candl_scop_usr_cleanup(osl_scop_p scop) {
   }
 }
 
+/**
+ * \brief Create a new scop that with exactly the same relations as the given
+ * scop, but with every part of the relation union replaced by a separate
+ * statement.  Expects the input scop to have usr fields initalized with
+ * candl structures.  Initializes the usr field of each new statement with
+ * candl_label_mapping instance having original label set up to the label of
+ * the original statement with unions.
+ * \param [in] scop  The original scop with relation unions preinitalized for
+ * use inside Candl.
+ * \return   A new scop with relation unions converted to statements.
+ */
 osl_scop_p candl_scop_remove_unions(osl_scop_p scop) {
   osl_statement_p statement, new_statement, scop_statement_ptr;
   osl_statement_p stmt_iter;
@@ -151,6 +162,15 @@ osl_scop_p candl_scop_remove_unions(osl_scop_p scop) {
   return result;
 }
 
+/**
+ * \brief Replace access relations and access-related extensions in the
+ * scop with relation unions from those from the scop without relations unions
+ * with respect to one-to-may mapping of statements in the scop.
+ * \param [in,out] scop     Scop to replace access relation in.
+ * \param [in] nounion_scop Scop - source of the acess relations.
+ * \param mapping           One-to-many mapping between statement labels in scop
+ * and nounion_scop.
+ */
 void candl_scop_copy_access(osl_scop_p scop,
                             osl_scop_p nounion_scop,
                             candl_label_mapping_p mapping) {
@@ -221,6 +241,11 @@ void candl_scop_copy_access(osl_scop_p scop,
   }
 }
 
+/**
+ * \brief Add the given dependences as an osl extension to the scop.
+ * \param [in,out] scop    Scop to extend.
+ * \param [in] dependence  Precomputed dependence list.
+ */
 void candl_scop_add_dependence_extension(osl_scop_p scop,
                                          osl_dependence_p dependence) {
   if (!dependence)
@@ -249,6 +274,14 @@ void candl_scop_add_dependence_extension(osl_scop_p scop,
   }
 }
 
+/**
+ * \brief Construct label mapping for the statement of the given scop, assuming
+ * they are properly intialized with the candl_statement_usr, the usr_backup
+ * field of which is pointing to candl_label_mapping with original label.
+ * Behavior undefied if these conditions do not hold.
+ * \param scop  A scop with preinialized usr field.
+ * \return A label mapping list extracted from the scop's usr field.
+ */
 candl_label_mapping_p candl_scop_label_mapping(osl_scop_p scop) {
   candl_label_mapping_p mapping = NULL;
   osl_statement_p statement = scop->statement;

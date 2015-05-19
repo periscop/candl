@@ -309,7 +309,7 @@ void candl_violation_add(candl_violation_p* start,
  * \returns the linked list of violations.
  **
  * - 12/12/2005: first version.
- * - 01/05/2015: renamed in a proecss of adding relation union support.
+ * - 01/05/2015: renamed in a process of adding relation union support.
  */
 candl_violation_p candl_violation_single(osl_scop_p orig_scop,
                                          osl_dependence_p orig_dependence,
@@ -407,6 +407,10 @@ candl_violation_p candl_violation_single(osl_scop_p orig_scop,
   return violation;
 }
 
+// Return a list of violations for a particular dependence (check for violation
+// at each depth).  Source and target statements may differ from those used in
+// the dependence as far as their dimensionality match.  This is an internal
+// function that is aware of statement remapping due to union removal.
 static candl_violation_p violation_helper(osl_dependence_p orig_dependence,
     osl_relation_p context, osl_statement_p source, osl_statement_p target,
     int nb_parameters, candl_options_p options, PipOptions * pip_options) {
@@ -458,6 +462,12 @@ static candl_violation_p violation_helper(osl_dependence_p orig_dependence,
   return violation;
 }
 
+/**
+ * \brief Append the given appendix, possibly a list, to the end of the of the
+ * violations list.
+ * \param [in,out] violation  A pointer, possibly null, to the end of the list.
+ * \param [in]     appendix   An element to append to the list.
+ */
 void candl_violation_append(candl_violation_p *violation,
                             candl_violation_p appendix) {
   candl_violation_p vptr;
@@ -477,7 +487,7 @@ void candl_violation_append(candl_violation_p *violation,
  * in both scops.  Dependence graph of the original scop may be obtained
  * through parameter.
  * Contrary to the ::candl_violation_single, scops should not have the usr data
- * structure initialized in advannce.
+ * structure initialized in advance.
  * \warning The input scop <b>may be modified</b>, namely its access relations
  * will be rewritten and respective pointers invalidated, in case when options
  * include any scalar manipulation.
@@ -514,7 +524,6 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
     return NULL;
 
   nb_parameters = orig_scop->context->nb_parameters;
-  // TODO: check that the number of statements in union-scops are equal
 
   candl_scop_usr_init(test_scop);
   candl_scop_usr_init(orig_scop);
