@@ -88,7 +88,8 @@ AM_CFLAGS = $(CFLAGS_WARN)
 EXTRA_DIST = COPYING.LESSER AUTHORS candl-config.cmake
 
 libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ $(OSL_LA) $(PIPLIB_LA)
-libcandl_la_CPPFLAGS = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -g
+libcandl_la_CPPFLAGS = -I. -I$(top_builddir)/include -I$(top_srcdir)/include \
+		       @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@
 libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ 
 libcandl_la_SOURCES  =          \
 	source/dependence.c     \
@@ -107,7 +108,8 @@ libcandl_la_SOURCES  =          \
 #############################################################################
 
 LDADD              = @CANDL_LIBS@ @OSL_LIBS@ @PIPLIB_LIBS@
-candl_CPPFLAGS     = @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -g -Wall
+candl_CPPFLAGS     = -I. -I$(top_builddir)/include -I$(top_srcdir)/include \
+		     @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@ -Wall
 candl_LDFLAGS      = #@OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ # TO BE REMOVED
 candl_DEPENDENCIES = libcandl.la
 candl_SOURCES      = source/candl.c
