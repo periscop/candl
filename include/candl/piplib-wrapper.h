@@ -41,14 +41,13 @@
 #ifndef CANDL_PIPLIB_WRAPPER_H
 # define CANDL_PIPLIB_WRAPPER_H
 
+#include <osl/osl.h>
+#include <candl/piplib.h>
+
 # if defined(__cplusplus)
 extern "C"
   {
 # endif
-
-#include <osl/osl.h>
-#include <candl/piplib.h>
-
 
 PipMatrix*      pip_relation2matrix(osl_relation_t*);
 osl_relation_t* pip_matrix2relation(PipMatrix*);

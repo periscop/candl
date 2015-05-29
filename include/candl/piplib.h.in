@@ -37,15 +37,7 @@
 #ifndef CANDL_PIPLIB_H
 # define CANDL_PIPLIB_H
 
-# if defined(__cplusplus)
-extern "C"
-  {
-# endif
-
 # include <piplib/piplib@BITS@.h>
 
-# if defined(__cplusplus)
-  }
-# endif
 #endif /* define CANDL_PIPLIB_H */
 
