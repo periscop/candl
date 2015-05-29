@@ -528,6 +528,16 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   candl_scop_usr_init(test_scop);
   candl_scop_usr_init(orig_scop);
 
+  if (!options->unions) {
+    orig_dependence = candl_dependence_single(orig_scop, options);
+    violation = candl_violation_single(orig_scop, orig_dependence, test_scop,
+                                       options);
+    candl_scop_usr_cleanup(test_scop);
+    candl_scop_usr_cleanup(orig_scop);
+    osl_dependence_free(orig_dependence);
+    return violation;
+  }
+
   test_scop_nounion = candl_scop_remove_unions(test_scop);
   candl_scop_usr_init(test_scop_nounion);
   test_mapping = candl_scop_label_mapping(test_scop_nounion);

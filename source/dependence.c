@@ -2371,6 +2371,13 @@ osl_dependence_p candl_dependence(osl_scop_p scop,
   candl_label_mapping_p mapping;
   osl_dependence_p dep;
 
+  if (!options->unions) {
+    candl_scop_usr_init(scop);
+    dep = candl_dependence_single(scop, options);
+    candl_scop_usr_cleanup(scop);
+    return dep;
+  }
+
   nounion_scop = candl_scop_remove_unions(scop);
   candl_scop_usr_init(nounion_scop);
   mapping = candl_scop_label_mapping(nounion_scop);

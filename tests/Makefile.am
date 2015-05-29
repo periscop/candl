@@ -50,6 +50,7 @@ UNITARY_TEST_FILES = \
 	unitary/lu \
 	unitary/matmul \
 	unitary/multiscop3 \
+	unitary/no-unions \
 	unitary/scalpriv \
 	unitary/scalexp \
 	unitary/simple \

@@ -64,6 +64,7 @@ struct candl_options {
   int autocorrect; /**< 1 to correct violations. fullcheck is set to 1 and 
                      * the -test is required.
                     */
+  int unions;    /**< 1 to consider unions of relations */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   int view;      /**< 1 to call dot and gv to visualize the graphs. */
   int structure; /**< 1 to print internal dependence structure. */
