@@ -44,10 +44,13 @@
 #include <osl/statement.h>
 #include <osl/scop.h>
 #include <osl/extensions/dependence.h>
+#include <candl/dependence.h>
+#include <candl/label_mapping.h>
 #include <candl/macros.h>
 #include <candl/matrix.h>
 #include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
+#include <candl/scop.h>
 #include <candl/statement.h>
 #include <candl/violation.h>
 
@@ -293,20 +296,25 @@ void candl_violation_add(candl_violation_p* start,
 
 
 /**
- * candl_violation function :
- * this function will build the list of violated dependences by a program
- * transformation candidate, according to some user options. It returns
- * the linked list of violations.
- * - program containt the program and transformation candidate informations,
- * - dependence is the dependence graph, if NULL it will be calculated here,
- * - options is the user options data structure.
+ * \brief build the list of violated dependences by a program transformation
+ * candidate, according to some user options.   The scop must be initialized
+ * with proper usr fields via ::candl_scop_usr_init function.
+ * \deprecated Use ::candl_violation, this function is intended to temporary
+ * remedy the API change.
+ * \warning This function ignores unions of relations.
+ * \param [in,out] orig_scop       The original scop.
+ * \param [in]     orig_dependence The dependence graph of the original scop.
+ * \param [in]     test_scop       The candidate scop with new scheduling.
+ * \param [in]     options         Analysis options.
+ * \returns the linked list of violations.
  **
  * - 12/12/2005: first version.
+ * - 01/05/2015: renamed in a process of adding relation union support.
  */
-candl_violation_p candl_violation(osl_scop_p orig_scop,
-                                  osl_dependence_p orig_dependence,
-                                  osl_scop_p test_scop,
-                                  candl_options_p options) {
+candl_violation_p candl_violation_single(osl_scop_p orig_scop,
+                                         osl_dependence_p orig_dependence,
+                                         osl_scop_p test_scop,
+                                         candl_options_p options) {
   osl_statement_p source, target, iter;
   osl_statement_p *stmts = NULL;
   osl_relation_p t_source, t_target;
@@ -396,6 +404,211 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   
   pip_options_free(pip_options);
 
+  return violation;
+}
+
+// Return a list of violations for a particular dependence (check for violation
+// at each depth).  Source and target statements may differ from those used in
+// the dependence as far as their dimensionality match.  This is an internal
+// function that is aware of statement remapping due to union removal.
+static candl_violation_p violation_helper(osl_dependence_p orig_dependence,
+    osl_relation_p context, osl_statement_p source, osl_statement_p target,
+    int nb_parameters, candl_options_p options, PipOptions * pip_options) {
+  int dimension;
+  int max_dimension;
+  candl_violation_p new;
+  candl_violation_p now;
+  candl_violation_p violation = NULL;
+  int violated;
+  PipQuast * solution;
+
+  max_dimension = CANDL_min(source->scattering->nb_output_dims,
+                            target->scattering->nb_output_dims);
+  for (dimension = 1; dimension <= max_dimension; dimension++) {
+    violated = 0;
+
+    /* We build the constraint system corresponding to that
+     * violation then check if there is an integral point inside,
+     * if yes there is actually a dependence violation and we
+     * will add this one to the list.
+     */
+    new = candl_matrix_violation(orig_dependence,
+                                 source->scattering,
+                                 target->scattering,
+                                 dimension,
+                                 nb_parameters);
+    solution = pip_solve_osl(new->domain, context, -1, pip_options);
+
+    if ((solution != NULL) &&
+        ((solution->list != NULL) || (solution->condition != NULL)))
+      violated = 1;
+
+    pip_quast_free(solution);
+    
+
+    if (violated) {
+      /* We set the various fields with corresponding values. */
+      new->dependence = orig_dependence;
+      new->dimension = dimension;
+      candl_violation_add(&violation, &now, new);
+
+      if (!options->fullcheck) {
+        return violation;
+      }
+    } else if (new) {
+        candl_violation_free(new);
+    }
+  }
+  return violation;
+}
+
+/**
+ * \brief Append the given appendix, possibly a list, to the end of the of the
+ * violations list.
+ * \param [in,out] violation  A pointer, possibly null, to the end of the list.
+ * \param [in]     appendix   An element to append to the list.
+ */
+void candl_violation_append(candl_violation_p *violation,
+                            candl_violation_p appendix) {
+  candl_violation_p vptr;
+  if (*violation == NULL) {
+    *violation = appendix;
+  } else {
+    for (vptr = *violation; vptr->next != NULL; vptr = vptr->next) {
+      vptr->next = appendix;
+    }
+  }
+}
+
+/**
+ * \brief Compute violations of dependences in the orig_scop introduced by the
+ * scheduling of the test_scop.  The input scops must have the same number of
+ * statements.  Statements' domains must be equal and stored in the same order
+ * in both scops.  Dependence graph of the original scop may be obtained
+ * through parameter.
+ * Contrary to the ::candl_violation_single, scops should not have the usr data
+ * structure initialized in advance.
+ * \warning The input scop <b>may be modified</b>, namely its access relations
+ * will be rewritten and respective pointers invalidated, in case when options
+ * include any scalar manipulation.
+ * \param [in,out] orig_scop  The original scop.
+ * \param [in]     test_scop  The transformed scop with a different scheduling.
+ * \param [out]    dependence The dependence graph of the original scop.
+ * \param [in]     options    Analysis options.
+ * \return                    List of dependence violations, \c NULL if empty.
+ */
+candl_violation_p candl_violation(osl_scop_p orig_scop,
+                                  osl_scop_p test_scop,
+                                  osl_dependence_p *dependence,
+                                  candl_options_p options) {
+  osl_scop_p test_scop_nounion;
+  osl_scop_p orig_scop_nounion;
+  candl_label_mapping_p test_mapping;
+  candl_label_mapping_p orig_mapping;
+  osl_dependence_p orig_dependence;
+  osl_dependence_p depepdence_ptr;
+  int label_source, label_target;
+  int unmapped_label_source, unmapped_label_target;
+  int nb_parameters;
+  candl_label_mapping_p test_source_mapping;
+  candl_label_mapping_p test_target_mapping;
+  osl_statement_p source;
+  osl_statement_p target;
+  candl_violation_p violation = NULL;
+  candl_violation_p new_violation;
+  candl_violation_p violation_end_ptr;
+  int violated;
+  PipOptions *pip_options;
+
+  if (test_scop == NULL)
+    return NULL;
+
+  nb_parameters = orig_scop->context->nb_parameters;
+
+  candl_scop_usr_init(test_scop);
+  candl_scop_usr_init(orig_scop);
+
+  if (!options->unions) {
+    orig_dependence = candl_dependence_single(orig_scop, options);
+    violation = candl_violation_single(orig_scop, orig_dependence, test_scop,
+                                       options);
+    candl_scop_usr_cleanup(test_scop);
+    candl_scop_usr_cleanup(orig_scop);
+    osl_dependence_free(orig_dependence);
+    return violation;
+  }
+
+  test_scop_nounion = candl_scop_remove_unions(test_scop);
+  candl_scop_usr_init(test_scop_nounion);
+  test_mapping = candl_scop_label_mapping(test_scop_nounion);
+
+  orig_scop_nounion = candl_scop_remove_unions(orig_scop);
+  candl_scop_usr_init(orig_scop_nounion);
+  orig_mapping = candl_scop_label_mapping(orig_scop_nounion);
+
+  orig_dependence = candl_dependence_single(orig_scop_nounion, options);
+  depepdence_ptr = orig_dependence;
+  // Copy accesses after scalar operations.
+  if (options->scalar_renaming || options->scalar_expansion ||
+      options->scalar_privatization) {
+    candl_scop_copy_access(orig_scop, orig_scop_nounion, orig_mapping);
+  }
+
+  pip_options = pip_options_init();
+  pip_options->Simplify = 1;
+
+  violated = 0;
+  for ( ; orig_dependence != NULL; orig_dependence = orig_dependence->next) {
+    label_source = orig_dependence->label_source;
+    label_target = orig_dependence->label_target;
+    // Find all statements created from a single statement with unions and check
+    // for violation in each combination of orig/test scatterings.
+    // Domain unions are already taken into account by dependence computation
+    // since it had created one dependence per domain relation combination.
+    unmapped_label_source = candl_label_mapping_find_original(orig_mapping,
+                                                              label_source);
+    unmapped_label_target = candl_label_mapping_find_original(orig_mapping,
+                                                              label_target);
+    for (test_source_mapping = test_mapping; test_source_mapping != NULL;
+         test_source_mapping = test_source_mapping->next) {
+      if (test_source_mapping->original == unmapped_label_source) {
+        source = candl_statement_find_label(test_scop_nounion->statement,
+                                            test_source_mapping->mapped);
+        for (test_target_mapping = test_mapping; test_target_mapping != NULL;
+             test_target_mapping = test_target_mapping->next) {
+          if (test_target_mapping->original == unmapped_label_target) {
+            target = candl_statement_find_label(test_scop_nounion->statement,
+                                                test_target_mapping->mapped);
+            new_violation = violation_helper(orig_dependence,
+                orig_scop->context, source, target, nb_parameters,
+                options, pip_options);
+            candl_violation_add(&violation, &violation_end_ptr, new_violation);
+            if (new_violation && !options->fullcheck) {
+              violated = 1;
+              break;
+            }
+          }
+        }
+        if (violated)
+          break;
+      }
+    }
+    if (violated)
+      break;
+  }
+
+  pip_options_free(pip_options);
+  candl_dependence_remap(orig_dependence, orig_scop, orig_mapping);
+  if (dependence != NULL)
+    *dependence = depepdence_ptr;
+  candl_scop_usr_cleanup(orig_scop_nounion);
+  candl_scop_usr_cleanup(test_scop_nounion);
+  osl_scop_free(test_scop_nounion);
+  osl_scop_free(orig_scop_nounion);
+  candl_label_mapping_free(test_mapping);
+  candl_label_mapping_free(orig_mapping);
+  candl_scop_usr_cleanup(test_scop);
+  candl_scop_usr_cleanup(orig_scop);
   return violation;
 }
 

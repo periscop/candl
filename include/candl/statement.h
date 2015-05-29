@@ -61,6 +61,8 @@ typedef struct candl_statement_usr* candl_statement_usr_p;
 
 void candl_statement_usr_init_all(struct osl_scop*);
 void candl_statement_usr_cleanup(struct osl_statement*);
+candl_statement_usr_p candl_statement_usr_clone(candl_statement_usr_p usr);
+struct osl_statement* candl_statement_find_label(struct osl_statement*, int);
 
 # if defined(__cplusplus)
   }

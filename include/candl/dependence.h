@@ -54,6 +54,7 @@ struct osl_relation;
 struct osl_statement;
 struct osl_scop;
 struct osl_dependence;
+struct candl_label_mapping;
 
 #ifdef CANDL_SUPPORTS_ISL
 struct osl_dependence* candl_dependence_isl_simplify(struct osl_dependence*,
@@ -75,9 +76,14 @@ int                    candl_dependence_gcd_test(struct osl_statement*,
 int                    candl_dependence_check(struct osl_scop*,
                                         struct osl_dependence*,
                                         candl_options_p);
-struct osl_dependence* candl_dependence(struct osl_scop*, candl_options_p);
+struct osl_dependence* candl_dependence_single(struct osl_scop*, candl_options_p);
+struct osl_dependence* candl_dependence(struct osl_scop*,
+                                        candl_options_p);
 void                   candl_dependence_add_extension(struct osl_scop*,
                                         candl_options_p);
+void                   candl_dependence_remap(struct osl_dependence*,
+                                        struct osl_scop*,
+                                        struct candl_label_mapping*);
 
 /*+***************************************************************************
  *                    Memory allocation/deallocation function                *

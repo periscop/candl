@@ -50,18 +50,26 @@ UNITARY_TEST_FILES = \
 	unitary/lu \
 	unitary/matmul \
 	unitary/multiscop3 \
+	unitary/no-unions \
 	unitary/scalpriv \
 	unitary/scalexp \
 	unitary/simple \
-	unitary/swim 
+	unitary/swim \
+	unitary/union1 \
+	unitary/union2 \
+	unitary/union3
 
 TRANSFO_FAIL_TEST_FILES = \
-	transformations/must_fail/no_scalren
+	transformations/must_fail/no_scalren \
+	transformations/must_fail/union1 \
+	transformations/must_fail/union2 \
+	transformations/must_fail/union3
 
 TRANSFO_WORKING_TEST_FILES = \
 	transformations/working/can_reorder_loop \
 	transformations/working/loulou \
-	transformations/working/scalren
+	transformations/working/scalren \
+	transformations/working/union
 
 TESTS_ENVIRONMENT = \
 	top_builddir=$(top_builddir) \

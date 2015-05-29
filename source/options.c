@@ -109,6 +109,7 @@ candl_options_p candl_options_malloc(void) {
   options->verbose = 0; /* Don't be verbose. */
   options->outscop = 0; /* Don't print the scop. */
   options->autocorrect = 0; /* Don't correct violations. */
+  options->unions = 1; /* Consider unions of relations. */
   /* UNDOCUMENTED OPTIONS FOR THE AUTHOR ONLY */
   options->view = 0;      /* Do not visualize the graph with dot and gv.*/
   options->structure = 0; /* Don't print internal dependence structure. */
@@ -151,7 +152,9 @@ void candl_options_help() {
     "                       (default setting: 0).\n");
   printf(
     "  -view                Ask to display the graphs (1) or not (0)\n"
-    "                       (requires dot -graphviz- and gv tools).\n");
+    "                       (requires dot -graphviz- and gv tools).\n"
+    "  -unions    <boolean> Consider unions of relations (1) or not (0)\n"
+    "                       (default setting: 1).\n");
   printf(
     "\nGeneral options:\n"
     "  -test     <origscop> Test violations with the original scop.\n"
@@ -295,6 +298,9 @@ void candl_options_read(int argc, char** argv, FILE** input, FILE** output,
       } else
       if (!strcmp(argv[i], "-view")) {
         (*options)->view = 1;
+      } else
+      if (!strcmp(argv[i], "-unions")) {
+        candl_options_set(&(*options)->unions, argc, argv, &i);
       } else
       if (!strcmp(argv[i], "-verbose")) {
         (*options)->verbose = 1;

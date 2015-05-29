@@ -34,7 +34,7 @@
  ******************************************************************************/
 /**
  * \file dependence.c
- * \author Cedric Bastoul and Louis-Noel Pouchet
+ * \author Cedric Bastoul and Louis-Noel Pouchet and Oleksandr Zinenko
  */
 
 #include <stdlib.h>
@@ -47,6 +47,7 @@
 #include <candl/statement.h>
 #include <candl/util.h>
 #include <candl/matrix.h>
+#include <candl/label_mapping.h>
 #include <candl/piplib.h>
 #include <candl/piplib-wrapper.h>
 #include <osl/macros.h>
@@ -916,12 +917,18 @@ osl_dependence_p candl_dependence_between(osl_statement_p source,
 
 
 /**
- * candl_dependence function:
- * this function builds the dependence graph of a scop
- * according to some user options (options).
+ * \brief build the dependence graph of a scop.
+ * The scop must be initialized with proper usr fields via
+ * ::candl_scop_usr_init function.
+ * \warning This function ignores unions of relations.
+ * \param [in,out] scop     The scop to analyze.
+ * \param [in]     options  Analysis options.
+ * \returns                 A linked list of dependences, \c NULL if empty.
+ **
  * - 18/09/2003: first version.
+ * - 01/05/2015: renamed as part of relation union support.
  */
-osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
+osl_dependence_p candl_dependence_single(osl_scop_p scop, candl_options_p options) {
   if (scop == NULL) { return NULL; }
   
   osl_dependence_p dependence = NULL;
@@ -963,9 +970,9 @@ osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
   int check = 0;
   if (options->scalar_renaming)
     check = candl_dependence_scalar_renaming(scop, options, &dependence);
-
   if (! check && options->scalar_privatization)
     candl_dependence_prune_with_privatization(scop, options, &dependence);
+
 
   /* Compute the last writer */
   if (options->lastwriter)
@@ -980,38 +987,6 @@ osl_dependence_p candl_dependence(osl_scop_p scop, candl_options_p options) {
   return dependence;
 }
 
-
-
-/**
- * candl_dependence_add_extension function:
- * this function builds the dependence graph for a scop list
- * according to some user options (options).
- * For each scop the dependence graph is added in the extension of the scop.
- * Any old dependence graph in the extension is deleted.
- * 
- * @param[in,out] scop    A osl scop
- * @param[in]     options Candl options
- */
-void candl_dependence_add_extension(osl_scop_p scop, candl_options_p options) {
-
-  while (scop) {
-    /* Calculating dependences. */
-    osl_dependence_p dep = osl_generic_lookup(scop->extension, 
-                                            OSL_URI_DEPENDENCE);
-    if (dep != NULL) {
-      osl_generic_remove(&scop->extension, OSL_URI_DEPENDENCE);
-      CANDL_info("Deleting old dependences found in the options tag.");
-    }
-
-    dep = candl_dependence(scop, options);
-
-    osl_generic_p data = osl_generic_shell(dep, osl_dependence_interface());
-    data->next = scop->extension;
-    scop->extension = data;
-    
-    scop = scop->next;
-  }
-}
 
 /******************************************************************************
  *                          Scalar analysis functions                         *
@@ -1633,7 +1608,7 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
     if (options->scalar_privatization)
       free(((candl_scop_usr_p)scop->usr)->scalars_privatizable);
     osl_dependence_free(*deps);
-    *deps = candl_dependence(scop, options);
+    *deps = candl_dependence_single(scop, options);
     options->scalar_renaming = bopt;
   }
   
@@ -2337,5 +2312,106 @@ void candl_compute_last_writer(osl_dependence_p dep, osl_scop_p scop) {
       // candl_matrix_print(stdout, dep->domain);
     }
     dep = dep->next;
+  }
+}
+
+/**
+ * \brief Change the statement labels and pointer in the dependence list to
+ * those given by the mapping treating union_scop as the scop for which the
+ * dependence is computed.
+ * \param [in,out] dependence  Head of the dependence list.
+ * \param [in] union_scop      Intended scop for the dependence inialized for
+ *                             use with Candl.
+ * \param [in] mapping     One-to-many mapping of the scop statement labels to
+ *                         the labels currently used in the dependence list.
+ */
+void candl_dependence_remap(osl_dependence_p dependence,
+                            osl_scop_p union_scop,
+                            candl_label_mapping_p mapping) {
+  osl_relation_list_p rlist;
+  int i;
+
+  for ( ; dependence != NULL; dependence = dependence->next) {
+    dependence->label_source =
+      candl_label_mapping_find_original(mapping, dependence->label_source);
+    dependence->label_target =
+      candl_label_mapping_find_original(mapping, dependence->label_target);
+    
+    dependence->stmt_source_ptr = 
+      candl_statement_find_label(union_scop->statement,
+                                 dependence->label_source);
+    dependence->stmt_target_ptr = 
+      candl_statement_find_label(union_scop->statement,
+                                 dependence->label_target);
+    if (!dependence->stmt_source_ptr || !dependence->stmt_target_ptr)
+      continue;
+
+    for (i = 0, rlist = dependence->stmt_source_ptr->access;
+         rlist != NULL;
+         rlist = rlist->next, i++) {
+      if (i == dependence->ref_source)
+        dependence->ref_source_access_ptr = rlist->elt;
+      if (i == dependence->ref_target)
+        dependence->ref_target_access_ptr = rlist->elt;
+    }
+  }
+}
+
+/**
+ * \brief build the dependence graph of a scop.
+ * Contrary to the ::candl_dependence_single, scops should not have the usr data
+ * structure initialized in advance.
+ * \param [in,out] scop     The scop to analyze.
+ * \param [in]     options  Analysis options.
+ * \returns                 A linked list of dependences, \c NULL if empty.
+ */
+osl_dependence_p candl_dependence(osl_scop_p scop,
+                                 candl_options_p options) {
+  osl_scop_p nounion_scop;
+  candl_label_mapping_p mapping;
+  osl_dependence_p dep;
+
+  if (!options->unions) {
+    candl_scop_usr_init(scop);
+    dep = candl_dependence_single(scop, options);
+    candl_scop_usr_cleanup(scop);
+    return dep;
+  }
+
+  nounion_scop = candl_scop_remove_unions(scop);
+  candl_scop_usr_init(nounion_scop);
+  mapping = candl_scop_label_mapping(nounion_scop);
+
+  dep = candl_dependence_single(nounion_scop, options);
+
+  // Copy accesses after scalar operations.
+  if (options->scalar_renaming || options->scalar_expansion ||
+      options->scalar_privatization) {
+    candl_scop_copy_access(scop, nounion_scop, mapping);
+  }
+
+  candl_dependence_remap(dep, scop, mapping);
+
+  candl_label_mapping_free(mapping);
+  candl_scop_usr_cleanup(nounion_scop);
+  osl_scop_free(nounion_scop);
+  return dep;
+}
+
+/**
+ * \brief builds the dependence graph for a scop list with respect to the
+ * options provided.  For each scop the dependence graph is added as
+ * an extension, replacing any previously computed dependence graph for
+ * that scop.
+ * \param [in,out] scop    The scop to analyze
+ * \param [in]     options Analysis options
+ */
+void candl_dependence_add_extension(osl_scop_p scop,
+                                    candl_options_p options) {
+  osl_dependence_p dep;
+  for ( ; scop != NULL; scop = scop->next) {
+
+    dep = candl_dependence(scop, options);
+    candl_scop_add_dependence_extension(scop, dep);
   }
 }

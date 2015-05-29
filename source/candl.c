@@ -47,10 +47,9 @@
 #include <candl/util.h>
 #include <candl/piplib.h>
 
-
 int main(int argc, char * argv[]) {
   
-  osl_scop_p scop = NULL;
+  osl_scop_p scop = NULL, s1, s2;
   osl_scop_p orig_scop = NULL;
   osl_dependence_p dep = NULL;
   int num_scops = 0,  i= 0;
@@ -101,23 +100,21 @@ int main(int argc, char * argv[]) {
    */
   candl_scop_usr_init(orig_scop);
   
-  /* Calculating dependences. */
-  candl_dependence_add_extension(orig_scop, options);
-
-  osl_scop_p s1 = orig_scop;
+  s1 = orig_scop;
   while (s1) {num_scops++; s1 = s1->next;}
 
-  s1 = orig_scop;
-  osl_scop_p s2 = scop;
-  /* Calculating legality violations. */
-  if (input_test != NULL) {
+  if (input_test == NULL) {
+    candl_dependence_add_extension(orig_scop, options);
+  } else {
+    s1 = orig_scop;
+    s2 = scop;
     CANDL_malloc(violations, candl_violation_p*,
                  num_scops*sizeof(candl_violation_p));
 
     for (i=0; i< num_scops; i++, s1 = s1->next, s2 = s2->next) {
-      dep = osl_generic_lookup(s1->extension, 
-                                            OSL_URI_DEPENDENCE);
-      violations[i] = candl_violation(s1, dep, s2, options);
+      osl_dependence_p dependence;
+      violations[i] = candl_violation(s1, s2, &dependence, options);
+      candl_scop_add_dependence_extension(s1, dependence);
     }
   }
 
