@@ -249,65 +249,71 @@ osl_dependence_p candl_dependence_isl_simplify(osl_dependence_p dep,
  * Set the various other fields of the dependence structure
  */
 void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
-  
   osl_statement_p iter;
   candl_statement_usr_p usr;
   osl_relation_p array_s, array_t;
-  
-  /* source statement */
-  iter = scop->statement;
-  for (; iter != NULL ; iter = iter->next) {
-    usr = iter->usr;
-    if (usr->label == dep->label_source) {
-      dep->stmt_source_ptr = iter;
-      break;
+
+  for (; dep != NULL; dep = dep->next) {
+
+    /* source statement */
+    iter = scop->statement;
+    for (; iter != NULL ; iter = iter->next) {
+      usr = iter->usr;
+      if (usr->label == dep->label_source) {
+        dep->stmt_source_ptr = iter;
+        break;
+      }
     }
-  }
-  if (iter == NULL) {
-    fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_source);
-    exit(1);
-  }
-  
-  /* target statement */
-  iter = scop->statement;
-  for (; iter != NULL ; iter = iter->next) {
-    usr = iter->usr;
-    if (usr->label == dep->label_target) {
-      dep->stmt_target_ptr = iter;
-      break;
+    if (iter == NULL) {
+      fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_source);
+      exit(1);
     }
+
+    /* target statement */
+    iter = scop->statement;
+    for (; iter != NULL ; iter = iter->next) {
+      usr = iter->usr;
+      if (usr->label == dep->label_target) {
+        dep->stmt_target_ptr = iter;
+        break;
+      }
+    }
+    if (iter == NULL) {
+      fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_target);
+      exit(1);
+    }
+
+    array_s = candl_dependence_get_relation_ref_source_in_dep(dep);
+    if (array_s == NULL) {
+      fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
+              dep->ref_source);
+      osl_statement_dump(stderr, dep->stmt_source_ptr);
+      exit(1);
+    }
+
+    array_t = candl_dependence_get_relation_ref_source_in_dep(dep);
+    if (array_t == NULL) {
+      fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
+              dep->ref_target);
+      osl_statement_dump(stderr, dep->stmt_target_ptr);
+      exit(1);
+    }
+
+    dep->source_nb_output_dims_domain =
+      dep->stmt_source_ptr->domain->nb_output_dims;
+    dep->source_nb_output_dims_access = array_s->nb_output_dims;
+
+    dep->target_nb_output_dims_domain =
+      dep->stmt_target_ptr->domain->nb_output_dims;
+    dep->target_nb_output_dims_access = array_t->nb_output_dims;
+
+    dep->source_nb_local_dims_domain =
+      dep->stmt_source_ptr->domain->nb_local_dims;
+    dep->source_nb_local_dims_access = array_s->nb_local_dims;
+    dep->target_nb_local_dims_domain =
+      dep->stmt_target_ptr->domain->nb_local_dims;
+    dep->target_nb_local_dims_access = array_t->nb_local_dims;
   }
-  if (iter == NULL) {
-    fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_target);
-    exit(1);
-  }
-  
-  array_s = candl_dependence_get_relation_ref_source_in_dep(dep); 
-  if (array_s == NULL) {
-    fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
-            dep->ref_source);
-    osl_statement_dump(stderr, dep->stmt_source_ptr);
-    exit(1);
-  }
-  
-  array_t = candl_dependence_get_relation_ref_source_in_dep(dep);
-  if (array_t == NULL) {
-    fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
-            dep->ref_target);
-    osl_statement_dump(stderr, dep->stmt_target_ptr);
-    exit(1);
-  }
-  
-  dep->source_nb_output_dims_domain = dep->stmt_source_ptr->domain->nb_output_dims;
-  dep->source_nb_output_dims_access = array_s->nb_output_dims;
-  
-  dep->target_nb_output_dims_domain = dep->stmt_target_ptr->domain->nb_output_dims;
-  dep->target_nb_output_dims_access = array_t->nb_output_dims;
-  
-  dep->source_nb_local_dims_domain  = dep->stmt_source_ptr->domain->nb_local_dims;
-  dep->source_nb_local_dims_access  = array_s->nb_local_dims;
-  dep->target_nb_local_dims_domain  = dep->stmt_target_ptr->domain->nb_local_dims;
-  dep->target_nb_local_dims_access  = array_t->nb_local_dims;
 }
 
 
@@ -2391,6 +2397,7 @@ osl_dependence_p candl_dependence(osl_scop_p scop,
   }
 
   candl_dependence_remap(dep, scop, mapping);
+  candl_dependence_init_fields(scop, dep);
 
   candl_label_mapping_free(mapping);
   candl_scop_usr_cleanup(nounion_scop);

@@ -494,6 +494,7 @@ void candl_violation_append(candl_violation_p *violation,
  * \param [in,out] orig_scop  The original scop.
  * \param [in]     test_scop  The transformed scop with a different scheduling.
  * \param [out]    dependence The dependence graph of the original scop.
+ *                            Transfers ownership to the caller.
  * \param [in]     options    Analysis options.
  * \return                    List of dependence violations, \c NULL if empty.
  */
@@ -506,7 +507,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   candl_label_mapping_p test_mapping;
   candl_label_mapping_p orig_mapping;
   osl_dependence_p orig_dependence;
-  osl_dependence_p depepdence_ptr;
+  osl_dependence_p dependence_ptr;
   int label_source, label_target;
   int unmapped_label_source, unmapped_label_target;
   int nb_parameters;
@@ -532,9 +533,13 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
     orig_dependence = candl_dependence_single(orig_scop, options);
     violation = candl_violation_single(orig_scop, orig_dependence, test_scop,
                                        options);
+    candl_dependence_init_fields(orig_scop, orig_dependence);
     candl_scop_usr_cleanup(test_scop);
     candl_scop_usr_cleanup(orig_scop);
-    osl_dependence_free(orig_dependence);
+    if (dependence != NULL)
+      *dependence = orig_dependence;
+    else
+      osl_dependence_free(orig_dependence);
     return violation;
   }
 
@@ -547,7 +552,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   orig_mapping = candl_scop_label_mapping(orig_scop_nounion);
 
   orig_dependence = candl_dependence_single(orig_scop_nounion, options);
-  depepdence_ptr = orig_dependence;
+  dependence_ptr = orig_dependence;
   // Copy accesses after scalar operations.
   if (options->scalar_renaming || options->scalar_expansion ||
       options->scalar_privatization) {
@@ -598,9 +603,12 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   }
 
   pip_options_free(pip_options);
-  candl_dependence_remap(depepdence_ptr, orig_scop, orig_mapping);
+  candl_dependence_remap(dependence_ptr, orig_scop, orig_mapping);
+  candl_dependence_init_fields(orig_scop, dependence_ptr);
   if (dependence != NULL)
-    *dependence = depepdence_ptr;
+    *dependence = dependence_ptr;
+  else
+    osl_dependence_free(dependence_ptr);
   candl_scop_usr_cleanup(orig_scop_nounion);
   candl_scop_usr_cleanup(test_scop_nounion);
   osl_scop_free(test_scop_nounion);
