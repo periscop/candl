@@ -121,43 +121,7 @@ system)
 esac
 AM_CONDITIONAL(BUNDLED_OSL, test $with_osl = bundled)
 
-
-
-dnl GMP
-
-dnl Some default values cause I'm not sure whether autoconf set them, while
-dnl documentation says it does...
-gmp_package="yes"
-gmp_include_package="yes"
-gmp_library_package="yes"
-
 NEED_MP="no"
-
-dnl --with-gmp=gmp-path
-AC_ARG_WITH(gmp,
-        [  --with-gmp=DIR          DIR where the gmp package is installed],
-  [ echo "Package gmp : $withval" &&
-    gmp_package=$withval &&
-          GMP_INC=$gmp_package/include &&
-          GMP_LIB=$gmp_package/lib &&
-          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
-          NEED_MP="yes"])
-
-AC_ARG_WITH(gmp-include,
-        [  --with-gmp-include=DIR  DIR where gmp.h is installed],
-  [ echo "Package gmp-include : $withval" &&
-    gmp_include_package=$withval &&
-          GMP_INC=$gmp_include_package &&
-          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
-    NEED_MP="yes"])
-
-AC_ARG_WITH(gmp-library,
-        [  --with-gmp-library=DIR  DIR where the gmp library is installed],
-  [ echo "Package gmp-library : $withval" &&
-    gmp_library_package=$withval &&
-          GMP_LIB=$gmp_library_package &&
-          CPPFLAGS=-DCANDL_LINEAR_VALUE_IS_MP &&
-    NEED_MP="yes"])
 
 AC_ARG_ENABLE(int-version,
   [  --enable-int-version    'int' (32 bits) version is built],
@@ -184,6 +148,46 @@ AC_ARG_ENABLE(piplib-hybrid,
           if test "x$enableval" = "xyes"; then 
             CPPFLAGS=-DCANDL_HAS_PIPLIB_HYBRID
           fi])
+
+
+dnl /**************************************************************************
+dnl  *                   Where is GMP and do we need it?                      *
+dnl  **************************************************************************/
+
+AX_SUBMODULE(gmp,no|system|build,system)
+
+case "$with_gmp" in
+build)
+    CPPFLAGS="-I$gmp_srcdir -I$with_gmp_builddir $CPPFLAGS"
+    LIBS="$with_gmp_builddir/libgmp.la $LIBS"
+    LDFLAGS="-L$with_gmp_builddir $LDFLAGS"
+    ;;
+system)
+    CPPFLAGS="$CPPFLAGS"
+    LIBS="-lgmp $LIBS"
+    if test "x$with_gmp_prefix" != "x"; then
+	CPPFLAGS="-I$with_gmp_prefix/include $CPPFLAGS"
+	LDFLAGS="-L$with_gmp_prefix/lib $LDFLAGS"
+    fi
+    dnl AC_CHECK_LIB doesn't use LDFLAGS --> not suitable for the build case.
+    AC_CHECK_LIB(gmp,
+                 __gmpz_init,
+                 [],
+                 [AC_MSG_ERROR("Can't find gmp library.")])
+    ;;
+esac
+case "$with_gmp" in
+build|system)
+    AC_CHECK_HEADER(gmp.h,
+                    [],
+                    [AC_MSG_ERROR("Can't find gmp headers.")])
+    ;;
+no)
+    if test "x$NEED_MP" == "xyes"; then
+      AC_ERROR(["--with-gmp is set to no but multiprecision version is "
+                "requested, either by --disable-mp-version or by default"])
+    fi
+esac
 
 
 dnl /**************************************************************************
@@ -229,62 +233,6 @@ system)
 esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
-
-
-dnl /**************************************************************************
-dnl  *                            Where is GMP?                               *
-dnl  **************************************************************************/
-
-
-dnl Checking for gmp
-AC_MSG_CHECKING(whether gmp works)
-if test "$gmp_package" = "no"; then
-  echo "GMP package not defined"
-  AC_MSG_RESULT(no)
-  TO_BUILD_MP=""
-else
-  if test "$NEED_MP" = "no"; then
-    echo "Mode normal GMP"
-    TO_BUILD="$TO_BUILD MP"
-    AC_CHECK_HEADER(gmp.h,
-                    [AC_SEARCH_LIBS([__gmpz_init], [gmp],
-                      [LIBS="$LIBS -lgmp"],
-          [echo "Can't find gmp library." &&
-           echo "MP version will not be built." &&
-           TO_BUILD_MP=""])],
-        [echo "Can't find gmp headers." &&
-         echo "MP version will not be built." &&
-         TO_BUILD_MP=""])
-  else
-    dnl Default given by --with-X is "yes", --without-X is "no". We also
-    dnl initialized manually all gmp_package* variables to "yes" (thus they are
-    dnl supposed to be "yes" except if the user set them himself).
-    if test "$gmp_package" != "yes" ; then
-      echo "(GMP path has been set by user)"
-      GMP_DIR=$gmp_package
-      dnl Useful for AC_CHECK_X to find what we want.
-      CPPFLAGS="-I$GMP_DIR/include $CPPFLAGS"
-      LDFLAGS="-L$GMP_DIR/lib $LDFLAGS"
-    fi
-
-    if test "$gmp_include_package" != "yes" ; then
-      CPPFLAGS="-I$GMP_INC $CPPFLAGS"
-    fi
-
-    if test "$gmp_library_package" != "yes" ; then
-      LDFLAGS="-L$GMP_LIB $LDFLAGS"
-    fi
-
-    AC_CHECK_HEADER(gmp.h,
-                    [],
-                    [AC_MSG_ERROR(Can't find gmp headers.)])
-    AC_SEARCH_LIBS([__gmpz_init], [gmp],
-                 [LIBS="$LIBS -lgmp"],
-                 [AC_MSG_ERROR(Can't find gmp library.)])
-
-    AC_MSG_RESULT(yes)
-  fi
-fi
 
 dnl /**************************************************************************
 dnl  *                            Substitutions                               *
