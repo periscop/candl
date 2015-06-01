@@ -161,9 +161,9 @@ UNDEFINED
 # type
 RAW #(flow)
 # From source statement id
-1
+0
 # To target statement id
-1
+0
 # Depth 
 1
 # From source access ref
@@ -528,7 +528,7 @@ union_violation4.c
 digraph G {
 # Data Dependence Graph
   S0 -> S0 [label=" RAW depth 1, ref 0->1 "];
-  S1 -> S1 [label=" RAW depth 1, ref 0->1 "];
+  S0 -> S0 [label=" RAW depth 1, ref 0->1 "];
   S0 -> S1 [label=" RAW depth 1, ref 0->1 "];
   S1 -> S0 [label=" WAW depth 1, ref 0->0 "];
   S1 -> S0 [label=" RAW depth 1, ref 0->1 "];

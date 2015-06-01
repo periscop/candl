@@ -161,9 +161,9 @@ UNDEFINED
 # type
 RAW #(flow)
 # From source statement id
-1
+0
 # To target statement id
-1
+0
 # Depth 
 1
 # From source access ref
@@ -193,9 +193,9 @@ UNDEFINED
 # type
 WAW #(output)
 # From source statement id
-1
+0
 # To target statement id
-2
+1
 # Depth 
 1
 # From source access ref
@@ -225,9 +225,9 @@ UNDEFINED
 # type
 RAW #(flow)
 # From source statement id
-1
+0
 # To target statement id
-2
+1
 # Depth 
 1
 # From source access ref
@@ -505,9 +505,9 @@ union_violation.c
 digraph G {
 # Data Dependence Graph
   S0 -> S0 [label=" RAW depth 1, ref 0->1 "];
-  S1 -> S1 [label=" RAW depth 1, ref 0->1 "];
-  S1 -> S2 [label=" WAW depth 1, ref 0->0 "];
-  S1 -> S2 [label=" RAW depth 1, ref 0->1 "];
+  S0 -> S0 [label=" RAW depth 1, ref 0->1 "];
+  S0 -> S1 [label=" WAW depth 1, ref 0->0 "];
+  S0 -> S1 [label=" RAW depth 1, ref 0->1 "];
   S0 -> S1 [label=" WAR depth 1, ref 1->0 "];
   S1 -> S1 [label=" RAW depth 1, ref 0->1 "];
 # Number of edges = 6

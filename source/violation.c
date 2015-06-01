@@ -598,7 +598,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
   }
 
   pip_options_free(pip_options);
-  candl_dependence_remap(orig_dependence, orig_scop, orig_mapping);
+  candl_dependence_remap(depepdence_ptr, orig_scop, orig_mapping);
   if (dependence != NULL)
     *dependence = depepdence_ptr;
   candl_scop_usr_cleanup(orig_scop_nounion);
