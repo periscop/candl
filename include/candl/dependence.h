@@ -88,7 +88,7 @@ void                   candl_dependence_remap(struct osl_dependence*,
 /*+***************************************************************************
  *                    Memory allocation/deallocation function                *
  *****************************************************************************/
-void                   candl_dependence_init_fields(struct osl_scop*,
+int                    candl_dependence_init_fields(struct osl_scop*,
                                         struct osl_dependence*);
 
 /******************************************************************************

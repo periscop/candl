@@ -247,12 +247,7 @@ void candl_violation_free(candl_violation_p violation) {
 candl_violation_p candl_violation_malloc() {
   candl_violation_p violation;
 
-  /* Memory allocation for the CandlViolation structure. */
-  violation = (candl_violation_p) malloc(sizeof(candl_violation_t));
-  if (violation == NULL) {
-    fprintf(stderr, "[Candl]ERROR: memory overflow.\n");
-    exit(1);
-  }
+  CANDL_malloc(violation, candl_violation_p, sizeof(candl_violation_t));
 
   /* We set the various fields with default values. */
   violation->dependence = NULL;
@@ -335,7 +330,7 @@ candl_violation_p candl_violation_single(osl_scop_p orig_scop,
   for (iter = test_scop->statement ; iter != NULL ;
        iter = iter->next, nb_stmts++)
     ;
-  stmts = (osl_statement_p*) malloc(sizeof(osl_statement_p) * nb_stmts);
+  CANDL_malloc(stmts, osl_statement_p*, sizeof(osl_statement_p) * nb_stmts);
   for (i = 0, iter = test_scop->statement ; iter != NULL ;
        iter = iter->next, i++) {
     stmts[i] = iter;

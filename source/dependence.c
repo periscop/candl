@@ -248,7 +248,7 @@ osl_dependence_p candl_dependence_isl_simplify(osl_dependence_p dep,
 /* candl_dependence_init_fields:
  * Set the various other fields of the dependence structure
  */
-void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
+int candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
   osl_statement_p iter;
   candl_statement_usr_p usr;
   osl_relation_p array_s, array_t;
@@ -266,7 +266,7 @@ void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
     }
     if (iter == NULL) {
       fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_source);
-      exit(1);
+      return 1;
     }
 
     /* target statement */
@@ -280,7 +280,7 @@ void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
     }
     if (iter == NULL) {
       fprintf(stderr, "[Candl] Can't find the %dth label\n", dep->label_target);
-      exit(1);
+      return 1;
     }
 
     array_s = candl_dependence_get_relation_ref_source_in_dep(dep);
@@ -288,7 +288,7 @@ void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
       fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
               dep->ref_source);
       osl_statement_dump(stderr, dep->stmt_source_ptr);
-      exit(1);
+      return 1;
     }
 
     array_t = candl_dependence_get_relation_ref_source_in_dep(dep);
@@ -296,7 +296,7 @@ void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
       fprintf(stderr, "[Candl] Can't find the %dth access of the statement :\n",
               dep->ref_target);
       osl_statement_dump(stderr, dep->stmt_target_ptr);
-      exit(1);
+      return 1;
     }
 
     dep->source_nb_output_dims_domain =
@@ -314,6 +314,7 @@ void candl_dependence_init_fields(osl_scop_p scop, osl_dependence_p dep) {
       dep->stmt_target_ptr->domain->nb_local_dims;
     dep->target_nb_local_dims_access = array_t->nb_local_dims;
   }
+  return 0;
 }
 
 
