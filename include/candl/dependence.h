@@ -104,8 +104,8 @@ int                    candl_dependence_check_domain_is_included(
                                         struct osl_relation*, int);
 int                    candl_dependence_scalar_is_privatizable_at(
                                         struct osl_scop*, int, int);
-int                    candl_dependence_is_loop_carried(struct osl_scop*,
-                                        struct osl_dependence*, int);
+int                    candl_dependence_is_loop_carried(struct osl_dependence*, int);
+int                    candl_dependence_is_loop_independent(struct osl_dependence*);
 void                   candl_dependence_prune_scalar_waw(struct osl_scop*,
                                         candl_options_p,
                                         struct osl_dependence**);

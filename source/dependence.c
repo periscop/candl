@@ -1628,129 +1628,136 @@ int candl_dependence_scalar_renaming(osl_scop_p scop,
 
 
 /**
+ * @brief candl_dependence_is_loop_independent function:
+ * This function returns true if the dependence 'dep' is
+ * a loop-independent dependence.
+ *
+ * 
+ * For that, it add constraints to the system dep->domain :
+ * these constrains add equality for each corresponding iterator dimensions
+ * (eg i==i', j==j', k==j' ...), because a dependence is loop independent if
+ * all the source iterator are equal to the target iterator.
+ *
+ * Technically, it's the same as calling candl_dependence_is_loop_carried
+ * for every iterator dimensions, and "&&" the results, but that would
+ * call pip_solve each time. So in candl_dependence_is_loop_independent , we directly add
+ * all the constraint is_loop_carried would have added, and call piplib only one time.
+ *
+ *
+ * @param[in] dep The osl_dependence for which this function will compute if it
+ * is loop-independent or not.
+ *
+ * @return 1 if the dependence is loop-independent, 0 if not.
+ */
+int candl_dependence_is_loop_independent(osl_dependence_p dep)
+{
+    int line = 0, col = 0, i = 0;
+    int res = 0, precision = 0;
+    int nb_constraints = 0;
+    osl_relation_p mat = NULL, test_linear_sys = NULL, empty_context = NULL;
+
+    precision = candl_dependence_get_relation_ref_source_in_dep(dep)->precision;
+
+    nb_constraints = CANDL_min(dep->source_nb_output_dims_domain, dep->target_nb_output_dims_domain);
+    mat = dep->domain;
+
+
+    //We create an empty (no row) context relation because it seems like piplib need one
+    //to know how many parameters there is.
+    empty_context = osl_relation_pmalloc(precision, 0, mat->nb_parameters + 2);
+    //We create a dependence matrix with nb_constraints more row
+    //In these row, we will place constrains on the iterator dimensions : each corresponding
+    //iterator dimensions must be equal (eg i==i', j==j'...)
+    test_linear_sys = osl_relation_pmalloc(precision,
+                           mat->nb_rows + nb_constraints,
+                           mat->nb_columns);
+    test_linear_sys->nb_output_dims = mat->nb_output_dims;
+    test_linear_sys->nb_input_dims = mat->nb_input_dims;
+    test_linear_sys->nb_local_dims = mat->nb_local_dims;
+    test_linear_sys->nb_parameters = mat->nb_parameters;
+    for (line = 0 ; line < mat->nb_rows ; line++)
+    {
+        for (col = 0 ; col < mat->nb_columns ; col++)
+        {
+            osl_int_assign(precision, &test_linear_sys->m[line][col], mat->m[line][col]);
+        }
+    }
+    for(i = 0 ; i < nb_constraints ; i++)
+    {
+        osl_int_set_si(precision, &test_linear_sys->m[mat->nb_rows + i][1 + i], 1);
+
+        osl_int_set_si(precision, 
+                &test_linear_sys->m
+                    [mat->nb_rows + i]
+                    [   
+                        1 + /* i/e column */
+                        dep->source_nb_output_dims_domain +
+                        dep->source_nb_output_dims_access +
+                        i
+                    ]
+                , -1);
+    }
+
+    res = pip_has_rational_point(test_linear_sys, empty_context, -1);
+
+    osl_relation_free(test_linear_sys);
+    return res;
+}
+
+
+/**
  * candl_dependence_is_loop_carried function:
  * This function returns true if the dependence 'dep' is loop-carried
  * for loop 'loop_index', false otherwise.
  */
-int candl_dependence_is_loop_carried(osl_scop_p scop,
-                                     osl_dependence_p dep,
+int candl_dependence_is_loop_carried(osl_dependence_p dep,
                                      int loop_index) {
-  osl_relation_p msrc = NULL, mtarg = NULL;
   candl_statement_usr_p s_usr = dep->stmt_source_ptr->usr;
   candl_statement_usr_p t_usr = dep->stmt_target_ptr->usr;
-  int i, j;
-  int k, kp, l;
-  int row_k, row_kp;
-  int precision = scop->context->precision;
+  int i = 0, j = 0, k = 0;
+  int precision = 0;
   
-  /* Ensure source and sink share common loop 'loop_index', and that
-     dependence depth is consistent with the considered loop. */
+  /* Ensure source and sink share common loop 'loop_index' */
   for (i = 0; i < s_usr->depth; ++i)
     if (s_usr->index[i] == loop_index)
       break;
-  if (i != dep->depth - 1 || i >= t_usr->depth)
-    return 0;
   for (j = 0; j < t_usr->depth; ++j)
     if (t_usr->index[j] == loop_index)
       break;
   if (j != i)
     return 0;
   
-  msrc = candl_dependence_get_relation_ref_source_in_dep(dep);
-  mtarg = candl_dependence_get_relation_ref_target_in_dep(dep);
+  precision = candl_dependence_get_relation_ref_source_in_dep(dep)->precision;
   
-  /* plus one for the Arr output dim */
-  int src_ref_iter = (candl_util_relation_get_line(msrc, i+1) != -1);
-  int dst_ref_iter = (candl_util_relation_get_line(mtarg,j+1) != -1);
-
-  /* Ensure it is not a basic loop-independent dependence (pure
-     equality of the access functions for the surrounding iterators +
-     parameters + constant, no occurence of the inner loop iterators,
-     and contain the current loop iterator. */
-  int must_test = 0;
-  k = 1; // start after the Arr column
-  row_k = candl_util_relation_get_line(msrc, k);
-  while (!must_test &&
-         k < msrc->nb_output_dims &&
-         osl_int_zero(precision, msrc->m[row_k][0])) {
-
-    // Ensure the reference do reference the current loop iterator
-    // to be tested.
-    if (!osl_int_zero(precision, msrc->m[row_k][i])) {
-      kp = 1;
-      row_kp = candl_util_relation_get_line(mtarg, kp);
-
-      while (!must_test &&
-             kp < mtarg->nb_output_dims &&
-             osl_int_zero(precision, mtarg->m[row_kp][0])) {
-
-        if (!osl_int_zero(precision, mtarg->m[row_kp][j])) {
-          // Ensure the access functions are equal for the
-          // surrounding loop iterators, and no inner iterator
-          // is referenced.
-          if (!osl_int_eq(precision,
-                          msrc->m[row_k][0], mtarg->m[row_kp][0])) {
-            must_test = 1;
-          } else {
-            for (l = 1; l <= i; ++l)
-              if (!osl_int_eq(precision,
-                              msrc->m[row_k][msrc->nb_output_dims + l],
-                              mtarg->m[row_kp][mtarg->nb_output_dims + l])) {
-                must_test = 1;
-                break;
-              }
-          }
-          int m = l;
-          if (!must_test)
-            for (; l <= s_usr->depth+1; ++l)
-              if (!osl_int_zero(precision, msrc->m[row_k][msrc->nb_output_dims + l])) {
-                must_test = 1;
-                break;
-              }
-          if (!must_test)
-            for (; m <= t_usr->depth+1; ++m)
-              if (!osl_int_zero(precision, mtarg->m[row_kp][mtarg->nb_output_dims + m])) {
-                must_test = 1;
-                break;
-              }
-          if (!must_test)
-            for (; l < msrc->nb_columns-1; ++l, ++m)
-            if (!osl_int_eq(precision,
-                            msrc->m[row_k][msrc->nb_output_dims + l],
-                            mtarg->m[row_kp][mtarg->nb_output_dims + m])) {
-                must_test = 1;
-                break;
-              }
-        }
-        ++kp;
-        row_kp = candl_util_relation_get_line(mtarg, kp);
-      }
-    }
-    ++k;
-    row_k = candl_util_relation_get_line(msrc, k);
-  }
   
-  if (src_ref_iter && dst_ref_iter && !must_test)
-    return 0;
-
   /* Final check. For loop i, the dependence is loop carried if there exists
      x_i^R != x_i^S in the dependence polyhedron, with
-     x_{1..i-1}^R = x_{1..i-1}^S
+     x_{1..i-1}^R = x_{1..i-1}^S.
+
+     i.e. : all iterator except the i^th have to be equal, so we add "=" constraint on the
+     dependence matrix for each iterator except i.
+     For the i^th iterator, they should be different, so we first add a ">" constraint
+     (in fact it's a ">=", but with a "-1", so it's the same as >), and if it fails, we
+     try instead a "<" constraint.
    */
   int pos;
   osl_relation_p mat = dep->domain;
   
   osl_relation_p testsyst = osl_relation_pmalloc(precision,
-                           mat->nb_rows + 1 + s_usr->depth,
+                           mat->nb_rows + s_usr->depth,
                            mat->nb_columns);
+  testsyst->nb_output_dims = mat->nb_output_dims;
+  testsyst->nb_input_dims = mat->nb_input_dims;
+  testsyst->nb_local_dims = mat->nb_local_dims;
+  testsyst->nb_parameters = mat->nb_parameters;
   for (pos = 0; pos < mat->nb_rows; ++pos)
-    for (j = 0; j < mat->nb_columns; ++j)
+    for (k = 0; k < mat->nb_columns; ++k)
       osl_int_assign(precision,
-                     &testsyst->m[pos][j], mat->m[pos][j]);
-  for (j = 0; j < i; ++j) {
-    osl_int_set_si(precision, &testsyst->m[pos+j+1][0], 0);
-    osl_int_set_si(precision, &testsyst->m[pos+j+1][1+j], -1);
-    osl_int_set_si(precision, &testsyst->m[pos+j+1][1+j+mat->nb_output_dims], 1);
+                     &testsyst->m[pos][k], mat->m[pos][k]);
+  for (k = 0; k < i; ++k) {
+    osl_int_set_si(precision, &testsyst->m[pos+k+1][0], 0);
+    osl_int_set_si(precision, &testsyst->m[pos+k+1][1+k], -1);
+    osl_int_set_si(precision, &testsyst->m[pos+k+1][1+k+mat->nb_output_dims], 1);
   }
 
   int has_pt = 0;
@@ -1759,7 +1766,7 @@ int candl_dependence_is_loop_carried(osl_scop_p scop,
   osl_int_set_si(precision, &testsyst->m[pos][testsyst->nb_columns-1], -1);
   osl_int_set_si(precision, &testsyst->m[pos][1+i], 1);
   osl_int_set_si(precision, &testsyst->m[pos][1+i+mat->nb_output_dims], -1);
-  
+
   has_pt = pip_has_rational_point(testsyst, NULL, 1);
   if (!has_pt) {
     // Test for '<'.
@@ -1866,7 +1873,7 @@ void candl_dependence_prune_with_privatization(osl_scop_p scop,
     loop_pos_priv = i;
     
     /* Check if the dependence is loop-carried at loop i. */
-    if (is_priv && candl_dependence_is_loop_carried(scop, tmp, loop_idx)) {
+    if (is_priv && candl_dependence_is_loop_carried(tmp, loop_idx)) {
       /* If so, make the dependence loop-independent. */
       row = tmp->domain->nb_rows;
       osl_relation_insert_blank_row(tmp->domain, row);

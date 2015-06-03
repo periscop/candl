@@ -52,16 +52,18 @@
 
 /**
  * candl_util_relation_get_line function:
- * Because the lines in the scattering matrix may have not ordered, we have to
- * search the corresponding line. It returns the first line where the value is
+ * It returns the first line where the value is
  * different from zero in the `column'. `column' is between 0 and 
- * nb_output_dims-1
+ * nb_columns-1
+ * Because the lines in the scattering or access matrix may have not
+ * been ordered, we have to search the corresponding line, so you
+ * can use this function for that.
  * \param[in] relation
  * \param[in] column        Line to search
  * \return                  Return the real line
  */
 int candl_util_relation_get_line(osl_relation_p relation, int column) {
-  if (column < 0 || column > relation->nb_output_dims)
+  if ((column < 0) || (column >= (relation->nb_columns-1)))
     return -1;
   int i;
   int precision = relation->precision;
