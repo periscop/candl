@@ -266,7 +266,7 @@ fi
 
 dnl forcing candl to use local libcandl.la
 dnl if --prefix is not specified
-CANDL_LIBS="$srcdir/libcandl.la -lcandl"
+CANDL_LIBS="\$(top_builddir)/libcandl.la -lcandl"
 AC_SUBST(CANDL_LIBS)
 
 
