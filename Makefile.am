@@ -40,7 +40,6 @@ if BUNDLED_OSL
 endif
 if BUNDLED_PIPLIB
   MAYBE_PIPLIB = piplib
-  PIPLIB_LA = $(top_builddir)/piplib/libpiplib$(BITS).la
   ifeq ($(BITS),32)
     PIPLIB_LA = $(top_builddir)/piplib/libpiplib_sp.la
   endif

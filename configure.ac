@@ -32,13 +32,14 @@ dnl *                                                                         *
 dnl ***************************************************************************/
 
 m4_define([version_major], [0])
-m4_define([version_minor], [0])
-m4_define([version_revision], [1])
+m4_define([version_minor], [6])
+m4_define([version_revision], [2])
 
 AC_PREREQ(2.53)
 
 dnl Fill here the @bug email adress.
-AC_INIT([candl], [0.6.2], [cedric.bastoul@inria.fr,pouchet@cse.ohio-state.edu])
+AC_INIT([candl], [version_major.version_minor.version_revision],
++       [cedric.bastoul@unistra.fr,pouchet@cse.ohio-state.edu])
 
 AC_CONFIG_SRCDIR([include/candl/candl.h])
 
@@ -52,6 +53,10 @@ dnl (very) long filenames.
 #AM_INIT_AUTOMAKE([1.9 tar-ustar no-define foreign dist-bzip2])
 AM_INIT_AUTOMAKE([foreign])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+VERSION_MAJOR=version_major
+VERSION_MINOR=version_minor
+VERSION_REVISION=version_revision
 
 dnl default version
 BITS="MP"
@@ -245,6 +250,9 @@ AC_SUBST(DEFINE_HAS_ISL_LIB)
 AC_SUBST(ac_aux_dir)
 AC_SUBST(abs_top_srcdir)
 
+AC_SUBST(VERSION_MAJOR)
+AC_SUBST(VERSION_MINOR)
+AC_SUBST(VERSION_REVISION)
 
 dnl Configure Makefiles.
 AC_CONFIG_FILES([
