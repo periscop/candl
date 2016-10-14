@@ -1744,7 +1744,7 @@ int candl_dependence_is_loop_carried(osl_dependence_p dep,
   osl_relation_p mat = dep->domain;
   
   osl_relation_p testsyst = osl_relation_pmalloc(precision,
-                           mat->nb_rows + s_usr->depth,
+                           mat->nb_rows + 1 + s_usr->depth,
                            mat->nb_columns);
   testsyst->nb_output_dims = mat->nb_output_dims;
   testsyst->nb_input_dims = mat->nb_input_dims;
