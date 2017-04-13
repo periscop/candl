@@ -57,6 +57,6 @@ ETAGS_ARGS		= --lang=none \
 TAGS_DEPENDENCIES	= clan.texi $(DOXYFILE).in
 
 htmldoc.tar.gz:
-	mkdir -p $(top_srcdir)/doc/htmldoc
+	mkdir -p htmldoc
 	$(DOXYGEN) $(DOXYFILE)
 	tar czf htmldoc.tar.gz htmldoc

@@ -51,7 +51,7 @@ AC_CONFIG_MACRO_DIR([m4])
 dnl Initialize automake. Here, a special tar version that enables
 dnl (very) long filenames.
 #AM_INIT_AUTOMAKE([1.9 tar-ustar no-define foreign dist-bzip2])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign info-in-builddir])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 VERSION_MAJOR=version_major
@@ -108,8 +108,8 @@ AC_SUBST(OSL_LDFLAGS)
 AC_SUBST(OSL_LIBS)
 case "$with_osl" in
 bundled)
-  OSL_CPPFLAGS="-I$srcdir/osl/include -Iosl/include"
-  OSL_LIBS="$srcdir/osl/libosl.la"
+  OSL_CPPFLAGS="-Isrcdir/osl/include -Iosl/include"
+  OSL_LIBS="osl/libosl.la"
   ;;
 build)
   OSL_CPPFLAGS="-I$osl_srcdir/include -I$with_osl_builddir/include"
@@ -221,7 +221,7 @@ esac
 case "$with_piplib" in
 bundled)
   PIPLIB_CPPFLAGS="-I$srcdir/piplib/include -Ipiplib/include"
-  PIPLIB_LIBS="$srcdir/piplib/lib$PIPLIB_LA.la"
+  PIPLIB_LIBS="piplib/lib$PIPLIB_LA.la"
   ;;
 build)
   PIPLIB_CPPFLAGS="-I$piplib_srcdir/include -I$with_piplib_builddir/include"
