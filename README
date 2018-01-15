@@ -18,7 +18,7 @@ $> make install
 Alternatively, to use bunled PIPLib and  OpenScop library, follow following command
 sequence:
 
-$> ./get_submodules.sh
+$> ./submodules_get.sh
 
 $> ./autogen.sh
 
