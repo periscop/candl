@@ -1,8 +1,16 @@
-#!/bin/sh
-autoreconf -i
-if test -f osl/autogen.sh; then
-	(cd osl; ./autogen.sh)
-fi
-if test -f piplib/autogen.sh; then
-	(cd piplib; ./autogen.sh)
-fi
+#!/bin/bash -e
+
+  # (Re)Generate autotools files
+  mkdir -p autoconf
+  autoreconf -vi
+
+  # (Re)Generate autotools files for OSL if it exists
+  if test -f osl/autogen.sh; then
+    (cd osl; ./autogen.sh)
+  fi
+
+  # (Re)Generate autotools files for PIPLIB if it exists
+  if test -f piplib/autogen.sh; then
+    (cd piplib; ./autogen.sh)
+  fi
+
