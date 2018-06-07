@@ -51,7 +51,7 @@ AC_CONFIG_MACRO_DIR([m4])
 dnl Initialize automake. Here, a special tar version that enables
 dnl (very) long filenames.
 #AM_INIT_AUTOMAKE([1.9 tar-ustar no-define foreign dist-bzip2])
-AM_INIT_AUTOMAKE([foreign info-in-builddir])
+AM_INIT_AUTOMAKE([foreign])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 VERSION_MAJOR=version_major
