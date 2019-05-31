@@ -81,6 +81,9 @@ AX_CC_MAXOPT
 AC_SUBST(CFLAGS_WARN)
 AX_CFLAGS_WARN_ALL(CFLAGS_WARN)
 
+AC_CHECK_PROG(TEXINFO, makeinfo, yes)
+AS_IF([test "x$TEXINFO" != "xyes"], [AC_MSG_ERROR([Please install texinfo.])])
+
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_SIZE_T
