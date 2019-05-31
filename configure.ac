@@ -116,13 +116,14 @@ build)
   OSL_LIBS="$with_osl_builddir/libosl.la"
   ;;
 system)
+  OSL_LIBS="-losl"
   if test "x$with_osl_prefix" != "x"; then
     OSL_CPPFLAGS="-I$with_osl_prefix/include"
+    OSL_LIBS="$with_osl_prefix/lib/libosl.la -losl"
   fi
   if test "x$with_osl_exec_prefix" != "x"; then
     OSL_LDFLAGS="-L$with_osl_exec_prefix/lib"
   fi
-  OSL_LIBS="$with_osl_prefix/lib/libosl.la -losl"
 esac
 AM_CONDITIONAL(BUNDLED_OSL, test $with_osl = bundled)
 
@@ -228,13 +229,14 @@ build)
   PIPLIB_LIBS="$with_piplib_builddir/lib$PIPLIB_LA.la"
   ;;
 system)
+  PIPLIB_LIBS="-l$PIPLIB_LA"
   if test "x$with_piplib_prefix" != "x"; then
     PIPLIB_CPPFLAGS="-I$with_piplib_prefix/include"
+    PIPLIB_LIBS="$with_piplib_prefix/lib/lib$PIPLIB_LA.la -l$PIPLIB_LA"
   fi
   if test "x$with_piplib_exec_prefix" != "x"; then
     PIPLIB_LDFLAGS="-L$with_piplib_exec_prefix/lib"
   fi
-  PIPLIB_LIBS="$with_piplib_prefix/lib/lib$PIPLIB_LA.la -l$PIPLIB_LA"
 esac
 AM_CONDITIONAL(BUNDLED_PIPLIB, test $with_piplib = bundled)
 
