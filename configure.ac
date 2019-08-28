@@ -111,7 +111,7 @@ AC_SUBST(OSL_LDFLAGS)
 AC_SUBST(OSL_LIBS)
 case "$with_osl" in
 bundled)
-  OSL_CPPFLAGS="-Isrcdir/osl/include -Iosl/include"
+  OSL_CPPFLAGS="-I$srcdir/osl/include -Iosl/include"
   OSL_LIBS="osl/libosl.la"
   ;;
 build)
