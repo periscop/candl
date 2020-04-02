@@ -40,15 +40,6 @@ if BUNDLED_OSL
 endif
 if BUNDLED_PIPLIB
   MAYBE_PIPLIB = piplib
-  ifeq ($(BITS),32)
-    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_sp.la
-  endif
-  ifeq ($(BITS),64)
-    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_dp.la
-  endif
-  ifeq ($(BITS),MP)
-    PIPLIB_LA = $(top_builddir)/piplib/libpiplib_gmp.la
-  endif
 endif
 
 AUTOMAKE_OPTIONS = subdir-objects
@@ -86,7 +77,7 @@ AM_CFLAGS = $(CFLAGS_WARN)
 
 EXTRA_DIST = COPYING.LESSER AUTHORS candl-config.cmake
 
-libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ $(OSL_LA) $(PIPLIB_LA)
+libcandl_la_LIBADD   = @OSL_LIBS@ @PIPLIB_LIBS@ $(OSL_LA) @PIPLIB_LA@
 libcandl_la_CPPFLAGS = -I. -I$(top_builddir)/include -I$(top_srcdir)/include \
 		       @OSL_CPPFLAGS@ @PIPLIB_CPPFLAGS@
 libcandl_la_LDFLAGS  = @OSL_LDFLAGS@ @PIPLIB_LDFLAGS@ 

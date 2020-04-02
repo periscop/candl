@@ -208,6 +208,7 @@ AX_SUBMODULE(piplib,system|build|bundled,system)
 AC_SUBST(PIPLIB_CPPFLAGS)
 AC_SUBST(PIPLIB_LDFLAGS)
 AC_SUBST(PIPLIB_LIBS)
+AC_SUBST(PIPLIB_LA)
 
 PIPLIB_LA="piplib_undefined"
 case "$BITS" in
