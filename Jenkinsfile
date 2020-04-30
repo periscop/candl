@@ -35,7 +35,7 @@ pipeline {
             steps{
               script{
                 if(env.BuildSystem == 'GNU Autotools')
-                  sh './get_submodules.sh && ./autogen.sh && ./configure && make -j'
+                  sh './get_submodules.sh && ./autogen.sh && ./configure --with-osl=bundled --with-piplib=bundled && make -j'
                 if(env.BuildSystem == 'CMake')
                   sh 'mkdir build && cd build && cmake .. && cmake --build'
               }
