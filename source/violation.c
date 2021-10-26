@@ -338,6 +338,7 @@ candl_violation_p candl_violation_single(osl_scop_p orig_scop,
 
   pip_options = pip_options_init();
   pip_options->Simplify = 1;
+  pip_options->Urs_unknowns = -1;
   
   /* We check every edge of the dependence graph. */
   while (orig_dependence != NULL) {
@@ -556,6 +557,7 @@ candl_violation_p candl_violation(osl_scop_p orig_scop,
 
   pip_options = pip_options_init();
   pip_options->Simplify = 1;
+  pip_options->Urs_unknowns = -1;
 
   violated = 0;
   for ( ; orig_dependence != NULL; orig_dependence = orig_dependence->next) {

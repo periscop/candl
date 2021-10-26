@@ -63,7 +63,8 @@ TRANSFO_FAIL_TEST_FILES = \
 	transformations/must_fail/no_scalren \
 	transformations/must_fail/union1 \
 	transformations/must_fail/union2 \
-	transformations/must_fail/union3
+	transformations/must_fail/union3 \
+	transformations/must_fail/com_add
 
 TRANSFO_WORKING_TEST_FILES = \
 	transformations/working/can_reorder_loop \
