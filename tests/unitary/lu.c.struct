@@ -236,6 +236,10 @@ WAR #(anti)
 0
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 28 15 6 6 0 1
@@ -281,6 +285,10 @@ RAW #(flow)
 1
 # To target access ref
 0
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 28 15 6 6 0 1
@@ -326,6 +334,10 @@ WAW #(output)
 1
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 28 15 6 6 0 1
@@ -371,6 +383,10 @@ RAW #(flow)
 1
 # To target access ref
 3
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 26 15 6 6 0 1
@@ -414,6 +430,10 @@ RAW #(flow)
 1
 # To target access ref
 3
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 27 15 6 6 0 1
@@ -458,6 +478,10 @@ RAW #(flow)
 1
 # To target access ref
 2
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 27 15 6 6 0 1
@@ -502,6 +526,10 @@ RAW #(flow)
 1
 # To target access ref
 2
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 2 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 24 14 6 5 0 1
@@ -543,6 +571,10 @@ RAW #(flow)
 1
 # To target access ref
 2
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+2 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 24 14 5 6 0 1
@@ -584,6 +616,10 @@ WAR #(anti)
 0
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 30 15 6 6 0 1
@@ -631,6 +667,10 @@ RAW #(flow)
 1
 # To target access ref
 0
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 30 15 6 6 0 1
@@ -678,6 +718,10 @@ WAW #(output)
 1
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 30 15 6 6 0 1
@@ -725,6 +769,10 @@ RAW #(flow)
 1
 # To target access ref
 2
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 28 15 6 6 0 1
@@ -770,6 +818,10 @@ WAR #(anti)
 0
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 2 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 26 14 6 5 0 1
@@ -813,6 +865,10 @@ RAW #(flow)
 1
 # To target access ref
 0
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 2 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 26 14 6 5 0 1
@@ -856,6 +912,10 @@ WAW #(output)
 1
 # To target access ref
 1
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+3 3 2 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 26 14 6 5 0 1
@@ -899,6 +959,10 @@ RAW #(flow)
 1
 # To target access ref
 2
+# Dimension information
+# 1 src-out-dom, 2 src-out-acc, 3 tgt-out-dom, 4 tgt-out-acc
+# 5 src-loc-dom, 6 src-loc-acc, 7 tgt-loc-dom, 8 tgt-loc-acc
+2 3 3 3 0 0 0 0
 # Dependence domain
 UNDEFINED
 25 14 5 6 0 1
